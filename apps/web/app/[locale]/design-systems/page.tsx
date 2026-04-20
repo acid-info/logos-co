@@ -19,7 +19,15 @@
  */
 import Image from 'next/image'
 
-import { Button, Card, CardInfo, Table, TableRow } from '@repo/ui'
+import {
+  Button,
+  Card,
+  CardInfo,
+  GiantSwitch,
+  GiantSwitchTag,
+  Table,
+  TableRow,
+} from '@repo/ui'
 
 import { createDefaultMetadata } from '@/utils/metadata'
 
@@ -836,6 +844,89 @@ function Tables() {
   )
 }
 
+// --- Giant Switch -------------------------------------------------------
+
+function TagIcon({ src, alt }: { src: string; alt: string }) {
+  // SVGs are rendered as <img> so their fill uses whatever Figma authored.
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img src={src} alt={alt} width={14} height={14} />
+}
+
+function GiantSwitches() {
+  const installTags = (
+    <>
+      <GiantSwitchTag
+        icon={<TagIcon src="/design-systems/wallet.svg" alt="" />}
+      >
+        Wallet
+      </GiantSwitchTag>
+      <GiantSwitchTag icon={<TagIcon src="/design-systems/chat.svg" alt="" />}>
+        Chat Interface
+      </GiantSwitchTag>
+      <GiantSwitchTag icon={<TagIcon src="/design-systems/file.svg" alt="" />}>
+        Filesharing Tool
+      </GiantSwitchTag>
+      <GiantSwitchTag icon={<TagIcon src="/design-systems/globe.svg" alt="" />}>
+        Explorer
+      </GiantSwitchTag>
+    </>
+  )
+
+  const heroImage = (
+    <Image
+      src="/design-systems/giant-switch-hero.jpg"
+      alt=""
+      fill
+      sizes="(max-width: 768px) 100vw, 600px"
+    />
+  )
+
+  return (
+    <div className="flex w-full flex-col gap-[32px] bg-white py-[20px]">
+      <h2 className="px-[20px] font-display text-[64px] leading-[1] tracking-[-0.03em] text-brand-dark-green">
+        Giant Switch
+      </h2>
+
+      <GiantSwitch
+        accent="grey"
+        imagePosition="left"
+        image={heroImage}
+        title="Install the Logos app."
+        description="The Logos App is a a complete distribution that bundles the kernel, the default modules, and UI packages into a usable product. It provides the primary user interface, hosting “Simple Apps” that let users interact with the various modules:"
+        tags={installTags}
+        actions={
+          <>
+            <Button variant="secondary" href="#">
+              Install
+            </Button>
+            <Button variant="tertiary" href="#">
+              Learn more
+            </Button>
+          </>
+        }
+      />
+
+      <GiantSwitch
+        accent="yellow"
+        imagePosition="right"
+        image={heroImage}
+        title="Download started!"
+        description="If you don’t immediately see lorem ipsum dolor si amet consectetur in your browser downloads, click Download Again below."
+        actions={
+          <>
+            <Button variant="secondary" href="#">
+              Download again
+            </Button>
+            <Button variant="tertiary" href="#">
+              Learn more
+            </Button>
+          </>
+        }
+      />
+    </div>
+  )
+}
+
 // --- Page ---------------------------------------------------------------
 
 export default function DesignSystemsPage() {
@@ -846,6 +937,7 @@ export default function DesignSystemsPage() {
       <Cards />
       <Buttons />
       <Tables />
+      <GiantSwitches />
     </div>
   )
 }
