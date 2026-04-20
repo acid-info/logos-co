@@ -17,7 +17,24 @@
  *   specimens use --font-display which falls back to Times New Roman → serif
  *   until the licensed woff2 is dropped.
  */
+import Image from 'next/image'
+
+import { Card, CardInfo } from '@repo/ui'
+
 import { createDefaultMetadata } from '@/utils/metadata'
+
+const cardImages = {
+  storage: '/design-systems/storage.png',
+  messaging: '/design-systems/messaging.png',
+  blockchain: '/design-systems/blockchain.png',
+  userModules: '/design-systems/user-modules.png',
+  networking: '/design-systems/networking.png',
+  kernel: '/design-systems/kernel.png',
+} as const
+
+function Thumb({ src, alt }: { src: string; alt: string }) {
+  return <Image src={src} alt={alt} width={46} height={57} />
+}
 
 export async function generateMetadata({
   params,
@@ -577,6 +594,143 @@ function TypeStyles() {
   )
 }
 
+// --- Cards --------------------------------------------------------------
+
+function CardGrid({ state }: { state: 'default' | 'hover' }) {
+  const isHover = state === 'hover'
+  const networkingTitle = (
+    <>
+      <span className="block">The Networking Stack:</span>
+      <span className="block">Discovery, Peering, and Mix-Net</span>
+    </>
+  )
+
+  return (
+    <div className="flex flex-col gap-[12px]">
+      {/* Row 1: four small cards */}
+      <div className="grid grid-cols-1 gap-[12px] sm:grid-cols-2 lg:grid-cols-4">
+        <Card
+          height={366}
+          forceHover={isHover}
+          staticDefault={!isHover}
+          image={isHover && <Thumb src={cardImages.storage} alt="" />}
+          title="Storage"
+          description={
+            isHover
+              ? 'Decentralized file storage and retrieval, using content-addressed (CID-based) data'
+              : undefined
+          }
+          ctaHref={isHover ? '#' : undefined}
+        />
+        <Card
+          height={366}
+          forceHover={isHover}
+          staticDefault={!isHover}
+          image={isHover && <Thumb src={cardImages.messaging} alt="" />}
+          title="Messaging"
+          description={
+            isHover
+              ? 'Private, censorship-resistant communication between parties.'
+              : undefined
+          }
+          ctaHref={isHover ? '#' : undefined}
+        />
+        <Card
+          height={366}
+          forceHover={isHover}
+          staticDefault={!isHover}
+          image={isHover && <Thumb src={cardImages.blockchain} alt="" />}
+          title="Blockchain"
+          description={
+            isHover ? 'Decentralized compute and consensus.' : undefined
+          }
+          ctaHref={isHover ? '#' : undefined}
+        >
+          {isHover && (
+            <>
+              <CardInfo
+                height={78}
+                label="Logos Execution Zone (LEZ)"
+                description="Developers can deploy programs, run AMMs, transfer tokens, and build financial primitives with built-in privacy."
+              />
+              <CardInfo
+                height={78}
+                label="Data Availability and Consensus: Cryptarchia"
+                description="A private proof-of-stake consensus mechanism where validator identities and stake amounts remain hidden."
+              />
+            </>
+          )}
+        </Card>
+        <Card
+          height={366}
+          forceHover={isHover}
+          staticDefault={!isHover}
+          image={isHover && <Thumb src={cardImages.userModules} alt="" />}
+          title="User Modules"
+          description={
+            isHover
+              ? 'Anyone can build modules that plug into the same IPC infrastructure.'
+              : undefined
+          }
+          ctaHref={isHover ? '#' : undefined}
+        />
+      </div>
+
+      {/* Row 2: wide band — Networking Stack (no λ glyph in Figma) */}
+      <Card
+        height={196}
+        forceHover={isHover}
+        staticDefault={!isHover}
+        showIcon={false}
+        image={isHover && <Thumb src={cardImages.networking} alt="" />}
+        title={networkingTitle}
+        description={
+          isHover
+            ? 'This layer handles how Logos nodes find each other, establish connections, and communicate.'
+            : undefined
+        }
+        ctaHref={isHover ? '#' : undefined}
+      />
+
+      {/* Row 3: wide band — Foundation Kernel (no λ glyph in Figma) */}
+      <Card
+        height={196}
+        forceHover={isHover}
+        staticDefault={!isHover}
+        showIcon={false}
+        image={isHover && <Thumb src={cardImages.kernel} alt="" />}
+        title="The Foundation: Logos Kernel"
+        description={
+          isHover
+            ? 'A microkernel that handles the essential primitives every decentralized application needs.'
+            : undefined
+        }
+        ctaHref={isHover ? '#' : undefined}
+      />
+    </div>
+  )
+}
+
+function Cards() {
+  return (
+    <div className="flex w-full flex-col gap-[80px] bg-white p-[20px]">
+      <div className="flex flex-col gap-[32px]">
+        <h2 className="font-display text-[64px] leading-[1] tracking-[-0.03em] text-brand-dark-green">
+          Default
+        </h2>
+        <CardGrid state="default" />
+      </div>
+
+      <div className="flex flex-col gap-[32px]">
+        <h2 className="font-display text-[64px] leading-[1] tracking-[-0.03em] text-brand-dark-green">
+          Hover
+        </h2>
+        <CardGrid state="hover" />
+      </div>
+    </div>
+  )
+}
+
 // --- Page ---------------------------------------------------------------
 
 export default function DesignSystemsPage() {
@@ -584,6 +738,7 @@ export default function DesignSystemsPage() {
     <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-[40px] py-10">
       <ColorPalette />
       <TypeStyles />
+      <Cards />
     </div>
   )
 }

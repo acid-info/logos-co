@@ -1,6 +1,9 @@
 @import 'tailwindcss';
 @import '@repo/tokens/theme.css';
 
+/* Scan workspace UI package so its Tailwind classes are emitted. */
+@source "../../../packages/ui/src/**/*.{ts,tsx}";
+
 @layer base {
   *,
   ::after,
