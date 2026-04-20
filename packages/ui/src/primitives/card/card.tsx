@@ -61,16 +61,15 @@ export function Card({
   children,
   className,
 }: CardProps) {
+  // Default / static cards still get the light-blue hover background — only
+  // the inner reveal (image / description / children) is suppressed when
+  // staticDefault is set.
   const bgClass = forceHover
     ? 'bg-accent-light-blue'
-    : staticDefault
-      ? 'bg-transparent'
-      : 'bg-transparent hover:bg-accent-light-blue'
+    : 'bg-transparent hover:bg-accent-light-blue'
   const borderClass = forceHover
     ? 'border border-transparent'
-    : staticDefault
-      ? 'border border-brand-dark-green'
-      : 'border border-brand-dark-green hover:border-transparent'
+    : 'border border-brand-dark-green hover:border-transparent'
   const revealClass = forceHover
     ? 'opacity-100'
     : staticDefault
@@ -85,9 +84,11 @@ export function Card({
   // pinned in hover state. Static default cards never render the CTA.
   const showCta = !staticDefault && (!!ctaHref || forceHover)
 
+  const cursorClass = forceHover ? 'cursor-pointer' : 'hover:cursor-pointer'
+
   return (
     <div
-      className={`group/card relative flex flex-col items-center rounded-3xl px-1.5 pt-3 pb-1.5 transition-colors duration-200 ${borderClass} ${bgClass} ${className ?? ''}`}
+      className={`group/card relative flex flex-col items-center rounded-3xl px-1.5 pt-3 pb-1.5 transition-colors duration-200 ${borderClass} ${bgClass} ${cursorClass} ${className ?? ''}`}
       style={style}
     >
       {image && (

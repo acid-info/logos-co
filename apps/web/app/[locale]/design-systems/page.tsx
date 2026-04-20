@@ -19,7 +19,7 @@
  */
 import Image from 'next/image'
 
-import { Card, CardInfo } from '@repo/ui'
+import { Button, Card, CardInfo, Table, TableRow } from '@repo/ui'
 
 import { createDefaultMetadata } from '@/utils/metadata'
 
@@ -731,6 +731,111 @@ function Cards() {
   )
 }
 
+// --- Buttons ------------------------------------------------------------
+
+function Buttons() {
+  return (
+    <div className="flex w-full flex-col gap-[32px] bg-white p-[20px]">
+      <h2 className="font-display text-[64px] leading-[1] tracking-[-0.03em] text-brand-dark-green">
+        Buttons
+      </h2>
+      <div className="grid grid-cols-1 items-start gap-[32px] sm:grid-cols-2 lg:grid-cols-4">
+        <div className="flex flex-col items-start gap-[12px]">
+          <p className="font-mono text-[10px] leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
+            Primary
+          </p>
+          <Button variant="primary" href="#">
+            View The Docs
+          </Button>
+        </div>
+        <div className="flex flex-col items-start gap-[12px]">
+          <p className="font-mono text-[10px] leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
+            Secondary
+          </p>
+          <Button variant="secondary" href="#">
+            View The Docs
+          </Button>
+        </div>
+        <div className="flex flex-col items-start gap-[12px]">
+          <p className="font-mono text-[10px] leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
+            Tertiary
+          </p>
+          <Button variant="tertiary" href="#">
+            View The Docs
+          </Button>
+        </div>
+        <div className="flex flex-col items-start gap-[12px]">
+          <p className="font-mono text-[10px] leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
+            Link
+          </p>
+          <Button variant="link" href="#">
+            View The Docs
+          </Button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// --- Table --------------------------------------------------------------
+
+const tableRows = [
+  { number: '01', title: 'Secure and Decentralized Frontends' },
+  { number: '02', title: 'Build a DEX' },
+  { number: '03', title: 'Integrate Logos blockchain into Fileverse' },
+  { number: '02', title: 'Lorem Ipsum Dolor Si Amet' },
+  { number: '03', title: 'Secure and Decentralized Frontends' },
+  { number: '02', title: 'Build a DEX' },
+  { number: '03', title: 'Integrate Logos blockchain into Fileverse' },
+] as const
+
+function Tables() {
+  const description = (
+    <>
+      <p>Quadratic voting platform for DAO members</p>
+      <p>Idea by @jonny</p>
+    </>
+  )
+  const reward = (
+    <>
+      <p>2500 USDC</p>
+      <p>+ 1000 XP</p>
+    </>
+  )
+
+  return (
+    <div className="flex w-full flex-col gap-[32px] bg-white p-[20px]">
+      <h2 className="font-display text-[64px] leading-[1] tracking-[-0.03em] text-brand-dark-green">
+        Table
+      </h2>
+      <Table
+        title="Ideas"
+        subtitle="Ideas from our community driving sovereignty forward."
+        action={
+          <Button variant="link" href="#">
+            See all ideas
+          </Button>
+        }
+      >
+        {tableRows.map((row, i) => (
+          <TableRow
+            key={i}
+            number={row.number}
+            title={row.title}
+            description={description}
+            reward={reward}
+            action={
+              <Button variant="link" href="#">
+                Apply
+              </Button>
+            }
+          />
+        ))}
+      </Table>
+    </div>
+  )
+}
+
 // --- Page ---------------------------------------------------------------
 
 export default function DesignSystemsPage() {
@@ -739,6 +844,8 @@ export default function DesignSystemsPage() {
       <ColorPalette />
       <TypeStyles />
       <Cards />
+      <Buttons />
+      <Tables />
     </div>
   )
 }
