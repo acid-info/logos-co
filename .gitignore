@@ -43,3 +43,10 @@ yarn-error.log*
 # Misc
 .DS_Store
 *.pem
+
+# Licensed fonts (self-hosted; license must be verified before committing)
+apps/*/public/fonts/**/*.woff
+apps/*/public/fonts/**/*.woff2
+apps/*/public/fonts/**/*.ttf
+apps/*/public/fonts/**/*.otf
+!apps/*/public/fonts/**/README.md

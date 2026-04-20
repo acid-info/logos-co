@@ -1,0 +1,589 @@
+/**
+ * /design-systems — 1:1 mirror of Figma frames
+ *
+ *   Color Palette   — node 40009046:20492
+ *   Type Styles     — node 40009046:20537
+ *
+ * Responsive note:
+ * - Figma canvas is 1440px wide. We cap with max-w-[1440px] and let children
+ *   shrink via aspect-ratio (color swatches) and flex layout (type rows).
+ * - Below md (~768px) the specimen columns stack instead of sitting side by side.
+ *
+ * Font substitution note:
+ * - Figma uses "Scto Grotesk A Medium" (commercial, unavailable) for all UI
+ *   labels. We substitute the repo's --font-sans (Public Sans), which matches
+ *   the grotesk character without shipping a commercial font.
+ * - "Rhymes Display" / "Rhymes Text" are also commercial; the typography
+ *   specimens use --font-display which falls back to Times New Roman → serif
+ *   until the licensed woff2 is dropped.
+ */
+import { createDefaultMetadata } from '@/utils/metadata'
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  return createDefaultMetadata({
+    title: 'Design System',
+    description:
+      'Logos design tokens — Color Palette and Type Styles mirrored from Figma.',
+    locale,
+    path: '/design-systems',
+  })
+}
+
+// --- Color Palette ------------------------------------------------------
+
+type ColorSwatchProps = {
+  name: string
+  hex: string
+  bg: string
+  textColor: 'white' | 'black'
+  bordered?: boolean
+  /** width / height ratio as a CSS aspect-ratio string (e.g. "1400/559"). */
+  aspect: string
+}
+
+function ColorSwatch({
+  name,
+  hex,
+  bg,
+  textColor,
+  bordered,
+  aspect,
+}: ColorSwatchProps) {
+  return (
+    <div
+      className={`relative w-full overflow-hidden ${bg} ${bordered ? 'border border-black' : ''}`}
+      style={{ aspectRatio: aspect }}
+    >
+      <div
+        className={`absolute bottom-[9px] left-[9px] ${textColor === 'white' ? 'text-white' : 'text-black'}`}
+      >
+        <p className="text-[16px] leading-[1.2]">{name}</p>
+        <p className="text-[16px] leading-[1.2]">{hex}</p>
+      </div>
+    </div>
+  )
+}
+
+function ColorPalette() {
+  return (
+    <div className="font-sans flex w-full flex-col gap-[24px] bg-white p-[20px]">
+      {/* Header */}
+      <div className="flex w-full max-w-[343px] items-center justify-between text-[18px] leading-[1.2] text-black">
+        <p>Logos Design System</p>
+        <p>Color Palette</p>
+      </div>
+
+      {/* Dark Green */}
+      <ColorSwatch
+        name="Dark Green"
+        hex="#152521"
+        bg="bg-brand-dark-green"
+        textColor="white"
+        aspect="1400/559"
+      />
+
+      {/* Dark Green 50% / 10% / 5% */}
+      <div className="flex w-full items-start gap-[24px]">
+        <div className="flex-1">
+          <ColorSwatch
+            name="Dark Green 50%"
+            hex="#152521 50%"
+            bg="bg-brand-dark-green/50"
+            textColor="white"
+            aspect="450/227"
+          />
+        </div>
+        <div className="flex-1">
+          <ColorSwatch
+            name="Dark Green 10%"
+            hex="#152521 10%"
+            bg="bg-brand-dark-green/10"
+            textColor="black"
+            bordered
+            aspect="450/227"
+          />
+        </div>
+        <div className="flex-1">
+          <ColorSwatch
+            name="Dark Green 5%"
+            hex="#152521 5%"
+            bg="bg-brand-dark-green/5"
+            textColor="black"
+            bordered
+            aspect="450/227"
+          />
+        </div>
+      </div>
+
+      {/* Off-White */}
+      <ColorSwatch
+        name="Off-White"
+        hex="#F5F5EF"
+        bg="bg-brand-off-white"
+        textColor="black"
+        bordered
+        aspect="1400/416"
+      />
+
+      {/* Off-White 50% / 10% */}
+      <div className="flex w-full items-start gap-[24px]">
+        <div className="flex-1">
+          <ColorSwatch
+            name="Off-White 50%"
+            hex="#F5F5EF 50%"
+            bg="bg-brand-off-white/50"
+            textColor="black"
+            bordered
+            aspect="688/227"
+          />
+        </div>
+        <div className="flex-1">
+          <ColorSwatch
+            name="Off-White 10%"
+            hex="#F5F5EF 10%"
+            bg="bg-brand-off-white/10"
+            textColor="black"
+            bordered
+            aspect="688/227"
+          />
+        </div>
+      </div>
+
+      {/* Accent bands */}
+      <ColorSwatch
+        name="Steel Teal"
+        hex="#5F797C"
+        bg="bg-accent-steel-teal"
+        textColor="white"
+        aspect="1400/227"
+      />
+      <ColorSwatch
+        name="Light Blue"
+        hex="#C6EBF7"
+        bg="bg-accent-light-blue"
+        textColor="black"
+        aspect="1400/227"
+      />
+      <ColorSwatch
+        name="Tan"
+        hex="#E2E0C9"
+        bg="bg-accent-tan"
+        textColor="black"
+        aspect="1400/227"
+      />
+      <ColorSwatch
+        name="Brown"
+        hex="#A18863"
+        bg="bg-accent-brown"
+        textColor="black"
+        aspect="1400/227"
+      />
+      <ColorSwatch
+        name="Yellow"
+        hex="#FFD328"
+        bg="bg-brand-yellow"
+        textColor="black"
+        aspect="1400/227"
+      />
+      <ColorSwatch
+        name="Purple"
+        hex="#48373F"
+        bg="bg-accent-purple"
+        textColor="white"
+        aspect="1400/227"
+      />
+
+      {/* Grey ramp */}
+      <div className="flex w-full items-start gap-[24px]">
+        <div className="flex-1">
+          <ColorSwatch
+            name="Grey 01"
+            hex="#DBDDD7"
+            bg="bg-gray-01"
+            textColor="black"
+            aspect="213/227"
+          />
+        </div>
+        <div className="flex-1">
+          <ColorSwatch
+            name="Grey 02"
+            hex="#B8BDB8"
+            bg="bg-gray-02"
+            textColor="black"
+            aspect="213/227"
+          />
+        </div>
+        <div className="flex-1">
+          <ColorSwatch
+            name="Grey 03"
+            hex="#9EA5A0"
+            bg="bg-gray-03"
+            textColor="black"
+            aspect="213/227"
+          />
+        </div>
+        <div className="flex-1">
+          <ColorSwatch
+            name="Grey 04"
+            hex="#848E88"
+            bg="bg-gray-04"
+            textColor="white"
+            aspect="213/227"
+          />
+        </div>
+        <div className="flex-1">
+          <ColorSwatch
+            name="Grey 05"
+            hex="#616E69"
+            bg="bg-gray-05"
+            textColor="white"
+            aspect="213/227"
+          />
+        </div>
+        <div className="flex-1">
+          <ColorSwatch
+            name="Grey 06"
+            hex="#475651"
+            bg="bg-gray-06"
+            textColor="white"
+            aspect="213/227"
+          />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// --- Type Styles --------------------------------------------------------
+
+type TypeRow = {
+  label: React.ReactNode
+  desktopClass: string
+  desktopStyle?: React.CSSProperties
+  mobileClass: string
+  mobileStyle?: React.CSSProperties
+  desktopMeta: [string, string, string, string, string]
+  mobileMeta: [string, string, string, string, string]
+  sameAsDesktop?: boolean
+  specimenLeading: string
+  sample: string
+}
+
+const typeRows: TypeRow[] = [
+  {
+    label: 'Hero',
+    specimenLeading: 'leading-none',
+    desktopClass: 'font-display',
+    desktopStyle: { fontSize: 140, letterSpacing: '-0.04em' },
+    mobileClass: 'font-display',
+    mobileStyle: { fontSize: 70, letterSpacing: '-0.04em' },
+    desktopMeta: ['Rhymes Display', 'Regular', '140 pt.', '100%', '-4%'],
+    mobileMeta: ['Rhymes Display', 'Regular', '70 pt.', '100%', '-4%'],
+    sample: 'Pioneer',
+  },
+  {
+    label: 'H1',
+    specimenLeading: 'leading-[0.98]',
+    desktopClass: 'font-display',
+    desktopStyle: { fontSize: 96, letterSpacing: '-0.04em' },
+    mobileClass: 'font-display',
+    mobileStyle: { fontSize: 56, letterSpacing: '-0.04em' },
+    desktopMeta: ['Rhymes Display', 'Regular', '96 pt.', '98%', '-4%'],
+    mobileMeta: ['Rhymes Display', 'Regular', '56 pt.', '98%', '-4%'],
+    sample: 'Pioneer',
+  },
+  {
+    label: 'H2',
+    specimenLeading: 'leading-none',
+    desktopClass: 'font-display',
+    desktopStyle: { fontSize: 56, letterSpacing: '-0.03em' },
+    mobileClass: 'font-display',
+    mobileStyle: { fontSize: 40, letterSpacing: '-0.03em' },
+    desktopMeta: ['Rhymes Display', 'Regular', '56 pt.', '100%', '-3%'],
+    mobileMeta: ['Rhymes Display', 'Regular', '40 pt.', '100%', '-3%'],
+    sample: 'Pioneer',
+  },
+  {
+    label: 'H3 Serif',
+    specimenLeading: 'leading-none',
+    desktopClass: 'font-display',
+    desktopStyle: { fontSize: 36, letterSpacing: '-0.03em' },
+    mobileClass: 'font-display',
+    mobileStyle: { fontSize: 30, letterSpacing: '-0.03em' },
+    desktopMeta: ['Rhymes Display', 'Regular', '36 pt.', '100%', '-3%'],
+    mobileMeta: ['Rhymes Display', 'Regular', '30 pt.', '100%', '-3%'],
+    sample: 'Pioneer',
+  },
+  {
+    label: 'H3 Sans',
+    specimenLeading: 'leading-none',
+    desktopClass: 'font-sans',
+    desktopStyle: { fontSize: 36, letterSpacing: '-0.02em' },
+    mobileClass: 'font-sans',
+    mobileStyle: { fontSize: 30, letterSpacing: '-0.02em' },
+    desktopMeta: ['Public Sans', 'Regular', '36 pt.', '100%', '-2%'],
+    mobileMeta: ['Public Sans', 'Regular', '30 pt.', '100%', '-2%'],
+    sample: 'Pioneer',
+  },
+  {
+    label: 'H4 Serif',
+    specimenLeading: 'leading-[1.1]',
+    desktopClass: 'font-display',
+    desktopStyle: { fontSize: 24, letterSpacing: '-0.01em' },
+    mobileClass: 'font-display',
+    mobileStyle: { fontSize: 24, letterSpacing: '-0.01em' },
+    desktopMeta: ['Rhymes Display', 'Regular', '24 pt.', '110%', '-1%'],
+    mobileMeta: ['Rhymes Display', 'Regular', '24 pt.', '110%', '-1%'],
+    sameAsDesktop: true,
+    sample: 'Pioneer',
+  },
+  {
+    label: 'H4 Sans',
+    specimenLeading: 'leading-[1.1]',
+    desktopClass: 'font-sans',
+    desktopStyle: { fontSize: 24, letterSpacing: '-0.01em' },
+    mobileClass: 'font-sans',
+    mobileStyle: { fontSize: 24, letterSpacing: '-0.01em' },
+    desktopMeta: ['Public Sans', 'Regular', '24 pt.', '110%', '-1%'],
+    mobileMeta: ['Public Sans', 'Regular', '24 pt.', '110%', '-1%'],
+    sameAsDesktop: true,
+    sample: 'Pioneer',
+  },
+  {
+    label: (
+      <>
+        Subhead
+        <br />
+        Serif
+      </>
+    ),
+    specimenLeading: 'leading-[1.1]',
+    desktopClass: 'font-display',
+    desktopStyle: { fontSize: 18, letterSpacing: '-0.01em' },
+    mobileClass: 'font-display',
+    mobileStyle: { fontSize: 18, letterSpacing: '-0.01em' },
+    desktopMeta: ['Rhymes Display', 'Regular', '18 pt.', '110%', '-1%'],
+    mobileMeta: ['Rhymes Display', 'Regular', '18 pt.', '110%', '-1%'],
+    sameAsDesktop: true,
+    sample: 'Pioneer',
+  },
+  {
+    label: (
+      <>
+        Subhead
+        <br />
+        Sans
+      </>
+    ),
+    specimenLeading: 'leading-[1.15]',
+    desktopClass: 'font-sans',
+    desktopStyle: { fontSize: 18, letterSpacing: '-0.01em' },
+    mobileClass: 'font-sans',
+    mobileStyle: { fontSize: 18, letterSpacing: '-0.01em' },
+    desktopMeta: ['Public Sans', 'Regular', '18 pt.', '115%', '-1%'],
+    mobileMeta: ['Public Sans', 'Regular', '18 pt.', '115%', '-1%'],
+    sameAsDesktop: true,
+    sample: 'Pioneer',
+  },
+  {
+    label: 'Body Serif',
+    specimenLeading: 'leading-[1.2]',
+    desktopClass: 'font-display',
+    desktopStyle: { fontSize: 14, letterSpacing: '0' },
+    mobileClass: 'font-display',
+    mobileStyle: { fontSize: 14, letterSpacing: '0' },
+    desktopMeta: ['Rhymes Display', 'Regular', '14 pt.', '120%', '0%'],
+    mobileMeta: ['Rhymes Display', 'Regular', '14 pt.', '120%', '0%'],
+    sameAsDesktop: true,
+    sample: 'Pioneer',
+  },
+  {
+    label: 'Body Sans',
+    specimenLeading: 'leading-[1.2]',
+    desktopClass: 'font-sans',
+    desktopStyle: { fontSize: 14, letterSpacing: '0' },
+    mobileClass: 'font-sans',
+    mobileStyle: { fontSize: 14, letterSpacing: '0' },
+    desktopMeta: ['Public Sans', 'Regular', '14 pt.', '120%', '0%'],
+    mobileMeta: ['Public Sans', 'Regular', '14 pt.', '120%', '0%'],
+    sameAsDesktop: true,
+    sample: 'Pioneer',
+  },
+  {
+    label: (
+      <>
+        Eyebrow /<br />
+        CTA
+      </>
+    ),
+    specimenLeading: 'leading-[1.3]',
+    desktopClass: 'font-mono font-medium uppercase',
+    desktopStyle: { fontSize: 10, letterSpacing: '0' },
+    mobileClass: 'font-mono font-medium uppercase',
+    mobileStyle: { fontSize: 10, letterSpacing: '0' },
+    desktopMeta: ['Fira Code', 'Medium', '10 pt.', '130%', '0%'],
+    mobileMeta: ['Fira Code', 'Medium', '10 pt.', '130%', '0%'],
+    sameAsDesktop: true,
+    sample: 'Pioneer',
+  },
+  {
+    label: 'Mono S',
+    specimenLeading: 'leading-[1.3]',
+    desktopClass: 'font-mono',
+    desktopStyle: { fontSize: 10, letterSpacing: '0' },
+    mobileClass: 'font-mono',
+    mobileStyle: { fontSize: 10, letterSpacing: '0' },
+    desktopMeta: ['Fira Code', 'Regular', '10 pt.', '130%', '0%'],
+    mobileMeta: ['Fira Code', 'Regular', '10 pt.', '130%', '0%'],
+    sameAsDesktop: true,
+    sample: 'Pioneer',
+  },
+]
+
+function MetaBlock({
+  lines,
+}: {
+  lines: [string, string, string, string, string]
+}) {
+  return (
+    <div className="text-[16px] leading-[1.2] text-black opacity-50">
+      {lines.map((line, i) => (
+        <p key={i} className="leading-[1.2]">
+          {line}
+        </p>
+      ))}
+    </div>
+  )
+}
+
+function SameAsDesktopTag() {
+  return (
+    <span className="inline-flex h-[24px] items-center justify-center rounded-full bg-brand-yellow px-[10px] text-[10px] font-medium leading-[1.3] text-black uppercase">
+      Same as desktop
+    </span>
+  )
+}
+
+function TypeStyles() {
+  return (
+    <div className="w-full overflow-x-auto">
+      <div className="font-sans w-full min-w-[640px] border border-[rgba(0,0,0,0.5)] bg-white md:min-w-0">
+        {/* Header row */}
+        <div className="flex flex-col gap-[12px] p-[19px] md:flex-row md:items-start md:gap-[20px]">
+          <p className="text-[18px] leading-[1.2] text-black md:w-[15.5%] md:shrink-0">
+            Logos Design System
+          </p>
+          <p className="text-[18px] leading-[1.2] text-black">Web Type Styles</p>
+        </div>
+
+        {/* Column labels + breakpoint scale — desktop only */}
+        <div className="hidden items-start gap-[20px] px-[19px] md:flex">
+          <div className="w-[15.5%] shrink-0" />
+          <div className="flex-1">
+            <div className="flex items-start gap-[20px] text-[16px] leading-[1.2] text-black">
+              <div className="w-1/2">
+                <p>Desktop</p>
+                <p>∞-800 px Wide</p>
+              </div>
+              <div className="w-1/2">
+                <p>Mobile</p>
+                <p>800-0 px Wide</p>
+              </div>
+            </div>
+            <div className="relative mt-[8px] h-[9px]">
+              <span className="absolute top-1/2 left-0 h-px w-full -translate-y-1/2 bg-black" />
+              <span className="absolute top-0 left-0 block size-[9px] rounded-full border border-black bg-black" />
+              <span className="absolute top-0 left-1/2 block size-[9px] -translate-x-1/2 rounded-full border border-black bg-black" />
+              <span className="absolute top-0 right-0 block size-[9px] rounded-full border border-black bg-white" />
+            </div>
+          </div>
+        </div>
+
+        {/* Style Name label */}
+        <p className="px-[19px] pt-[32px] text-[18px] leading-[1.2] text-black md:pt-[64px]">
+          Style Name
+        </p>
+
+        {/* Rows */}
+        <div className="flex flex-col px-[19px] pt-[16px]">
+          {typeRows.map((row, i) => (
+            <div
+              key={i}
+              className="flex flex-col items-start gap-[16px] border-t border-black pt-[16px] pb-[40px] md:flex-row md:justify-between md:gap-[20px] md:pb-[80px]"
+            >
+              <p className="w-full shrink-0 text-[24px] leading-[1.2] text-black md:w-[15.5%] md:text-[30px]">
+                {row.label}
+              </p>
+
+              <div className="flex w-full flex-1 flex-col gap-[24px]">
+                {/* Specimens */}
+                <div
+                  className={`flex flex-col gap-[20px] md:flex-row md:items-baseline ${row.specimenLeading}`}
+                >
+                  <div className="flex w-full flex-col gap-[8px] md:w-1/2">
+                    <p className="text-[14px] leading-[1.2] text-black md:hidden">
+                      Desktop
+                    </p>
+                    <p
+                      className={`min-w-0 overflow-hidden ${row.desktopClass}`}
+                      style={row.desktopStyle}
+                    >
+                      {row.sample}
+                    </p>
+                  </div>
+                  <div className="flex w-full flex-col gap-[8px] md:w-1/2">
+                    <p className="flex items-center gap-[10px] text-[14px] leading-[1.2] text-black md:hidden">
+                      Mobile
+                      {row.sameAsDesktop && <SameAsDesktopTag />}
+                    </p>
+                    <p
+                      className={`min-w-0 overflow-hidden ${row.mobileClass}`}
+                      style={row.mobileStyle}
+                    >
+                      {row.sample}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Metadata */}
+                <div className="flex flex-col gap-[20px] text-[16px] text-black md:flex-row md:items-start">
+                  <div className="flex w-full flex-col gap-[5px] md:w-1/2">
+                    <p className="leading-[1.2]">Desktop</p>
+                    <MetaBlock lines={row.desktopMeta} />
+                  </div>
+                  <div className="flex w-full flex-col gap-[5px] md:w-1/2">
+                    <div className="flex items-center gap-[10px]">
+                      <p className="leading-[1.2]">Mobile</p>
+                      {row.sameAsDesktop && (
+                        <span className="hidden md:inline-flex">
+                          <SameAsDesktopTag />
+                        </span>
+                      )}
+                    </div>
+                    <MetaBlock lines={row.mobileMeta} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// --- Page ---------------------------------------------------------------
+
+export default function DesignSystemsPage() {
+  return (
+    <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-[40px] py-10">
+      <ColorPalette />
+      <TypeStyles />
+    </div>
+  )
+}

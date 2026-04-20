@@ -1,0 +1,23 @@
+# Figma ↔ code traceability map
+# See docs/design-system-plan.md §8. Path is the stable trace key; node IDs
+# are reference-only and may differ between internal and customer copies.
+
+file:
+  internal:
+    url: "https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos"
+    fileKey: "qpsaED5iVKrOXoxwCWXuN3"
+  customer:
+    url: "" # TBD — grant MCP access so the canonical file can be referenced
+    fileKey: ""
+
+# Scope: this document currently tracks tokens only.
+# The Figma frame "Color Palette & Type" (40009046:20491) is the source of
+# truth for @repo/tokens/colors.css and @repo/tokens/typography.css.
+
+tokens:
+  - path: "Color Palette & Type / Color Palette"
+    package: "@repo/tokens/colors.css"
+    ids: { customer: "", internal: "40009046:20492" }
+  - path: "Color Palette & Type / Type Styles"
+    package: "@repo/tokens/typography.css"
+    ids: { customer: "", internal: "40009046:20537" }

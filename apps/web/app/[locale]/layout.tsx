@@ -1,11 +1,9 @@
 import '@/css/tailwind.css'
 
-import Header from '@/components/site-headaer'
-import Footer from '@/components/site-footer'
 import { themeInitScript } from '@/utils/theme'
+import { fontVariables } from '@/app/fonts'
 
 import { NextIntlClientProvider } from 'next-intl'
-import LocaleSwitcher from '@/components/locale/locale-switcher'
 
 export default async function RootLayout({
   children,
@@ -18,7 +16,11 @@ export default async function RootLayout({
 
   return (
     <NextIntlClientProvider>
-      <html lang={locale} className={`scroll-smooth`} suppressHydrationWarning>
+      <html
+        lang={locale}
+        className={`scroll-smooth ${fontVariables}`}
+        suppressHydrationWarning
+      >
         <head>
           <link rel="apple-touch-icon" sizes="76x76" href="/favicon.ico" />
           <link rel="icon" href="/favicon.ico" type="image/x-icon" />
@@ -40,10 +42,7 @@ export default async function RootLayout({
           />
         </head>
         <body>
-          <Header />
           <main>{children}</main>
-          <LocaleSwitcher />
-          <Footer />
         </body>
       </html>
     </NextIntlClientProvider>

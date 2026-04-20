@@ -66,6 +66,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@repo/tokens':
+        specifier: workspace:*
+        version: link:../../packages/tokens
       '@repo/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -128,6 +131,8 @@ importers:
         specifier: ^8.58.2
         version: 8.58.2(eslint@10.2.1(jiti@2.6.1))(typescript@6.0.3)
 
+  packages/tokens: {}
+
   packages/types:
     devDependencies:
       '@types/node':
@@ -142,9 +147,6 @@ importers:
 
   packages/ui:
     dependencies:
-      clsx:
-        specifier: ^2.1.1
-        version: 2.1.1
       react:
         specifier: ^19.2.5
         version: 19.2.5
