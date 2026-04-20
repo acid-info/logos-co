@@ -1,0 +1,24 @@
+{
+  "name": "@repo/ui",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint . --config ../../packages/config/eslint/base.mjs --max-warnings 0",
+    "lint:fix": "eslint . --config ../../packages/config/eslint/base.mjs --fix",
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
+  },
+  "devDependencies": {
+    "@types/node": "25.6.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "19.2.3",
+    "eslint": "^10.2.1",
+    "typescript": "^6.0.3"
+  }
+}

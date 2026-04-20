@@ -1,0 +1,30 @@
+{
+  "name": "logos-turborepo-next-tailwind-i18n-template",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
+    "format": "prettier --write \"**/*.{js,mjs,ts,tsx,json,md,css}\"",
+    "check-types": "turbo run check-types",
+    "generate-types": "turbo run generate-types --filter=cms"
+  },
+  "devDependencies": {
+    "prettier": "^3.8.3",
+    "turbo": "^2.9.6",
+    "typescript": "^6.0.3"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@parcel/watcher",
+      "@swc/core",
+      "esbuild",
+      "sharp"
+    ]
+  },
+  "packageManager": "pnpm@10.9.0",
+  "engines": {
+    "node": ">=20.9.0"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "name": "cms",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --port 3001",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix",
+    "check-types": "next typegen && tsc --noEmit",
+    "generate-types": "PAYLOAD_CONFIG_PATH=payload.config.ts payload generate:types"
+  },
+  "dependencies": {
+    "@payloadcms/db-sqlite": "3.83.0",
+    "@payloadcms/next": "3.83.0",
+    "@payloadcms/richtext-lexical": "3.83.0",
+    "graphql": "^16.13.2",
+    "next": "16.2.4",
+    "payload": "3.83.0",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "sharp": "^0.34.5"
+  },
+  "devDependencies": {
+    "@types/node": "25.6.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "19.2.3",
+    "eslint": "^10.2.1",
+    "typescript": "^6.0.3"
+  }
+}
