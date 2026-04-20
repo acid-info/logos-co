@@ -20,7 +20,7 @@
  */
 
 import { Public_Sans, Fira_Code } from 'next/font/google'
-// import localFont from 'next/font/local'
+import localFont from 'next/font/local'
 
 export const publicSans = Public_Sans({
   subsets: ['latin'],
@@ -36,21 +36,21 @@ export const firaCode = Fira_Code({
   variable: '--next-font-mono',
 })
 
-// export const rhymesDisplay = localFont({
-//   src: [
-//     {
-//       path: '../public/fonts/rhymes-display/rhymes-display-regular.woff2',
-//       weight: '400',
-//       style: 'normal',
-//     },
-//   ],
-//   display: 'swap',
-//   variable: '--next-font-display',
-//   fallback: ['Times New Roman', 'Georgia', 'serif'],
-// })
+export const rhymesDisplay = localFont({
+  src: [
+    {
+      path: '../public/fonts/rhymes-display/rhymes-display-regular.woff2',
+      weight: '400',
+      style: 'normal',
+    },
+  ],
+  display: 'swap',
+  variable: '--next-font-display',
+  fallback: ['Times New Roman', 'Georgia', 'serif'],
+})
 
 export const fontVariables = [
-  // rhymesDisplay.variable,
+  rhymesDisplay.variable,
   publicSans.variable,
   firaCode.variable,
 ].join(' ')
