@@ -52,3 +52,5 @@ apps/*/public/fonts/**/*.otf
 !apps/*/public/fonts/**/README.md
 # Rhymes Display — license verified, committed for Vercel builds
 !apps/*/public/fonts/rhymes-display/*.woff2
+
+mcp.json

@@ -1,7 +1,18 @@
-import ThemeToggle from '@/components/theme-toggle'
+import { getTranslations } from 'next-intl/server'
+
 import { ROUTES } from '@/constants/routes'
 import { createDefaultMetadata } from '@/utils/metadata'
-import { useTranslations } from 'next-intl'
+
+import HeroSection from '@/components/sections/home/hero-section'
+import FeatureCardsSection from '@/components/sections/home/feature-cards-section'
+import AboutSection from '@/components/sections/home/about-section'
+import TechStackSection from '@/components/sections/home/tech-stack-section'
+import UseCasesSection from '@/components/sections/home/use-cases-section'
+import ParallelSocietySection from '@/components/sections/home/parallel-society-section'
+import BuilderPortalSection from '@/components/sections/home/builder-portal-section'
+import MountainSection from '@/components/sections/home/mountain-section'
+import PressSection from '@/components/sections/home/press-section'
+import CirclesCtaSection from '@/components/sections/home/circles-cta-section'
 
 export async function generateMetadata({
   params,
@@ -9,26 +20,28 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-
-  const metadata = await createDefaultMetadata({
-    title: 'Home',
-    description: 'Home Description',
+  const t = await getTranslations({ locale, namespace: 'pages.home' })
+  return createDefaultMetadata({
+    title: t('title'),
+    description: t('description'),
     locale,
     path: ROUTES.home,
   })
-
-  return metadata
 }
 
-export default function Page() {
-  const t = useTranslations('home')
+export default function HomePage() {
   return (
-    <div className="divide-y divide-gray-200 dark:divide-gray-700">
-      <div className="space-y-2 pt-6 pb-8 md:space-y-5">
-        <h1 className="text-3xl leading-9 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14 dark:text-gray-100">
-          {t('title')}
-        </h1>
-      </div>
-    </div>
+    <>
+      <HeroSection />
+      <FeatureCardsSection />
+      <AboutSection />
+      <TechStackSection />
+      <UseCasesSection />
+      <ParallelSocietySection />
+      <BuilderPortalSection />
+      <MountainSection />
+      <PressSection />
+      <CirclesCtaSection />
+    </>
   )
 }

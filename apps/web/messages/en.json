@@ -8,7 +8,116 @@
     }
   },
   "home": {
-    "title": "main"
+    "atf": {
+      "headline": "Pioneering a New Era of Freedom",
+      "tagline": "LOGOS is a movement building open technology to enable and restore civil society.",
+      "joinMovement": "Join the Movement",
+      "learnMore": "Learn More"
+    },
+    "build": {
+      "eyebrow": "Build",
+      "number": "01",
+      "description": "Everything you need to start building privacy-first decentralized applications. Explore ideas, find bounties, and connect with others.",
+      "cta": "Start Building",
+      "examples": "examples",
+      "row1Title": "Your own bank",
+      "row1Desc": "Build a bank powered by logic you've programmed",
+      "row2Title": "Your own currency",
+      "row2Desc": "Create tokens that you can transfer and use across applications",
+      "row3Title": "A JavaScript Lorem Ipsum wallet",
+      "row3Desc": "Use existing languages to interact with Lorem Ipsum and other applications",
+      "row4Title": "An open, permissionless DNS",
+      "row4Desc": "Re-imagine existing services as decentralized, open applications"
+    },
+    "node": {
+      "eyebrow": "Node Program",
+      "number": "02",
+      "description": "The Node Program is for anyone who wants to join our movement to revitalize civil society using decentralized technologies.",
+      "cta": "Apply",
+      "examples": "examples"
+    },
+    "circles": {
+      "eyebrow": "Circles",
+      "number": "03",
+      "description": "Local chapters are at the heart of our movement. Learn civil organizing, share skills, and forge new connections.",
+      "cta": "Join a Circle",
+      "winnableIssues": "winnable issues"
+    },
+    "about": {
+      "quote": "The system is no longer working for us, so we are charting a new course.",
+      "headline": "Logos exists at the intersection of human exploration and technological revolution.",
+      "body": "We are a movement for builders, explorers, and dreamers who refuse to accept the world as it is. We're part of a generation fed up with corruption, surveillance, and stagnation often associated with incumbent institutions."
+    },
+    "techStack": {
+      "tagline": "A unified ecosystem. Private-by-default. Built for real life.",
+      "title": "The Logos Technology Stack",
+      "cta": "See the Stack"
+    },
+    "useCases": {
+      "tagline": "We know today's systems are captured and brittle. We build alternatives to give people a choice. Build on Logos and serve your community.",
+      "tagline2": "Privacy-preserving blockchain for sovereign order and decentralised governance.",
+      "title": "Use Cases",
+      "cta": "View the Docs",
+      "learnMore": "Learn More",
+      "card1Title": "Attack Resistant Public Registries",
+      "card1Desc": "Privacy-preserving blockchain for sovereign order and decentralised governance.",
+      "card2Title": "Decentralized Archives",
+      "card2Desc": "Permanent, censorship-proof preservation of knowledge, culture, and history.",
+      "card3Title": "Private Financial Networks",
+      "card3Desc": "Money that moves securely and freely, without surveillance or control.",
+      "card4Title": "Community Governance Processes",
+      "card4Desc": "Self-organising groups can establish and enforce their own rules, with members engaging voluntarily."
+    },
+    "parallelSociety": {
+      "headline": "Parallel Society is a two-day event in Lisbon where music, art, and technology converge.",
+      "cta": "Learn More"
+    },
+    "builderPortal": {
+      "title": "The Logos Builder Portal",
+      "feature1": "Everything you need to start building privacy-first decentralized applications. Explore ideas, find bounties, and connect with others.",
+      "feature2": "The Node Program is for anyone who wants to join our movement to revitalize civil society using decentralized technologies.",
+      "feature3": "Local chapters are at the heart of our movement. Learn civil organizing, share skills, and forge new connections.",
+      "example1Title": "Your own bank",
+      "example1Desc": "Build a bank powered by logic you've programmed",
+      "example2Title": "Your own currency",
+      "example2Desc": "Create tokens that you can transfer and use across applications",
+      "example3Title": "A JavaScript Lorem Ipsum wallet",
+      "example3Desc": "Use existing languages to interact with Lorem Ipsum and other applications",
+      "example4Title": "An open, permissionless DNS",
+      "example4Desc": "Re-imagine existing services as decentralized, open applications",
+      "buildLabel": "BUILD",
+      "buildDesc": "Operate early. Help harden a private-by-default network that protects civil liberties and strengthens trust in our communities.",
+      "cta": "Get Involved"
+    },
+    "mountain": {
+      "highlightedWord": "Parallel Society",
+      "rest": "is a two-day event in Lisbon where music, art, and technology converge.",
+      "cta": "Learn More"
+    },
+    "press": {
+      "eyebrow": "Logos in the News",
+      "title": "Press",
+      "cta": "Explore All Articles",
+      "article1Title": "State of the Logos Network: November 2025",
+      "article1Date": "02.14.26",
+      "article1Author": "Sterlin Lujan",
+      "article2Title": "Story of the Network: From CyberNetics to Blockchain Communities",
+      "article2Date": "02.14.26",
+      "article2Author": "Sterlin Lujan",
+      "article3Title": "State of the Logos Network: October 2025",
+      "article3Date": "02.14.26",
+      "article3Author": "Sterlin Lujan",
+      "article4Title": "Hacking for Real World Impact with Funding the Commons & Tor",
+      "article4Date": "02.14.26",
+      "article4Author": "Sterlin Lujan"
+    },
+    "circlesCta": {
+      "count": "19",
+      "headline": "Circles and Counting.",
+      "body": "These meetups are essential for anyone taking actions with us. Explore what nonviolence is, how we use it and what it can help us achieve. If there isn't a Logos Circle listed in your area, please get in touch with the team.",
+      "findCta": "Find a Circle Near You",
+      "startCta": "Start a Circle"
+    }
   },
   "footer": {
     "tagline": "Pioneering a new era of freedom.",
