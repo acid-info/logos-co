@@ -23,10 +23,14 @@ import {
   Button,
   Card,
   CardInfo,
+  Footer,
   GiantSwitch,
   GiantSwitchTag,
+  LogosMark,
+  Pagination,
   Table,
   TableRow,
+  ViewToggle,
 } from '@repo/ui'
 
 import { createDefaultMetadata } from '@/utils/metadata'
@@ -927,6 +931,152 @@ function GiantSwitches() {
   )
 }
 
+// --- View Toggle --------------------------------------------------------
+
+function ViewToggles() {
+  const options = [
+    { id: 'grid', label: 'Grid' },
+    { id: 'list', label: 'List' },
+  ] as const
+
+  return (
+    <div className="flex w-full flex-col gap-8 bg-white p-5">
+      <h2 className="font-display text-[64px] leading-none tracking-[-0.03em] text-brand-dark-green">
+        View Toggle
+      </h2>
+      <div className="grid grid-cols-1 items-start gap-8 sm:grid-cols-2">
+        <div className="flex flex-col items-start gap-3">
+          <p className="font-mono text-[10px] leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
+            Grid active (default on /rfps)
+          </p>
+          <ViewToggle
+            options={[...options]}
+            view="grid"
+            getHref={(id) => `#view=${id}`}
+          />
+        </div>
+        <div className="flex flex-col items-start gap-3">
+          <p className="font-mono text-[10px] leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
+            List active (default on /ideas)
+          </p>
+          <ViewToggle
+            options={[...options]}
+            view="list"
+            getHref={(id) => `#view=${id}`}
+          />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// --- Pagination ---------------------------------------------------------
+
+function Paginations() {
+  return (
+    <div className="flex w-full flex-col gap-8 bg-white p-5">
+      <h2 className="font-display text-[64px] leading-none tracking-[-0.03em] text-brand-dark-green">
+        Pagination
+      </h2>
+      <div className="flex flex-col gap-8">
+        <div className="flex flex-col items-start gap-3">
+          <p className="font-mono text-[10px] leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
+            3 pages · current 1
+          </p>
+          <Pagination
+            currentPage={1}
+            totalPages={3}
+            getHref={(p) => `#page=${p}`}
+          />
+        </div>
+        <div className="flex flex-col items-start gap-3">
+          <p className="font-mono text-[10px] leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
+            5 pages · current 3
+          </p>
+          <Pagination
+            currentPage={3}
+            totalPages={5}
+            getHref={(p) => `#page=${p}`}
+          />
+        </div>
+        <div className="flex flex-col items-start gap-3">
+          <p className="font-mono text-[10px] leading-[1.3] font-medium text-brand-dark-green uppercase opacity-50">
+            10 pages · current 5 · ellipsis collapse
+          </p>
+          <Pagination
+            currentPage={5}
+            totalPages={10}
+            getHref={(p) => `#page=${p}`}
+          />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// --- Footer -------------------------------------------------------------
+
+function LogosLockup() {
+  return (
+    <span className="inline-flex items-center gap-2 text-brand-off-white">
+      <LogosMark size={15} className="shrink-0" />
+      <span className="font-display text-[18px] leading-none">Logos</span>
+    </span>
+  )
+}
+
+function Footers() {
+  const mainLinks = [
+    { label: 'Work With Us', href: '#' },
+    { label: 'Brand Guidelines', href: '#' },
+  ]
+  const socialLinks = [
+    { label: 'Twitter', href: '#' },
+    { label: 'Discord', href: '#' },
+    { label: 'YouTube', href: '#' },
+    { label: 'Blog', href: '#' },
+    { label: 'Github', href: '#' },
+  ]
+  const researchLinks = [{ label: 'VacP2P', href: '#' }]
+  const infrastructureLinks = [
+    { label: 'Waku', href: '#' },
+    { label: 'Nimbus', href: '#' },
+    { label: 'Codex', href: '#' },
+    { label: 'Nomos', href: '#' },
+  ]
+  const legalLinks = [
+    { label: 'Terms & Conditions', href: '#' },
+    { label: 'Privacy Policy', href: '#' },
+    { label: 'Security', href: '#' },
+  ]
+
+  return (
+    <div className="flex w-full flex-col gap-8 bg-white p-5">
+      <h2 className="font-display text-[64px] leading-none tracking-[-0.03em] text-brand-dark-green">
+        Footer
+      </h2>
+      <Footer
+        image={
+          <Image
+            src="/temp/footer-image.png"
+            alt=""
+            fill
+            sizes="(max-width: 768px) 83px, 226px"
+          />
+        }
+        logo={<LogosLockup />}
+        tagline="Pioneering a new era of freedom."
+        mainLinks={mainLinks}
+        socialLinks={socialLinks}
+        researchLinks={researchLinks}
+        infrastructureLinks={infrastructureLinks}
+        legalLinks={legalLinks}
+        builtBy={{ label: 'Built by', attribution: 'IFT', href: '#' }}
+      />
+    </div>
+  )
+}
+
 // --- Page ---------------------------------------------------------------
 
 export default function DesignSystemsPage() {
@@ -938,6 +1088,9 @@ export default function DesignSystemsPage() {
       <Buttons />
       <Tables />
       <GiantSwitches />
+      <ViewToggles />
+      <Paginations />
+      <Footers />
     </div>
   )
 }

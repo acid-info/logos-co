@@ -2,6 +2,8 @@ import '@/css/tailwind.css'
 
 import { themeInitScript } from '@/utils/theme'
 import { fontVariables } from '@/app/fonts'
+import SiteHeader from '@/components/site-headaer'
+import SiteFooter from '@/components/site-footer'
 
 import { NextIntlClientProvider } from 'next-intl'
 
@@ -42,7 +44,9 @@ export default async function RootLayout({
           />
         </head>
         <body>
+          <SiteHeader />
           <main>{children}</main>
+          <SiteFooter />
         </body>
       </html>
     </NextIntlClientProvider>
