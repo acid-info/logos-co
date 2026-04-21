@@ -10,5 +10,127 @@
   "home": {
     "title": "main"
   },
-  "footer": {}
+  "footer": {},
+  "pages": {
+    "home": {
+      "title": "Logos — Pioneering a New Era of Freedom",
+      "description": "Logos is a movement building open technology to enable and restore civil society.",
+      "heading": "Pioneering a New Era of Freedom"
+    },
+    "technologyStack": {
+      "title": "Technology Stack | Logos",
+      "description": "Modular by design. Storage, Messaging, Blockchain, and User Modules form the foundation for privacy-first decentralized applications.",
+      "heading": "The Logos Technology Stack"
+    },
+    "blockchain": {
+      "title": "Blockchain | Logos",
+      "description": "This isn't just another L1—it's a purpose-built blockchain using Cryptarchia, a private proof-of-stake consensus mechanism where validator identities and stake amounts remain hidden.",
+      "heading": "Blockchain"
+    },
+    "networking": {
+      "title": "Networking Stack | Logos",
+      "description": "Privacy built from the ground up. The Logos networking layer handles how nodes discover each other, peer, and route messages through a mix-net without exposing identities or metadata.",
+      "heading": "Networking Stack"
+    },
+    "messaging": {
+      "title": "Messaging | Logos",
+      "description": "Logos Messaging (formerly Waku) was designed and developed as the replacement for Whisper — the messaging protocol of Ethereum. This protocol is used in a number of production applications and provides strong privacy and security guarantees.",
+      "heading": "Messaging"
+    },
+    "storage": {
+      "title": "Storage | Logos",
+      "description": "Private, Secure, Decentralized Storage. Content-addressed file storage and retrieval with built-in privacy guarantees, built around the Logos Messaging Nim (LMN) node.",
+      "heading": "Storage"
+    },
+    "buildersHub": {
+      "title": "Builders Hub | Logos",
+      "description": "Explore RFPs, submit ideas, install the Logos App, and join a growing community of builders shipping privacy-first decentralized applications.",
+      "heading": "Logos Builders Hub"
+    },
+    "ideas": {
+      "title": "Ideas | Logos",
+      "description": "Community-submitted ideas for decentralized applications on Logos. Browse active submissions or contribute your own.",
+      "heading": "Ideas"
+    },
+    "rfps": {
+      "title": "RFPs | Logos",
+      "description": "Request-for-proposals on Logos. USDC + XP rewards for builders shipping attack-resistant public registries, decentralized archives, private financial networks, and more.",
+      "heading": "RFPs"
+    },
+    "circles": {
+      "title": "Circles | Logos",
+      "description": "Local chapters are at the heart of the Logos movement. Find a Circle near you, join upcoming events, and tackle winnable local issues.",
+      "heading": "Logos Circles"
+    },
+    "circleDetail": {
+      "title": "{city} Circle | Logos",
+      "description": "The {city} chapter of Logos Circles — upcoming events, initiatives, and how to join your local movement.",
+      "heading": "{city}"
+    },
+    "nodeProgram": {
+      "title": "Node Program | Logos",
+      "description": "Run a Logos node. Help revitalize civil society with decentralized technology.",
+      "heading": "Node Program"
+    },
+    "takeAction": {
+      "title": "Take Action | Logos",
+      "description": "Ways to contribute to the Logos movement.",
+      "heading": "Take Action"
+    },
+    "book": {
+      "title": "Book | Logos",
+      "description": "The Logos book — foundational writings on decentralized civil society.",
+      "heading": "Book"
+    },
+    "links": {
+      "title": "Links | Logos",
+      "description": "Curated links to Logos ecosystem projects and resources.",
+      "heading": "Links"
+    },
+    "press": {
+      "title": "Press | Logos",
+      "description": "The Logos Press Engine — essays, news, and podcasts from the Logos movement.",
+      "heading": "The Logos Press Engine"
+    },
+    "about": {
+      "title": "About | Logos",
+      "description": "Logos is on a mission to revitalize Civil Society. A community of builders, activists, and change seekers contributing in a wide variety of ways.",
+      "heading": "Logos is on a mission to revitalize Civil Society."
+    },
+    "faq": {
+      "title": "FAQ | Logos",
+      "description": "Frequently asked questions about Logos — what it is, how it works, and how to get involved.",
+      "heading": "FAQ"
+    },
+    "terms": {
+      "title": "Terms & Conditions | Logos",
+      "description": "Terms and conditions for using the Logos website and services.",
+      "heading": "Terms & Conditions"
+    },
+    "privacy": {
+      "title": "Privacy Policy | Logos",
+      "description": "How Logos handles your personal data and privacy.",
+      "heading": "Privacy Policy"
+    },
+    "security": {
+      "title": "Security | Logos",
+      "description": "Security policies, disclosures, and responsible reporting for Logos.",
+      "heading": "Security"
+    },
+    "workWithUs": {
+      "title": "Work With Us | Logos",
+      "description": "Open roles and ways to collaborate with the Logos team.",
+      "heading": "Work With Us"
+    },
+    "brandGuidelines": {
+      "title": "Brand Guidelines | Logos",
+      "description": "The Logos brand identity — logo usage, color palette, typography, and voice.",
+      "heading": "Brand Guidelines"
+    },
+    "blog": {
+      "title": "Blog | Logos",
+      "description": "Essays, updates, and technical writing from the Logos team.",
+      "heading": "Blog"
+    }
+  }
 }

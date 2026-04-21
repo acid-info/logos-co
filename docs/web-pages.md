@@ -27,7 +27,7 @@ All nodes live in the `_Dev Handoff: All Pages` page (`2267:46449`).
 **Prototype / motion references:**
 
 - [`40009046:23208`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-23208) — ATF hero at viewport (800 px): headline + card **peeking** up from the bottom edge with rounded top corners visible. Invites scroll.
-- [`40009046:22710`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-22710) — Desktop Build / Node / Circles triptych (1440 × 1363): 3 large rounded-xl cards, photo backgrounds, `λ Title` + description + CTA on the left, numbered examples table on the right.
+- [`40009046:22710`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-22710) — Desktop Build / Node / Circles triptych (1440 × 1363): 3 large rounded-xl cards, photo backgrounds, `Lambda icon Title` + description + CTA on the left, numbered examples table on the right.
 - [`40009046:22453`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-22453) — Mobile Build / Node / Circles (393 × 1363): same 3 cards stacked, tables collapsed, just title + description + CTA visible.
 
 **Animation library:** `motion` (v12 — modern framer-motion). Shared variants live in [`apps/web/lib/motion.ts`](../apps/web/lib/motion.ts); helpers in [`apps/web/components/motion/`](../apps/web/components/motion/).
@@ -35,7 +35,7 @@ All nodes live in the `_Dev Handoff: All Pages` page (`2267:46449`).
 ### Sections (top → bottom)
 
 1. **ATF hero** — "Pioneering a New Era of Freedom" display headline (`text-hero`), eyebrow + 2-line body copy, `JOIN THE MOVEMENT →` + `LEARN MORE →` CTAs. Full-bleed aerial photograph background, dark overlay. The top edge of the Build card **peeks up from the bottom** of the viewport (≈ 60 px visible) as a scroll affordance.
-2. **Build / Node Program / Circles triptych** — 3 full-bleed rounded cards (desktop: side-by-side stacked vertically / mobile: stacked). Each card: `λ Title` serif + description + CTA (left); numbered label `01 BUILD / EXAMPLES` + 4-row examples table (right, desktop only). See nodes `22710` / `22453`.
+2. **Build / Node Program / Circles triptych** — 3 full-bleed rounded cards (desktop: side-by-side stacked vertically / mobile: stacked). Each card: `Lambda icon Title` serif + description + CTA (left); numbered label `01 BUILD / EXAMPLES` + 4-row examples table (right, desktop only). See nodes `22710` / `22453`.
 3. **About teaser** — left-aligned copy block + editorial image, light section.
 4. **Tech Stack overview** — "The Logos Technology Stack" serif heading + 4 tech-pillar `<Card>` components (Storage, Messaging, Blockchain, Live Modules).
 5. **Use Cases** — horizontal card row: content scrolls or wraps on mobile.
@@ -49,17 +49,17 @@ All nodes live in the `_Dev Handoff: All Pages` page (`2267:46449`).
 
 ### Motion spec (framer-motion / `motion`)
 
-| Element | Pattern | Variant | Trigger |
-| --- | --- | --- | --- |
-| Hero headline "Pioneering…" | word-by-word fade-up, 60 ms stagger | `<AnimatedHeading>` (uses `wordStagger` + `heroFadeUp`) | on mount |
-| Hero eyebrow / body / CTAs | 80 ms stagger fade-up | `stagger` parent + `fadeUp` children | on mount, after headline (`delay: 0.6s`) |
-| Hero background image | 1.2 s fade + subtle scale 1.05 → 1 | `fadeIn` + `scale` on `motion.img` | on mount |
-| Build card peek | scroll-linked translateY: 60 → 0 px as hero scrolls out | `useScroll` + `useTransform` on the first card wrapper | scroll |
-| Each B/N/C card | fade + translateY 40 → 0 | `heroFadeUp` | `whileInView`, `VIEWPORT_TALL` (15 %) |
-| Card examples table rows | 80 ms stagger fade-up | `stagger` + `fadeUp` | `whileInView` on the card |
-| Tech-stack pillar cards | scale-in 0.95 → 1 + fade, 100 ms stagger L→R | `scaleIn` inside `stagger` parent | `whileInView`, `VIEWPORT_ONCE` |
-| Press thumbnails | fade-up, 80 ms stagger | `stagger` + `fadeUp` | `whileInView`, `VIEWPORT_ONCE` |
-| Footer | fade-up only | `fadeUp` | `whileInView` |
+| Element                     | Pattern                                                 | Variant                                                 | Trigger                                  |
+| --------------------------- | ------------------------------------------------------- | ------------------------------------------------------- | ---------------------------------------- |
+| Hero headline "Pioneering…" | word-by-word fade-up, 60 ms stagger                     | `<AnimatedHeading>` (uses `wordStagger` + `heroFadeUp`) | on mount                                 |
+| Hero eyebrow / body / CTAs  | 80 ms stagger fade-up                                   | `stagger` parent + `fadeUp` children                    | on mount, after headline (`delay: 0.6s`) |
+| Hero background image       | 1.2 s fade + subtle scale 1.05 → 1                      | `fadeIn` + `scale` on `motion.img`                      | on mount                                 |
+| Build card peek             | scroll-linked translateY: 60 → 0 px as hero scrolls out | `useScroll` + `useTransform` on the first card wrapper  | scroll                                   |
+| Each B/N/C card             | fade + translateY 40 → 0                                | `heroFadeUp`                                            | `whileInView`, `VIEWPORT_TALL` (15 %)    |
+| Card examples table rows    | 80 ms stagger fade-up                                   | `stagger` + `fadeUp`                                    | `whileInView` on the card                |
+| Tech-stack pillar cards     | scale-in 0.95 → 1 + fade, 100 ms stagger L→R            | `scaleIn` inside `stagger` parent                       | `whileInView`, `VIEWPORT_ONCE`           |
+| Press thumbnails            | fade-up, 80 ms stagger                                  | `stagger` + `fadeUp`                                    | `whileInView`, `VIEWPORT_ONCE`           |
+| Footer                      | fade-up only                                            | `fadeUp`                                                | `whileInView`                            |
 
 Respect `prefers-reduced-motion`: all `motion` components auto-degrade to instant transitions when the OS setting is on — no extra code needed.
 
@@ -104,7 +104,7 @@ Respect `prefers-reduced-motion`: all `motion` components auto-degrade to instan
 **Mobile frame:** [`40009046:21014`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-21014) — 393 × 5892
 
 1. **Breadcrumb** — `← Technology Stack` link.
-2. **Page header** — `λ Blockchain` display title + description copy + `LEARN MORE →` CTA.
+2. **Page header** — `Lambda icon Blockchain` display title + description copy + `LEARN MORE →` CTA.
 3. **Hero split** — left: text + `GET THE APP →` button; right: full-bleed tall photograph. On mobile: stacked.
 4. **Feature highlight** — "Privacy as infrastructure" + body copy + photo (split layout, reversed).
 5. **Cryptarchies** — text block with `CardInfo`-style label + description.
@@ -132,7 +132,7 @@ Respect `prefers-reduced-motion`: all `motion` components auto-degrade to instan
 
 Same template as Blockchain. Unique content:
 
-1. **Page header** — `λ Networking Stack`
+1. **Page header** — `Lambda icon Networking Stack`
 2. **Hero split** — "Privacy built from the ground up." + body + `LEARN MORE →`; tall editorial photograph right.
 3. **Three feature cards** — The Blacklist, Decentrality Governance Protocol, Taming Logic (horizontal image cards with dark photo backgrounds + text overlay).
 4. **Three-card row** — Store, Logos Builder Hub (center), Logos App.
@@ -151,7 +151,7 @@ Same template as Blockchain. Unique content:
 
 Same template as Blockchain. Unique content:
 
-1. **Page header** — `λ Messaging`
+1. **Page header** — `Lambda icon Messaging`
 2. **Hero split** — "Privacy built from the ground up." + body; right: tall photo.
 3. **Logos Messaging from ILMH** — text block with a second full-bleed image beneath.
 4. **Case Studies** — two-column card layout with photo, title, description. Each card has a `VIEW CASE STUDY →` link.
@@ -171,7 +171,7 @@ Same template as Blockchain. Unique content:
 
 Same template as Blockchain. Unique content:
 
-1. **Page header** — `λ Storage` + two CTAs: `SIGN UP →` and `LEARN MORE →`.
+1. **Page header** — `Lambda icon Storage` + two CTAs: `SIGN UP →` and `LEARN MORE →`.
 2. **Hero split** — "Private, Secure, Decentralized Storage." + body + `FIND OUT MORE →`; right: tall portrait photograph.
 3. **Three-card row** — Dero, Logos Builder Hub (center), Logos App.
 4. **Explore / Related Articles / Footer**
@@ -215,7 +215,7 @@ Same template as Blockchain. Unique content:
 **Builder Hub Dev Handoff:** Ideas section — `2213:30214`
 
 1. **Sub-nav breadcrumb** — `← BUILDERS HUB`
-2. **Page header** — `λ Ideas` + description + `SUBMIT AN IDEA →` CTA (top-right).
+2. **Page header** — `Lambda icon Ideas` + description + `SUBMIT AN IDEA →` CTA (top-right).
 3. **Grid / List toggle** — default: **List** view.
 4. **List view** — `<Table>` + `<TableRow>` × 10 with number, title, description, submitter, `VIEW` button. No reward column.
 5. **Pagination** — `← 1 2 3 →`
@@ -238,7 +238,7 @@ Same template as Blockchain. Unique content:
 
 Same shell as Ideas. Unique content:
 
-1. **Page header** — `λ RFPs` + description + `SUBMIT AN RFP →` CTA.
+1. **Page header** — `Lambda icon RFPs` + description + `SUBMIT AN RFP →` CTA.
 2. **Grid / List toggle** — default: **Grid** view.
 3. **Grid view** — `<Card>` (type: rfp) in 4-col grid. Cards show title, reward (`USDC + XP`), `APPLY →`, image, description.
 4. **List view** — `<Table>` + `<TableRow>` × 10 with reward column + `APPLY` button.
@@ -258,8 +258,8 @@ Same shell as Ideas. Unique content:
 **Desktop frame:** [`40009046:25359`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-25359) — 1440 × 4160
 **Mobile frame:** [`40009046:25110`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-25110) — 393 × 4923
 
-1. **Page header** — `λ Logos Circles` title + description + `FIND A CIRCLE →` + `JOIN A CIRCLE →` CTAs.
-2. **World map** — interactive SVG world map with `λ` markers at each circle location. `+` / `−` zoom controls. Clicking a marker navigates to the circle detail page.
+1. **Page header** — `Lambda icon Logos Circles` title + description + `FIND A CIRCLE →` + `JOIN A CIRCLE →` CTAs.
+2. **World map** — interactive SVG world map with `Lambda icon` markers at each circle location. `+` / `−` zoom controls. Clicking a marker navigates to the circle detail page.
 3. **"Find a Circle near you."** — centered text + `FIND A CIRCLE NEAR YOU →` button.
 4. **Upcoming Events** — section header + `SEE FULL CALENDAR →`; event cards in a 2-col grid. Each card: image thumbnail, circle name, event title, date/time, location, hosted-by line.
 5. **Winnable Issues** — 3-col card row (dark image cards with location tag, `VIEW ISSUE →`, title, description).
@@ -270,7 +270,7 @@ Same shell as Ideas. Unique content:
 - Map pan/zoom: smooth CSS transition on `+` / `−` click.
 - Upcoming Events cards: fade-in stagger on scroll.
 
-- World map is a significant interactive component — use `react-simple-maps` or a custom SVG. Markers are `λ` glyphs styled as pins.
+- World map is a significant interactive component — use `react-simple-maps` or a custom SVG. Markers are `Lambda icon` glyphs styled as pins.
 - On mobile the map should be pannable/zoomable with touch.
 - The `<WorldMap>` component is **shared with the About page** — extract accordingly.
 
@@ -284,7 +284,7 @@ Same shell as Ideas. Unique content:
 **Mobile frame:** [`40009046:25922`](https://www.figma.com/design/qpsaED5iVKrOXoxwCWXuN3/Logos?node-id=40009046-25922) — 393 × 2735
 
 1. **Breadcrumb** — `← ALL CIRCLES`
-2. **Circle header** — `λ [City Name]` title + description + `JOIN THIS CIRCLE →` CTA. Below: metadata grid — `MEMBERS`, `DISCORD`, `FORUM`.
+2. **Circle header** — `Lambda icon [City Name]` title + description + `JOIN THIS CIRCLE →` CTA. Below: metadata grid — `MEMBERS`, `DISCORD`, `FORUM`.
 3. **Upcoming Events** — 2 event cards (landscape image, circle badge, event title, date/time, location, hosted-by). Desktop: 2-col; mobile: stacked.
 4. **Initiatives** — 2 initiative cards (dark bg, image, location tag, `VIEW ISSUE →`, title, description). Desktop: 2-col; mobile: stacked.
 5. **Footer**
@@ -386,42 +386,42 @@ Same shell as Ideas. Unique content:
 
 ## Page implementation order (suggested)
 
-| Priority | Page | Reason |
-| --- | --- | --- |
-| 1 | Homepage | Entry point; establishes shared section modules |
-| 2 | Builders Hub | Core product feature; reuses Table + Card primitives |
-| 3 | Builders Hub / Ideas | Establishes grid/list toggle pattern |
-| 4 | Builders Hub / RFPs | Same pattern as Ideas |
-| 5 | Technology Stack Overview | Establishes tech pillar card grid |
-| 6 | Blockchain | Establishes tech sub-page template |
-| 7 | Networking | Same template |
-| 8 | Messaging | Same template |
-| 9 | Storage | Same template |
-| 10 | Logos Circles | New interactive component (world map) |
-| 11 | Circle Detail Page | Dynamic route; depends on Circles |
-| 12 | About | Reuses world map; parallax-heavy |
-| 13 | Press Engine | Standalone content page |
-| 14 | FAQs | Establishes LegalLayout |
-| 15 | Terms & Conditions | Reuses LegalLayout |
+| Priority | Page                      | Reason                                               |
+| -------- | ------------------------- | ---------------------------------------------------- |
+| 1        | Homepage                  | Entry point; establishes shared section modules      |
+| 2        | Builders Hub              | Core product feature; reuses Table + Card primitives |
+| 3        | Builders Hub / Ideas      | Establishes grid/list toggle pattern                 |
+| 4        | Builders Hub / RFPs       | Same pattern as Ideas                                |
+| 5        | Technology Stack Overview | Establishes tech pillar card grid                    |
+| 6        | Blockchain                | Establishes tech sub-page template                   |
+| 7        | Networking                | Same template                                        |
+| 8        | Messaging                 | Same template                                        |
+| 9        | Storage                   | Same template                                        |
+| 10       | Logos Circles             | New interactive component (world map)                |
+| 11       | Circle Detail Page        | Dynamic route; depends on Circles                    |
+| 12       | About                     | Reuses world map; parallax-heavy                     |
+| 13       | Press Engine              | Standalone content page                              |
+| 14       | FAQs                      | Establishes LegalLayout                              |
+| 15       | Terms & Conditions        | Reuses LegalLayout                                   |
 
 ---
 
 ## Figma node quick reference
 
-| Page | Section node | Desktop frame | Mobile frame |
-| --- | --- | --- | --- |
-| Homepage | `40009046:22441` | `40009046:22699` | `40009046:22442` |
-| Tech Overview | `40009046:20737` | `40009046:20804` | `40009046:20738` |
-| Blockchain | `40009046:21013` | `40009046:21116` | `40009046:21014` |
-| Networking | `40009046:21377` | `40009046:21445` | `40009046:21378` |
-| Messaging | `40009046:21599` | `40009046:21710` | `40009046:21600` |
-| Storage | `40009046:21993` | `40009046:22067` | `40009046:21994` |
-| Builders Hub | `40009046:23763` | `40009046:23948` | `40009046:23764` |
+| Page                 | Section node     | Desktop frame    | Mobile frame     |
+| -------------------- | ---------------- | ---------------- | ---------------- |
+| Homepage             | `40009046:22441` | `40009046:22699` | `40009046:22442` |
+| Tech Overview        | `40009046:20737` | `40009046:20804` | `40009046:20738` |
+| Blockchain           | `40009046:21013` | `40009046:21116` | `40009046:21014` |
+| Networking           | `40009046:21377` | `40009046:21445` | `40009046:21378` |
+| Messaging            | `40009046:21599` | `40009046:21710` | `40009046:21600` |
+| Storage              | `40009046:21993` | `40009046:22067` | `40009046:21994` |
+| Builders Hub         | `40009046:23763` | `40009046:23948` | `40009046:23764` |
 | Builders Hub / Ideas | `40009046:24677` | `40009046:24754` | `40009046:24678` |
-| Builders Hub / RFPs | `40009046:24923` | `40009046:25012` | `40009046:24924` |
-| Circles | `40009046:25109` | `40009046:25359` | `40009046:25110` |
-| Circle Detail | `40009046:25921` | `40009046:26015` | `40009046:25922` |
-| Press Engine | `40009046:26291` | `40009046:26490` | `40009046:26292` |
-| About | `40009046:27109` | `40009046:27248` | `40009046:27110` |
-| FAQs | `40009046:22275` | `40009046:22317` | `40009046:22276` |
-| Terms & Conditions | `40009046:22241` | `40009046:22250` | `40009046:22242` |
+| Builders Hub / RFPs  | `40009046:24923` | `40009046:25012` | `40009046:24924` |
+| Circles              | `40009046:25109` | `40009046:25359` | `40009046:25110` |
+| Circle Detail        | `40009046:25921` | `40009046:26015` | `40009046:25922` |
+| Press Engine         | `40009046:26291` | `40009046:26490` | `40009046:26292` |
+| About                | `40009046:27109` | `40009046:27248` | `40009046:27110` |
+| FAQs                 | `40009046:22275` | `40009046:22317` | `40009046:22276` |
+| Terms & Conditions   | `40009046:22241` | `40009046:22250` | `40009046:22242` |

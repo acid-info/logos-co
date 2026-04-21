@@ -507,7 +507,9 @@ function TypeStyles() {
           <p className="text-[18px] leading-[1.2] text-black md:w-[15.5%] md:shrink-0">
             Logos Design System
           </p>
-          <p className="text-[18px] leading-[1.2] text-black">Web Type Styles</p>
+          <p className="text-[18px] leading-[1.2] text-black">
+            Web Type Styles
+          </p>
         </div>
 
         {/* Column labels + breakpoint scale — desktop only */}
@@ -688,7 +690,7 @@ function CardGrid({ state }: { state: 'default' | 'hover' }) {
         />
       </div>
 
-      {/* Row 2: wide band — Networking Stack (no λ glyph in Figma) */}
+      {/* Row 2: wide band — Networking Stack (no Lambda icon glyph in Figma) */}
       <Card
         height={196}
         forceHover={isHover}
@@ -704,7 +706,7 @@ function CardGrid({ state }: { state: 'default' | 'hover' }) {
         ctaHref={isHover ? '#' : undefined}
       />
 
-      {/* Row 3: wide band — Foundation Kernel (no λ glyph in Figma) */}
+      {/* Row 3: wide band — Foundation Kernel (no Lambda icon glyph in Figma) */}
       <Card
         height={196}
         forceHover={isHover}

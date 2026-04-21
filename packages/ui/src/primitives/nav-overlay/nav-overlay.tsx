@@ -5,7 +5,7 @@
  *
  * Full-screen hamburger-menu dialog. Rendered when the user clicks "MENU"
  * in the fixed top bar. Self-contains its own top strip (LOGOS · CLOSE
- * MENU × · λ), body scroll lock, and Escape-key close.
+ * MENU × · Lambda icon), body scroll lock, and Escape-key close.
  *
  * Layout:
  *   Desktop (md+): two-col grid — Sitemap (left) · Community + Press (right)
@@ -61,7 +61,7 @@ export type NavOverlayProps = {
   /** Called when the user dismisses the overlay (close button, Escape, link click). */
   onClose: () => void
 
-  /** λ Logos lockup shown top-left of the overlay. */
+  /** Lambda icon Logos lockup shown top-left of the overlay. */
   logo?: ReactNode
   /** href for the logo. Defaults to `/`. */
   logoHref?: string
@@ -207,7 +207,7 @@ export function NavOverlay({
       aria-label="Navigation menu"
       className={`fixed inset-0 z-50 flex flex-col overflow-y-auto bg-brand-dark-green text-brand-off-white ${className ?? ''}`}
     >
-      {/* Top bar — LOGOS · CLOSE MENU × · λ */}
+      {/* Top bar — LOGOS · CLOSE MENU × · Lambda icon */}
       <div className="grid h-10 grid-cols-3 items-center px-3">
         <a
           href={logoHref}

@@ -8,7 +8,7 @@
  * grid columns 1–2, 7–8, and 11–12 — matching Figma's left (x=12),
  * center (x=726) and right (x=1203) anchor points.
  *
- *   Row 1 — image            · λ Logos               · tagline
+ *   Row 1 — image            · Lambda icon Logos               · tagline
  *   Row 2 — (empty)          · Work With Us + BG     · Twitter/Discord/…
  *   Row 3 — Built by IFT     · Research + VacP2P     · Infrastructure + Waku/…
  *   Row 4 — (empty)          · Terms/Privacy/Security · (empty)
@@ -50,13 +50,7 @@ function Link({ label, href, external }: FooterLink) {
   )
 }
 
-function LinkList({
-  label,
-  links,
-}: {
-  label?: string
-  links: FooterLink[]
-}) {
+function LinkList({ label, links }: { label?: string; links: FooterLink[] }) {
   return (
     <div className="flex flex-col gap-1">
       {label && (
@@ -104,7 +98,7 @@ export function Footer({
           </div>
         </div>
 
-        {/* λ Logos lockup — desktop col 7-8 row 1 / mobile col 2 row 1 */}
+        {/* Lambda icon Logos lockup — desktop col 7-8 row 1 / mobile col 2 row 1 */}
         <div className="row-start-1 md:col-start-7 md:col-end-9 md:row-start-1">
           {logo}
         </div>

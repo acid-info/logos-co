@@ -4,9 +4,9 @@
  * @figma-source internal-copy
  * @figma-ref    see docs/figma-trace.yaml
  *
- * Default state: transparent bg, dark-green border, centered λ + title.
+ * Default state: transparent bg, dark-green border, centered Lambda icon + title.
  * Hover state:   light-blue bg (no border); top-left thumbnail, top-right CTA,
- *                centered λ + title + description, optional bottom extras.
+ *                centered Lambda icon + title + description, optional bottom extras.
  *
  * The primitive is layout-agnostic — height, image, description, ctaHref
  * and children are all opt-in props controlled by the consumer.
@@ -19,13 +19,13 @@ function LambdaGlyph() {
       aria-hidden="true"
       className="font-display text-[18px] leading-none italic text-brand-dark-green"
     >
-      λ
+      Lambda icon
     </span>
   )
 }
 
 type CardProps = {
-  /** Title shown next to the λ glyph. */
+  /** Title shown next to the Lambda icon glyph. */
   title: ReactNode
   /** Supporting body copy (only rendered when provided). */
   description?: ReactNode
@@ -35,7 +35,7 @@ type CardProps = {
   ctaLabel?: string
   /** CTA href. Only renders a top-right CTA when provided. */
   ctaHref?: string
-  /** Show the λ glyph next to the title. Figma omits it on NS / FK cards. */
+  /** Show the Lambda icon glyph next to the title. Figma omits it on NS / FK cards. */
   showIcon?: boolean
   /** Pin the card in its hover state (for docs / parity with Figma "Hover" frame). */
   forceHover?: boolean

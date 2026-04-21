@@ -2,7 +2,7 @@
  * @figma-node   40009046:22948 (desktop) · 40009046:22697 (mobile)
  *
  * Site-wide footer. Wraps the <Footer> primitive with Logos-specific
- * content and the λ Logos lockup.
+ * content and the Lambda icon Logos lockup.
  */
 import Image from 'next/image'
 import { Footer, LogosMark } from '@repo/ui'
@@ -22,7 +22,9 @@ const SOCIAL_LINKS = [
   { label: 'Github', href: EXTERNAL_URLS.github, external: true },
 ]
 
-const RESEARCH_LINKS = [{ label: 'VacP2P', href: EXTERNAL_URLS.vacp2p, external: true }]
+const RESEARCH_LINKS = [
+  { label: 'VacP2P', href: EXTERNAL_URLS.vacp2p, external: true },
+]
 
 const INFRASTRUCTURE_LINKS = [
   { label: 'Waku', href: EXTERNAL_URLS.waku, external: true },
@@ -64,7 +66,11 @@ export default function SiteFooter() {
       researchLinks={RESEARCH_LINKS}
       infrastructureLinks={INFRASTRUCTURE_LINKS}
       legalLinks={LEGAL_LINKS}
-      builtBy={{ label: 'Built by', attribution: 'IFT', href: EXTERNAL_URLS.ift }}
+      builtBy={{
+        label: 'Built by',
+        attribution: 'IFT',
+        href: EXTERNAL_URLS.ift,
+      }}
     />
   )
 }

@@ -1,5 +1,5 @@
 /**
- * λ Logos brand mark.
+ * Lambda icon Logos brand mark.
  *
  * Uses `fill="currentColor"` so color is driven by the surrounding
  * text color (`text-brand-dark-green`, `text-brand-off-white`, etc.) —
@@ -25,7 +25,10 @@ export function LogosMark({
 }: LogosMarkProps) {
   const computedHeight = height ?? size
   const computedWidth =
-    width ?? (typeof computedHeight === 'number' ? (computedHeight * 93) / 126 : undefined)
+    width ??
+    (typeof computedHeight === 'number'
+      ? (computedHeight * 93) / 126
+      : undefined)
 
   return (
     <svg
