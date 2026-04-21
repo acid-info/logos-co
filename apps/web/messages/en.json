@@ -10,7 +10,10 @@
   "home": {
     "title": "main"
   },
-  "footer": {},
+  "footer": {
+    "tagline": "Pioneering a new era of freedom.",
+    "builtBy": "Built by"
+  },
   "pages": {
     "home": {
       "title": "Logos — Pioneering a New Era of Freedom",

@@ -1,3 +1,5 @@
+import { getTranslations } from 'next-intl/server'
+import { LogosMark } from '@repo/ui'
 import { ROUTES } from '@/constants/routes'
 import { createDefaultMetadata } from '@/utils/metadata'
 
@@ -7,18 +9,23 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'pages.security' })
   return createDefaultMetadata({
-    title: 'Security | Logos',
-    description: 'Security policies, disclosures, and responsible reporting for Logos.',
+    title: t('title'),
+    description: t('description'),
     locale,
     path: ROUTES.security,
   })
 }
 
-export default function SecurityPage() {
+export default async function SecurityPage() {
+  const t = await getTranslations('pages.security')
   return (
     <div className="px-3 pt-16 pb-12">
-      <h1 className="text-h2 text-brand-dark-green">Security</h1>
+      <h1 className="text-h2 flex items-center gap-3 text-brand-dark-green">
+        <LogosMark size={40} className="shrink-0" />
+        {t('heading')}
+      </h1>
     </div>
   )
 }

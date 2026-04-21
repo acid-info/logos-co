@@ -1,3 +1,5 @@
+import { getTranslations } from 'next-intl/server'
+import { LogosMark } from '@repo/ui'
 import { ROUTES } from '@/constants/routes'
 import { createDefaultMetadata } from '@/utils/metadata'
 
@@ -7,18 +9,23 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'pages.links' })
   return createDefaultMetadata({
-    title: 'Links | Logos',
-    description: 'Curated links to Logos ecosystem projects and resources.',
+    title: t('title'),
+    description: t('description'),
     locale,
     path: ROUTES.links,
   })
 }
 
-export default function LinksPage() {
+export default async function LinksPage() {
+  const t = await getTranslations('pages.links')
   return (
     <div className="px-3 pt-16 pb-12">
-      <h1 className="text-h2 text-brand-dark-green">Links</h1>
+      <h1 className="text-h2 flex items-center gap-3 text-brand-dark-green">
+        <LogosMark size={40} className="shrink-0" />
+        {t('heading')}
+      </h1>
     </div>
   )
 }

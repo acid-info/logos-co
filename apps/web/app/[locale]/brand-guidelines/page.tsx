@@ -1,3 +1,5 @@
+import { getTranslations } from 'next-intl/server'
+import { LogosMark } from '@repo/ui'
 import { ROUTES } from '@/constants/routes'
 import { createDefaultMetadata } from '@/utils/metadata'
 
@@ -7,18 +9,23 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'pages.brandGuidelines' })
   return createDefaultMetadata({
-    title: 'Brand Guidelines | Logos',
-    description: 'The Logos brand identity — logo usage, color palette, typography, and voice.',
+    title: t('title'),
+    description: t('description'),
     locale,
     path: ROUTES.brandGuidelines,
   })
 }
 
-export default function BrandGuidelinesPage() {
+export default async function BrandGuidelinesPage() {
+  const t = await getTranslations('pages.brandGuidelines')
   return (
     <div className="px-3 pt-16 pb-12">
-      <h1 className="text-h2 text-brand-dark-green">Brand Guidelines</h1>
+      <h1 className="text-h2 flex items-center gap-3 text-brand-dark-green">
+        <LogosMark size={40} className="shrink-0" />
+        {t('heading')}
+      </h1>
     </div>
   )
 }

@@ -5,6 +5,7 @@
  * content and the Lambda icon Logos lockup.
  */
 import Image from 'next/image'
+import { getTranslations } from 'next-intl/server'
 import { Footer, LogosMark } from '@repo/ui'
 
 import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
@@ -48,7 +49,8 @@ function LogosLockup() {
   )
 }
 
-export default function SiteFooter() {
+export default async function SiteFooter() {
+  const t = await getTranslations('footer')
   return (
     <Footer
       image={
@@ -60,14 +62,14 @@ export default function SiteFooter() {
         />
       }
       logo={<LogosLockup />}
-      tagline="Pioneering a new era of freedom."
+      tagline={t('tagline')}
       mainLinks={MAIN_LINKS}
       socialLinks={SOCIAL_LINKS}
       researchLinks={RESEARCH_LINKS}
       infrastructureLinks={INFRASTRUCTURE_LINKS}
       legalLinks={LEGAL_LINKS}
       builtBy={{
-        label: 'Built by',
+        label: t('builtBy'),
         attribution: 'IFT',
         href: EXTERNAL_URLS.ift,
       }}
