@@ -10,7 +10,8 @@
  */
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import clsx from 'clsx'
 import Image from 'next/image'
 
 import { LogosMark, NavOverlay } from '@repo/ui'
@@ -21,6 +22,7 @@ import type {
 } from '@repo/ui'
 
 import { ROUTES } from '@/constants/routes'
+import { usePathname } from '@/i18n/navigation'
 
 // ---------------------------------------------------------------------------
 // Static nav data — press items are placeholders until CMS is wired up
@@ -82,25 +84,29 @@ const COMMUNITY: NavOverlayCommunityCard[] = [
 const PRESS_ITEMS: NavOverlayPressItem[] = [
   {
     date: '02.14.26',
-    headline: 'Story of the Network: From CyberNetics to Blockchain Communities',
+    headline:
+      'Story of the Network: From CyberNetics to Blockchain Communities',
     href: '#',
     image: <Image src="/nav-overlay/press-1.png" alt="" fill sizes="160px" />,
   },
   {
     date: '02.14.26',
-    headline: 'Story of the Network: From CyberNetics to Blockchain Communities',
+    headline:
+      'Story of the Network: From CyberNetics to Blockchain Communities',
     href: '#',
     image: <Image src="/nav-overlay/press-2.png" alt="" fill sizes="160px" />,
   },
   {
     date: '02.14.26',
-    headline: 'Story of the Network: From CyberNetics to Blockchain Communities',
+    headline:
+      'Story of the Network: From CyberNetics to Blockchain Communities',
     href: '#',
     image: <Image src="/nav-overlay/press-3.png" alt="" fill sizes="160px" />,
   },
   {
     date: '02.14.26',
-    headline: 'Story of the Network: From CyberNetics to Blockchain Communities',
+    headline:
+      'Story of the Network: From CyberNetics to Blockchain Communities',
     href: '#',
     image: <Image src="/nav-overlay/press-4.png" alt="" fill sizes="160px" />,
   },
@@ -128,8 +134,8 @@ function HamburgerIcon() {
   )
 }
 
-function LambdaGlyph() {
-  return <LogosMark size={14} className="shrink-0 text-brand-dark-green" />
+function LambdaGlyph({ className }: { className?: string }) {
+  return <LogosMark size={14} className={clsx('shrink-0', className)} />
 }
 
 // ---------------------------------------------------------------------------
@@ -138,14 +144,49 @@ function LambdaGlyph() {
 
 export default function SiteHeader() {
   const [isOpen, setIsOpen] = useState(false)
+  const [hasPassedHero, setHasPassedHero] = useState(false)
+  const pathname = usePathname()
+
+  const isHome = pathname === ROUTES.home
   const open = () => setIsOpen(true)
   const close = () => setIsOpen(false)
+
+  useEffect(() => {
+    if (!isHome) {
+      setHasPassedHero(false)
+      return
+    }
+
+    const syncHeaderColor = () => {
+      setHasPassedHero(window.scrollY >= window.innerHeight)
+    }
+
+    syncHeaderColor()
+    window.addEventListener('scroll', syncHeaderColor, { passive: true })
+    window.addEventListener('resize', syncHeaderColor)
+
+    return () => {
+      window.removeEventListener('scroll', syncHeaderColor)
+      window.removeEventListener('resize', syncHeaderColor)
+    }
+  }, [isHome])
+
+  const headerToneClass = isHome
+    ? hasPassedHero
+      ? 'text-black'
+      : 'text-white'
+    : 'text-brand-dark-green'
 
   return (
     <>
       {/* Closed nav bar — fixed, sits above page content */}
       <header className="fixed left-0 right-0 top-0 z-50">
-        <div className="grid h-10 grid-cols-3 items-center px-3 text-brand-dark-green">
+        <div
+          className={clsx(
+            'grid h-10 grid-cols-3 items-center px-3 transition-colors duration-300',
+            headerToneClass
+          )}
+        >
           <a
             href={ROUTES.home}
             className="text-eyebrow cursor-pointer tracking-[0.12em] transition-opacity hover:opacity-70"
@@ -157,7 +198,7 @@ export default function SiteHeader() {
             <button
               type="button"
               onClick={open}
-              aria-expanded={false}
+              aria-expanded={isOpen}
               aria-label="Open navigation menu"
               className="text-eyebrow inline-flex cursor-pointer items-center gap-1.5 tracking-[0.08em] transition-opacity hover:opacity-70"
             >
@@ -166,7 +207,7 @@ export default function SiteHeader() {
           </div>
 
           <div className="flex justify-end">
-            <LambdaGlyph />
+            <LambdaGlyph className={headerToneClass} />
           </div>
         </div>
       </header>

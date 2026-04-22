@@ -45,7 +45,7 @@ export default async function RootLayout({
         </head>
         <body>
           <SiteHeader />
-          <main>{children}</main>
+          <main className="relative">{children}</main>
           <SiteFooter />
         </body>
       </html>

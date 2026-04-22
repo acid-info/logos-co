@@ -45,6 +45,7 @@ interface FeatureCardProps {
   bgImage: string
   cardTopOffset: number
   hasBackdropBlur?: boolean
+  priority?: boolean
 }
 
 function FeatureCard({
@@ -59,6 +60,7 @@ function FeatureCard({
   bgImage,
   cardTopOffset,
   hasBackdropBlur,
+  priority = false,
 }: FeatureCardProps) {
   const cardRef = useRef<HTMLDivElement>(null)
   const isInView = useInView(cardRef, { once: true, amount: 0.1 })
@@ -72,7 +74,7 @@ function FeatureCard({
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
       >
-        <Image src={bgImage} alt="" fill className="scale-110 object-cover" />
+        <Image src={bgImage} alt="" fill className="scale-110 object-cover" priority={priority} />
         <div className="absolute inset-0 bg-black/20" />
 
         <div className="relative z-10 flex h-full w-full">
@@ -145,6 +147,7 @@ export default function FeatureCardsSection() {
               ]}
               bgImage="/images/home/build-bg.jpg"
               cardTopOffset={50}
+              priority
             />
 
             <FeatureCard
