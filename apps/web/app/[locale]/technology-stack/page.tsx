@@ -1,5 +1,10 @@
 import { getTranslations } from 'next-intl/server'
 
+import TechOverviewHero from '@/components/sections/technology-stack/tech-overview-hero'
+import TechOverviewLogosApp from '@/components/sections/technology-stack/tech-overview-logos-app'
+import TechOverviewModular from '@/components/sections/technology-stack/tech-overview-modular'
+import TechOverviewStack from '@/components/sections/technology-stack/tech-overview-stack'
+import TechOverviewUseCases from '@/components/sections/technology-stack/tech-overview-use-cases'
 import { ROUTES } from '@/constants/routes'
 import { createDefaultMetadata } from '@/utils/metadata'
 
@@ -9,7 +14,10 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const t = await getTranslations({ locale, namespace: 'pages.technologyStack' })
+  const t = await getTranslations({
+    locale,
+    namespace: 'pages.technologyStack',
+  })
   return createDefaultMetadata({
     title: t('title'),
     description: t('description'),
@@ -18,11 +26,14 @@ export async function generateMetadata({
   })
 }
 
-export default async function TechnologyStackPage() {
-  const t = await getTranslations('pages.technologyStack')
+export default function TechnologyStackPage() {
   return (
-    <div className="px-3 pt-16 pb-12">
-      <h1 className="text-h2 text-brand-dark-green">{t('heading')}</h1>
-    </div>
+    <>
+      <TechOverviewHero />
+      <TechOverviewStack />
+      <TechOverviewLogosApp />
+      <TechOverviewModular />
+      <TechOverviewUseCases />
+    </>
   )
 }

@@ -49,7 +49,7 @@ export default async function MountainSection() {
                   <div className="pointer-events-auto">
                     <Button
                       href={ROUTES.press}
-                      className="bg-brand-off-white text-brand-dark-green backdrop-blur-none transition-opacity hover:opacity-80"
+                      className="bg-brand-off-white text-brand-dark-green! backdrop-blur-none transition-opacity hover:opacity-80"
                     >
                       {t('cta')}
                     </Button>

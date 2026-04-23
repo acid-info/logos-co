@@ -153,7 +153,48 @@
     "technologyStack": {
       "title": "Technology Stack | Logos",
       "description": "Modular by design. Storage, Messaging, Blockchain, and User Modules form the foundation for privacy-first decentralized applications.",
-      "heading": "The Logos Technology Stack"
+      "heading": "The Logos Technology Stack",
+      "introTop": "Open by design, open in spirit.",
+      "introSide": "Build truly decentralized applications with the modular Logos Technology Stack.",
+      "introBody": "The Logos Technology Stack is a unified ecosystem of distinct modules. The entire stack is modular so developers can assemble their own Logos-based platform with a different selection of modules.",
+      "stack": {
+        "storage": "Storage",
+        "messaging": "Messaging",
+        "blockchain": "Blockchain",
+        "userModules": "User Modules",
+        "networking": "The Networking Stack: Discovery, Peering, and Mix-Net",
+        "foundation": "The Foundation: Logos Kernel"
+      },
+      "logosApp": {
+        "description": "The Logos App is a a complete distribution that bundles the kernel, the default modules, and UI packages into a usable product. It provides the primary user interface, hosting “Simple Apps” that let users interact with the various modules:",
+        "wallet": "Wallet",
+        "chatInterface": "Chat Interface",
+        "filesharingTool": "Filesharing Tool",
+        "explorer": "Explorer",
+        "installCta": "Install",
+        "learnMoreCta": "Learn More"
+      },
+      "modular": {
+        "highlightedWord": "Modular",
+        "rest": "by design.",
+        "body1": "Logos provides developers with a modular, plugin-based runtime for building decentralised applications. Consolidated development and deployment across the Logos network.",
+        "body2": "This architecture allows nodes to dynamically discover and load modules while preserving privacy. This approach allows the network to evolve and provides a foundation for decentralised applications and social institutions that remain resistant to capture and corruption – whether deployed by local communities or nation-states."
+      },
+      "useCases": {
+        "tagline": "We know today’s systems are captured and brittle. We build alternatives to give people a choice. Build on Logos and serve your community.",
+        "tagline2": "Privacy-preserving blockchain for sovereign order and decentralised governance.",
+        "title": "Use Cases",
+        "cta": "View the Docs",
+        "learnMore": "Learn More",
+        "card1Title": "Attack Resistant Public Registries",
+        "card1Desc": "Privacy-preserving blockchain for sovereign order and decentralised governance.",
+        "card2Title": "Decentralized Archives",
+        "card2Desc": "Permanent, censorship-proof preservation of knowledge, culture, and history.",
+        "card3Title": "Private Financial Networks",
+        "card3Desc": "Money that moves securely and freely, without surveillance or control.",
+        "card4Title": "Community Governance Processes",
+        "card4Desc": "Self-organising groups can establish and enforce their own rules, with members engaging voluntarily."
+      }
     },
     "blockchain": {
       "title": "Blockchain | Logos",
