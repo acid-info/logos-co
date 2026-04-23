@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 
-import { Button, IconButton } from '@repo/ui'
+import { Button } from '@repo/ui'
 import { ROUTES } from '@/constants/routes'
 
 type UseCaseCard = {
@@ -29,6 +29,25 @@ function ArrowIcon({ direction }: { direction: 'left' | 'right' }) {
         <path d="M5 3L9 7L5 11" stroke="currentColor" strokeWidth="1.5" />
       )}
     </svg>
+  )
+}
+
+function ScrollControl({
+  direction,
+  onClick,
+}: {
+  direction: 'left' | 'right'
+  onClick: () => void
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={direction === 'left' ? 'Scroll left' : 'Scroll right'}
+      className="bg-brand-off-white/10 inline-flex size-10 items-center justify-center rounded-[4px] text-brand-dark-green backdrop-blur-[5px] transition-opacity hover:opacity-70"
+    >
+      <ArrowIcon direction={direction} />
+    </button>
   )
 }
 
@@ -194,22 +213,8 @@ export default function TechOverviewUseCases() {
           </h2>
 
           <div className="absolute left-0 top-[269px] flex gap-2.5">
-            <IconButton
-              aria-label="Scroll left"
-              variant="outline"
-              size="sm"
-              onClick={() => scroll('left')}
-            >
-              <ArrowIcon direction="left" />
-            </IconButton>
-            <IconButton
-              aria-label="Scroll right"
-              variant="outline"
-              size="sm"
-              onClick={() => scroll('right')}
-            >
-              <ArrowIcon direction="right" />
-            </IconButton>
+            <ScrollControl direction="left" onClick={() => scroll('left')} />
+            <ScrollControl direction="right" onClick={() => scroll('right')} />
           </div>
 
           <Button

@@ -55,7 +55,7 @@ export default async function SiteFooter() {
     <Footer
       image={
         <Image
-          src="/temp/footer-image.png"
+          src="/images/home/footer-image.jpg"
           alt=""
           fill
           sizes="(max-width: 768px) 83px, 226px"

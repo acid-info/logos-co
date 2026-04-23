@@ -12,7 +12,7 @@ function StackCard({ label, href }: StackCardProps) {
   return (
     <a
       href={href}
-      className="border-brand-dark-green/50 flex h-[258px] items-center justify-center rounded-3xl border transition-colors hover:border-brand-dark-green"
+      className="border-brand-dark-green/50 flex h-[258px] items-center justify-center rounded-3xl border transition-colors hover:border-brand-dark-green md:h-[366px]"
     >
       <span className="text-subhead-sans flex items-center gap-2 text-brand-dark-green">
         <LogosMark size={14} className="shrink-0" />

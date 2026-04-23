@@ -15,6 +15,7 @@ export default async function TechOverviewHero() {
             sizes="107px"
             className="object-cover"
           />
+          <div className="absolute inset-0 bg-black/30" />
         </div>
 
         <div className="hidden md:block">
@@ -39,6 +40,7 @@ export default async function TechOverviewHero() {
                 sizes="107px"
                 className="object-cover"
               />
+              <div className="absolute inset-0 bg-black/30" />
             </div>
 
             <p className="text-mono-s w-[178px] text-brand-dark-green">
