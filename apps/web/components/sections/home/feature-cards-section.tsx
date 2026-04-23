@@ -1,32 +1,12 @@
 'use client'
 
-import { useRef, type ReactNode } from 'react'
+import { useRef } from 'react'
 import { motion, useInView } from 'motion/react'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 
-import { LogosMark } from '@repo/ui'
+import { Button, LogosMark } from '@repo/ui'
 import { ROUTES } from '@/constants/routes'
-
-function ArrowRight() {
-  return (
-    <svg aria-hidden="true" viewBox="0 0 10 10" className="size-2.5 shrink-0" fill="none">
-      <path d="M2 5H8M8 5L5.5 2.5M8 5L5.5 7.5" stroke="currentColor" strokeWidth="1.2" />
-    </svg>
-  )
-}
-
-function CardCTA({ href, children }: { href: string; children: ReactNode }) {
-  return (
-    <a
-      href={href}
-      className="inline-flex cursor-pointer items-center gap-1 self-start rounded-xl bg-brand-off-white px-3 py-2 font-mono text-[10px] font-semibold uppercase leading-[1.35] text-brand-dark-green backdrop-blur-sm transition-all hover:bg-transparent hover:text-brand-off-white"
-    >
-      {children}
-      <ArrowRight />
-    </a>
-  )
-}
 
 interface TableRow {
   title: string
@@ -66,7 +46,7 @@ function FeatureCard({
   const isInView = useInView(cardRef, { once: true, amount: 0.1 })
 
   return (
-    <div ref={cardRef} className="sticky top-0 h-180.75" style={{ zIndex: 1 }}>
+    <div ref={cardRef} className="sticky top-0 z-[1] h-180.75">
       <motion.div
         className="absolute left-0 h-93.25 w-full overflow-hidden rounded-3xl"
         style={{ top: cardTopOffset }}
@@ -74,7 +54,13 @@ function FeatureCard({
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
       >
-        <Image src={bgImage} alt="" fill className="scale-110 object-cover" priority={priority} />
+        <Image
+          src={bgImage}
+          alt=""
+          fill
+          className="scale-110 object-cover"
+          priority={priority}
+        />
         <div className="absolute inset-0 bg-black/20" />
 
         <div className="relative z-10 flex h-full w-full">
@@ -82,14 +68,24 @@ function FeatureCard({
           <div className="flex w-129.5 shrink-0 flex-col justify-between p-6">
             <div className="flex flex-col gap-6">
               <div className="flex items-center gap-2.5">
-                <LogosMark size={26} className="shrink-0 text-brand-off-white" />
-                <span className="text-h3-serif text-brand-off-white">{eyebrow}</span>
+                <LogosMark
+                  size={26}
+                  className="shrink-0 text-brand-off-white"
+                />
+                <span className="text-h3-serif text-brand-off-white">
+                  {eyebrow}
+                </span>
               </div>
-              <p className="w-80 font-sans text-sm font-medium leading-[1.2] text-brand-off-white">
+              <p className="text-body-sans w-80 font-medium text-brand-off-white">
                 {description}
               </p>
             </div>
-            <CardCTA href={ctaHref}>{cta}</CardCTA>
+            <Button
+              href={ctaHref}
+              className="self-start bg-brand-off-white text-brand-dark-green transition-all hover:bg-transparent hover:text-brand-off-white"
+            >
+              {cta}
+            </Button>
           </div>
 
           {/* Right — table (desktop only) */}
@@ -112,7 +108,9 @@ function FeatureCard({
                       {row.title}
                     </span>
                   )}
-                  <span className="text-mono-s text-brand-off-white">{row.desc}</span>
+                  <span className="text-mono-s text-brand-off-white">
+                    {row.desc}
+                  </span>
                 </div>
               ))}
             </div>
@@ -127,7 +125,7 @@ export default function FeatureCardsSection() {
   const t = useTranslations('home')
 
   return (
-    <section className="-mt-80 relative" style={{ zIndex: 5 }}>
+    <section className="relative z-[5] -mt-80">
       <div className="pt-27">
         <div className="rounded-tl-[36px] rounded-tr-[36px] bg-brand-off-white pt-3">
           <div className="relative mx-auto max-w-354 px-3">

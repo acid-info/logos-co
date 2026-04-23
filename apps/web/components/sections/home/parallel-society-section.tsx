@@ -1,67 +1,8 @@
 import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 
+import { Button, ButtonArrowIcon } from '@repo/ui'
 import { ROUTES } from '@/constants/routes'
-
-function TextLink({
-  href,
-  children,
-}: {
-  href: string
-  children: React.ReactNode
-}) {
-  return (
-    <a
-      href={href}
-      className="inline-flex cursor-pointer items-center gap-1 font-mono text-[10px] font-semibold uppercase leading-[1.35] text-brand-dark-green transition-opacity hover:opacity-70"
-    >
-      <span className="border-b border-current pb-0.5">{children}</span>
-      <svg
-        aria-hidden="true"
-        viewBox="0 0 10 10"
-        className="size-2.5 shrink-0"
-        fill="none"
-      >
-        <path
-          d="M2 5H8M8 5L5.5 2.5M8 5L5.5 7.5"
-          stroke="currentColor"
-          strokeWidth="1.2"
-        />
-      </svg>
-    </a>
-  )
-}
-
-const GALLERY_IMAGES = [
-  {
-    src: '/images/home/event-1.jpg',
-    w: 407,
-    h: 502,
-    caption: 'Lorem ipsum',
-    date: '02.14.26',
-  },
-  {
-    src: '/images/home/event-2.jpg',
-    w: 534,
-    h: 667,
-    caption: 'Lorem ipsum',
-    date: '02.14.26',
-  },
-  {
-    src: '/images/home/event-3.jpg',
-    w: 466,
-    h: 577,
-    caption: 'Lorem ipsum',
-    date: '02.14.26',
-  },
-  {
-    src: '/images/home/event-4.jpg',
-    w: 596,
-    h: 402,
-    caption: 'Lorem ipsum',
-    date: '02.14.26',
-  },
-]
 
 function MobileGalleryCard({
   src,
@@ -130,6 +71,36 @@ export default async function ParallelSocietySection() {
   const t = await getTranslations('home.parallelSociety')
   const headline = t('headline')
   const [before, after] = headline.split('Parallel Society')
+  const galleryImages = [
+    {
+      src: '/images/home/event-1.jpg',
+      w: 407,
+      h: 502,
+      caption: t('gallery1Caption'),
+      date: t('gallery1Date'),
+    },
+    {
+      src: '/images/home/event-2.jpg',
+      w: 534,
+      h: 667,
+      caption: t('gallery2Caption'),
+      date: t('gallery2Date'),
+    },
+    {
+      src: '/images/home/event-3.jpg',
+      w: 466,
+      h: 577,
+      caption: t('gallery3Caption'),
+      date: t('gallery3Date'),
+    },
+    {
+      src: '/images/home/event-4.jpg',
+      w: 596,
+      h: 402,
+      caption: t('gallery4Caption'),
+      date: t('gallery4Date'),
+    },
+  ]
 
   return (
     <section className="overflow-hidden bg-brand-off-white py-20 md:py-28">
@@ -146,7 +117,14 @@ export default async function ParallelSocietySection() {
         </h2>
 
         <div className="mb-10 flex justify-center">
-          <TextLink href={ROUTES.press}>{t('cta')}</TextLink>
+          <Button
+            href={ROUTES.press}
+            variant="link"
+            icon={<ButtonArrowIcon />}
+            className="transition-opacity hover:opacity-70"
+          >
+            {t('cta')}
+          </Button>
         </div>
       </div>
 
@@ -155,7 +133,7 @@ export default async function ParallelSocietySection() {
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         <div className="flex w-max snap-x snap-mandatory items-start gap-3 pr-3">
-          {GALLERY_IMAGES.map(({ src, caption, date }) => (
+          {galleryImages.map(({ src, caption, date }) => (
             <MobileGalleryCard
               key={src}
               src={src}
@@ -171,7 +149,7 @@ export default async function ParallelSocietySection() {
         className="hidden items-start gap-3 px-3 md:flex"
         style={{ marginLeft: '-141px', width: 'calc(100% + 282px)' }}
       >
-        {GALLERY_IMAGES.map(({ src, w, h, caption, date }) => (
+        {galleryImages.map(({ src, w, h, caption, date }) => (
           <DesktopGalleryCard
             key={src}
             src={src}

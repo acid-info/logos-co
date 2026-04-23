@@ -46,7 +46,7 @@ type ButtonElementProps = CommonProps &
 
 export type ButtonProps = AnchorProps | ButtonElementProps
 
-function RightArrow() {
+export function ButtonArrowIcon() {
   // 15×15 frame with 10×10 arrow centred — matches Figma's Icons / Right arrow.
   return (
     <svg
@@ -77,22 +77,14 @@ const containerByVariant: Record<ButtonVariant, string> = {
 }
 
 export function Button(props: ButtonProps) {
-  const {
-    children,
-    variant = 'primary',
-    icon,
-    className,
-    ...rest
-  } = props
+  const { children, variant = 'primary', icon, className, ...rest } = props
 
   const resolvedIcon =
-    icon === false
-      ? null
-      : icon !== undefined
-        ? icon
-        : variant === 'link'
-          ? null
-          : <RightArrow />
+    icon === false ? null : icon !== undefined ? (
+      icon
+    ) : variant === 'link' ? null : (
+      <ButtonArrowIcon />
+    )
 
   const isLink = variant === 'link'
   const labelClass = `font-mono text-[10px] leading-[1.35] font-semibold uppercase whitespace-nowrap ${

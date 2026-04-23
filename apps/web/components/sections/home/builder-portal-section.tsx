@@ -4,6 +4,11 @@ import Image from 'next/image'
 import { Button, LogosMark } from '@repo/ui'
 import { ROUTES } from '@/constants/routes'
 
+const BUILDER_PORTAL_IMAGE_OVERLAY =
+  'linear-gradient(to bottom, rgba(0,0,0,0.3) 25.835%, rgba(0,0,0,0) 50%)'
+const DESKTOP_FEATURE_TOP_START = 213
+const DESKTOP_FEATURE_TOP_STEP = 92
+
 type ExampleRow = {
   title: string
   desc: string
@@ -40,10 +45,7 @@ function BuilderPortalImage({
 
       <div
         className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            'linear-gradient(to bottom, rgba(0,0,0,0.3) 25.835%, rgba(0,0,0,0) 50%)',
-        }}
+        style={{ background: BUILDER_PORTAL_IMAGE_OVERLAY }}
       />
 
       <div
@@ -136,7 +138,7 @@ export default async function BuilderPortalSection() {
 
           <div className="mt-10">
             <p className="text-eyebrow mb-7 text-center text-brand-dark-green">
-              Use Cases
+              {t('useCasesLabel')}
             </p>
 
             <div className="flex flex-col gap-3">
@@ -149,15 +151,15 @@ export default async function BuilderPortalSection() {
 
         <div className="hidden gap-3 pt-3 md:flex">
           <div className="relative h-174 w-175.5 shrink-0 text-brand-dark-green">
-            <h2 className="absolute top-1.25 w-145.5 font-display text-[56px] leading-none tracking-[-1.68px]">
-              {t('title')}
-            </h2>
+            <h2 className="text-h2 absolute top-1.25 w-145.5">{t('title')}</h2>
 
             {features.map((feature, index) => (
               <div
                 key={feature.id}
                 className="absolute w-86.25 -translate-y-full"
-                style={{ top: `${213 + index * 92}px` }}
+                style={{
+                  top: `${DESKTOP_FEATURE_TOP_START + index * DESKTOP_FEATURE_TOP_STEP}px`,
+                }}
               >
                 <p className="text-mono-s">
                   <span className="inline-block w-30">{feature.id}</span>

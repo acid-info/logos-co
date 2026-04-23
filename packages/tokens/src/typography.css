@@ -10,13 +10,15 @@
 
 @theme {
   --font-display:
-    var(--next-font-display), 'Rhymes Display', 'Times New Roman', ui-serif, Georgia, serif;
+    var(--next-font-display), 'Rhymes Display', 'Times New Roman', ui-serif,
+    Georgia, serif;
   --font-sans:
-    var(--next-font-sans), 'Public Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
+    var(--next-font-sans), 'Public Sans', ui-sans-serif, system-ui,
+    -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --font-mono:
-    var(--next-font-mono), 'Fira Code', 'Fira Mono', ui-monospace, SFMono-Regular, Menlo, Monaco,
-    Consolas, 'Liberation Mono', 'Courier New', monospace;
+    var(--next-font-mono), 'Fira Code', 'Fira Mono', ui-monospace,
+    SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+    monospace;
 }
 
 /*
@@ -80,6 +82,13 @@
   letter-spacing: -0.01em;
 }
 
+@utility text-card-title-serif {
+  font-family: var(--font-display);
+  font-size: 1.75rem; /* 28px */
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
 @utility text-subhead-serif {
   font-family: var(--font-display);
   font-size: 1.125rem; /* 18px */
@@ -123,6 +132,13 @@
 @utility text-body-sans {
   font-family: var(--font-sans);
   font-size: 0.875rem; /* 14px */
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+@utility text-caption-sans {
+  font-family: var(--font-sans);
+  font-size: 0.75rem; /* 12px */
   line-height: 1.2;
   letter-spacing: 0;
 }

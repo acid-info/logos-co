@@ -1,5 +1,10 @@
 {
-  "locale": { "language": "Language", "en": "English", "fr": "Français", "ko": "한국어" },
+  "locale": {
+    "language": "Language",
+    "en": "English",
+    "fr": "Français",
+    "ko": "한국어"
+  },
   "common": {
     "nav": {
       "resources": "Resources",
@@ -51,7 +56,13 @@
     "techStack": {
       "tagline": "A unified ecosystem. Private-by-default. Built for real life.",
       "title": "The Logos Technology Stack",
-      "cta": "See the Stack"
+      "cta": "See the Stack",
+      "storage": "Storage",
+      "messaging": "Messaging",
+      "blockchain": "Blockchain",
+      "userModules": "User Modules",
+      "networkingStack": "The Networking Stack: Discovery, Peering, and Mix-Net",
+      "foundation": "The Foundation: Logos Kernel"
     },
     "useCases": {
       "tagline": "We know today's systems are captured and brittle. We build alternatives to give people a choice. Build on Logos and serve your community.",
@@ -70,7 +81,15 @@
     },
     "parallelSociety": {
       "headline": "Parallel Society is a two-day event in Lisbon where music, art, and technology converge.",
-      "cta": "Learn More"
+      "cta": "Learn More",
+      "gallery1Caption": "Lorem ipsum",
+      "gallery1Date": "02.14.26",
+      "gallery2Caption": "Lorem ipsum",
+      "gallery2Date": "02.14.26",
+      "gallery3Caption": "Lorem ipsum",
+      "gallery3Date": "02.14.26",
+      "gallery4Caption": "Lorem ipsum",
+      "gallery4Date": "02.14.26"
     },
     "builderPortal": {
       "title": "The Logos Builder Portal",
@@ -85,6 +104,7 @@
       "example3Desc": "Use existing languages to interact with Lorem Ipsum and other applications",
       "example4Title": "An open, permissionless DNS",
       "example4Desc": "Re-imagine existing services as decentralized, open applications",
+      "useCasesLabel": "Use Cases",
       "buildLabel": "BUILD",
       "buildDesc": "Operate early. Help harden a private-by-default network that protects civil liberties and strengthens trust in our communities.",
       "cta": "Get Involved"

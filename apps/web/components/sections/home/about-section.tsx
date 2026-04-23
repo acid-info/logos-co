@@ -27,12 +27,15 @@ export default async function AboutSection() {
           <div className="absolute inset-0 bg-linear-to-b from-transparent via-black/10 to-black/70" />
 
           <div className="absolute inset-x-6 bottom-6 flex gap-4">
-            <LogosMark size={18} className="mt-1 shrink-0 text-brand-off-white" />
+            <LogosMark
+              size={18}
+              className="mt-1 shrink-0 text-brand-off-white"
+            />
             <div className="flex flex-col gap-3">
-              <p className="font-display text-[28px] leading-[1.1] text-brand-off-white">
+              <p className="text-card-title-serif text-brand-off-white">
                 {t('headline')}
               </p>
-              <p className="font-sans text-xs font-medium leading-[1.2] text-brand-off-white/80">
+              <p className="text-caption-sans font-medium text-brand-off-white/80">
                 {t('body')}
               </p>
             </div>

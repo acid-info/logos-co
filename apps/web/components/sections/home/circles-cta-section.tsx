@@ -1,47 +1,8 @@
 import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 
+import { Button, ButtonArrowIcon, IconButton } from '@repo/ui'
 import { ROUTES } from '@/constants/routes'
-
-function PrimaryBtn({
-  href,
-  children,
-}: {
-  href: string
-  children: React.ReactNode
-}) {
-  return (
-    <a
-      href={href}
-      className="inline-flex cursor-pointer items-center gap-1 rounded-xl bg-brand-dark-green px-3 py-2 font-mono text-[10px] font-semibold uppercase leading-[1.35] text-brand-off-white transition-opacity hover:opacity-70"
-    >
-      {children}
-      <svg aria-hidden="true" viewBox="0 0 10 10" className="size-2.5 shrink-0" fill="none">
-        <path d="M2 5H8M8 5L5.5 2.5M8 5L5.5 7.5" stroke="currentColor" strokeWidth="1.2" />
-      </svg>
-    </a>
-  )
-}
-
-function TextLink({
-  href,
-  children,
-}: {
-  href: string
-  children: React.ReactNode
-}) {
-  return (
-    <a
-      href={href}
-      className="inline-flex cursor-pointer items-center gap-1 font-mono text-[10px] font-semibold uppercase leading-[1.35] text-brand-dark-green transition-opacity hover:opacity-70"
-    >
-      <span className="border-b border-current pb-0.5">{children}</span>
-      <svg aria-hidden="true" viewBox="0 0 10 10" className="size-2.5 shrink-0" fill="none">
-        <path d="M2 5H8M8 5L5.5 2.5M8 5L5.5 7.5" stroke="currentColor" strokeWidth="1.2" />
-      </svg>
-    </a>
-  )
-}
 
 export default async function CirclesCtaSection() {
   const t = await getTranslations('home.circlesCta')
@@ -61,29 +22,43 @@ export default async function CirclesCtaSection() {
           </p>
 
           <div className="mt-8 flex items-center gap-4">
-            <PrimaryBtn href={ROUTES.circles}>{t('findCta')}</PrimaryBtn>
-            <TextLink href={ROUTES.circles}>{t('startCta')}</TextLink>
+            <Button
+              href={ROUTES.circles}
+              className="transition-opacity hover:opacity-70"
+            >
+              {t('findCta')}
+            </Button>
+            <Button
+              href={ROUTES.circles}
+              variant="link"
+              icon={<ButtonArrowIcon />}
+              className="transition-opacity hover:opacity-70"
+            >
+              {t('startCta')}
+            </Button>
           </div>
         </div>
 
         {/* World map */}
         <div className="mt-14 aspect-1416/710 overflow-hidden rounded-2xl bg-brand-dark-green/10">
           <div className="relative h-full w-full">
-            <Image src="/images/home/world-map-img.jpg" alt="World map showing Logos Circles locations" fill className="object-cover opacity-80" />
+            <Image
+              src="/images/home/world-map-img.jpg"
+              alt="World map showing Logos Circles locations"
+              fill
+              className="object-cover opacity-80"
+            />
             {/* Zoom controls */}
             <div className="absolute top-4 right-4 flex gap-2">
-              <button
+              <IconButton
                 aria-label="Zoom out"
-                className="flex size-16 cursor-pointer items-center justify-center rounded-full bg-brand-dark-green font-display text-lg text-brand-off-white transition-opacity hover:opacity-80"
+                className="font-display text-lg"
               >
                 &minus;
-              </button>
-              <button
-                aria-label="Zoom in"
-                className="flex size-16 cursor-pointer items-center justify-center rounded-full bg-brand-dark-green font-display text-lg text-brand-off-white transition-opacity hover:opacity-80"
-              >
+              </IconButton>
+              <IconButton aria-label="Zoom in" className="font-display text-lg">
                 +
-              </button>
+              </IconButton>
             </div>
           </div>
         </div>

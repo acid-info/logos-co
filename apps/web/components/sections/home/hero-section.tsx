@@ -1,42 +1,11 @@
 'use client'
 
-import { useRef, type ReactNode } from 'react'
+import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'motion/react'
 import { useTranslations } from 'next-intl'
 
+import { Button } from '@repo/ui'
 import { ROUTES } from '@/constants/routes'
-
-function ArrowRight() {
-  return (
-    <svg aria-hidden="true" viewBox="0 0 10 10" className="size-2.5 shrink-0" fill="none">
-      <path d="M2 5H8M8 5L5.5 2.5M8 5L5.5 7.5" stroke="currentColor" strokeWidth="1.2" />
-    </svg>
-  )
-}
-
-function PrimaryBtn({ href, children }: { href: string; children: ReactNode }) {
-  return (
-    <a
-      href={href}
-      className="inline-flex cursor-pointer items-center gap-1 rounded-xl bg-brand-off-white px-3 py-2 font-mono text-[10px] font-semibold uppercase leading-[1.35] text-brand-dark-green backdrop-blur-sm transition-all hover:bg-transparent hover:text-brand-off-white"
-    >
-      {children}
-      <ArrowRight />
-    </a>
-  )
-}
-
-function OutlineBtn({ href, children }: { href: string; children: ReactNode }) {
-  return (
-    <a
-      href={href}
-      className="inline-flex cursor-pointer items-center gap-1 border border-brand-off-white/50 px-3 py-2 font-mono text-[10px] font-semibold uppercase leading-[1.35] text-brand-off-white backdrop-blur-sm transition-all hover:bg-brand-off-white hover:text-brand-dark-green"
-    >
-      {children}
-      <ArrowRight />
-    </a>
-  )
-}
 
 export default function HeroSection() {
   const t = useTranslations('home.atf')
@@ -71,7 +40,10 @@ export default function HeroSection() {
       </motion.div>
 
       {/* Content */}
-      <motion.div className="relative flex h-full flex-col" style={{ opacity: contentOpacity }}>
+      <motion.div
+        className="relative flex h-full flex-col"
+        style={{ opacity: contentOpacity }}
+      >
         {/* Headline */}
         <motion.h1
           className="text-hero text-brand-off-white mt-41.25 w-full text-center leading-[0.95]"
@@ -89,10 +61,23 @@ export default function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1], delay: 0.8 }}
         >
-          <p className="text-mono-s text-brand-off-white w-56.5">{t('tagline')}</p>
+          <p className="text-mono-s text-brand-off-white w-56.5">
+            {t('tagline')}
+          </p>
           <div className="flex items-center gap-1.5">
-            <PrimaryBtn href={ROUTES.circles}>{t('joinMovement')}</PrimaryBtn>
-            <OutlineBtn href={ROUTES.about}>{t('learnMore')}</OutlineBtn>
+            <Button
+              href={ROUTES.circles}
+              className="bg-brand-off-white text-brand-dark-green transition-all hover:bg-transparent hover:text-brand-off-white"
+            >
+              {t('joinMovement')}
+            </Button>
+            <Button
+              href={ROUTES.about}
+              variant="secondary"
+              className="rounded-xl border-brand-off-white/50 text-brand-off-white backdrop-blur-sm transition-all hover:bg-brand-off-white hover:text-brand-dark-green"
+            >
+              {t('learnMore')}
+            </Button>
           </div>
         </motion.div>
       </motion.div>
