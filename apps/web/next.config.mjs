@@ -4,13 +4,14 @@ import createNextIntlPlugin from 'next-intl/plugin'
 
 const withNextIntl = createNextIntlPlugin()
 const workspaceRoot = fileURLToPath(new URL('../..', import.meta.url))
+const isProduction = process.env.NODE_ENV === 'production'
 
 const nextConfig = {
   basePath: process.env.BASE_PATH || undefined,
   images: {
     unoptimized: true,
   },
-  output: 'export',
+  ...(isProduction && { output: 'export' }),
   reactStrictMode: true,
   transpilePackages: ['@repo/ui'],
   trailingSlash: false,
