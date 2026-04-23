@@ -48,7 +48,7 @@ export async function createDefaultMetadata({
       siteName: siteConfig.name,
       images: [
         {
-          url: absoluteUrl('/og'),
+          url: absoluteUrl('/images/home/hero-bg.jpg'),
           width: 1200,
           height: 630,
           alt: title,
@@ -59,7 +59,7 @@ export async function createDefaultMetadata({
       card: 'summary_large_image',
       title,
       description,
-      images: [absoluteUrl('/og')],
+      images: [absoluteUrl('/images/home/hero-bg.jpg')],
     },
     icons: '/favicon.ico',
     creator: siteConfig.name,

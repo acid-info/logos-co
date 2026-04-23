@@ -21,8 +21,7 @@
     "**/*.ts",
     "**/*.tsx",
     "**/*.mjs",
-    "**/*.json",
-    "proxy.ts"
+    "**/*.json"
   ],
   "exclude": ["node_modules"]
 }

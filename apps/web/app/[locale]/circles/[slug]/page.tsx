@@ -3,7 +3,14 @@ import { getTranslations } from 'next-intl/server'
 import { LogosMark } from '@repo/ui'
 
 import { ROUTES } from '@/constants/routes'
+import { routing } from '@/i18n/routing'
 import { createDefaultMetadata } from '@/utils/metadata'
+
+export const dynamicParams = false
+
+export function generateStaticParams() {
+  return routing.locales.flatMap((locale) => [{ locale, slug: 'global' }])
+}
 
 function slugToCity(slug: string) {
   return slug

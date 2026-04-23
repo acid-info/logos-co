@@ -4,8 +4,16 @@ import { themeInitScript } from '@/utils/theme'
 import { fontVariables } from '@/app/fonts'
 import SiteHeader from '@/components/site-headaer'
 import SiteFooter from '@/components/site-footer'
+import { routing } from '@/i18n/routing'
 
 import { NextIntlClientProvider } from 'next-intl'
+import { setRequestLocale } from 'next-intl/server'
+
+export const dynamicParams = false
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }))
+}
 
 export default async function RootLayout({
   children,
@@ -15,6 +23,7 @@ export default async function RootLayout({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
+  setRequestLocale(locale)
 
   return (
     <NextIntlClientProvider>
