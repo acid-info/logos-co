@@ -18,6 +18,7 @@ import type {
   ButtonHTMLAttributes,
   ReactNode,
 } from 'react'
+import { twMerge } from 'tailwind-merge'
 
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'link'
 
@@ -98,7 +99,7 @@ export function Button(props: ButtonProps) {
     </span>
   )
 
-  const classes = `${containerByVariant[variant]} ${className ?? ''}`
+  const classes = twMerge(containerByVariant[variant], className)
 
   if ('href' in rest && rest.href !== undefined) {
     const { href, ...anchorRest } =
