@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 
-import { Button, ButtonArrowIcon } from '@repo/ui'
+import { Button, ButtonArrowIcon } from '@/components/ui'
 
 import { ROUTES } from '@/constants/routes'
 
@@ -23,7 +23,7 @@ function ArticleCard({
   return (
     <a
       href={href}
-      className="group flex w-[339px] shrink-0 cursor-pointer flex-col gap-1.5 md:w-auto"
+      className="group flex w-84.75 shrink-0 cursor-pointer flex-col gap-1.5 md:w-auto"
     >
       <div className="aspect-339/431 w-full overflow-hidden">
         <Image
@@ -79,17 +79,49 @@ export default async function BlockchainRelatedArticles() {
 
   return (
     <section className="bg-brand-off-white">
-      <div className="mx-auto max-w-354 px-3 py-3">
-        <div className="relative overflow-hidden rounded-xl bg-accent-tan px-3 pt-6 pb-10 md:pb-14">
-          {/* Header row */}
+      <div className="mx-auto max-w-360 px-3 py-3">
+        {/* Desktop: Figma-exact absolute layout (tan bg w-1416, h-856) */}
+        <div className="relative hidden h-214 overflow-hidden rounded-xl bg-accent-tan md:block">
+          <p className="text-mono-s absolute top-6 left-3 w-56.5 text-brand-dark-green">
+            {t('label')}
+          </p>
+          <p className="text-mono-s absolute top-6 left-178.5 w-56.5 text-brand-dark-green">
+            {t('eyebrow')}
+          </p>
+          <div className="absolute top-5.5 left-297.5">
+            <Button
+              href={ROUTES.press}
+              variant="link"
+              icon={<ButtonArrowIcon />}
+              className="cursor-pointer transition-opacity hover:opacity-70"
+            >
+              {t('cta')}
+            </Button>
+          </div>
+          <h2 className="text-h3-serif absolute top-25.5 left-1/2 w-116 -translate-x-1/2 text-center whitespace-nowrap text-brand-dark-green">
+            {t('title')}
+          </h2>
+          <div className="absolute top-60.25 right-3 left-3 grid grid-cols-4 gap-3">
+            {articles.map((a) => (
+              <ArticleCard
+                key={a.title}
+                title={a.title}
+                imageSrc={a.src}
+                date={a.date}
+                author={a.author}
+                href={ROUTES.press}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Mobile: simple stacked flow */}
+        <div className="overflow-hidden rounded-xl bg-accent-tan px-3 pt-6 pb-10 md:hidden">
           <div className="flex items-start justify-between">
-            <p className="text-mono-s w-[226px] max-w-[50%] text-brand-dark-green">
+            <p className="text-mono-s w-56.5 max-w-[50%] text-brand-dark-green">
               {t('label')}
             </p>
-            <p className="text-mono-s hidden w-[226px] text-center text-brand-dark-green md:block">
-              {t('eyebrow')}
-            </p>
-            <div className="flex w-[226px] max-w-[50%] justify-end">
+            <div className="flex w-56.5 max-w-[50%] justify-end">
               <Button
                 href={ROUTES.press}
                 variant="link"
@@ -100,14 +132,10 @@ export default async function BlockchainRelatedArticles() {
               </Button>
             </div>
           </div>
-
-          {/* Title */}
-          <h2 className="text-h3-serif mt-[65px] whitespace-nowrap text-center text-brand-dark-green">
+          <h2 className="text-h3-serif mt-16.25 text-center whitespace-nowrap text-brand-dark-green">
             {t('title')}
           </h2>
-
-          {/* Cards */}
-          <div className="mt-[70px] flex gap-3 overflow-x-auto md:grid md:grid-cols-4 md:overflow-visible">
+          <div className="mt-17.5 flex gap-3 overflow-x-auto">
             {articles.map((a) => (
               <ArticleCard
                 key={a.title}

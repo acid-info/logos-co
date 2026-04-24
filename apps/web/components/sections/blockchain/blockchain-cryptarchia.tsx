@@ -1,7 +1,8 @@
 import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 
-import { Button, LogosMark } from '@repo/ui'
+import { LogosMark } from '@repo/ui'
+import { Button } from '@/components/ui'
 
 function SectionEyebrow({
   label,
@@ -11,9 +12,9 @@ function SectionEyebrow({
   className?: string
 }) {
   return (
-    <div className={`flex items-start gap-[102px] ${className}`}>
+    <div className={`flex items-start gap-25.5 ${className}`}>
       <LogosMark size={9} className="shrink-0 text-brand-dark-green" />
-      <p className="text-eyebrow w-[185px] text-brand-dark-green">{label}</p>
+      <p className="text-eyebrow w-46.25 text-brand-dark-green">{label}</p>
     </div>
   )
 }
@@ -52,7 +53,7 @@ function CryptarchiaImage({
         width={755}
         height={943}
         sizes={sizes}
-        className="absolute top-[-172px] left-[-28px] h-[943px] w-[755px] max-w-none object-cover"
+        className="absolute top--43 left-[-28px] h-[943px] w-[755px] max-w-none object-cover"
       />
       {children}
     </div>
@@ -71,9 +72,9 @@ export default async function BlockchainCryptarchia() {
   return (
     <section className="bg-gray-02">
       {/* Desktop: 1440×600, image left + centered text right */}
-      <div className="mx-auto hidden max-w-354 p-3 md:block">
-        <div className="flex h-[576px] items-start gap-3">
-          <CryptarchiaImage className="h-[576px] min-w-0 flex-1">
+      <div className="mx-auto hidden max-w-360 p-3 md:block">
+        <div className="flex h-144 items-start justify-between">
+          <CryptarchiaImage className="h-144 w-175.5">
             <div className="absolute right-3 bottom-3 left-3 flex items-start gap-3">
               <div className="flex-1">
                 <Card {...blendCard} />
@@ -84,12 +85,12 @@ export default async function BlockchainCryptarchia() {
             </div>
           </CryptarchiaImage>
 
-          <div className="flex h-full min-w-0 flex-1 flex-col justify-between pb-3">
+          <div className="flex h-full w-175.5 flex-col justify-between pb-3">
             <SectionEyebrow label={t('eyebrow')} />
 
             <div className="flex flex-col items-center justify-center gap-1.5 text-center text-brand-dark-green">
-              <p className="text-h4-sans w-[214px]">{t('title')}</p>
-              <p className="w-[305px] font-sans text-[12px] leading-[1.2] font-medium">
+              <p className="text-h4-sans w-53.5">{t('title')}</p>
+              <p className="w-76.25 font-sans text-[12px] leading-[1.2] font-medium">
                 {t('body')}
               </p>
             </div>
@@ -100,8 +101,8 @@ export default async function BlockchainCryptarchia() {
       </div>
 
       {/* Mobile: stacked — text (288h) + image (576h with 2 cards at bottom) */}
-      <div className="mx-auto flex max-w-354 flex-col gap-3 p-3 md:hidden">
-        <div className="flex h-[288px] flex-col justify-between">
+      <div className="mx-auto flex max-w-360 flex-col gap-3 p-3 md:hidden">
+        <div className="flex h-72 flex-col justify-between">
           <SectionEyebrow label={t('eyebrow')} />
 
           <div className="flex flex-col gap-6">
@@ -119,7 +120,7 @@ export default async function BlockchainCryptarchia() {
           <SectionEyebrow label="Storage" className="opacity-0" />
         </div>
 
-        <CryptarchiaImage sizes="100vw" className="h-[576px] w-full">
+        <CryptarchiaImage sizes="100vw" className="h-144 w-full">
           <div className="absolute right-3 bottom-3 left-3 flex flex-col gap-3">
             <Card {...blendCard} />
             <Card {...lezCard} />

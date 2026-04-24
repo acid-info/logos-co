@@ -18,6 +18,8 @@
  */
 import type { ReactNode } from 'react'
 
+import type { LinkLikeComponent } from '../button/button'
+
 export type FooterLink = {
   label: string
   href: string
@@ -34,30 +36,55 @@ export type FooterProps = {
   infrastructureLinks: FooterLink[]
   legalLinks: FooterLink[]
   builtBy?: { label: string; attribution: ReactNode; href?: string }
+  /** Override the internal-link element (e.g. pass next-intl's `Link`). External links always use `<a>`. Defaults to `'a'`. */
+  linkAs?: LinkLikeComponent
   className?: string
 }
 
-function Link({ label, href, external }: FooterLink) {
+function FooterLinkItem({
+  label,
+  href,
+  external,
+  linkAs: LinkAs = 'a',
+}: FooterLink & { linkAs?: LinkLikeComponent }) {
   const external_ = external || href.startsWith('http')
+  const className =
+    'text-mono-s text-brand-off-white transition-opacity hover:opacity-70'
+  if (external_) {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={className}
+      >
+        {label}
+      </a>
+    )
+  }
   return (
-    <a
-      href={href}
-      {...(external_ ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-      className="text-mono-s text-brand-off-white transition-opacity hover:opacity-70"
-    >
+    <LinkAs href={href} className={className}>
       {label}
-    </a>
+    </LinkAs>
   )
 }
 
-function LinkList({ label, links }: { label?: string; links: FooterLink[] }) {
+function LinkList({
+  label,
+  links,
+  linkAs,
+}: {
+  label?: string
+  links: FooterLink[]
+  linkAs?: LinkLikeComponent
+}) {
   return (
     <div className="flex flex-col gap-1">
       {label && (
         <p className="text-eyebrow mb-1 text-brand-off-white">{label}</p>
       )}
       {links.map((link) => (
-        <Link key={link.href} {...link} />
+        <FooterLinkItem key={link.href} {...link} linkAs={linkAs} />
       ))}
     </div>
   )

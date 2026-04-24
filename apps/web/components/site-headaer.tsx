@@ -22,7 +22,7 @@ import type {
 } from '@repo/ui'
 
 import { ROUTES } from '@/constants/routes'
-import { usePathname } from '@/i18n/navigation'
+import { Link, usePathname } from '@/i18n/navigation'
 
 // ---------------------------------------------------------------------------
 // Static nav data — press items are placeholders until CMS is wired up
@@ -189,7 +189,7 @@ export default function SiteHeader() {
         >
           <a
             href={ROUTES.home}
-            className="text-eyebrow cursor-pointer tracking-[0.12em] transition-opacity hover:opacity-70"
+            className="text-eyebrow w-fit cursor-pointer tracking-[0.12em] transition-opacity hover:opacity-70"
           >
             LOGOS
           </a>
@@ -220,6 +220,7 @@ export default function SiteHeader() {
         community={COMMUNITY}
         press={PRESS_ITEMS}
         pressSeeAllHref={ROUTES.press}
+        linkAs={Link}
       />
     </>
   )

@@ -1,7 +1,7 @@
 import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 
-import { Button, ButtonArrowIcon } from '@repo/ui'
+import { Button, ButtonArrowIcon } from '@/components/ui'
 
 import {
   StackCard,

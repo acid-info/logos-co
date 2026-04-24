@@ -1,8 +1,9 @@
 import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 
-import { Button, ButtonArrowIcon } from '@repo/ui'
+import { Button, ButtonArrowIcon } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
+import { Link } from '@/i18n/navigation'
 
 interface PressCardProps {
   title: string
@@ -14,7 +15,7 @@ interface PressCardProps {
 
 function PressCard({ title, imageSrc, date, author, href }: PressCardProps) {
   return (
-    <a href={href} className="group flex cursor-pointer flex-col gap-1.5">
+    <Link href={href} className="group flex cursor-pointer flex-col gap-1.5">
       <div className="aspect-339/431 w-full overflow-hidden bg-brand-dark-green/10">
         <Image
           src={imageSrc}
@@ -33,7 +34,7 @@ function PressCard({ title, imageSrc, date, author, href }: PressCardProps) {
           <p className="text-eyebrow text-brand-dark-green">{author}</p>
         </div>
       </div>
-    </a>
+    </Link>
   )
 }
 

@@ -1,7 +1,8 @@
 import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 
-import { Button, LogosMark } from '@repo/ui'
+import { LogosMark } from '@repo/ui'
+import { Button } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
 
 const BUILDER_PORTAL_IMAGE_OVERLAY =

@@ -1,7 +1,8 @@
 import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 
-import { Button, GiantSwitch, GiantSwitchTag } from '@repo/ui'
+import { GiantSwitch, GiantSwitchTag } from '@repo/ui'
+import { Button } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
 
 function TagIcon({ src, alt }: { src: string; alt: string }) {

@@ -21,6 +21,7 @@ import type { ReactNode } from 'react'
 
 import { LogosMark } from '../../icons/logos-mark'
 import { XIcon } from '../../icons/x-icon'
+import type { LinkLikeComponent } from '../button/button'
 
 // ---------------------------------------------------------------------------
 // Public types
@@ -78,6 +79,9 @@ export type NavOverlayProps = {
   /** Section label overrides for i18n. */
   labels?: NavOverlayLabels
 
+  /** Override the anchor element for internal links (e.g. pass next-intl's `Link`). Defaults to `'a'`. */
+  linkAs?: LinkLikeComponent
+
   className?: string
 }
 
@@ -99,9 +103,13 @@ function CommunityCard({
   href,
   image,
   onClose,
-}: NavOverlayCommunityCard & { onClose: () => void }) {
+  linkAs: LinkAs = 'a',
+}: NavOverlayCommunityCard & {
+  onClose: () => void
+  linkAs?: LinkLikeComponent
+}) {
   return (
-    <a
+    <LinkAs
       href={href}
       onClick={onClose}
       className="group relative flex h-35 cursor-pointer flex-col overflow-hidden rounded-3xl bg-brand-off-white/10 p-4.5 transition-opacity hover:opacity-80 md:h-51.5 md:flex-1"
@@ -123,19 +131,21 @@ function CommunityCard({
           {description}
         </p>
       </div>
-    </a>
+    </LinkAs>
   )
 }
 
 function PressCard({
   item,
   onClose,
+  linkAs: LinkAs = 'a',
 }: {
   item: NavOverlayPressItem
   onClose: () => void
+  linkAs?: LinkLikeComponent
 }) {
   return (
-    <a
+    <LinkAs
       href={item.href}
       onClick={onClose}
       className="flex w-41.5 shrink-0 cursor-pointer flex-col gap-1.5 transition-opacity hover:opacity-70 md:w-auto"
@@ -150,7 +160,7 @@ function PressCard({
           {item.headline}
         </p>
       </div>
-    </a>
+    </LinkAs>
   )
 }
 
@@ -168,8 +178,10 @@ export function NavOverlay({
   press,
   pressSeeAllHref = '/press',
   labels,
+  linkAs,
   className,
 }: NavOverlayProps) {
+  const LinkAs: LinkLikeComponent = linkAs ?? 'a'
   const {
     closeMenu = 'CLOSE MENU',
     sitemap: sitemapLabel = 'SITEMAP',
@@ -209,12 +221,12 @@ export function NavOverlay({
     >
       {/* Top bar — LOGOS · CLOSE MENU × · Lambda icon */}
       <div className="grid h-10 grid-cols-3 items-center px-3">
-        <a
+        <LinkAs
           href={logoHref}
           className="text-eyebrow cursor-pointer tracking-[0.12em] transition-opacity hover:opacity-70"
         >
           {logo ?? 'LOGOS'}
-        </a>
+        </LinkAs>
 
         <div className="flex justify-center">
           <button
@@ -246,13 +258,13 @@ export function NavOverlay({
           <ul className="flex flex-col gap-5">
             {sitemap.map((link) => (
               <li key={link.href + link.label}>
-                <a
+                <LinkAs
                   href={link.href}
                   onClick={onClose}
                   className="text-h2 block cursor-pointer text-brand-off-white transition-opacity hover:opacity-60"
                 >
                   {link.label}
-                </a>
+                </LinkAs>
               </li>
             ))}
           </ul>
@@ -267,7 +279,12 @@ export function NavOverlay({
               </p>
               <div className="flex flex-col gap-3 md:flex-row">
                 {community.map((card) => (
-                  <CommunityCard key={card.label} {...card} onClose={onClose} />
+                  <CommunityCard
+                    key={card.label}
+                    {...card}
+                    onClose={onClose}
+                    linkAs={linkAs}
+                  />
                 ))}
               </div>
             </div>
@@ -279,18 +296,23 @@ export function NavOverlay({
                 <p className="text-eyebrow text-brand-off-white">
                   {pressLabel}
                 </p>
-                <a
+                <LinkAs
                   href={pressSeeAllHref}
                   onClick={onClose}
                   className="text-eyebrow inline-flex cursor-pointer items-center gap-1 font-semibold text-brand-off-white transition-opacity hover:opacity-70"
                 >
                   {seeAll}
-                </a>
+                </LinkAs>
               </div>
               {/* Horizontally scrollable on mobile, 4-up grid on desktop */}
               <div className="-mx-3 flex gap-3 overflow-x-auto px-3 pb-2 md:mx-0 md:grid md:grid-cols-4 md:overflow-visible md:px-0">
                 {press.map((item, i) => (
-                  <PressCard key={i} item={item} onClose={onClose} />
+                  <PressCard
+                    key={i}
+                    item={item}
+                    onClose={onClose}
+                    linkAs={linkAs}
+                  />
                 ))}
               </div>
             </div>

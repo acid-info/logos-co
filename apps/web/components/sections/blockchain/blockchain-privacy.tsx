@@ -1,7 +1,8 @@
 import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 
-import { Button, LogosMark } from '@repo/ui'
+import { LogosMark } from '@repo/ui'
+import { Button } from '@/components/ui'
 
 function SectionEyebrow({
   label,
@@ -11,9 +12,9 @@ function SectionEyebrow({
   className?: string
 }) {
   return (
-    <div className={`flex items-start gap-[102px] ${className}`}>
+    <div className={`flex items-start gap-25.5 ${className}`}>
       <LogosMark size={9} className="shrink-0 text-brand-dark-green" />
-      <p className="text-eyebrow w-[185px] text-brand-dark-green">{label}</p>
+      <p className="text-eyebrow w-46.25 text-brand-dark-green">{label}</p>
     </div>
   )
 }
@@ -40,7 +41,7 @@ function PrivacyImage({
         alt=""
         fill
         sizes={sizes}
-        className="object-cover object-[center_47%]"
+        className="object-cover object-[center_49%]"
         priority
       />
     </div>
@@ -53,15 +54,15 @@ export default async function BlockchainPrivacy() {
   return (
     <section className="bg-gray-01">
       {/* Desktop: 1440×600 row with 702w text column + 702w image column */}
-      <div className="mx-auto hidden max-w-354 p-3 md:block">
-        <div className="flex h-[576px] items-center gap-3">
-          <div className="flex h-full min-w-0 flex-1 flex-col justify-between">
+      <div className="mx-auto hidden max-w-360 p-3 md:block">
+        <div className="flex h-144 items-center justify-between">
+          <div className="flex h-full w-175.5 flex-col justify-between">
             <SectionEyebrow label={t('eyebrow')} />
 
             <div className="flex flex-col gap-6">
               <div className="flex flex-col gap-3 text-brand-dark-green">
-                <p className="text-h4-sans w-[377px]">{t('title')}</p>
-                <p className="w-[485px] font-sans text-[12px] leading-[1.2] font-medium">
+                <p className="text-h4-sans w-94.25">{t('title')}</p>
+                <p className="w-121.25 font-sans text-[12px] leading-[1.2] font-medium">
                   {t('body')}
                 </p>
               </div>
@@ -73,13 +74,13 @@ export default async function BlockchainPrivacy() {
             <SectionEyebrow label="Storage" className="opacity-0" />
           </div>
 
-          <PrivacyImage className="h-full min-w-0 flex-1" />
+          <PrivacyImage className="h-full w-175.5" />
         </div>
       </div>
 
       {/* Mobile: stacked — text block (288h) + image (288h) */}
-      <div className="mx-auto flex max-w-354 flex-col gap-3 p-3 md:hidden">
-        <div className="flex h-[288px] flex-col justify-between">
+      <div className="mx-auto flex max-w-360 flex-col gap-3 p-3 md:hidden">
+        <div className="flex h-72 flex-col justify-between">
           <SectionEyebrow label={t('eyebrow')} />
 
           <div className="flex flex-col gap-6">
@@ -97,7 +98,7 @@ export default async function BlockchainPrivacy() {
           <SectionEyebrow label="Storage" className="opacity-0" />
         </div>
 
-        <PrivacyImage sizes="100vw" className="h-[288px] w-full" />
+        <PrivacyImage sizes="100vw" className="h-72 w-full" />
       </div>
     </section>
   )

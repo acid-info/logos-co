@@ -4,7 +4,8 @@ import { useRef } from 'react'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 
-import { Button, ButtonArrowIcon, IconButton } from '@repo/ui'
+import { IconButton } from '@repo/ui'
+import { Button, ButtonArrowIcon } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
 
 function ScrollButton({

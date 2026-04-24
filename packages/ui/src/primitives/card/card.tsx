@@ -13,6 +13,8 @@
  */
 import type { ReactNode } from 'react'
 
+import type { LinkLikeComponent } from '../button/button'
+
 function LambdaGlyph() {
   return (
     <span
@@ -35,6 +37,8 @@ type CardProps = {
   ctaLabel?: string
   /** CTA href. Only renders a top-right CTA when provided. */
   ctaHref?: string
+  /** Override the CTA anchor element (e.g. pass next-intl's `Link`). Defaults to `'a'`. */
+  linkAs?: LinkLikeComponent
   /** Show the Lambda icon glyph next to the title. Figma omits it on NS / FK cards. */
   showIcon?: boolean
   /** Pin the card in its hover state (for docs / parity with Figma "Hover" frame). */
@@ -54,6 +58,7 @@ export function Card({
   image,
   ctaLabel = 'Learn more',
   ctaHref,
+  linkAs,
   showIcon = true,
   forceHover = false,
   staticDefault = false,
@@ -101,7 +106,7 @@ export function Card({
         </span>
       )}
 
-      {showCta && <CardCTA label={ctaLabel} href={ctaHref} />}
+      {showCta && <CardCTA label={ctaLabel} href={ctaHref} linkAs={linkAs} />}
 
       {/* Centered header block */}
       <div className="flex flex-1 flex-col items-center justify-center gap-3 px-3 py-1">
@@ -132,7 +137,15 @@ export function Card({
   )
 }
 
-function CardCTA({ label, href }: { label: string; href?: string }) {
+function CardCTA({
+  label,
+  href,
+  linkAs: LinkAs = 'a',
+}: {
+  label: string
+  href?: string
+  linkAs?: LinkLikeComponent
+}) {
   const className =
     'absolute top-3 right-3 z-10 inline-flex items-center rounded-xl bg-brand-dark-green px-3 py-2 backdrop-blur-[5px]'
   const content = (
@@ -141,9 +154,9 @@ function CardCTA({ label, href }: { label: string; href?: string }) {
     </span>
   )
   return href ? (
-    <a href={href} className={className}>
+    <LinkAs href={href} className={className}>
       {content}
-    </a>
+    </LinkAs>
   ) : (
     <span className={className}>{content}</span>
   )

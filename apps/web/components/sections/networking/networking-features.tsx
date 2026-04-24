@@ -22,11 +22,13 @@ function FeatureCard({
             className={`h-3 w-[18px] shrink-0 rounded-full ${dotClassName}`}
             aria-hidden="true"
           />
-          <p className="text-body-sans text-brand-dark-green">{title}</p>
+          <p className="text-body-sans whitespace-nowrap text-brand-dark-green">
+            {title}
+          </p>
         </div>
         <p className="text-mono-s text-brand-dark-green">{body}</p>
       </div>
-      <div className="relative h-[248px] w-full overflow-hidden rounded-[18px]">
+      <div className="relative h-62 w-full overflow-hidden rounded-[18px]">
         <Image
           src={imageSrc}
           alt=""
@@ -65,7 +67,7 @@ export default async function NetworkingFeatures() {
 
   return (
     <section className="bg-brand-off-white">
-      <div className="mx-auto max-w-354 px-3 pt-3 pb-3 md:pt-[100px]">
+      <div className="mx-auto max-w-360 px-3 pt-3 pb-3 md:pt-[100px]">
         <div className="flex flex-col gap-3 md:flex-row md:items-stretch">
           {cards.map((card) => (
             <FeatureCard key={card.title} {...card} />

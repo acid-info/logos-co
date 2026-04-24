@@ -20,8 +20,6 @@
 import Image from 'next/image'
 
 import {
-  Button,
-  Card,
   CardInfo,
   Footer,
   GiantSwitch,
@@ -32,6 +30,7 @@ import {
   TableRow,
   ViewToggle,
 } from '@repo/ui'
+import { Button, Card } from '@/components/ui'
 
 import { createDefaultMetadata } from '@/utils/metadata'
 

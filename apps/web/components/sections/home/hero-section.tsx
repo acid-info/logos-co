@@ -4,7 +4,7 @@ import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'motion/react'
 import { useTranslations } from 'next-intl'
 
-import { Button } from '@repo/ui'
+import { Button } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
 
 export default function HeroSection() {

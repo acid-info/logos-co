@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 
-import { Button, ButtonArrowIcon } from '@repo/ui'
+import { Button } from '@/components/ui'
 
 import { ROUTES } from '@/constants/routes'
 
@@ -23,7 +23,7 @@ function ArticleCard({
   return (
     <a
       href={href}
-      className="group flex w-[339px] shrink-0 cursor-pointer flex-col gap-1.5 md:w-auto"
+      className="group flex w-84.75 shrink-0 cursor-pointer flex-col gap-1.5 md:w-auto"
     >
       <div className="aspect-339/431 w-full overflow-hidden">
         <Image
@@ -79,21 +79,20 @@ export default async function NetworkingRelatedArticles() {
 
   return (
     <section className="bg-brand-off-white">
-      <div className="mx-auto max-w-354 px-3 py-3">
+      <div className="mx-auto max-w-360 px-3 py-3">
         <div className="relative overflow-hidden rounded-xl bg-accent-tan px-3 pt-6 pb-10 md:pb-14">
           {/* Header row */}
           <div className="flex items-start justify-between">
-            <p className="text-mono-s w-[226px] max-w-[50%] text-brand-dark-green">
+            <p className="text-mono-s w-56.5 max-w-[50%] text-brand-dark-green">
               {t('label')}
             </p>
-            <p className="text-mono-s hidden w-[226px] text-center text-brand-dark-green md:block">
+            <p className="text-mono-s hidden w-56.5 text-center text-brand-dark-green md:block">
               {t('eyebrow')}
             </p>
-            <div className="flex w-[226px] max-w-[50%] justify-end">
+            <div className="flex w-56.5 max-w-[50%] justify-end">
               <Button
                 href={ROUTES.press}
-                variant="link"
-                icon={<ButtonArrowIcon />}
+                variant="tertiary"
                 className="cursor-pointer transition-opacity hover:opacity-70"
               >
                 {t('cta')}
@@ -102,12 +101,12 @@ export default async function NetworkingRelatedArticles() {
           </div>
 
           {/* Title */}
-          <h2 className="text-h3-serif mt-[65px] text-center whitespace-nowrap text-brand-dark-green">
+          <h2 className="text-h3-serif mt-16.25 text-center whitespace-nowrap text-brand-dark-green">
             {t('title')}
           </h2>
 
           {/* Cards */}
-          <div className="mt-[70px] flex gap-3 overflow-x-auto md:grid md:grid-cols-4 md:overflow-visible">
+          <div className="mt-17.5 flex gap-3 overflow-x-auto md:mt-[103px] md:grid md:grid-cols-4 md:overflow-visible">
             {articles.map((a) => (
               <ArticleCard
                 key={a.title}

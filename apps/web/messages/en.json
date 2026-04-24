@@ -205,7 +205,7 @@
       "description": "This isn't just another L1—it's a purpose-built blockchain using Cryptarchia, a private proof-of-stake consensus mechanism where validator identities and stake amounts remain hidden.",
       "heading": "Blockchain",
       "hero": {
-        "back": "Technology Stack",
+        "back": "Technology stack",
         "body": "This isn't just another L1—it's a purpose-built blockchain using Cryptarchia, a private proof-of-stake consensus mechanism where validator identities and stake amounts remain hidden.",
         "logosApp": "Logos app",
         "docs": "Docs"
@@ -266,7 +266,8 @@
         "logosApp": "Logos app"
       },
       "intro": {
-        "title": "Privacy built from the ground up.",
+        "titleLine1": "Privacy built from",
+        "titleLine2": "the ground up.",
         "body": "The networking layer handles how Logos nodes find each other, establish connections, and communicate. Private-by-default, this layer doesn’t care whether modules above it are storing files, sending chat messages, or processing transactions. It provides private, reliable communication as a shared foundation.",
         "cta": "View the docs"
       },

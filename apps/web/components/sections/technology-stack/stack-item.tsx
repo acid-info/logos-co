@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 import { LogosMark } from '@repo/ui'
+import { Link } from '@/i18n/navigation'
 
 type StackCardProps = {
   label: ReactNode
@@ -17,7 +18,7 @@ export function StackCard({
   labelClassName,
 }: StackCardProps) {
   return (
-    <a
+    <Link
       href={href}
       className={twMerge(
         'flex cursor-pointer items-center justify-center rounded-3xl border transition-colors',
@@ -33,7 +34,7 @@ export function StackCard({
         <LogosMark size={14} className="shrink-0" />
         {label}
       </span>
-    </a>
+    </Link>
   )
 }
 
@@ -67,9 +68,9 @@ export function StackRow({
   )
   if (href) {
     return (
-      <a href={href} className={containerClasses}>
+      <Link href={href} className={containerClasses}>
         {content}
-      </a>
+      </Link>
     )
   }
   return <div className={containerClasses}>{content}</div>

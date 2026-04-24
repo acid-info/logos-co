@@ -16,11 +16,21 @@
 import type {
   AnchorHTMLAttributes,
   ButtonHTMLAttributes,
+  ComponentType,
   ReactNode,
 } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'link'
+
+/**
+ * A component accepted in place of a raw `<a>` (e.g. next-intl's `Link`).
+ * Must accept the anchor attributes the primitive forwards. Pass `'a'` to
+ * render a native anchor.
+ */
+export type LinkLikeComponent =
+  | 'a'
+  | ComponentType<AnchorHTMLAttributes<HTMLAnchorElement> & { href: string }>
 
 type CommonProps = {
   /** Button label — auto-uppercased via CSS. */
@@ -38,6 +48,8 @@ type CommonProps = {
 type AnchorProps = CommonProps &
   Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'children' | 'className'> & {
     href: string
+    /** Override the anchor element (e.g. pass next-intl's `Link`). Defaults to `'a'`. */
+    linkAs?: LinkLikeComponent
   }
 
 type ButtonElementProps = CommonProps &
@@ -102,12 +114,15 @@ export function Button(props: ButtonProps) {
   const classes = twMerge(containerByVariant[variant], className)
 
   if ('href' in rest && rest.href !== undefined) {
-    const { href, ...anchorRest } =
-      rest as AnchorHTMLAttributes<HTMLAnchorElement>
+    const {
+      href,
+      linkAs: LinkAs = 'a',
+      ...anchorRest
+    } = rest as AnchorProps
     return (
-      <a href={href} className={classes} {...anchorRest}>
+      <LinkAs href={href} className={classes} {...anchorRest}>
         {content}
-      </a>
+      </LinkAs>
     )
   }
 

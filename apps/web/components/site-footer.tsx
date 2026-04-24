@@ -9,6 +9,7 @@ import { getTranslations } from 'next-intl/server'
 import { Footer, LogosMark } from '@repo/ui'
 
 import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
+import { Link } from '@/i18n/navigation'
 
 const MAIN_LINKS = [
   { label: 'Work With Us', href: ROUTES.workWithUs },
@@ -73,6 +74,7 @@ export default async function SiteFooter() {
         attribution: 'IFT',
         href: EXTERNAL_URLS.ift,
       }}
+      linkAs={Link}
     />
   )
 }

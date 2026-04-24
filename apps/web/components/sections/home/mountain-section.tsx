@@ -1,7 +1,7 @@
 import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 
-import { Button } from '@repo/ui'
+import { Button } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
 
 const MOUNTAIN_ASPECT_RATIO = '1416 / 2283'

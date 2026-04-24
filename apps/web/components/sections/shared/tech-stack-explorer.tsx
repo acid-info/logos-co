@@ -6,17 +6,15 @@ import {
 } from '@/components/sections/technology-stack/stack-item'
 import { ROUTES } from '@/constants/routes'
 
-const cardClassName =
-  'border-brand-dark-green/50 hover:border-brand-dark-green h-64.5 md:h-91.5'
-const rowClassName =
-  'border-brand-dark-green/50 hover:border-brand-dark-green h-35 md:h-49'
+const cardClassName = 'border-brand-dark-green h-64.5 md:h-91.5'
+const rowClassName = 'border-brand-dark-green h-35 md:h-49'
 
 export default async function TechStackExplorer() {
   const t = await getTranslations('pages.technologyStack.stack')
 
   return (
     <section className="border-brand-dark-green/10 bg-brand-off-white border-t">
-      <div className="mx-auto max-w-354 px-3 pt-16 pb-10 md:pt-25 md:pb-10">
+      <div className="mx-auto max-w-360 px-3 pt-16 pb-10 md:pt-25 md:pb-10">
         <div className="flex flex-col gap-6 md:flex-row md:items-start md:gap-0">
           <p className="text-h4-sans text-brand-dark-green md:w-178.5">
             {t('titleLine1')}
