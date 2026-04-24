@@ -1,37 +1,18 @@
 import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 
-import { Button, ButtonArrowIcon, LogosMark } from '@repo/ui'
+import { Button, ButtonArrowIcon } from '@repo/ui'
+
+import {
+  StackCard,
+  StackRow,
+} from '@/components/sections/technology-stack/stack-item'
 import { ROUTES } from '@/constants/routes'
 
-interface StackItemProps {
-  label: string
-  href: string
-}
-
-function StackCard({ label, href }: StackItemProps) {
-  return (
-    <a
-      href={href}
-      className="border-brand-dark-green/10 flex h-91.5 cursor-pointer items-center justify-center rounded-3xl border p-5 transition-colors hover:border-brand-dark-green/30"
-    >
-      <span className="text-subhead-sans flex items-center gap-2 text-brand-dark-green">
-        <LogosMark size={14} className="shrink-0" />
-        {label}
-      </span>
-    </a>
-  )
-}
-
-function StackRow({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="border-brand-dark-green/10 hover:border-brand-dark-green/30 flex h-49 items-center justify-center overflow-hidden rounded-3xl border px-6 transition-colors">
-      <p className="text-subhead-sans text-brand-dark-green text-center">
-        {children}
-      </p>
-    </div>
-  )
-}
+const cardClassName =
+  'border-brand-dark-green/10 hover:border-brand-dark-green/30 h-91.5 p-5'
+const rowClassName =
+  'border-brand-dark-green/10 hover:border-brand-dark-green/30 h-49 overflow-hidden'
 
 export default async function TechStackSection() {
   const t = await getTranslations('home.techStack')
@@ -69,17 +50,37 @@ export default async function TechStackSection() {
         </div>
 
         {/* 4-col grid */}
-        <div className="grid gap-3 grid-cols-2 lg:grid-cols-4">
-          <StackCard label={t('storage')} href={ROUTES.storage} />
-          <StackCard label={t('messaging')} href={ROUTES.messaging} />
-          <StackCard label={t('blockchain')} href={ROUTES.blockchain} />
-          <StackCard label={t('userModules')} href={ROUTES.technologyStack} />
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <StackCard
+            label={t('storage')}
+            href={ROUTES.storage}
+            className={cardClassName}
+          />
+          <StackCard
+            label={t('messaging')}
+            href={ROUTES.messaging}
+            className={cardClassName}
+          />
+          <StackCard
+            label={t('blockchain')}
+            href={ROUTES.blockchain}
+            className={cardClassName}
+          />
+          <StackCard
+            label={t('userModules')}
+            href={ROUTES.technologyStack}
+            className={cardClassName}
+          />
         </div>
 
         {/* Full-width rows */}
         <div className="mt-3 space-y-3">
-          <StackRow>{t('networkingStack')}</StackRow>
-          <StackRow>{t('foundation')}</StackRow>
+          <StackRow href={ROUTES.networking} className={rowClassName}>
+            {t('networkingStack')}
+          </StackRow>
+          <StackRow href={ROUTES.technologyStack} className={rowClassName}>
+            {t('foundation')}
+          </StackRow>
         </div>
       </div>
     </section>

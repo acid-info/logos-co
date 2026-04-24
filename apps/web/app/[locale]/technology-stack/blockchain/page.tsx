@@ -1,7 +1,11 @@
 import { getTranslations } from 'next-intl/server'
 
-import { LogosMark } from '@repo/ui'
-
+import BlockchainBuilderCta from '@/components/sections/blockchain/blockchain-builder-cta'
+import BlockchainCryptarchia from '@/components/sections/blockchain/blockchain-cryptarchia'
+import BlockchainHero from '@/components/sections/blockchain/blockchain-hero'
+import BlockchainPrivacy from '@/components/sections/blockchain/blockchain-privacy'
+import BlockchainRelatedArticles from '@/components/sections/blockchain/blockchain-related-articles'
+import TechStackExplorer from '@/components/sections/shared/tech-stack-explorer'
 import { ROUTES } from '@/constants/routes'
 import { createDefaultMetadata } from '@/utils/metadata'
 
@@ -20,14 +24,15 @@ export async function generateMetadata({
   })
 }
 
-export default async function BlockchainPage() {
-  const t = await getTranslations('pages.blockchain')
+export default function BlockchainPage() {
   return (
-    <div className="px-3 pt-16 pb-12">
-      <h1 className="text-h2 flex items-center gap-3 text-brand-dark-green">
-        <LogosMark size={40} className="shrink-0" />
-        {t('heading')}
-      </h1>
-    </div>
+    <>
+      <BlockchainHero />
+      <BlockchainPrivacy />
+      <BlockchainCryptarchia />
+      <BlockchainBuilderCta />
+      <TechStackExplorer />
+      <BlockchainRelatedArticles />
+    </>
   )
 }
