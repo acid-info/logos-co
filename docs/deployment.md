@@ -35,6 +35,7 @@ For local dev copy apps/cms/.env.example to apps/cms/.env and fill it in.
 | `PAYLOAD_SECRET` | yes | `openssl rand -hex 32`. Used for cookies / JWTs. Production build throws when unset. |
 | `DATABASE_URL` | yes | Postgres connection string. Supabase pooler URLs (port 6543) work directly. |
 | `PAYLOAD_DB_SCHEMA` | optional | Schema name scoping Payload tables. Defaults to `payload`. Use a distinct value per env when sharing one database (e.g. `payload_preview`). |
+| `PAYLOAD_DB_PUSH` | optional | When `false`, disables automatic schema sync. Default behaviour pushes schema changes on every boot — leave it on until proper migrations are wired up (Phase 4+). |
 | `NEXT_PUBLIC_SERVER_URL` | recommended | Public CMS URL for CORS + CSRF. Falls back to `https://$VERCEL_URL` (different per preview deploy). |
 | `NEXT_PUBLIC_WEB_URL` | recommended | Public web URL for CORS + CSRF. Falls back to `https://$VERCEL_PROJECT_PRODUCTION_URL`. |
 
@@ -121,6 +122,7 @@ A 401 means Payload booted, talked to Postgres, and answered. A 500 means env va
 | `password authentication failed for user "postgres"` | wrong / rotated DB password | Update `DATABASE_URL` with the current Supabase password. |
 | `connection reset` / `ECONNRESET` mid-request | Supabase pooler timeout under heavy load | Switch port from `6543` (transaction) to `5432` (session) in `DATABASE_URL`. |
 | `prepared statement "S_1" does not exist` | transaction pooler dropped a prepared statement | Same fix — use the session pooler at port `5432`. |
+| `relation "payload.users" does not exist` | tables not yet created in the target schema | Default config has `push: true` so the next boot creates them. If `PAYLOAD_DB_PUSH=false` is set, run `pnpm --filter cms exec payload migrate` once before booting. |
 | CORS errors from `apps/web` calling the CMS | `NEXT_PUBLIC_WEB_URL` mismatch | Set the env var to the exact web origin (no trailing slash). |
 | Admin login redirects then fails | Cookie domain mismatch or stale session | Ensure `NEXT_PUBLIC_SERVER_URL` matches the URL the browser is using. Clear cookies. |
 | Preview deploys mutate production data | Single schema across envs | Set `PAYLOAD_DB_SCHEMA=payload_preview` on the Preview env only. |

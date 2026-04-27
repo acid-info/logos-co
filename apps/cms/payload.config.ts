@@ -55,6 +55,13 @@ export default buildConfig({
     },
     // Isolate Payload tables from any other app sharing the database.
     schemaName: process.env.PAYLOAD_DB_SCHEMA || 'payload',
+    // Phase 1 bootstrap: auto-create / sync the schema on every boot. Payload
+    // defaults `push` to false in production, which means a fresh database
+    // boots into "relation 'payload.users' does not exist" until migrations
+    // have been run. Toggle via `PAYLOAD_DB_PUSH=false` once migrations are
+    // wired up (Phase 4+); leave on for now so the schema stays in sync as
+    // collections evolve.
+    push: process.env.PAYLOAD_DB_PUSH !== 'false',
   }),
   editor: lexicalEditor(),
   globals: [SiteSettings],
