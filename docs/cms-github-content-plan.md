@@ -8,7 +8,7 @@ Reference screens (verification pending — see §1 "Figma Node Verification"):
 - Circles: Figma `40009046:25359`, `40009046:26015`
 - Existing page requirements: [web-pages.md](./web-pages.md)
 - Existing component requirements: [components.md](./components.md) — canonical Figma node IDs live here once reconciled
-- Operational deployment notes (Vercel + Turso, env vars, troubleshooting): [deployment.md](./deployment.md)
+- Operational deployment notes (Vercel for dev/staging, self-hosted Node for production, env vars, troubleshooting): [deployment.md](./deployment.md)
 
 ## 1. Decisions
 

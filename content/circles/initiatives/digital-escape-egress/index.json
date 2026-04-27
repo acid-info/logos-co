@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "slug": "digital-escape-egress",
+  "status": "published",
+  "circleSlug": "florianopolis",
+  "href": "https://forum.logos.co/t/initiative-digital-escape",
+  "image": {
+    "src": "/cms/circles/initiatives/digital-escape-egress/cover.webp",
+    "alt": "",
+    "width": 720,
+    "height": 480
+  },
+  "featured": false,
+  "order": 3
+}

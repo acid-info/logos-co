@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "route": "/",
+  "title": "Logos — Pioneering a New Era of Freedom",
+  "description": "Logos is a movement building open technology to enable and restore civil society.",
+  "heading": "Pioneering a New Era of Freedom",
+  "seo": {
+    "keywords": [
+      "logos",
+      "decentralised",
+      "privacy",
+      "civil society",
+      "parallel society"
+    ]
+  },
+  "sections": [
+    {
+      "componentType": "hero",
+      "key": "home.atf",
+      "headline": "Pioneering a New Era of Freedom",
+      "body": "Logos is a movement building open technology to enable and restore civil society.",
+      "background": {
+        "src": "/cms/pages/home/atf-background.jpg",
+        "alt": "",
+        "width": 1920,
+        "height": 1080
+      },
+      "ctas": [
+        { "label": "Join the movement", "href": "/take-action", "variant": "primary" },
+        { "label": "Learn more", "href": "/about", "variant": "secondary" }
+      ]
+    },
+    {
+      "componentType": "cardGrid",
+      "key": "home.triptych",
+      "cards": [
+        {
+          "title": "Build",
+          "description": "Everything you need to start building privacy-first decentralised applications. Explore ideas, find bounties, and connect with others.",
+          "cta": { "label": "Start building", "href": "/builders-hub" }
+        },
+        {
+          "title": "Node Program",
+          "description": "The Node Program is for anyone who wants to join our movement to revitalise civil society using decentralised technologies.",
+          "cta": {
+            "label": "Apply",
+            "href": "https://forms.logos.co/node-program",
+            "external": true
+          }
+        },
+        {
+          "title": "Circles",
+          "description": "Local chapters are at the heart of our movement. Learn civil organising, share skills, and forge new connections.",
+          "cta": { "label": "Join a circle", "href": "/circles" }
+        }
+      ]
+    },
+    {
+      "componentType": "richText",
+      "key": "home.about",
+      "body": "The system is no longer working for us, so we are charting a new course. Logos exists at the intersection of human exploration and technological revolution. We are a movement for builders, explorers, and dreamers who refuse to accept the world as it is — part of a generation fed up with corruption, surveillance, and stagnation often associated with incumbent institutions."
+    },
+    {
+      "componentType": "techStackOverview",
+      "key": "home.techStack",
+      "pillars": [
+        {
+          "id": "storage",
+          "title": "Storage",
+          "body": "Codex storage with reproducible attestation and graceful client-side fallback.",
+          "href": "/technology-stack/storage"
+        },
+        {
+          "id": "messaging",
+          "title": "Messaging",
+          "body": "Waku-based peer-to-peer messaging that survives hostile networks.",
+          "href": "/technology-stack/messaging"
+        },
+        {
+          "id": "blockchain",
+          "title": "Blockchain",
+          "body": "Privacy-preserving consensus designed for sovereign communities.",
+          "href": "/technology-stack/blockchain"
+        },
+        {
+          "id": "userModules",
+          "title": "User Modules",
+          "body": "Wallet, chat, files, and explorer modules composing into the Logos App.",
+          "href": "/technology-stack#logos-app"
+        }
+      ],
+      "networkingTitle": "The Networking Stack: Discovery, Peering, and Mix-Net",
+      "foundationTitle": "The Foundation: Logos Kernel"
+    },
+    {
+      "componentType": "cardGrid",
+      "key": "home.useCases",
+      "heading": "Use Cases",
+      "subheading": "We know today's systems are captured and brittle. We build alternatives to give people a choice. Build on Logos and serve your community.",
+      "cards": [
+        {
+          "title": "Attack-Resistant Public Registries",
+          "description": "Privacy-preserving blockchain for sovereign order and decentralised governance.",
+          "cta": { "label": "Learn more", "href": "/technology-stack/blockchain" }
+        },
+        {
+          "title": "Decentralised Archives",
+          "description": "Permanent, censorship-proof preservation of knowledge, culture, and history.",
+          "cta": { "label": "Learn more", "href": "/technology-stack/storage" }
+        },
+        {
+          "title": "Private Financial Networks",
+          "description": "Money that moves securely and freely, without surveillance or control.",
+          "cta": { "label": "Learn more", "href": "/technology-stack/blockchain" }
+        },
+        {
+          "title": "Community Governance",
+          "description": "Self-organising groups establish and enforce their own rules, with members engaging voluntarily.",
+          "cta": { "label": "Learn more", "href": "/circles" }
+        }
+      ]
+    },
+    {
+      "componentType": "gallery",
+      "key": "home.parallelSociety",
+      "items": [
+        {
+          "image": {
+            "src": "/cms/pages/home/parallel-society/1.jpg",
+            "alt": "",
+            "width": 720,
+            "height": 480
+          },
+          "caption": "Parallel Society — Lisbon",
+          "date": "02.14.26"
+        },
+        {
+          "image": {
+            "src": "/cms/pages/home/parallel-society/2.jpg",
+            "alt": "",
+            "width": 720,
+            "height": 480
+          },
+          "caption": "Music + technology converge",
+          "date": "02.14.26"
+        },
+        {
+          "image": {
+            "src": "/cms/pages/home/parallel-society/3.jpg",
+            "alt": "",
+            "width": 720,
+            "height": 480
+          },
+          "caption": "Two days, one parallel",
+          "date": "02.14.26"
+        },
+        {
+          "image": {
+            "src": "/cms/pages/home/parallel-society/4.jpg",
+            "alt": "",
+            "width": 720,
+            "height": 480
+          },
+          "caption": "Builders, artists, dreamers",
+          "date": "02.14.26"
+        }
+      ]
+    },
+    {
+      "componentType": "ctaPanel",
+      "key": "home.builderPortal",
+      "title": "The Logos Builder Portal",
+      "description": "Operate early. Help harden a private-by-default network that protects civil liberties and strengthens trust in our communities.",
+      "image": {
+        "src": "/cms/pages/home/builder-portal.jpg",
+        "alt": "",
+        "width": 1280,
+        "height": 720
+      },
+      "cta": { "label": "Get involved", "href": "/builders-hub" }
+    },
+    {
+      "componentType": "relatedArticles",
+      "key": "home.press",
+      "eyebrow": "Logos in the News",
+      "title": "Press",
+      "label": "Logos Press Engine",
+      "cta": { "label": "Explore all articles", "href": "/press" },
+      "visibleCount": 4,
+      "pinnedSlugs": ["from-cybernetics-to-blockchain-communities"]
+    },
+    {
+      "componentType": "ctaPanel",
+      "key": "home.circlesCta",
+      "title": "Circles and Counting.",
+      "description": "These meetups are essential for anyone taking action with us. Explore what nonviolence is, how we use it, and what it can help us achieve. If there isn't a Logos Circle listed in your area, please get in touch with the team.",
+      "cta": { "label": "Find a circle near you", "href": "/circles" }
+    }
+  ]
+}

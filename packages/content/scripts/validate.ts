@@ -20,10 +20,15 @@ import {
   resolveBuilderHubHomeRfps,
 } from '../src/loaders/builders-hub.js'
 import {
+  formatEventDateForSurface,
+  getCircleEvents,
+  getCircleEventsGroupedByDate,
+  getCircleInitiatives,
   getCircleResources,
   getCircles,
   getCirclesSettings,
 } from '../src/loaders/circles.js'
+import { getPageCopy } from '../src/loaders/pages.js'
 import { getPressArticles } from '../src/loaders/press.js'
 import { getFooter, getNavigation, getSiteSettings } from '../src/loaders/site.js'
 import { getActiveLocales } from '../src/locales/registry.js'
@@ -252,6 +257,205 @@ const buildCirclesChecks = (locale: Language): Check[] => [
       return circles
     },
   },
+  {
+    name: `circle events (${locale}) → at least one published event`,
+    run: async () => {
+      const events = await getCircleEvents({ locale, status: 'published' })
+      if (events.length === 0) {
+        throw new Error('no published CircleEvents found')
+      }
+      // Each event keeps its explicit sequenceNumber after the loader pass.
+      const expectations: Record<string, number> = {
+        'los-angeles-circle-4': 4,
+        'los-angeles-circle-5': 5,
+        'florianopolis-circle-2': 2,
+      }
+      for (const event of events) {
+        const expected = expectations[event.slug]
+        if (expected !== undefined && event.sequenceNumber !== expected) {
+          throw new Error(
+            `event "${event.slug}" expected sequenceNumber=${expected}, got ${event.sequenceNumber}`,
+          )
+        }
+      }
+      return events
+    },
+  },
+  {
+    name: `circle events (${locale}) → grouped by event-local date across timezones`,
+    run: async () => {
+      const groups = await getCircleEventsGroupedByDate({ locale, status: 'published' })
+      if (groups.length === 0) {
+        throw new Error('no event groups returned')
+      }
+      // Groups must arrive sorted ascending by groupKey (chronological).
+      for (let i = 1; i < groups.length; i++) {
+        if (groups[i - 1].groupKey > groups[i].groupKey) {
+          throw new Error(
+            `group out-of-order: ${groups[i - 1].groupKey} before ${groups[i].groupKey}`,
+          )
+        }
+      }
+      // The Jan 21 group must contain BOTH the LA event and the Florianópolis
+      // event (different UTC instants, same event-local date in their own zones).
+      const jan21 = groups.find((g) => g.groupKey === '2026-01-21')
+      if (!jan21) {
+        throw new Error(
+          `expected a "2026-01-21" group; got [${groups.map((g) => g.groupKey).join(', ')}]`,
+        )
+      }
+      const slugsInJan21 = new Set(jan21.events.map((e) => e.slug))
+      for (const required of ['los-angeles-circle-4', 'florianopolis-circle-2']) {
+        if (!slugsInJan21.has(required)) {
+          throw new Error(`Jan 21 group missing "${required}"`)
+        }
+      }
+      return groups
+    },
+  },
+  {
+    name: `circle events (${locale}) → formatEventDateForSurface for all 4 surfaces`,
+    run: async () => {
+      const events = await getCircleEvents({
+        circleSlug: 'los-angeles',
+        locale,
+        status: 'published',
+      })
+      const la4 = events.find((e) => e.slug === 'los-angeles-circle-4')
+      if (!la4) throw new Error('los-angeles-circle-4 not found')
+
+      const indexGroup = formatEventDateForSurface(la4, 'index-group', locale)
+      if (!/January 21\s*\/\s*Wednesday/i.test(indexGroup)) {
+        throw new Error(`index-group format unexpected: "${indexGroup}"`)
+      }
+      const indexCardTime = formatEventDateForSurface(la4, 'index-card-time', locale)
+      if (!/^7:00\s*PM$/.test(indexCardTime)) {
+        throw new Error(`index-card-time format unexpected: "${indexCardTime}"`)
+      }
+      const detailDate = formatEventDateForSurface(la4, 'detail-date', locale)
+      if (!/^January 21, 2026$/.test(detailDate)) {
+        throw new Error(`detail-date format unexpected: "${detailDate}"`)
+      }
+      const press = formatEventDateForSurface(la4, 'press', locale)
+      if (!/^01\.21\.26$/.test(press)) {
+        throw new Error(`press format unexpected: "${press}"`)
+      }
+      return { indexGroup, indexCardTime, detailDate, press }
+    },
+  },
+  {
+    name: `circle initiatives (${locale}) → at least one published + per-circle filter`,
+    run: async () => {
+      const all = await getCircleInitiatives({ locale, status: 'published' })
+      if (all.length === 0) {
+        throw new Error('no published CircleInitiatives found')
+      }
+      // Per-circle filter: each circleSlug should narrow the result set.
+      const expectations: Record<string, string[]> = {
+        'los-angeles': ['logos-powered-nextdoor-app'],
+        london: ['digital-id-replacement'],
+        florianopolis: ['digital-escape-egress'],
+      }
+      for (const [circleSlug, expectedSlugs] of Object.entries(expectations)) {
+        const filtered = await getCircleInitiatives({
+          circleSlug,
+          locale,
+          status: 'published',
+        })
+        const got = filtered.map((i) => i.slug).sort()
+        const want = [...expectedSlugs].sort()
+        if (got.length !== want.length || got.some((s, idx) => s !== want[idx])) {
+          throw new Error(
+            `circleSlug="${circleSlug}" expected [${want.join(', ')}], got [${got.join(', ')}]`,
+          )
+        }
+        for (const initiative of filtered) {
+          if (initiative.circleSlug !== circleSlug) {
+            throw new Error(
+              `filter leak: "${initiative.slug}" returned for circleSlug="${circleSlug}" but its circleSlug is "${initiative.circleSlug}"`,
+            )
+          }
+        }
+      }
+      return all
+    },
+  },
+  {
+    name: `circle initiatives (${locale}) → canonical sort (order asc, then slug)`,
+    run: async () => {
+      const all = await getCircleInitiatives({ locale, status: 'published' })
+      for (let i = 1; i < all.length; i++) {
+        const prev = all[i - 1].order ?? Number.MAX_SAFE_INTEGER
+        const cur = all[i].order ?? Number.MAX_SAFE_INTEGER
+        if (prev > cur) {
+          throw new Error(
+            `out-of-order: "${all[i - 1].slug}" (order=${prev}) before "${all[i].slug}" (order=${cur})`,
+          )
+        }
+      }
+      return all
+    },
+  },
+]
+
+const buildPagesChecks = (locale: Language): Check[] => [
+  {
+    name: `pages.home (${locale}) → loads + every section componentType valid`,
+    run: async () => {
+      const page = await getPageCopy('/', locale)
+      if (page.sections.length === 0) {
+        throw new Error('home page has zero sections')
+      }
+      const expected: readonly string[] = [
+        'hero',
+        'cardGrid',
+        'richText',
+        'techStackOverview',
+        'gallery',
+        'ctaPanel',
+        'relatedArticles',
+      ]
+      const seen: Set<string> = new Set(page.sections.map((s) => s.componentType))
+      const missing = expected.filter((t) => !seen.has(t))
+      if (missing.length > 0) {
+        throw new Error(`home.json missing expected section types: [${missing.join(', ')}]`)
+      }
+      // Spot-check the discriminated union narrowing — pulls a typed field
+      // from each variant so a regression in pageSectionSchema would surface.
+      for (const section of page.sections) {
+        switch (section.componentType) {
+          case 'hero':
+            if (!section.headline) throw new Error(`hero "${section.key}" missing headline`)
+            break
+          case 'cardGrid':
+            if (section.cards.length === 0) {
+              throw new Error(`cardGrid "${section.key}" has zero cards`)
+            }
+            break
+          case 'techStackOverview':
+            if (section.pillars.length !== 4) {
+              throw new Error(`techStackOverview "${section.key}" expected 4 pillars`)
+            }
+            break
+          case 'gallery':
+            if (section.items.length === 0) {
+              throw new Error(`gallery "${section.key}" has zero items`)
+            }
+            break
+          case 'ctaPanel':
+            if (!section.cta?.label) throw new Error(`ctaPanel "${section.key}" missing cta`)
+            break
+          case 'relatedArticles':
+            if (!section.title) throw new Error(`relatedArticles "${section.key}" missing title`)
+            break
+          case 'richText':
+            if (!section.body) throw new Error(`richText "${section.key}" missing body`)
+            break
+        }
+      }
+      return page
+    },
+  },
 ]
 
 const main = async (): Promise<void> => {
@@ -263,6 +467,7 @@ const main = async (): Promise<void> => {
       ...buildPressChecks(locale),
       ...buildBuilderHubChecks(locale),
       ...buildCirclesChecks(locale),
+      ...buildPagesChecks(locale),
     )
   }
 
