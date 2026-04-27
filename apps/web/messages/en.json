@@ -1,9 +1,7 @@
 {
   "locale": {
     "language": "Language",
-    "en": "English",
-    "fr": "Français",
-    "ko": "한국어"
+    "en": "English"
   },
   "common": {
     "nav": {

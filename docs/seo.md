@@ -6,26 +6,26 @@ Living checklist for all SEO work on logos.co. Status keys: ✅ done · ⏳ in p
 
 ## 0. Current baseline audit
 
-| Asset | Status | Notes |
-| --- | --- | --- |
-| `apps/web/utils/metadata.ts` — `createDefaultMetadata()` helper | ✅ | OG, Twitter, canonical, alternates, keywords, robots |
-| `apps/web/app/[locale]/robots.ts` | ✅ | Allow-all + sitemap ref |
-| `apps/web/app/sitemap.ts` | ⚠️ | Only contains the root `/` — all 15 pages × 3 locales still missing |
-| `apps/web/data/siteConfig.ts` | ⚠️ | Title + description are template placeholders — replace with real copy |
-| `apps/web/app/og/route.tsx` | ⚠️ | Has hardcoded "Logos Next Tailwind Template" fallback — update |
-| `apps/web/app/[locale]/not-found.tsx` | ⚠️ | No `<title>` or metadata |
-| `apps/web/i18n/routing.ts` — `en / fr / ko` | ✅ | 3 locales, `localePrefix: 'as-needed'` |
-| Twitter card metadata uses `_title` / `_description` | ❌ | **Bug at `utils/metadata.ts:60-61`** — uses empty `title` / `description` args instead of the resolved `_title` / `_description` |
-| `alternates.languages` includes all 3 locales | ❌ | Only `en` listed — add `fr` and `ko` |
-| `metadataBase` + canonical per page | ✅ | Helper wires these correctly when called |
-| Favicon / apple-touch-icon | ✅ | `apps/web/app/[locale]/layout.tsx:24-25` |
+| Asset                                                           | Status | Notes                                                                                                                            |
+| --------------------------------------------------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+| `apps/web/utils/metadata.ts` — `createDefaultMetadata()` helper | ✅     | OG, Twitter, canonical, alternates, keywords, robots                                                                             |
+| `apps/web/app/[locale]/robots.ts`                               | ✅     | Allow-all + sitemap ref                                                                                                          |
+| `apps/web/app/sitemap.ts`                                       | ⚠️     | Only contains the root `/` — all canonical English pages still missing                                                           |
+| `apps/web/data/siteConfig.ts`                                   | ⚠️     | Title + description are template placeholders — replace with real copy                                                           |
+| `apps/web/app/og/route.tsx`                                     | ⚠️     | Has hardcoded "Logos Next Tailwind Template" fallback — update                                                                   |
+| `apps/web/app/[locale]/not-found.tsx`                           | ⚠️     | No `<title>` or metadata                                                                                                         |
+| `apps/web/i18n/routing.ts`                                      | ⚠️     | Should be simplified to English-only routing                                                                                     |
+| Twitter card metadata uses `_title` / `_description`            | ❌     | **Bug at `utils/metadata.ts:60-61`** — uses empty `title` / `description` args instead of the resolved `_title` / `_description` |
+| `alternates.languages`                                          | ✅     | English-only site; no alternate language URLs required                                                                           |
+| `metadataBase` + canonical per page                             | ✅     | Helper wires these correctly when called                                                                                         |
+| Favicon / apple-touch-icon                                      | ✅     | `apps/web/app/[locale]/layout.tsx:24-25`                                                                                         |
 
 **Fix immediately (blocking):**
 
 1. `siteConfig.ts` — set real `title`, `description`, `keywords`
 2. `utils/metadata.ts` — use `_title` / `_description` in `twitter` block
-3. `utils/metadata.ts` — expand `alternates.languages` to include `fr` and `ko`
-4. `sitemap.ts` — generate entries for every page × every locale
+3. `i18n/routing.ts` — simplify routing to English-only behavior
+4. `sitemap.ts` — generate entries for every canonical English page
 5. `og/route.tsx` — remove template placeholder copy
 
 ---
@@ -59,7 +59,7 @@ Living checklist for all SEO work on logos.co. Status keys: ✅ done · ⏳ in p
 - [ ] `sitemap.xml` includes all 15 pages from [pages.md](pages.md)
 - [ ] Dynamic entries: `/circles/[slug]` per city, `/press/[slug]` per article, `/builders-hub/ideas/[id]`, `/builders-hub/rfps/[id]`
 - [ ] Each entry includes `lastModified`, `changeFrequency`, `priority`
-- [ ] One entry per (path × locale) combination via `alternates`
+- [ ] One entry per canonical English path
 - [ ] Sitemap submitted to Google Search Console + Bing Webmaster Tools
 
 ### Structured data (JSON-LD)
@@ -85,23 +85,23 @@ Living checklist for all SEO work on logos.co. Status keys: ✅ done · ⏳ in p
 
 ### Page title + description targeting
 
-| Page | Primary keyword | Working title |
-| --- | --- | --- |
-| Homepage | Logos / decentralized infrastructure | "Logos — Pioneering a New Era of Freedom" |
-| Tech Overview | logos technology stack | "The Logos Technology Stack — Privacy-First Infrastructure" |
-| Blockchain | privacy blockchain | "Blockchain — Privacy as Infrastructure \| Logos" |
-| Networking | decentralized networking | "Networking Stack — Privacy-First Networking \| Logos" |
-| Messaging | decentralized messaging | "Logos Messaging — Secure, Private Messaging" |
-| Storage | decentralized storage | "Storage — Private, Secure, Decentralized Storage \| Logos" |
-| Builders Hub | web3 builders / bounties | "Builders Hub — Build on Logos" |
-| Ideas | community ideas | "Ideas — Logos Community Submissions" |
-| RFPs | web3 bounties | "RFPs — Fund Your Build on Logos" |
-| Circles | logos circles / local chapters | "Logos Circles — Find Your Local Chapter" |
-| Circle Detail | `[city] logos circle` | "Logos Circle [City] — Join Your Local Movement" |
-| Press | logos news | "The Logos Press Engine" |
-| About | about logos | "About — Logos's Mission to Revitalize Civil Society" |
-| FAQ | — | "FAQ \| Logos" (set `robots.index: true` but low priority) |
-| Terms | — | "Terms & Conditions \| Logos" (set `robots.index: false` optional) |
+| Page          | Primary keyword                      | Working title                                                      |
+| ------------- | ------------------------------------ | ------------------------------------------------------------------ |
+| Homepage      | Logos / decentralized infrastructure | "Logos — Pioneering a New Era of Freedom"                          |
+| Tech Overview | logos technology stack               | "The Logos Technology Stack — Privacy-First Infrastructure"        |
+| Blockchain    | privacy blockchain                   | "Blockchain — Privacy as Infrastructure \| Logos"                  |
+| Networking    | decentralized networking             | "Networking Stack — Privacy-First Networking \| Logos"             |
+| Messaging     | decentralized messaging              | "Logos Messaging — Secure, Private Messaging"                      |
+| Storage       | decentralized storage                | "Storage — Private, Secure, Decentralized Storage \| Logos"        |
+| Builders Hub  | web3 builders / bounties             | "Builders Hub — Build on Logos"                                    |
+| Ideas         | community ideas                      | "Ideas — Logos Community Submissions"                              |
+| RFPs          | web3 bounties                        | "RFPs — Fund Your Build on Logos"                                  |
+| Circles       | logos circles / local chapters       | "Logos Circles — Find Your Local Chapter"                          |
+| Circle Detail | `[city] logos circle`                | "Logos Circle [City] — Join Your Local Movement"                   |
+| Press         | logos news                           | "The Logos Press Engine"                                           |
+| About         | about logos                          | "About — Logos's Mission to Revitalize Civil Society"              |
+| FAQ           | —                                    | "FAQ \| Logos" (set `robots.index: true` but low priority)         |
+| Terms         | —                                    | "Terms & Conditions \| Logos" (set `robots.index: false` optional) |
 
 ### Content quality
 
@@ -114,17 +114,15 @@ Living checklist for all SEO work on logos.co. Status keys: ✅ done · ⏳ in p
 
 ---
 
-## 3. International SEO (i18n)
+## 3. Language and Routing
 
-Routing: `en / fr / ko` with `localePrefix: 'as-needed'` — default locale (`en`) has no prefix, others are `/fr/*` and `/ko/*`.
+Routing is English-only. There should be no public `/fr/*` or `/ko/*` routes.
 
-- [ ] `createDefaultMetadata` outputs `alternates.languages` with all 3 locales + `x-default`
-- [ ] Every page emits `<link rel="alternate" hreflang="en" href="...">` etc. for each locale
-- [ ] `x-default` points to the English URL
-- [ ] Locale-switcher (`components/locale/locale-switcher.tsx`) uses correct `hreflang` attrs
-- [ ] Per-locale translations for `title`, `description`, and OG copy via `next-intl` messages files
-- [ ] Locale-specific OG image (or localized dynamic OG copy via `/og?title=...`)
-- [ ] Sitemap entries include `<xhtml:link rel="alternate" hreflang="...">` per locale
+- [ ] `i18n/routing.ts` exposes only `en`, or the i18n wrapper is removed if no longer needed.
+- [ ] `createDefaultMetadata` emits canonical URLs only; no alternate language URLs are required.
+- [ ] Locale switcher UI is removed or hidden.
+- [ ] Page titles, descriptions, and OG copy come from English content files.
+- [ ] Sitemap entries include canonical English URLs only.
 
 ---
 
@@ -202,24 +200,24 @@ For each page in [pages.md](pages.md), ensure:
 4. Internal links to relevant related pages
 5. JSON-LD per table below
 
-| Page | JSON-LD type | Breadcrumb | Priority in sitemap |
-| --- | --- | --- | --- |
-| `/` | `Organization` + `WebSite` | — | 1.0 |
-| `/technology-stack` | `WebPage` | Home → Tech Stack | 0.9 |
-| `/technology-stack/blockchain` | `TechArticle` | Home → Tech Stack → Blockchain | 0.8 |
-| `/technology-stack/networking` | `TechArticle` | Home → Tech Stack → Networking | 0.8 |
-| `/technology-stack/messaging` | `TechArticle` | Home → Tech Stack → Messaging | 0.8 |
-| `/technology-stack/storage` | `TechArticle` | Home → Tech Stack → Storage | 0.8 |
-| `/builders-hub` | `WebPage` + `ItemList` | Home → Builders Hub | 0.9 |
-| `/builders-hub/ideas` | `ItemList` | Home → Builders Hub → Ideas | 0.8 |
-| `/builders-hub/rfps` | `ItemList` | Home → Builders Hub → RFPs | 0.8 |
-| `/circles` | `ItemList` (locations) | Home → Circles | 0.9 |
-| `/circles/[slug]` | `LocalBusiness` or `Place` + `Event` | Home → Circles → [City] | 0.7 |
-| `/press` | `CollectionPage` | Home → Press | 0.7 |
-| `/press/[slug]` | `Article` | Home → Press → [Article] | 0.6 |
-| `/about` | `AboutPage` + `Organization` | Home → About | 0.8 |
-| `/faq` | `FAQPage` | Home → FAQ | 0.5 |
-| `/terms-and-conditions` | — | Home → Terms | 0.3 |
+| Page                           | JSON-LD type                         | Breadcrumb                     | Priority in sitemap |
+| ------------------------------ | ------------------------------------ | ------------------------------ | ------------------- |
+| `/`                            | `Organization` + `WebSite`           | —                              | 1.0                 |
+| `/technology-stack`            | `WebPage`                            | Home → Tech Stack              | 0.9                 |
+| `/technology-stack/blockchain` | `TechArticle`                        | Home → Tech Stack → Blockchain | 0.8                 |
+| `/technology-stack/networking` | `TechArticle`                        | Home → Tech Stack → Networking | 0.8                 |
+| `/technology-stack/messaging`  | `TechArticle`                        | Home → Tech Stack → Messaging  | 0.8                 |
+| `/technology-stack/storage`    | `TechArticle`                        | Home → Tech Stack → Storage    | 0.8                 |
+| `/builders-hub`                | `WebPage` + `ItemList`               | Home → Builders Hub            | 0.9                 |
+| `/builders-hub/ideas`          | `ItemList`                           | Home → Builders Hub → Ideas    | 0.8                 |
+| `/builders-hub/rfps`           | `ItemList`                           | Home → Builders Hub → RFPs     | 0.8                 |
+| `/circles`                     | `ItemList` (locations)               | Home → Circles                 | 0.9                 |
+| `/circles/[slug]`              | `LocalBusiness` or `Place` + `Event` | Home → Circles → [City]        | 0.7                 |
+| `/press`                       | `CollectionPage`                     | Home → Press                   | 0.7                 |
+| `/press/[slug]`                | `Article`                            | Home → Press → [Article]       | 0.6                 |
+| `/about`                       | `AboutPage` + `Organization`         | Home → About                   | 0.8                 |
+| `/faq`                         | `FAQPage`                            | Home → FAQ                     | 0.5                 |
+| `/terms-and-conditions`        | —                                    | Home → Terms                   | 0.3                 |
 
 ---
 
@@ -244,7 +242,7 @@ Before flipping DNS to production:
 
 - [ ] All items in §0 are ✅
 - [ ] Every page in [pages.md](pages.md) has `generateMetadata` + one `<h1>`
-- [ ] Sitemap contains every canonical URL × every locale
+- [ ] Sitemap contains every canonical English URL
 - [ ] `robots.ts` allows indexing in prod, blocks in staging
 - [ ] Staging is on a `noindex` subdomain (e.g. `staging.logos.co` with `X-Robots-Tag: noindex`)
 - [ ] OG images render correctly for 5 representative pages
