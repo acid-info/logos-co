@@ -12,10 +12,10 @@
     "generate-types": "PAYLOAD_CONFIG_PATH=payload.config.ts payload generate:types"
   },
   "dependencies": {
-    "@repo/content": "workspace:*",
-    "@payloadcms/db-sqlite": "3.83.0",
+    "@payloadcms/db-postgres": "3.83.0",
     "@payloadcms/next": "3.83.0",
     "@payloadcms/richtext-lexical": "3.83.0",
+    "@repo/content": "workspace:*",
     "graphql": "^16.13.2",
     "next": "16.2.4",
     "payload": "3.83.0",
