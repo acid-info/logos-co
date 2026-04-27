@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "route": "/technology-stack",
+  "title": "Technology Stack | Logos",
+  "description": "Modular by design. Storage, Messaging, Blockchain, and User Modules form the foundation for privacy-first decentralised applications.",
+  "heading": "The Logos Technology Stack",
+  "seo": {
+    "keywords": ["logos", "technology stack", "storage", "messaging", "blockchain", "modules"]
+  },
+  "sections": [
+    {
+      "componentType": "hero",
+      "key": "techStack.hero",
+      "eyebrow": "Open by design, open in spirit.",
+      "headline": "The Logos Technology Stack",
+      "body": "The Logos Technology Stack is a unified ecosystem of distinct modules. The entire stack is modular so developers can assemble their own Logos-based platform with a different selection of modules."
+    },
+    {
+      "componentType": "techStackOverview",
+      "key": "techStack.overview",
+      "pillars": [
+        {
+          "id": "storage",
+          "title": "Storage",
+          "body": "Codex-based content addressing with reproducible attestation and graceful client-side fallback.",
+          "href": "/technology-stack/storage"
+        },
+        {
+          "id": "messaging",
+          "title": "Messaging",
+          "body": "Waku peer-to-peer messaging that survives hostile networks and adversarial intermediaries.",
+          "href": "/technology-stack/messaging"
+        },
+        {
+          "id": "blockchain",
+          "title": "Blockchain",
+          "body": "Cryptarchia: a private proof-of-stake consensus where validator identities and stake amounts remain hidden.",
+          "href": "/technology-stack/blockchain"
+        },
+        {
+          "id": "userModules",
+          "title": "User Modules",
+          "body": "Wallet, chat, files, and explorer modules composing into the Logos App.",
+          "href": "/technology-stack#logos-app"
+        }
+      ],
+      "networkingTitle": "The Networking Stack: Discovery, Peering, and Mix-Net",
+      "foundationTitle": "The Foundation: Logos Kernel"
+    },
+    {
+      "componentType": "giantSwitch",
+      "key": "techStack.appInstall",
+      "accent": "grey",
+      "imagePosition": "right",
+      "title": "Install the Logos app.",
+      "description": "The Logos App is a complete distribution that bundles the kernel, the default modules, and UI packages into a usable product. It provides the primary user interface, hosting Simple Apps that let users interact with the various modules.",
+      "image": {
+        "src": "/cms/pages/technology-stack/app-install.webp",
+        "alt": "",
+        "width": 566,
+        "height": 566
+      },
+      "tags": [
+        { "label": "Wallet", "icon": "wallet" },
+        { "label": "Chat Interface", "icon": "chat" },
+        { "label": "Filesharing Tool", "icon": "files" },
+        { "label": "Explorer", "icon": "explorer" }
+      ],
+      "primaryCta": {
+        "label": "Install",
+        "href": "https://logos.co/app",
+        "external": true,
+        "variant": "primary"
+      },
+      "secondaryCta": {
+        "label": "Learn more",
+        "href": "/technology-stack#logos-app",
+        "variant": "secondary"
+      }
+    },
+    {
+      "componentType": "cardGrid",
+      "key": "techStack.useCases",
+      "heading": "Use Cases",
+      "subheading": "We know today's systems are captured and brittle. We build alternatives to give people a choice. Build on Logos and serve your community.",
+      "cards": [
+        {
+          "title": "Attack-Resistant Public Registries",
+          "description": "Privacy-preserving blockchain for sovereign order and decentralised governance.",
+          "cta": { "label": "Learn more", "href": "/technology-stack/blockchain" }
+        },
+        {
+          "title": "Decentralised Archives",
+          "description": "Permanent, censorship-proof preservation of knowledge, culture, and history.",
+          "cta": { "label": "Learn more", "href": "/technology-stack/storage" }
+        },
+        {
+          "title": "Private Financial Networks",
+          "description": "Money that moves securely and freely, without surveillance or control.",
+          "cta": { "label": "Learn more", "href": "/technology-stack/blockchain" }
+        },
+        {
+          "title": "Community Governance",
+          "description": "Self-organising groups establish and enforce their own rules, with members engaging voluntarily.",
+          "cta": { "label": "Learn more", "href": "/circles" }
+        }
+      ]
+    }
+  ]
+}

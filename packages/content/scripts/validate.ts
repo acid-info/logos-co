@@ -398,6 +398,14 @@ const buildCirclesChecks = (locale: Language): Check[] => [
   },
 ]
 
+const PAGE_ROUTES: ReadonlyArray<{ route: string; minSections: number }> = [
+  { route: '/', minSections: 1 },
+  { route: '/builders-hub', minSections: 0 },
+  { route: '/circles', minSections: 0 },
+  { route: '/technology-stack', minSections: 1 },
+  { route: '/technology-stack/blockchain', minSections: 1 },
+]
+
 const buildPagesChecks = (locale: Language): Check[] => [
   {
     name: `pages.home (${locale}) → loads + every section componentType valid`,
@@ -451,6 +459,59 @@ const buildPagesChecks = (locale: Language): Check[] => [
           case 'richText':
             if (!section.body) throw new Error(`richText "${section.key}" missing body`)
             break
+        }
+      }
+      return page
+    },
+  },
+  {
+    name: `pages — every seed route loads + route-field round-trips + minSections`,
+    run: async () => {
+      for (const { route, minSections } of PAGE_ROUTES) {
+        const page = await getPageCopy(route, locale)
+        if (page.route !== route) {
+          throw new Error(`route mismatch on "${route}": file declares "${page.route}"`)
+        }
+        if (page.sections.length < minSections) {
+          throw new Error(
+            `page "${route}" has ${page.sections.length} sections, expected at least ${minSections}`,
+          )
+        }
+        if (!page.title || !page.description) {
+          throw new Error(`page "${route}" missing title or description`)
+        }
+      }
+      return PAGE_ROUTES
+    },
+  },
+  {
+    name: `pages.technology-stack (${locale}) → giantSwitch present + tags icons enum-validated`,
+    run: async () => {
+      const page = await getPageCopy('/technology-stack', locale)
+      const gs = page.sections.find((s) => s.componentType === 'giantSwitch')
+      if (!gs || gs.componentType !== 'giantSwitch') {
+        throw new Error('technology-stack.json missing a giantSwitch section')
+      }
+      if (!gs.tags || gs.tags.length === 0) {
+        throw new Error('giantSwitch tags missing — Logos App banner expects at least one tag')
+      }
+      const allowed = new Set(['wallet', 'chat', 'files', 'explorer', 'lambda'])
+      for (const tag of gs.tags) {
+        if (tag.icon !== undefined && !allowed.has(tag.icon)) {
+          throw new Error(`giantSwitch tag "${tag.label}" has unknown icon "${tag.icon}"`)
+        }
+      }
+      return gs
+    },
+  },
+  {
+    name: `pages.technology-stack/blockchain (${locale}) → relatedArticles section + ctaPanel present`,
+    run: async () => {
+      const page = await getPageCopy('/technology-stack/blockchain', locale)
+      const types = new Set(page.sections.map((s) => s.componentType))
+      for (const required of ['hero', 'richText', 'cardGrid', 'ctaPanel', 'relatedArticles']) {
+        if (!types.has(required as never)) {
+          throw new Error(`blockchain page missing "${required}" section`)
         }
       }
       return page

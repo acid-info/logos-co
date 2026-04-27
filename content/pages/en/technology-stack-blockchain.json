@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "route": "/technology-stack/blockchain",
+  "title": "Blockchain | Logos",
+  "description": "This isn't just another L1 — it's a purpose-built blockchain using Cryptarchia, a private proof-of-stake consensus mechanism where validator identities and stake amounts remain hidden.",
+  "heading": "Blockchain",
+  "seo": {
+    "keywords": ["logos", "blockchain", "cryptarchia", "proof of stake", "privacy", "consensus"]
+  },
+  "sections": [
+    {
+      "componentType": "hero",
+      "key": "blockchain.hero",
+      "eyebrow": "Technology stack",
+      "headline": "Blockchain",
+      "body": "This isn't just another L1 — it's a purpose-built blockchain using Cryptarchia, a private proof-of-stake consensus mechanism where validator identities and stake amounts remain hidden.",
+      "ctas": [
+        { "label": "Logos app", "href": "https://logos.co/app", "external": true, "variant": "primary" },
+        { "label": "Docs", "href": "https://docs.logos.co/blockchain", "external": true, "variant": "secondary" }
+      ]
+    },
+    {
+      "componentType": "richText",
+      "key": "blockchain.privacy",
+      "body": "Privacy as infrastructure. Logos addresses privacy concerns through a combination of private leadership elections and anonymous broadcasting, creating a system where proposers can participate in consensus without revealing their identity or stake."
+    },
+    {
+      "componentType": "cardGrid",
+      "key": "blockchain.cryptarchia",
+      "heading": "Cryptarchia",
+      "subheading": "A private proof-of-stake consensus mechanism where validator identities and stake amounts remain hidden.",
+      "cards": [
+        {
+          "title": "The Blend Network",
+          "description": "Providing network-level anonymity for block propagation."
+        },
+        {
+          "title": "Logos Execution Zone (LEZ)",
+          "description": "Enabling programmable state — both public and private — where developers can deploy programs, run AMMs, transfer tokens, and build financial primitives with built-in privacy."
+        }
+      ]
+    },
+    {
+      "componentType": "ctaPanel",
+      "key": "blockchain.builderCta",
+      "title": "Logos Builder Hub",
+      "description": "Everything you need to start building privacy-first decentralised applications. Explore RFPs, find ideas, and connect with other builders.",
+      "cta": { "label": "Build", "href": "/builders-hub" }
+    },
+    {
+      "componentType": "relatedArticles",
+      "key": "blockchain.relatedArticles",
+      "eyebrow": "Logos in the News",
+      "title": "Related Articles",
+      "cta": { "label": "Explore all articles", "href": "/press" },
+      "visibleCount": 4
+    }
+  ]
+}
