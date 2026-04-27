@@ -1,0 +1,28 @@
+{
+  "name": "@repo/content",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./schemas": "./src/schemas/index.ts",
+    "./loaders": "./src/loaders/index.ts",
+    "./github": "./src/github/index.ts",
+    "./media": "./src/media/index.ts",
+    "./locales": "./src/locales/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint . --config ../../packages/config/eslint/base.mjs --max-warnings 0",
+    "lint:fix": "eslint . --config ../../packages/config/eslint/base.mjs --fix",
+    "check-types": "tsc --noEmit",
+    "validate": "tsx scripts/validate.ts"
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "25.6.0",
+    "eslint": "^10.2.1",
+    "tsx": "^4.20.0",
+    "typescript": "^6.0.3"
+  }
+}

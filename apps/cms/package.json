@@ -12,6 +12,7 @@
     "generate-types": "PAYLOAD_CONFIG_PATH=payload.config.ts payload generate:types"
   },
   "dependencies": {
+    "@repo/content": "workspace:*",
     "@payloadcms/db-sqlite": "3.83.0",
     "@payloadcms/next": "3.83.0",
     "@payloadcms/richtext-lexical": "3.83.0",

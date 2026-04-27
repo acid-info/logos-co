@@ -1,0 +1,95 @@
+import { existsSync } from 'node:fs'
+import { readFile, readdir } from 'node:fs/promises'
+import { resolve } from 'node:path'
+
+import type { ZodTypeAny, infer as zInfer } from 'zod'
+
+const CONTENT_ROOT_ENV = 'LOGOS_CONTENT_ROOT'
+const SEARCH_DEPTH = 4
+
+let configuredRoot: string | null = null
+
+/**
+ * Override the content root explicitly. Apps that build from a non-standard
+ * cwd (scripts, tests) call this before any loader.
+ */
+export const setContentRoot = (root: string): void => {
+  configuredRoot = root
+}
+
+const WORKSPACE_MARKERS = ['pnpm-workspace.yaml', 'turbo.json'] as const
+
+const isWorkspaceRoot = (dir: string): boolean =>
+  WORKSPACE_MARKERS.some((marker) => existsSync(resolve(dir, marker)))
+
+/**
+ * Resolution order:
+ *   1. `setContentRoot(...)` (highest priority — explicit caller intent).
+ *   2. `LOGOS_CONTENT_ROOT` env var.
+ *   3. Walk up from `process.cwd()` for the workspace root (identified by
+ *      `pnpm-workspace.yaml` or `turbo.json`) and use its `content/` dir.
+ *      A bare `content/` lookup would mis-identify `packages/content` itself
+ *      as the data root, so the resolver insists on a workspace marker.
+ */
+export const getContentRoot = (): string => {
+  if (configuredRoot) return configuredRoot
+  const fromEnv = process.env[CONTENT_ROOT_ENV]
+  if (fromEnv) return fromEnv
+
+  let dir = process.cwd()
+  for (let i = 0; i <= SEARCH_DEPTH; i++) {
+    if (isWorkspaceRoot(dir)) {
+      const candidate = resolve(dir, 'content')
+      if (existsSync(candidate)) return candidate
+      throw new Error(
+        `workspace root found at ${dir} but no content/ directory exists; create one or set ${CONTENT_ROOT_ENV}`,
+      )
+    }
+    const parent = resolve(dir, '..')
+    if (parent === dir) break
+    dir = parent
+  }
+  throw new Error(
+    `content root not found from cwd "${process.cwd()}"; set ${CONTENT_ROOT_ENV} or call setContentRoot()`,
+  )
+}
+
+export const contentPath = (...segments: string[]): string => {
+  return resolve(getContentRoot(), ...segments)
+}
+
+export const readJson = async <S extends ZodTypeAny>(
+  filePath: string,
+  schema: S,
+): Promise<zInfer<S>> => {
+  let raw: string
+  try {
+    raw = await readFile(filePath, 'utf-8')
+  } catch (err) {
+    const reason = err instanceof Error ? err.message : String(err)
+    throw new Error(`failed to read ${filePath}: ${reason}`)
+  }
+
+  let parsed: unknown
+  try {
+    parsed = JSON.parse(raw)
+  } catch (err) {
+    const reason = err instanceof Error ? err.message : String(err)
+    throw new Error(`invalid JSON at ${filePath}: ${reason}`)
+  }
+
+  const result = schema.safeParse(parsed)
+  if (!result.success) {
+    const issues = result.error.issues
+      .map((issue) => `${issue.path.join('.') || '<root>'}: ${issue.message}`)
+      .join('; ')
+    throw new Error(`schema validation failed at ${filePath}: ${issues}`)
+  }
+  return result.data
+}
+
+export const listDirectories = async (parent: string): Promise<string[]> => {
+  if (!existsSync(parent)) return []
+  const entries = await readdir(parent, { withFileTypes: true })
+  return entries.filter((entry) => entry.isDirectory()).map((entry) => entry.name)
+}

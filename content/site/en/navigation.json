@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "closedBar": {
+    "brandLabel": "LOGOS",
+    "menuLabel": "MENU",
+    "closeLabel": "CLOSE MENU",
+    "openAriaLabel": "Open navigation menu",
+    "closeAriaLabel": "Close navigation menu"
+  },
+  "sitemap": [
+    { "label": "Technology Stack", "href": "/technology-stack" },
+    { "label": "Take Action", "href": "/take-action" },
+    { "label": "Logos Circles", "href": "/circles" },
+    { "label": "Book", "href": "/book" },
+    { "label": "Links", "href": "/links" }
+  ],
+  "communityCards": [
+    {
+      "label": "Build",
+      "href": "/builders-hub",
+      "description": "Everything you need to start building privacy-first decentralized applications. Explore ideas, find bounties, and connect with others.",
+      "image": { "src": "/nav-overlay/build.png", "alt": "" }
+    },
+    {
+      "label": "Node Program",
+      "href": "/node-program",
+      "description": "The Node Program is for anyone who wants to join our movement to revitalize civil society using decentralized technologies.",
+      "image": { "src": "/nav-overlay/node-program.png", "alt": "" }
+    },
+    {
+      "label": "Circles",
+      "href": "/circles",
+      "description": "Local chapters are at the heart of our movement. Learn civil organizing, share skills, and forge new connections.",
+      "image": { "src": "/nav-overlay/circles.png", "alt": "" }
+    }
+  ],
+  "press": {
+    "label": "Press",
+    "seeAllLabel": "SEE ALL",
+    "seeAllHref": "/press",
+    "visibleCount": 4
+  }
+}

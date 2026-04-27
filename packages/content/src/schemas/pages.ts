@@ -1,0 +1,221 @@
+import { z } from 'zod'
+
+import { builderHubTagSchema, rewardSchema } from './builders-hub.js'
+import {
+  ctaSchema,
+  httpsUrlSchema,
+  isoDateTimeSchema,
+  languageSchema,
+  linkHrefSchema,
+  mediaRefSchema,
+  schemaVersion,
+  slugSchema,
+} from './common.js'
+
+/**
+ * Internal-only route path. Pages are statically rendered under `/[locale]`,
+ * so the stored route is always relative to the locale segment and starts
+ * with "/".
+ */
+const routePathSchema = z
+  .string()
+  .min(1)
+  .refine((value) => value.startsWith('/'), 'route must start with "/"')
+
+/**
+ * Section keys mirror Figma section keys (e.g. "home.atf", "home.techStack",
+ * "buildersHub.heroSection"). The shape is intentionally permissive — design
+ * naming evolves and a regex would just rot.
+ */
+const sectionKeySchema = z.string().min(1)
+
+// ---------------------------------------------------------------------------
+// PageSeo
+// ---------------------------------------------------------------------------
+
+export const pageSeoSchema = z.object({
+  /** Overrides PageCopy.title for the document `<title>`. */
+  metaTitle: z.string().min(1).optional(),
+  /** Overrides PageCopy.description for the meta description. */
+  metaDescription: z.string().min(1).optional(),
+  keywords: z.array(z.string().min(1)).optional(),
+  ogImage: mediaRefSchema.optional(),
+  noindex: z.boolean().optional(),
+  canonicalUrl: httpsUrlSchema.optional(),
+})
+export type PageSeo = z.infer<typeof pageSeoSchema>
+
+// ---------------------------------------------------------------------------
+// Section types (discriminated by `componentType`)
+// ---------------------------------------------------------------------------
+
+export const heroSectionSchema = z.object({
+  componentType: z.literal('hero'),
+  key: sectionKeySchema,
+  eyebrow: z.string().min(1).optional(),
+  headline: z.string().min(1),
+  body: z.string().min(1).optional(),
+  background: mediaRefSchema.optional(),
+  ctas: z.array(ctaSchema).optional(),
+})
+export type HeroSection = z.infer<typeof heroSectionSchema>
+
+export const richTextSectionSchema = z.object({
+  componentType: z.literal('richText'),
+  key: sectionKeySchema,
+  body: z.string().min(1),
+})
+export type RichTextSection = z.infer<typeof richTextSectionSchema>
+
+const cardGridCardSchema = z.object({
+  title: z.string().min(1),
+  description: z.string().min(1).optional(),
+  image: mediaRefSchema.optional(),
+  cta: ctaSchema.optional(),
+  showIcon: z.boolean().optional(),
+})
+
+export const cardGridSectionSchema = z.object({
+  componentType: z.literal('cardGrid'),
+  key: sectionKeySchema,
+  heading: z.string().min(1).optional(),
+  subheading: z.string().min(1).optional(),
+  cards: z.array(cardGridCardSchema).min(1),
+})
+export type CardGridSection = z.infer<typeof cardGridSectionSchema>
+
+const tableRowSchema = z.object({
+  number: z.string().min(1).optional(),
+  title: z.string().min(1),
+  description: z.string().min(1).optional(),
+  reward: rewardSchema.optional(),
+  cta: ctaSchema.optional(),
+})
+
+export const tableSectionSchema = z.object({
+  componentType: z.literal('table'),
+  key: sectionKeySchema,
+  title: z.string().min(1),
+  subtitle: z.string().min(1).optional(),
+  action: ctaSchema.optional(),
+  rows: z.array(tableRowSchema).default([]),
+})
+export type TableSection = z.infer<typeof tableSectionSchema>
+
+export const giantSwitchSectionSchema = z.object({
+  componentType: z.literal('giantSwitch'),
+  key: sectionKeySchema,
+  accent: z.enum(['grey', 'yellow']),
+  imagePosition: z.enum(['left', 'right']),
+  title: z.string().min(1),
+  description: z.string().min(1),
+  image: mediaRefSchema,
+  tags: z.array(builderHubTagSchema).optional(),
+  primaryCta: ctaSchema.optional(),
+  secondaryCta: ctaSchema.optional(),
+})
+export type GiantSwitchSection = z.infer<typeof giantSwitchSectionSchema>
+
+export const relatedArticlesSectionSchema = z.object({
+  componentType: z.literal('relatedArticles'),
+  key: sectionKeySchema,
+  label: z.string().min(1).optional(),
+  eyebrow: z.string().min(1).optional(),
+  title: z.string().min(1),
+  cta: ctaSchema.optional(),
+  /** Press article slugs; loader fills remaining slots from latest published. */
+  pinnedSlugs: z.array(slugSchema).optional(),
+  /** Loader applies a default of 4 when omitted. */
+  visibleCount: z.number().int().positive().optional(),
+})
+export type RelatedArticlesSection = z.infer<typeof relatedArticlesSectionSchema>
+
+export const ctaPanelSectionSchema = z.object({
+  componentType: z.literal('ctaPanel'),
+  key: sectionKeySchema,
+  title: z.string().min(1),
+  description: z.string().min(1).optional(),
+  image: mediaRefSchema.optional(),
+  cta: ctaSchema,
+})
+export type CtaPanelSection = z.infer<typeof ctaPanelSectionSchema>
+
+const galleryItemSchema = z.object({
+  image: mediaRefSchema,
+  caption: z.string().min(1).optional(),
+  /**
+   * Free-form date string. ISO 8601 is preferred when callers need to compare
+   * or sort, but gallery captions often want abbreviated forms ("FEB 14").
+   */
+  date: z.union([isoDateTimeSchema, z.string().min(1)]).optional(),
+})
+
+export const gallerySectionSchema = z.object({
+  componentType: z.literal('gallery'),
+  key: sectionKeySchema,
+  items: z.array(galleryItemSchema).min(1),
+})
+export type GallerySection = z.infer<typeof gallerySectionSchema>
+
+const techStackPillarSchema = z.object({
+  id: z.enum(['storage', 'messaging', 'blockchain', 'userModules']),
+  title: z.string().min(1),
+  body: z.string().min(1),
+  href: linkHrefSchema,
+})
+
+export const techStackOverviewSectionSchema = z.object({
+  componentType: z.literal('techStackOverview'),
+  key: sectionKeySchema,
+  pillars: z.array(techStackPillarSchema).length(4),
+  networkingTitle: z.string().min(1),
+  foundationTitle: z.string().min(1),
+})
+export type TechStackOverviewSection = z.infer<typeof techStackOverviewSectionSchema>
+
+/**
+ * Escape hatch for one-off sections. The `payload` is validated against the
+ * Zod schema registered for `customSchemaId` at load time (see
+ * `./custom-sections.ts`), not at parse time.
+ */
+export const customSectionSchema = z.object({
+  componentType: z.literal('custom'),
+  key: sectionKeySchema,
+  customSchemaId: z.string().min(1),
+  payload: z.unknown(),
+})
+export type CustomSection = z.infer<typeof customSectionSchema>
+
+// ---------------------------------------------------------------------------
+// PageSection discriminated union
+// ---------------------------------------------------------------------------
+
+export const pageSectionSchema = z.discriminatedUnion('componentType', [
+  heroSectionSchema,
+  richTextSectionSchema,
+  cardGridSectionSchema,
+  tableSectionSchema,
+  giantSwitchSectionSchema,
+  relatedArticlesSectionSchema,
+  ctaPanelSectionSchema,
+  gallerySectionSchema,
+  techStackOverviewSectionSchema,
+  customSectionSchema,
+])
+export type PageSection = z.infer<typeof pageSectionSchema>
+
+// ---------------------------------------------------------------------------
+// PageCopy
+// ---------------------------------------------------------------------------
+
+export const pageCopySchema = z.object({
+  schemaVersion: schemaVersion(1),
+  language: languageSchema,
+  route: routePathSchema,
+  title: z.string().min(1),
+  description: z.string().min(1),
+  heading: z.string().min(1).optional(),
+  seo: pageSeoSchema.optional(),
+  sections: z.array(pageSectionSchema).default([]),
+})
+export type PageCopy = z.infer<typeof pageCopySchema>
