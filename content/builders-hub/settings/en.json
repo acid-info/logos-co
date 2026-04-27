@@ -1,0 +1,145 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "hero": {
+    "title": "Logos Builders Hub",
+    "description": "Ideas, resources, and everything you need to start building with Logos tech today."
+  },
+  "overviewLinks": [
+    {
+      "key": "ideas",
+      "title": "Ideas",
+      "description": "Community-submitted concepts driving sovereignty forward.",
+      "primaryCta": { "label": "Learn more", "href": "/builders-hub/ideas#about" },
+      "secondaryCta": { "label": "View now", "href": "/builders-hub/ideas" }
+    },
+    {
+      "key": "rfps",
+      "title": "RFPs",
+      "description": "Funded calls for builders to ship privacy-first decentralised applications.",
+      "primaryCta": { "label": "Learn more", "href": "/builders-hub/rfps#about" },
+      "secondaryCta": { "label": "View now", "href": "/builders-hub/rfps" }
+    },
+    {
+      "key": "resources",
+      "title": "Resources",
+      "description": "Quick starts, documentation, and reference implementations.",
+      "primaryCta": { "label": "Browse", "href": "/builders-hub#resources" }
+    },
+    {
+      "key": "github-issues",
+      "title": "GitHub Issues",
+      "description": "Open work items across the Logos repositories.",
+      "primaryCta": {
+        "label": "View on GitHub",
+        "href": "https://github.com/logos-co",
+        "external": true
+      }
+    },
+    {
+      "key": "contribute",
+      "title": "Contribute",
+      "description": "Pathways for joining the build — from one-off issues to long-term contributions.",
+      "primaryCta": { "label": "Get started", "href": "/work-with-us" }
+    }
+  ],
+  "rfpsSection": {
+    "title": "RFPs",
+    "description": "Funded calls for builders to ship Logos-powered applications.",
+    "filterCta": { "label": "Filter", "href": "/builders-hub/rfps?filter=open" },
+    "seeAllCta": { "label": "See all RFPs", "href": "/builders-hub/rfps" },
+    "submitCta": {
+      "label": "Submit an RFP",
+      "href": "https://forms.logos.co/rfp",
+      "external": true
+    },
+    "displayCount": 8,
+    "pinnedSlugs": [
+      "secure-decentralized-frontends",
+      "build-a-dex",
+      "integrate-fileverse"
+    ],
+    "terminatorCard": {
+      "kind": "see-all-ideas",
+      "title": "See all ideas",
+      "thumbnailSlugs": [
+        "quadratic-voting",
+        "community-bank",
+        "permissionless-dns"
+      ],
+      "href": "/builders-hub/ideas"
+    }
+  },
+  "ideasSection": {
+    "title": "Ideas",
+    "description": "Ideas from our community driving sovereignty forward.",
+    "seeAllCta": { "label": "See all ideas", "href": "/builders-hub/ideas" },
+    "submitCta": {
+      "label": "Submit an idea",
+      "href": "https://forms.logos.co/idea",
+      "external": true
+    },
+    "displayCount": 7
+  },
+  "appInstall": {
+    "accent": "grey",
+    "imagePosition": "left",
+    "title": "Install the Logos app.",
+    "description": "The Logos App is a complete distribution that bundles the kernel, default modules, and UI packages into a usable product. It provides the primary user interface, hosting Simple Apps that let users interact with the various modules.",
+    "tags": [
+      { "label": "Wallet", "icon": "wallet" },
+      { "label": "Chat Interface", "icon": "chat" },
+      { "label": "Filesharing Tool", "icon": "files" },
+      { "label": "Explorer", "icon": "explorer" }
+    ],
+    "installCta": {
+      "label": "Install",
+      "href": "https://logos.co/app",
+      "external": true,
+      "variant": "primary"
+    },
+    "learnMoreCta": {
+      "label": "Learn more",
+      "href": "/technology-stack#logos-app",
+      "variant": "secondary"
+    },
+    "image": {
+      "src": "/cms/builders-hub/settings/app-install.webp",
+      "alt": "",
+      "width": 566,
+      "height": 566
+    }
+  },
+  "actionPanels": [
+    {
+      "variant": "image-overlay",
+      "title": "Get started faster with boilerplate apps",
+      "description": "Community boilerplate reference implementations that can save time and effort.",
+      "image": {
+        "src": "/cms/builders-hub/settings/boilerplate.webp",
+        "alt": "",
+        "width": 892,
+        "height": 1114
+      },
+      "cta": {
+        "label": "Go",
+        "href": "https://github.com/logos-co/boilerplates",
+        "external": true
+      }
+    }
+  ],
+  "officeHours": {
+    "title": "Office hours",
+    "description": "Talk to Logos core contributors.",
+    "cta": {
+      "label": "Join",
+      "href": "https://logos.co/office-hours",
+      "external": true
+    }
+  },
+  "resourcesSection": {
+    "title": "Additional Resources",
+    "description": "Reference material to help you ship faster.",
+    "helpCenterCta": { "label": "Get help", "href": "/faq" }
+  }
+}

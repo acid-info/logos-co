@@ -1,3 +1,8 @@
+// Payload admin theme CSS. Without this import /admin renders as raw HTML —
+// React Crop and a few leaf styles still load, but the dashboard chrome and
+// form controls have no theme.
+import '@payloadcms/next/css'
+
 import type { ReactNode } from 'react'
 
 import {

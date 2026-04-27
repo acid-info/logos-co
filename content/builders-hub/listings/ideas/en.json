@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "page": "ideas",
+  "title": "Ideas",
+  "description": "Community-submitted concepts driving sovereignty forward.",
+  "breadcrumbLabel": "Ideas",
+  "submitCta": {
+    "label": "Submit an idea",
+    "href": "https://forms.logos.co/idea",
+    "external": true
+  },
+  "defaultView": "list",
+  "pageSize": 10,
+  "pagination": {
+    "previousLabel": "Previous",
+    "nextLabel": "Next"
+  },
+  "bottomCta": {
+    "title": "We want your ideas.",
+    "cta": {
+      "label": "Submit an idea",
+      "href": "https://forms.logos.co/idea",
+      "external": true
+    }
+  }
+}

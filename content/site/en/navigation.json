@@ -39,6 +39,7 @@
     "label": "Press",
     "seeAllLabel": "SEE ALL",
     "seeAllHref": "/press",
-    "visibleCount": 4
+    "visibleCount": 4,
+    "pinnedSlugs": ["from-cybernetics-to-blockchain-communities"]
   }
 }

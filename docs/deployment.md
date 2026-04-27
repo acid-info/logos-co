@@ -62,15 +62,36 @@ Preview    : PAYLOAD_DB_SCHEMA=payload_preview
 
 When omitted, both use `payload`. The first request after a deploy creates the schema and tables.
 
+### Bootstrapping the schema (first-time only)
+
+Payload's `push: true` config syncs schema changes via Drizzle's introspect/push mechanism, which runs **only** when the CMS is started in dev mode. On Vercel cold starts the runtime never executes a push, so a brand-new database boots into:
+
+```text
+relation "payload.users" does not exist
+```
+
+To create the `payload` schema and tables once, point a local `apps/cms` dev server at the remote database:
+
+```bash
+# In apps/cms/.env, set DATABASE_URL to the same value Vercel uses.
+pnpm --filter cms dev
+# Wait for "✓ Pulling schema from database..." then hit any admin URL once:
+curl -sS -o /dev/null -w '%{http_code}\n' http://localhost:3001/admin
+```
+
+After the first request the `payload` schema appears in Postgres with all required tables (`users`, `users_sessions`, `pages`, `payload_preferences`, etc.). Subsequent prod deploys read those tables happily.
+
+Repeat this step whenever a schema change ships (new collection, new field) until the project graduates to proper migrations (Phase 4+).
+
 ### First admin user
 
-The CMS does not seed an initial admin. After the first successful boot:
+The CMS does not seed an initial admin. After the schema is bootstrapped:
 
 1. Visit `https://logos-co-cms.vercel.app/admin`.
 2. Payload's first-run flow prompts for an admin email + password.
 3. The user is written to the Postgres `payload` schema and persists across deploys.
 
-If preview deploys share the same `DATABASE_URL` and `PAYLOAD_DB_SCHEMA`, the same admin user works everywhere. Set a different `PAYLOAD_DB_SCHEMA` for preview to isolate users.
+If preview deploys share the same `DATABASE_URL` and `PAYLOAD_DB_SCHEMA`, the same admin user works everywhere. Set a different `PAYLOAD_DB_SCHEMA` for preview to isolate users; the bootstrap step needs to run once per schema.
 
 ### Alternative: dedicated Postgres / Neon / Vercel Postgres
 
@@ -122,7 +143,7 @@ A 401 means Payload booted, talked to Postgres, and answered. A 500 means env va
 | `password authentication failed for user "postgres"` | wrong / rotated DB password | Update `DATABASE_URL` with the current Supabase password. |
 | `connection reset` / `ECONNRESET` mid-request | Supabase pooler timeout under heavy load | Switch port from `6543` (transaction) to `5432` (session) in `DATABASE_URL`. |
 | `prepared statement "S_1" does not exist` | transaction pooler dropped a prepared statement | Same fix — use the session pooler at port `5432`. |
-| `relation "payload.users" does not exist` | tables not yet created in the target schema | Default config has `push: true` so the next boot creates them. If `PAYLOAD_DB_PUSH=false` is set, run `pnpm --filter cms exec payload migrate` once before booting. |
+| `relation "payload.users" does not exist` | tables not yet created in the target schema (Drizzle push only runs in dev mode) | Bootstrap by running `pnpm --filter cms dev` locally with `DATABASE_URL` set to the same value Vercel uses, hit `/admin` once, then redeploy prod. See "Bootstrapping the schema" above. |
 | CORS errors from `apps/web` calling the CMS | `NEXT_PUBLIC_WEB_URL` mismatch | Set the env var to the exact web origin (no trailing slash). |
 | Admin login redirects then fails | Cookie domain mismatch or stale session | Ensure `NEXT_PUBLIC_SERVER_URL` matches the URL the browser is using. Clear cookies. |
 | Preview deploys mutate production data | Single schema across envs | Set `PAYLOAD_DB_SCHEMA=payload_preview` on the Preview env only. |

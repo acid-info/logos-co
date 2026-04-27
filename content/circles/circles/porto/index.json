@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "slug": "porto",
+  "status": "published",
+  "city": "Porto",
+  "country": "Portugal",
+  "coordinates": { "lat": 41.1579, "lng": -8.6291 },
+  "timezone": "Europe/Lisbon",
+  "memberCount": 47,
+  "discordChannel": "circle-porto",
+  "discordUrl": "https://discord.gg/logos",
+  "forumUrl": "https://forum.logos.co/c/circles/porto",
+  "joinUrl": "https://forms.logos.co/join/porto",
+  "image": {
+    "src": "/cms/circles/porto/cover.webp",
+    "alt": "",
+    "width": 720,
+    "height": 480
+  },
+  "organizers": [
+    { "name": "Mariana Costa", "handle": "mariana" }
+  ],
+  "order": 3
+}
