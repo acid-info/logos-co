@@ -28,7 +28,15 @@ import {
   getCircles,
   getCirclesSettings,
 } from '../src/loaders/circles.js'
-import { getPageCopy } from '../src/loaders/pages.js'
+import { z } from 'zod'
+
+import {
+  __resetCustomSectionRegistryForTests,
+  getCustomSectionSchema,
+  registerCustomSection,
+} from '../src/schemas/custom-sections.js'
+import { customSectionSchema } from '../src/schemas/pages.js'
+import { getPageCopy, parseCustomSectionPayload } from '../src/loaders/pages.js'
 import { getPressArticles } from '../src/loaders/press.js'
 import { getFooter, getNavigation, getSiteSettings } from '../src/loaders/site.js'
 import { getActiveLocales } from '../src/locales/registry.js'
@@ -519,6 +527,108 @@ const buildPagesChecks = (locale: Language): Check[] => [
   },
 ]
 
+const buildCustomSectionChecks = (): Check[] => {
+  // Sample custom-section schema: an announcement banner with a level enum.
+  // The shape is local to this test — production custom sections register
+  // their own schemas at app bootstrap.
+  const announcementBannerSchema = z.object({
+    level: z.enum(['info', 'warning']),
+    message: z.string().min(1),
+    dismissible: z.boolean().default(false),
+  })
+  type AnnouncementBanner = z.infer<typeof announcementBannerSchema>
+
+  const SCHEMA_ID = 'announcement-banner'
+
+  return [
+    {
+      name: 'custom-sections → register / lookup / duplicate-throw / unknown-id',
+      run: async () => {
+        __resetCustomSectionRegistryForTests()
+
+        // Unknown id returns undefined before registration.
+        if (getCustomSectionSchema(SCHEMA_ID) !== undefined) {
+          throw new Error('lookup before register should return undefined')
+        }
+
+        registerCustomSection(SCHEMA_ID, announcementBannerSchema)
+
+        // After registration the schema is retrievable.
+        if (getCustomSectionSchema(SCHEMA_ID) !== announcementBannerSchema) {
+          throw new Error('lookup after register did not return the registered schema')
+        }
+
+        // Duplicate registration throws.
+        let duplicateThrew = false
+        try {
+          registerCustomSection(SCHEMA_ID, announcementBannerSchema)
+        } catch {
+          duplicateThrew = true
+        }
+        if (!duplicateThrew) {
+          throw new Error('duplicate registration must throw but did not')
+        }
+
+        return SCHEMA_ID
+      },
+    },
+    {
+      name: 'custom-sections → parseCustomSectionPayload returns typed payload',
+      run: async () => {
+        __resetCustomSectionRegistryForTests()
+        registerCustomSection(SCHEMA_ID, announcementBannerSchema)
+
+        const section = customSectionSchema.parse({
+          componentType: 'custom',
+          key: 'global.announcement',
+          customSchemaId: SCHEMA_ID,
+          payload: { level: 'info', message: 'Hello operator.' },
+        })
+
+        const parsed: AnnouncementBanner = parseCustomSectionPayload(
+          section,
+          announcementBannerSchema,
+        )
+        if (parsed.level !== 'info') {
+          throw new Error(`expected level=info, got ${parsed.level}`)
+        }
+        if (parsed.dismissible !== false) {
+          throw new Error('schema default for dismissible should resolve to false')
+        }
+        return parsed
+      },
+    },
+    {
+      name: 'custom-sections → invalid payload throws via parseCustomSectionPayload',
+      run: async () => {
+        __resetCustomSectionRegistryForTests()
+        registerCustomSection(SCHEMA_ID, announcementBannerSchema)
+
+        const badSection = customSectionSchema.parse({
+          componentType: 'custom',
+          key: 'global.announcement',
+          customSchemaId: SCHEMA_ID,
+          payload: { level: 'critical', message: 'oops' },
+        })
+
+        let threw = false
+        try {
+          parseCustomSectionPayload(badSection, announcementBannerSchema)
+        } catch {
+          threw = true
+        }
+        if (!threw) {
+          throw new Error('invalid payload must throw but did not')
+        }
+        // Reset so subsequent process exits clean (no stale state for any
+        // hypothetical follow-up checks).
+        __resetCustomSectionRegistryForTests()
+        return null
+      },
+    },
+  ]
+}
+
 const main = async (): Promise<void> => {
   const locales = getActiveLocales()
   const checks: Check[] = []
@@ -531,6 +641,8 @@ const main = async (): Promise<void> => {
       ...buildPagesChecks(locale),
     )
   }
+  // Locale-agnostic checks (registry behaviour, schema-only).
+  checks.push(...buildCustomSectionChecks())
 
   let failed = 0
   for (const check of checks) {
