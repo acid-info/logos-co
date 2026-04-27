@@ -1,10 +1,23 @@
 # Deployment Guide
 
-Operational notes for deploying `apps/web` and `apps/cms` to Vercel. The full architectural plan lives in [cms-github-content-plan.md](./cms-github-content-plan.md); this document covers only what is needed to make a green deploy.
+Operational notes for deploying `apps/web` and `apps/cms`. The full architectural plan lives in [cms-github-content-plan.md](./cms-github-content-plan.md); this document covers only what is needed to make a green deploy.
+
+## 0. Deployment Targets
+
+| Environment | Host | Purpose |
+| --- | --- | --- |
+| **Development / staging** | Vercel (`acidinfo` team — `logos-co-web`, `logos-co-cms`) | Per-PR previews, fast iteration, cheap |
+| **Production** | **Self-hosted Node** (Next.js standalone build) | Stable home for the public web + editor CMS |
+
+The codebase is vendor-neutral. Vercel-specific env fallbacks (`VERCEL_URL`, `VERCEL_PROJECT_PRODUCTION_URL`) only apply when those vars are set; on a self-hosted host they no-op and the explicit `NEXT_PUBLIC_SERVER_URL` / `NEXT_PUBLIC_WEB_URL` env vars take over. The Postgres adapter, schemas, loaders, and admin UI have no runtime dependency on Vercel.
+
+In production-like environments outside Vercel, the CMS refuses to boot when `NEXT_PUBLIC_SERVER_URL` or `NEXT_PUBLIC_WEB_URL` is missing — silently falling back to localhost in a self-hosted prod cluster would break CORS and cookie scoping in non-obvious ways.
+
+Sections 1–8 below describe the **Vercel dev/staging** path. Section 9 covers **self-hosted production**.
 
 ## 1. The Two Apps
 
-| App | Vercel project | Purpose | DB needed? |
+| App | Vercel project (dev/staging) | Purpose | DB needed? |
 | --- | --- | --- | --- |
 | `apps/web` | `logos-co-web` | Public marketing site | No — reads `content/**` at build time |
 | `apps/cms` | `logos-co-cms` | Payload Admin + REST/GraphQL API | Yes — Payload stores users, sessions, drafts, PR cache |
@@ -148,7 +161,127 @@ A 401 means Payload booted, talked to Postgres, and answered. A 500 means env va
 | Admin login redirects then fails | Cookie domain mismatch or stale session | Ensure `NEXT_PUBLIC_SERVER_URL` matches the URL the browser is using. Clear cookies. |
 | Preview deploys mutate production data | Single schema across envs | Set `PAYLOAD_DB_SCHEMA=payload_preview` on the Preview env only. |
 
-## 9. What Is Not Yet Wired
+## 9. Self-Hosted Production
+
+Production runs on **self-hosted Node** (no Vercel). The CMS app is a Next.js 16 + Payload v3 server; both build into a standalone Node bundle that has no Vercel runtime dependencies.
+
+### 9.1 Build artefact
+
+`apps/cms` produces a standalone server with `next build`. The standalone bundle is the only artefact you ship — no Vercel runtime, no edge functions.
+
+```bash
+pnpm install --frozen-lockfile
+pnpm --filter cms build
+# Produces apps/cms/.next/standalone/   (server.js + minimal node_modules)
+# Plus  apps/cms/.next/static/          (static chunks served by your reverse proxy)
+# Plus  apps/cms/public/                (favicons, etc.)
+```
+
+For a static-export production build of `apps/web` see plan §6 — it ships as a static site behind any HTTP server / CDN.
+
+### 9.2 Required env vars (production)
+
+Identical to the Vercel matrix in §3 except:
+
+- `NEXT_PUBLIC_SERVER_URL` is **required** (the CMS now throws at boot when it is unset and `VERCEL` is not present).
+- `NEXT_PUBLIC_WEB_URL` is **required** (same reason — needed for CORS / CSRF allow-list).
+- `PAYLOAD_SECRET`, `DATABASE_URL` — same requirements as Vercel.
+- `PAYLOAD_DB_SCHEMA` — recommended; pin to e.g. `payload` so a future env split is trivial.
+
+Set `NODE_ENV=production` so Payload's prod guards are active and Next runs the prod codepath.
+
+### 9.3 Reference Dockerfile (sketch)
+
+```dockerfile
+# 1. Install deps + build
+FROM node:22-alpine AS build
+WORKDIR /app
+RUN corepack enable && corepack prepare pnpm@10.9.0 --activate
+COPY pnpm-lock.yaml pnpm-workspace.yaml package.json turbo.json ./
+COPY apps/cms ./apps/cms
+COPY packages ./packages
+COPY content ./content
+RUN pnpm install --frozen-lockfile
+RUN pnpm --filter cms build
+
+# 2. Runtime image — only ship the standalone output
+FROM node:22-alpine AS runtime
+WORKDIR /app
+ENV NODE_ENV=production
+COPY --from=build /app/apps/cms/.next/standalone ./
+COPY --from=build /app/apps/cms/.next/static ./apps/cms/.next/static
+COPY --from=build /app/apps/cms/public ./apps/cms/public
+EXPOSE 3001
+CMD ["node", "apps/cms/server.js"]
+```
+
+Build and run:
+
+```bash
+docker build -t logos-cms:latest -f Dockerfile .
+docker run --rm -p 3001:3001 \
+  -e NODE_ENV=production \
+  -e PAYLOAD_SECRET="$(openssl rand -hex 32)" \
+  -e DATABASE_URL="postgresql://..." \
+  -e PAYLOAD_DB_SCHEMA=payload \
+  -e NEXT_PUBLIC_SERVER_URL=https://cms.example.com \
+  -e NEXT_PUBLIC_WEB_URL=https://example.com \
+  logos-cms:latest
+```
+
+### 9.4 Reverse proxy + TLS
+
+The Node server only speaks HTTP on `:3001`. Terminate TLS upstream (nginx, Caddy, Cloudflare, Traefik) and forward:
+
+- `https://cms.example.com` → `http://logos-cms:3001`
+- Forward standard headers: `Host`, `X-Forwarded-For`, `X-Forwarded-Proto`.
+- WebSocket upgrade is not required for Payload v3 today, but is harmless to enable.
+
+Make sure `NEXT_PUBLIC_SERVER_URL` matches the externally-reachable URL (with `https://`) — otherwise Payload's auth cookies bind to the wrong origin and admin login round-trips fail.
+
+### 9.5 Process supervision
+
+Pick one. All three keep the standalone server alive across crashes / reboots:
+
+- **systemd unit** — simplest on a single VM. `Type=simple`, `Restart=on-failure`, `EnvironmentFile=/etc/logos-cms.env`.
+- **Docker Compose** — `restart: unless-stopped` plus `healthcheck: curl -f http://localhost:3001/admin || exit 1`.
+- **Kubernetes** — readiness probe on `/admin/login` (not `/api/pages` — that 403s). Use `RollingUpdate` so admin sessions survive deploys.
+
+### 9.6 Database — migrations, not push
+
+`push: true` is fine for dev-mode bootstrap (see §4 "Bootstrapping the schema") but **must be turned off in self-hosted production**. Production schema changes ship as numbered migration files reviewed alongside the schema PR.
+
+Disable push in prod env:
+
+```text
+PAYLOAD_DB_PUSH=false
+```
+
+Generate + apply migrations (Phase 4+ workflow):
+
+```bash
+# Local: capture the schema diff once a release is ready
+pnpm --filter cms exec payload migrate:create
+
+# Production: apply pending migrations before the new build serves traffic
+pnpm --filter cms exec payload migrate
+```
+
+Run `payload migrate` as a deploy hook (e.g. before rotating Docker containers or as a Kubernetes Job) — never let runtime traffic see a half-migrated schema. Migration files live under `apps/cms/migrations/` and are checked into the repo.
+
+Until that pipeline lands (Phase 4+) the bootstrap shortcut from §4 still works; just make sure prod stays on `PAYLOAD_DB_PUSH=false` once the schema is stable to keep accidental drift out of production.
+
+### 9.7 Per-PR previews without Vercel
+
+Plan §1 requires per-PR preview URLs reviewers can open. Replace Vercel's per-PR auto-deploy with one of:
+
+- **CI workflow that builds + pushes a preview container** keyed by PR number, and a wildcard ingress (`pr-<n>.preview.example.com`).
+- **Argo Rollouts / Kustomize overlay** that spins an ephemeral namespace per PR.
+- **Static `apps/web` previews on object storage** (S3 + CloudFront) for content-only PRs that do not need a live CMS.
+
+Whatever route you pick, the Phase 4c PR Status Panel reads the preview URL from a configurable callback so the CMS is not coupled to a specific host.
+
+## 10. What Is Not Yet Wired
 
 Tracked in plan §11 phases:
 

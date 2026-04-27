@@ -12,6 +12,24 @@ import { SiteSettings } from './src/globals/SiteSettings'
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const isProduction = process.env.NODE_ENV === 'production'
+const isVercel = Boolean(process.env.VERCEL)
+
+// Production target is self-hosted Node; Vercel is dev/staging only. Require
+// explicit URL env vars in any production environment that is not Vercel —
+// the Vercel-injected `VERCEL_URL` fallback is convenience for previews and
+// must not silently apply to a self-hosted prod cluster.
+if (isProduction && !isVercel) {
+  if (!process.env.NEXT_PUBLIC_SERVER_URL) {
+    throw new Error(
+      'NEXT_PUBLIC_SERVER_URL is required in production (self-hosted) — set it to the public CMS origin (e.g. https://cms.example.com).',
+    )
+  }
+  if (!process.env.NEXT_PUBLIC_WEB_URL) {
+    throw new Error(
+      'NEXT_PUBLIC_WEB_URL is required in production (self-hosted) — set it to the public web origin used for CORS / CSRF.',
+    )
+  }
+}
 
 // Server URL — explicit env wins; on Vercel fall back to the auto-injected
 // `VERCEL_URL` (preview URLs change per deploy). Local dev defaults to

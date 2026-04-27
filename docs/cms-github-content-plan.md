@@ -38,9 +38,9 @@ The repository currently ships from `master`. This plan adopts a `develop`-first
 `apps/web` must not call the GitHub API at request time.
 
 - The web app reads local content files during build.
-- Preview deployments build from PR branches (Vercel preview required for review).
+- Preview deployments build from PR branches; the host must produce a per-PR URL reviewers can open. Vercel covers this in dev/staging; self-hosted production replaces it with whatever PR-preview pipeline the production host runs (e.g. ephemeral container per PR).
 - Staging deploys from `develop`.
-- Production deploys from `master`.
+- Production deploys from `master`. The production target is **self-hosted Node** (Next.js standalone build); Vercel is used only for dev/staging.
 
 This fits the current static Next.js structure and keeps runtime reliability independent from GitHub availability.
 
@@ -1150,7 +1150,7 @@ GitHub branch protection enforces the `develop`→`master` promotion rule indepe
 5. CMS runs schema validation before saving.
 6. `Create PR` creates a `content/{type}-{slug}-{timestamp}` branch from `develop`.
 7. CMS commits the changed JSON file (and any uploaded media) to that branch.
-8. CMS opens a PR with `develop` as the base branch and displays the PR link plus the Vercel preview URL.
+8. CMS opens a PR with `develop` as the base branch and displays the PR link plus the per-PR preview URL surfaced by the host (Vercel preview in dev/staging; equivalent ephemeral preview in self-hosted production).
 9. The PR is reviewed and merged into `develop`.
 10. Production receives the change later through a controlled `develop`→`master` promotion PR.
 
@@ -1425,7 +1425,7 @@ Done when:
 
 ### Phase 4c: PR Status Panel and Preview Links
 
-- Add a PR status panel in Admin showing PR state, reviewers, and Vercel preview URL.
+- Add a PR status panel in Admin showing PR state, reviewers, and the host's per-PR preview URL (Vercel deployment URL during dev/staging; the self-hosted equivalent in production).
 - Subscribe to GitHub webhooks for PR state changes (or fall back to short-TTL polling).
 - Surface the lock banner and `slug already in flight` warnings.
 
@@ -1872,7 +1872,7 @@ Audit log: <link to Payload entry>.
 
 - [ ] `pnpm --filter @repo/content validate` passes
 - [ ] `pnpm --filter @repo/content validate-locales` passes
-- [ ] Vercel preview reviewed
+- [ ] Per-PR preview reviewed (Vercel preview URL during dev/staging; self-hosted equivalent in production)
 ```
 
 ### 15.7 `.github/PULL_REQUEST_TEMPLATE/schema.md`
