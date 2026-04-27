@@ -1,4 +1,4 @@
-import { assertActiveLocale } from '../locales/registry.js'
+import { assertActiveLocale } from '../locales/registry'
 import {
   type Footer,
   type Language,
@@ -7,14 +7,14 @@ import {
   footerSchema,
   navigationSchema,
   siteSettingsSchema,
-} from '../schemas/index.js'
+} from '../schemas/index'
 
-import { contentPath, readJson } from './_fs.js'
+import { contentPath, readJson } from './_fs'
 import {
   type PressArticle,
   DEFAULT_PRESS_VISIBLE_COUNT,
   resolvePressList,
-} from './press.js'
+} from './press'
 
 const SITE_DIR = 'site'
 

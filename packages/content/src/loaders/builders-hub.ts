@@ -1,4 +1,4 @@
-import { assertActiveLocale } from '../locales/registry.js'
+import { assertActiveLocale } from '../locales/registry'
 import {
   type BuilderHubListingPageSettings,
   type BuilderHubSettings,
@@ -16,9 +16,9 @@ import {
   ideaLocaleSchema,
   rfpIndexSchema,
   rfpLocaleSchema,
-} from '../schemas/index.js'
+} from '../schemas/index'
 
-import { contentPath, listDirectories, readJson } from './_fs.js'
+import { contentPath, listDirectories, readJson } from './_fs'
 
 const RFPS_DIR = 'builders-hub/rfps'
 const IDEAS_DIR = 'builders-hub/ideas'

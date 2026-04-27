@@ -7,7 +7,7 @@ import {
   mediaRefSchema,
   schemaVersion,
   slugSchema,
-} from './common.js'
+} from './common'
 
 export const navLinkSchema = z.object({
   label: z.string().min(1),

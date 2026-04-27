@@ -8,7 +8,7 @@ import {
   publishStateSchema,
   schemaVersion,
   slugSchema,
-} from './common.js'
+} from './common'
 
 export const pressSourceSchema = z.enum(['logos-press-engine', 'external'])
 export type PressSource = z.infer<typeof pressSourceSchema>

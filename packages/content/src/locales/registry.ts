@@ -1,4 +1,4 @@
-import { type Language, languageSchema } from '../schemas/common.js'
+import { type Language, languageSchema } from '../schemas/common'
 
 /**
  * Active locale registry.

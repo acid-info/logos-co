@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { builderHubTagSchema, rewardSchema } from './builders-hub.js'
+import { builderHubTagSchema, rewardSchema } from './builders-hub'
 import {
   ctaSchema,
   httpsUrlSchema,
@@ -10,7 +10,7 @@ import {
   mediaRefSchema,
   schemaVersion,
   slugSchema,
-} from './common.js'
+} from './common'
 
 /**
  * Internal-only route path. Pages are statically rendered under `/[locale]`,

@@ -1,15 +1,15 @@
 import type { ZodTypeAny, infer as zInfer } from 'zod'
 
-import { assertActiveLocale } from '../locales/registry.js'
+import { assertActiveLocale } from '../locales/registry'
 import {
   type CustomSection,
   type Language,
   type PageCopy,
   getCustomSectionSchema,
   pageCopySchema,
-} from '../schemas/index.js'
+} from '../schemas/index'
 
-import { contentPath, readJson } from './_fs.js'
+import { contentPath, readJson } from './_fs'
 
 const PAGES_DIR = 'pages'
 

@@ -8,7 +8,7 @@
  * Phase 1 covers the loaders that have fixtures land first; the remaining
  * loaders are added as the corresponding fixtures appear.
  */
-import type { Language } from '../src/schemas/common.js'
+import type { Language } from '../src/schemas/common'
 
 import {
   getAllIdeas,
@@ -18,7 +18,7 @@ import {
   getBuilderResources,
   resolveBuilderHubHomeIdeas,
   resolveBuilderHubHomeRfps,
-} from '../src/loaders/builders-hub.js'
+} from '../src/loaders/builders-hub'
 import {
   formatEventDateForSurface,
   getCircleEvents,
@@ -27,19 +27,19 @@ import {
   getCircleResources,
   getCircles,
   getCirclesSettings,
-} from '../src/loaders/circles.js'
+} from '../src/loaders/circles'
 import { z } from 'zod'
 
 import {
   __resetCustomSectionRegistryForTests,
   getCustomSectionSchema,
   registerCustomSection,
-} from '../src/schemas/custom-sections.js'
-import { customSectionSchema } from '../src/schemas/pages.js'
-import { getPageCopy, parseCustomSectionPayload } from '../src/loaders/pages.js'
-import { getPressArticles } from '../src/loaders/press.js'
-import { getFooter, getNavigation, getSiteSettings } from '../src/loaders/site.js'
-import { getActiveLocales } from '../src/locales/registry.js'
+} from '../src/schemas/custom-sections'
+import { customSectionSchema } from '../src/schemas/pages'
+import { getPageCopy, parseCustomSectionPayload } from '../src/loaders/pages'
+import { getPressArticles } from '../src/loaders/press'
+import { getFooter, getNavigation, getSiteSettings } from '../src/loaders/site'
+import { getActiveLocales } from '../src/locales/registry'
 
 type Check = {
   name: string

@@ -10,7 +10,7 @@ import {
   publishStateSchema,
   schemaVersion,
   slugSchema,
-} from './common.js'
+} from './common'
 
 // ---------------------------------------------------------------------------
 // Shared primitives

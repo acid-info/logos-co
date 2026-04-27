@@ -1,4 +1,4 @@
-import { assertActiveLocale } from '../locales/registry.js'
+import { assertActiveLocale } from '../locales/registry'
 import {
   type Language,
   type PressArticleIndex,
@@ -6,9 +6,9 @@ import {
   type PublishState,
   pressArticleIndexSchema,
   pressArticleLocaleSchema,
-} from '../schemas/index.js'
+} from '../schemas/index'
 
-import { contentPath, listDirectories, readJson } from './_fs.js'
+import { contentPath, listDirectories, readJson } from './_fs'
 
 const PRESS_ARTICLES_DIR = 'press/articles'
 const DEFAULT_PRESS_VISIBLE_COUNT = 4

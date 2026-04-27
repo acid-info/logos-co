@@ -1,4 +1,4 @@
-import { assertActiveLocale } from '../locales/registry.js'
+import { assertActiveLocale } from '../locales/registry'
 import {
   type BackLink,
   type CircleEventIndex,
@@ -19,9 +19,9 @@ import {
   circleLocaleSchema,
   circleResourcesFileSchema,
   circlesSettingsSchema,
-} from '../schemas/index.js'
+} from '../schemas/index'
 
-import { contentPath, listDirectories, readJson } from './_fs.js'
+import { contentPath, listDirectories, readJson } from './_fs'
 
 const SETTINGS_DIR = 'circles/settings'
 const CIRCLES_DIR = 'circles/circles'
