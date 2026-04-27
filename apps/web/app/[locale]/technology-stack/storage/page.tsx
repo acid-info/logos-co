@@ -1,6 +1,10 @@
 import { getTranslations } from 'next-intl/server'
 
-import { LogosMark } from '@repo/ui'
+import StorageBuilderCta from '@/components/sections/storage/storage-builder-cta'
+import StorageHero from '@/components/sections/storage/storage-hero'
+import StorageMain from '@/components/sections/storage/storage-main'
+import StorageRelatedArticles from '@/components/sections/storage/storage-related-articles'
+import StorageTechStack from '@/components/sections/storage/storage-tech-stack'
 
 import { ROUTES } from '@/constants/routes'
 import { createDefaultMetadata } from '@/utils/metadata'
@@ -20,14 +24,14 @@ export async function generateMetadata({
   })
 }
 
-export default async function StoragePage() {
-  const t = await getTranslations('pages.storage')
+export default function StoragePage() {
   return (
-    <div className="px-3 pt-16 pb-12">
-      <h1 className="text-h2 flex items-center gap-3 text-brand-dark-green">
-        <LogosMark size={40} className="shrink-0" />
-        {t('heading')}
-      </h1>
-    </div>
+    <>
+      <StorageHero />
+      <StorageMain />
+      <StorageBuilderCta />
+      <StorageTechStack />
+      <StorageRelatedArticles />
+    </>
   )
 }

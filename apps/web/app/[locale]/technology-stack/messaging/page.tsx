@@ -1,7 +1,11 @@
 import { getTranslations } from 'next-intl/server'
 
-import { LogosMark } from '@repo/ui'
-
+import MessagingBuilderCta from '@/components/sections/messaging/messaging-builder-cta'
+import MessagingCaseStudies from '@/components/sections/messaging/messaging-case-studies'
+import MessagingHero from '@/components/sections/messaging/messaging-hero'
+import MessagingIntro from '@/components/sections/messaging/messaging-intro'
+import MessagingRelatedArticles from '@/components/sections/messaging/messaging-related-articles'
+import MessagingTechStack from '@/components/sections/messaging/messaging-tech-stack'
 import { ROUTES } from '@/constants/routes'
 import { createDefaultMetadata } from '@/utils/metadata'
 
@@ -20,14 +24,15 @@ export async function generateMetadata({
   })
 }
 
-export default async function MessagingPage() {
-  const t = await getTranslations('pages.messaging')
+export default function MessagingPage() {
   return (
-    <div className="px-3 pt-16 pb-12">
-      <h1 className="text-h2 flex items-center gap-3 text-brand-dark-green">
-        <LogosMark size={40} className="shrink-0" />
-        {t('heading')}
-      </h1>
-    </div>
+    <>
+      <MessagingHero />
+      <MessagingIntro />
+      <MessagingCaseStudies />
+      <MessagingBuilderCta />
+      <MessagingTechStack />
+      <MessagingRelatedArticles />
+    </>
   )
 }
