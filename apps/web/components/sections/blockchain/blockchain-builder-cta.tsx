@@ -2,25 +2,11 @@ import Image from 'next/image'
 
 import type { CardGridSection } from '@repo/content/schemas'
 
+import { IconMask } from '@/components/icons/icon-mask'
 import { Button } from '@/components/ui'
 
 function DownloadIcon() {
-  return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 15 15"
-      className="size-3.75 shrink-0"
-      fill="none"
-    >
-      <path
-        d="M7.5 2v8m0 0L4.5 7m3 3L10.5 7M3 12.5h9"
-        stroke="currentColor"
-        strokeWidth="1"
-        strokeLinecap="square"
-        strokeLinejoin="miter"
-      />
-    </svg>
-  )
+  return <IconMask src="/icons/download.svg" className="size-3.75" />
 }
 
 type CardContentProps = {
@@ -130,7 +116,11 @@ export default function BlockchainBuilderCta({ data }: Props) {
               color="dark"
               cta={
                 logosAppCard.cta ? (
-                  <Button href={logosAppCard.cta.href} variant="primary" icon={<DownloadIcon />}>
+                  <Button
+                    href={logosAppCard.cta.href}
+                    variant="primary"
+                    icon={<DownloadIcon />}
+                  >
                     {logosAppCard.cta.label}
                   </Button>
                 ) : null

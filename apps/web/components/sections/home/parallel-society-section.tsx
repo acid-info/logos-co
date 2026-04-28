@@ -1,9 +1,6 @@
 import Image from 'next/image'
 
-import type {
-  FeaturedTextSection,
-  GallerySection,
-} from '@repo/content/schemas'
+import type { FeaturedTextSection, GallerySection } from '@repo/content/schemas'
 
 import { Button, ButtonArrowIcon } from '@/components/ui'
 
@@ -120,7 +117,6 @@ export default function ParallelSocietySection({ headline, gallery }: Props) {
             <Button
               href={headline.cta.href}
               variant="link"
-              icon={<ButtonArrowIcon />}
               className="transition-opacity hover:opacity-70"
             >
               {headline.cta.label}

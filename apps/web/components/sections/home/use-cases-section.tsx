@@ -3,10 +3,10 @@
 import { useRef } from 'react'
 import Image from 'next/image'
 
-import { IconButton } from '@repo/ui'
 import type { CardGridSection } from '@repo/content/schemas'
 
 import { Button, ButtonArrowIcon } from '@/components/ui'
+import { Link } from '@/i18n/navigation'
 
 function ScrollButton({
   direction,
@@ -16,20 +16,23 @@ function ScrollButton({
   onClick: () => void
 }) {
   return (
-    <IconButton
+    <button
+      type="button"
       onClick={onClick}
       aria-label={direction === 'left' ? 'Scroll left' : 'Scroll right'}
-      variant="outline"
-      size="sm"
+      className="flex size-10 cursor-pointer items-center justify-center rounded-[4px] bg-brand-off-white/10 text-brand-dark-green backdrop-blur-[5px] transition-colors hover:bg-brand-dark-green/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark-green"
     >
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-        {direction === 'left' ? (
-          <path d="M9 3L5 7L9 11" stroke="currentColor" strokeWidth="1.5" />
-        ) : (
-          <path d="M5 3L9 7L5 11" stroke="currentColor" strokeWidth="1.5" />
-        )}
-      </svg>
-    </IconButton>
+      <img
+        src={
+          direction === 'left'
+            ? '/icons/arrow-left.svg'
+            : '/icons/arrow-right.svg'
+        }
+        alt=""
+        aria-hidden="true"
+        className="size-[18px]"
+      />
+    </button>
   )
 }
 
@@ -51,17 +54,20 @@ function UseCaseCard({
   imageAlt,
 }: UseCaseCardProps) {
   return (
-    <div className="border-brand-dark-green/10 flex h-79.25 w-71.25 shrink-0 flex-col rounded-2xl border p-4 transition-shadow hover:shadow-lg md:w-auto">
+    <Link
+      href={href}
+      className="border-brand-dark-green/10 group flex h-79.25 w-71.25 shrink-0 cursor-pointer flex-col rounded-2xl border p-4 transition-colors hover:bg-gray-01 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark-green md:w-auto"
+    >
       <h4 className="text-h4-serif text-brand-dark-green">{title}</h4>
       <div className="mt-3">
-        <Button
-          href={href}
-          variant="link"
-          icon={<ButtonArrowIcon />}
-          className="transition-opacity hover:opacity-70"
-        >
-          {ctaLabel}
-        </Button>
+        <span className="inline-flex items-center justify-center text-brand-dark-green">
+          <span className="font-mono text-[10px] leading-[1.35] font-semibold uppercase whitespace-nowrap border-b border-brand-dark-green/50 pb-[2px]">
+            {ctaLabel}
+          </span>
+          <span className="ml-1 transition-transform group-hover:translate-x-0.5">
+            <ButtonArrowIcon />
+          </span>
+        </span>
       </div>
       <div className="mt-auto flex items-end justify-between gap-4">
         <p className="text-mono-s text-brand-dark-green/70 max-w-46.5">
@@ -71,7 +77,7 @@ function UseCaseCard({
           <Image src={imageSrc} alt={imageAlt} fill className="object-cover" />
         </div>
       </div>
-    </div>
+    </Link>
   )
 }
 
@@ -167,7 +173,7 @@ export default function UseCasesSection({ data }: Props) {
               imageSrc={card.image.src}
               imageAlt={card.image.alt || card.title}
             />
-          ) : null,
+          ) : null
         )}
       </div>
     </section>

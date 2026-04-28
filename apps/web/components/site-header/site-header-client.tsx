@@ -32,19 +32,14 @@ type Props = {
 
 function HamburgerIcon() {
   return (
-    <svg
+    <span
       aria-hidden="true"
-      viewBox="0 0 14 10"
-      className="h-2.25 w-3.25 shrink-0"
-      fill="none"
-    >
-      <path
-        d="M0 1h14M0 5h14M0 9h14"
-        stroke="currentColor"
-        strokeWidth="1.2"
-        strokeLinecap="square"
-      />
-    </svg>
+      className="size-[15px] shrink-0 bg-current"
+      style={{
+        mask: 'url(/icons/hamburger-menu.svg) center / contain no-repeat',
+        WebkitMask: 'url(/icons/hamburger-menu.svg) center / contain no-repeat',
+      }}
+    />
   )
 }
 

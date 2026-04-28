@@ -5,6 +5,7 @@ import Image from 'next/image'
 
 import type { CardGridSection } from '@repo/content/schemas'
 
+import { IconMask } from '@/components/icons/icon-mask'
 import { Button } from '@/components/ui'
 
 type UseCaseCardData = {
@@ -31,13 +32,14 @@ const CARD_IMAGE_CLASSNAMES = [
 
 function ArrowIcon({ direction }: { direction: 'left' | 'right' }) {
   return (
-    <svg aria-hidden="true" viewBox="0 0 14 14" className="size-3.5" fill="none">
-      {direction === 'left' ? (
-        <path d="M9 3L5 7L9 11" stroke="currentColor" strokeWidth="1.5" />
-      ) : (
-        <path d="M5 3L9 7L5 11" stroke="currentColor" strokeWidth="1.5" />
-      )}
-    </svg>
+    <IconMask
+      src={
+        direction === 'left'
+          ? '/icons/arrow-left.svg'
+          : '/icons/arrow-right.svg'
+      }
+      className="size-3.5"
+    />
   )
 }
 
@@ -143,7 +145,7 @@ export default function TechOverviewUseCases({ data }: Props) {
               CARD_IMAGE_CLASSNAMES[index] ?? CARD_IMAGE_CLASSNAMES[0],
           },
         ]
-      : [],
+      : []
   )
   // Carousel duplicates cards for infinite-feel scrolling; matches existing
   // behaviour.

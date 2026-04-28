@@ -60,22 +60,17 @@ type ButtonElementProps = CommonProps &
 export type ButtonProps = AnchorProps | ButtonElementProps
 
 export function ButtonArrowIcon() {
-  // 15×15 frame with 10×10 arrow centred — matches Figma's Icons / Right arrow.
+  const maskStyle = {
+    mask: 'url(/icons/right-arrow.svg) center / contain no-repeat',
+    WebkitMask: 'url(/icons/right-arrow.svg) center / contain no-repeat',
+  }
+
   return (
-    <svg
+    <span
       aria-hidden="true"
-      viewBox="0 0 15 15"
-      className="size-[15px] shrink-0"
-      fill="none"
-    >
-      <path
-        d="M3.5 7.5h8m0 0L8 4m3.5 3.5L8 11"
-        stroke="currentColor"
-        strokeWidth="1"
-        strokeLinecap="square"
-        strokeLinejoin="miter"
-      />
-    </svg>
+      className="size-[15px] shrink-0 bg-current"
+      style={maskStyle}
+    />
   )
 }
 
@@ -114,11 +109,7 @@ export function Button(props: ButtonProps) {
   const classes = twMerge(containerByVariant[variant], className)
 
   if ('href' in rest && rest.href !== undefined) {
-    const {
-      href,
-      linkAs: LinkAs = 'a',
-      ...anchorRest
-    } = rest as AnchorProps
+    const { href, linkAs: LinkAs = 'a', ...anchorRest } = rest as AnchorProps
     return (
       <LinkAs href={href} className={classes} {...anchorRest}>
         {content}

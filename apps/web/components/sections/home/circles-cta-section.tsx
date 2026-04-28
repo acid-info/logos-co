@@ -41,7 +41,6 @@ export default function CirclesCtaSection({ data }: Props) {
               <Button
                 href={data.secondaryCta.href}
                 variant="link"
-                icon={<ButtonArrowIcon />}
                 className="transition-opacity hover:opacity-70"
               >
                 {data.secondaryCta.label}

@@ -127,6 +127,24 @@
           "description": "Self-organising groups establish and enforce their own rules, with members engaging voluntarily.",
           "image": { "src": "/images/home/usecase-4.jpg", "alt": "", "width": 96, "height": 120 },
           "cta": { "label": "Learn more", "href": "/circles" }
+        },
+        {
+          "title": "Autonomous Local Markets",
+          "description": "Community-run markets coordinate exchange without relying on captured intermediaries.",
+          "image": { "src": "/images/home/usecase-1.jpg", "alt": "", "width": 96, "height": 120 },
+          "cta": { "label": "Learn more", "href": "/technology-stack/blockchain" }
+        },
+        {
+          "title": "Resilient Knowledge Commons",
+          "description": "Archives, media, and public records remain available even when platforms disappear.",
+          "image": { "src": "/images/home/usecase-2.jpg", "alt": "", "width": 96, "height": 120 },
+          "cta": { "label": "Learn more", "href": "/technology-stack/storage" }
+        },
+        {
+          "title": "Private Civic Infrastructure",
+          "description": "Groups can coordinate, fund, and govern shared resources with privacy by default.",
+          "image": { "src": "/images/home/usecase-3.jpg", "alt": "", "width": 96, "height": 120 },
+          "cta": { "label": "Learn more", "href": "/technology-stack/networking" }
         }
       ]
     },
@@ -145,7 +163,7 @@
       "items": [
         {
           "image": {
-            "src": "/cms/pages/home/parallel-society/1.jpg",
+            "src": "/images/home/event-1.jpg",
             "alt": "",
             "width": 720,
             "height": 480
@@ -155,7 +173,7 @@
         },
         {
           "image": {
-            "src": "/cms/pages/home/parallel-society/2.jpg",
+            "src": "/images/home/event-2.jpg",
             "alt": "",
             "width": 720,
             "height": 480
@@ -165,7 +183,7 @@
         },
         {
           "image": {
-            "src": "/cms/pages/home/parallel-society/3.jpg",
+            "src": "/images/home/event-3.jpg",
             "alt": "",
             "width": 720,
             "height": 480
@@ -175,7 +193,7 @@
         },
         {
           "image": {
-            "src": "/cms/pages/home/parallel-society/4.jpg",
+            "src": "/images/home/event-4.jpg",
             "alt": "",
             "width": 720,
             "height": 480

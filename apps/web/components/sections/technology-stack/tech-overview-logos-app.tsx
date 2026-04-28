@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { GiantSwitch, GiantSwitchTag } from '@repo/ui'
 import type { GiantSwitchSection } from '@repo/content/schemas'
 
+import { IconMask } from '@/components/icons/icon-mask'
 import { Button } from '@/components/ui'
 
 /**
@@ -32,21 +33,7 @@ function TagIcon({ src, alt }: { src: string; alt: string }) {
 }
 
 function ExternalLinkIcon() {
-  return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 15 15"
-      className="size-[15px] shrink-0"
-      fill="none"
-    >
-      <path
-        d="M4 11L11 4M6 4h5v5"
-        stroke="currentColor"
-        strokeWidth="1"
-        strokeLinecap="square"
-      />
-    </svg>
-  )
+  return <IconMask src="/icons/external-link.svg" className="size-[15px]" />
 }
 
 type Props = {
@@ -59,7 +46,9 @@ export default function TechOverviewLogosApp({ data }: Props) {
   // group. Editors who care about the break can leave the title clean and
   // rely on this rule, or adjust copy length so natural wrapping handles it.
   const titleWords = data.title.split(' ')
-  const mobileTitleHead = titleWords.slice(0, Math.max(1, titleWords.length - 2)).join(' ')
+  const mobileTitleHead = titleWords
+    .slice(0, Math.max(1, titleWords.length - 2))
+    .join(' ')
   const mobileTitleTail = titleWords.slice(-2).join(' ')
 
   return (
@@ -94,7 +83,9 @@ export default function TechOverviewLogosApp({ data }: Props) {
                 return (
                   <GiantSwitchTag
                     key={tag.label}
-                    icon={iconSrc ? <TagIcon src={iconSrc} alt="" /> : undefined}
+                    icon={
+                      iconSrc ? <TagIcon src={iconSrc} alt="" /> : undefined
+                    }
                   >
                     {tag.label}
                   </GiantSwitchTag>

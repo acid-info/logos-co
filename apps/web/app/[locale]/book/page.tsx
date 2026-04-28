@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 
+import { IconMask } from '@/components/icons/icon-mask'
 import { ROUTES } from '@/constants/routes'
 import { createDefaultMetadata } from '@/utils/metadata'
 
@@ -90,22 +91,7 @@ function BookAction({
           {subtext}
         </span>
       </span>
-      <span aria-hidden="true" className="font-sans text-[18px] leading-none">
-        <svg
-          viewBox="0 0 15 15"
-          className="size-[15px]"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M3.5 7.5h8m0 0L8 4m3.5 3.5L8 11"
-            stroke="currentColor"
-            strokeWidth="1"
-            strokeLinecap="square"
-            strokeLinejoin="miter"
-          />
-        </svg>
-      </span>
+      <IconMask src="/icons/right-arrow.svg" className="size-[15px]" />
     </a>
   )
 }

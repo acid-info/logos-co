@@ -28,29 +28,30 @@ type ClickProps = BaseProps & {
 export type PaginationProps = HrefProps | ClickProps
 
 function Arrow({ direction }: { direction: 'left' | 'right' }) {
+  const src =
+    direction === 'left'
+      ? '/icons/pagination-arrow-left.svg'
+      : '/icons/pagination-arrow-right.svg'
+  const maskStyle = {
+    mask: `url(${src}) center / contain no-repeat`,
+    WebkitMask: `url(${src}) center / contain no-repeat`,
+  }
+
   return (
-    <svg
+    <span
       aria-hidden="true"
-      viewBox="0 0 14 14"
-      className="size-[14px] shrink-0"
-      fill="none"
-    >
-      <path
-        d={
-          direction === 'left'
-            ? 'M10.5 7h-7m0 0L7 3.5M3.5 7 7 10.5'
-            : 'M3.5 7h7m0 0L7 3.5m3.5 3.5L7 10.5'
-        }
-        stroke="currentColor"
-        strokeWidth="1"
-        strokeLinecap="square"
-      />
-    </svg>
+      className="size-[14px] shrink-0 bg-current"
+      style={maskStyle}
+    />
   )
 }
 
 /** Compute the set of pages / ellipses to render. */
-function getPageItems(current: number, total: number, maxVisible: number): (number | 'ellipsis')[] {
+function getPageItems(
+  current: number,
+  total: number,
+  maxVisible: number
+): (number | 'ellipsis')[] {
   if (total <= maxVisible) {
     return Array.from({ length: total }, (_, i) => i + 1)
   }
@@ -82,7 +83,7 @@ export function Pagination(props: PaginationProps) {
     page: number,
     label: ReactNode,
     isActive: boolean,
-    ariaLabel?: string,
+    ariaLabel?: string
   ) => {
     const className_ = `inline-flex size-8 items-center justify-center text-body-sans transition-opacity ${
       isActive
@@ -119,25 +120,53 @@ export function Pagination(props: PaginationProps) {
       aria-label="Pagination"
       className={`flex items-center justify-center gap-2 ${className ?? ''}`}
     >
-      {currentPage > 1
-        ? renderControl(currentPage - 1, <Arrow direction="left" />, false, 'Previous page')
-        : <span aria-hidden="true" className="inline-flex size-8 items-center justify-center text-brand-dark-green/30"><Arrow direction="left" /></span>}
+      {currentPage > 1 ? (
+        renderControl(
+          currentPage - 1,
+          <Arrow direction="left" />,
+          false,
+          'Previous page'
+        )
+      ) : (
+        <span
+          aria-hidden="true"
+          className="inline-flex size-8 items-center justify-center text-brand-dark-green/30"
+        >
+          <Arrow direction="left" />
+        </span>
+      )}
 
       {items.map((item, i) =>
         item === 'ellipsis' ? (
-          <span key={`e${i}`} aria-hidden="true" className="text-body-sans text-brand-dark-green/40">
+          <span
+            key={`e${i}`}
+            aria-hidden="true"
+            className="text-body-sans text-brand-dark-green/40"
+          >
             …
           </span>
         ) : (
           <span key={item}>
             {renderControl(item, item, item === currentPage, `Page ${item}`)}
           </span>
-        ),
+        )
       )}
 
-      {currentPage < totalPages
-        ? renderControl(currentPage + 1, <Arrow direction="right" />, false, 'Next page')
-        : <span aria-hidden="true" className="inline-flex size-8 items-center justify-center text-brand-dark-green/30"><Arrow direction="right" /></span>}
+      {currentPage < totalPages ? (
+        renderControl(
+          currentPage + 1,
+          <Arrow direction="right" />,
+          false,
+          'Next page'
+        )
+      ) : (
+        <span
+          aria-hidden="true"
+          className="inline-flex size-8 items-center justify-center text-brand-dark-green/30"
+        >
+          <Arrow direction="right" />
+        </span>
+      )}
     </nav>
   )
 }
