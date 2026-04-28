@@ -158,7 +158,7 @@ export default function FeatureCardsSection() {
               tableName={t('node.eyebrow').toLowerCase()}
               tableLabel={t('node.examples')}
               rows={[]}
-              bgImage="/images/home/node-card-bg.png"
+              bgImage="/images/home/node-card-bg.webp"
               cardTopOffset={200}
             />
 
@@ -171,7 +171,7 @@ export default function FeatureCardsSection() {
               tableName=""
               tableLabel={t('circles.winnableIssues')}
               rows={[]}
-              bgImage="/images/home/circles-card-bg.png"
+              bgImage="/images/home/circles-card-bg.webp"
               cardTopOffset={350}
               hasBackdropBlur
             />
