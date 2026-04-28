@@ -459,7 +459,9 @@ const buildPagesChecks = (locale: Language): Check[] => [
             }
             break
           case 'ctaPanel':
-            if (!section.cta?.label) throw new Error(`ctaPanel "${section.key}" missing cta`)
+            // `cta` is optional (sections like the LMN intro render without one).
+            // Verify the always-required `title` is set instead.
+            if (!section.title) throw new Error(`ctaPanel "${section.key}" missing title`)
             break
           case 'relatedArticles':
             if (!section.title) throw new Error(`relatedArticles "${section.key}" missing title`)

@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "route": "/technology-stack/messaging",
+  "title": "Messaging | Logos",
+  "description": "Logos Messaging (formerly Waku) was designed and developed as the replacement for Whisper — the messaging protocol of Ethereum. This protocol is used in a number of production applications and provides strong privacy and security guarantees.",
+  "heading": "Messaging",
+  "seo": {
+    "keywords": ["logos", "messaging", "waku", "lmn", "privacy", "p2p"]
+  },
+  "sections": [
+    {
+      "componentType": "hero",
+      "key": "messaging.hero",
+      "eyebrow": "Technology stack",
+      "headline": "Messaging",
+      "body": "Private peer-to-peer communication that resists surveillance and censorship.",
+      "ctas": [
+        { "label": "Logos app", "href": "https://logos.co/app", "external": true, "variant": "primary" },
+        { "label": "Docs", "href": "https://docs.logos.co/messaging", "external": true, "variant": "secondary" }
+      ]
+    },
+    {
+      "componentType": "ctaPanel",
+      "key": "messaging.privacy",
+      "eyebrow": "Privacy",
+      "title": "Privacy built from the ground up.",
+      "description": "Logos Messaging (formerly Waku) was designed and developed as the replacement for Whisper - the messaging protocol of Ethereum. This protocol is used in a number of production applications and provides strong privacy and security guarantees.",
+      "cta": {
+        "label": "View the docs",
+        "href": "https://docs.logos.co/messaging",
+        "external": true
+      }
+    },
+    {
+      "componentType": "ctaPanel",
+      "key": "messaging.lmn",
+      "eyebrow": "Messaging",
+      "title": "Logos Messaging Nim (LMN)",
+      "description": "Built around the Logos Messaging Nim (LMN) node, it provides publish-subscribe messaging, reliable delivery, and is evolving toward a ChatSDK that simplifies building encrypted communication into applications."
+    },
+    {
+      "componentType": "cardGrid",
+      "key": "messaging.caseStudies",
+      "heading": "Case Studies",
+      "subheading": "Real-world deployments built on the Logos Messaging stack — from social networks to identity systems — proving the protocol scales with privacy guarantees intact.",
+      "cards": [
+        {
+          "title": "Case Study: Status",
+          "description": "Status uses Logos Messaging (Waku) to deliver private peer-to-peer chat to hundreds of thousands of users without operating servers that could be compelled to log conversations.",
+          "image": {
+            "src": "/images/messaging/status.webp",
+            "alt": "",
+            "width": 96,
+            "height": 120
+          },
+          "cta": {
+            "label": "Learn more",
+            "href": "https://status.app",
+            "external": true
+          }
+        },
+        {
+          "title": "Case Study: Railgun",
+          "description": "Railgun integrates Logos Messaging primitives to coordinate privacy-preserving DeFi flows where transaction metadata never reaches a central observer.",
+          "image": {
+            "src": "/images/messaging/railgun.webp",
+            "alt": "",
+            "width": 96,
+            "height": 120
+          },
+          "cta": {
+            "label": "Learn more",
+            "href": "https://railgun.org",
+            "external": true
+          }
+        }
+      ]
+    },
+    {
+      "componentType": "cardGrid",
+      "key": "messaging.builderCta",
+      "cards": [
+        {
+          "title": "Docs",
+          "description": "Reference for the kernel, modules, and UI packages.",
+          "cta": {
+            "label": "View the docs",
+            "href": "https://docs.logos.co",
+            "external": true
+          }
+        },
+        {
+          "title": "Logos Builder Hub",
+          "description": "Everything you need to start building privacy-first decentralised applications. Explore RFPs, find ideas, and connect with other builders.",
+          "image": {
+            "src": "/images/messaging/builder-hub.jpg",
+            "alt": "",
+            "width": 1280,
+            "height": 720
+          },
+          "cta": { "label": "Build", "href": "/builders-hub" }
+        },
+        {
+          "title": "Logos App",
+          "description": "Download the app to start building with the kernel + modules + UI packages bundled.",
+          "cta": {
+            "label": "Download",
+            "href": "https://logos.co/app",
+            "external": true
+          }
+        }
+      ]
+    },
+    {
+      "componentType": "relatedArticles",
+      "key": "messaging.relatedArticles",
+      "label": "Logos Press Engine",
+      "eyebrow": "Logos in the News",
+      "title": "Related Articles",
+      "cta": { "label": "Explore all articles", "href": "/press" },
+      "visibleCount": 4
+    }
+  ]
+}

@@ -194,65 +194,6 @@
         "card4Desc": "Self-organising groups can establish and enforce their own rules, with members engaging voluntarily."
       }
     },
-    "messaging": {
-      "title": "Messaging | Logos",
-      "description": "Logos Messaging (formerly Waku) was designed and developed as the replacement for Whisper — the messaging protocol of Ethereum. This protocol is used in a number of production applications and provides strong privacy and security guarantees.",
-      "heading": "Messaging",
-      "hero": {
-        "back": "Technology stack",
-        "title": "Messaging",
-        "body": "Private peer-to-peer communication that resists surveillance and censorship.",
-        "logosApp": "Logos app",
-        "docs": "Docs"
-      },
-      "intro": {
-        "privacyEyebrow": "Privacy",
-        "privacyTitle": "Privacy built from the ground up.",
-        "privacyBody": "Logos Messaging (formerly Waku) was designed and developed as the replacement for Whisper - the messaging protocol of Ethereum. This protocol is used in a number of production applications and provides strong privacy and security guarantees.",
-        "privacyCta": "View the docs",
-        "messagingEyebrow": "Messaging",
-        "lmnTitle": "Logos Messaging Nim (LMN)",
-        "lmnBody": "Built around the Logos Messaging Nim (LMN) node, it provides publish-subscribe messaging, reliable delivery, and is evolving toward a ChatSDK that simplifies building encrypted communication into applications."
-      },
-      "caseStudies": {
-        "title": "Case Studies",
-        "description": "Lorem ipsum dolor sit amet consectetur. Dignissim mattis ut pulvinar massa.",
-        "statusTitle": "Case Study: Status",
-        "railgunTitle": "Case Study: Railgun",
-        "nextdoorTitle": "Logos-Powered Nextdoor App Clone",
-        "digitalIdTitle": "Digital ID Replacement with Logos",
-        "body": "Lorem ipsum dolor sit amet consectetur. At vulputate volutpat amet vitae morbi. Laoreet cursus magna arcu consectetur scelerisque natoque pretium proin. Nec vivamus pellentesque senectus iaculis tristique odio. Dolor sit amet consectetur. At vulputate volutpat amet vitae morbi. Laoreet cursus magna arcu consectetur scelerisque natoque pretium proin. Nec vivamus pellentesque senectus iaculis tristique odio."
-      },
-      "builderCta": {
-        "docsTitle": "Docs",
-        "docsBody": "Lorem ipsum dolor sit amet consectetur",
-        "docsCta": "View the docs",
-        "builderHubTitle": "Logos Builder Hub",
-        "builderHubBody": "Lorem ipsum dolor sit amet consectetur. Augue feugiat dictum aliquet feugiat.",
-        "builderHubCta": "Build",
-        "logosAppTitle": "Logos App",
-        "logosAppBody": "Download the app to start building.",
-        "logosAppCta": "Download"
-      },
-      "relatedArticles": {
-        "label": "Lorem ipsum dolor si amet",
-        "eyebrow": "Logos in the News",
-        "cta": "Explore all articles",
-        "title": "Related Articles",
-        "article1Title": "Story of the Network: From CyberNetics to Blockchain Communities",
-        "article1Date": "02.14.26",
-        "article1Author": "Sterlin Lujan",
-        "article2Title": "Story of the Network: From CyberNetics to Blockchain Communities",
-        "article2Date": "02.14.26",
-        "article2Author": "Sterlin Lujan",
-        "article3Title": "Story of the Network: From CyberNetics to Blockchain Communities",
-        "article3Date": "02.14.26",
-        "article3Author": "Sterlin Lujan",
-        "article4Title": "Story of the Network: From CyberNetics to Blockchain Communities",
-        "article4Date": "02.14.26",
-        "article4Author": "Sterlin Lujan"
-      }
-    },
     "storage": {
       "techStack": {
         "storageBody": "Decentralized file storage and retrieval, using content-addressed (CID-based) data",
@@ -265,11 +206,6 @@
         "cryptarchia": "Data Availability and Consensus: Cryptarchia"
       }
     },
-    "buildersHub": {
-      "title": "Builders Hub | Logos",
-      "description": "Explore RFPs, submit ideas, install the Logos App, and join a growing community of builders shipping privacy-first decentralized applications.",
-      "heading": "Logos Builders Hub"
-    },
     "ideas": {
       "title": "Ideas | Logos",
       "description": "Community-submitted ideas for decentralized applications on Logos. Browse active submissions or contribute your own.",
@@ -279,11 +215,6 @@
       "title": "RFPs | Logos",
       "description": "Request-for-proposals on Logos. USDC + XP rewards for builders shipping attack-resistant public registries, decentralized archives, private financial networks, and more.",
       "heading": "RFPs"
-    },
-    "circles": {
-      "title": "Circles | Logos",
-      "description": "Local chapters are at the heart of the Logos movement. Find a Circle near you, join upcoming events, and tackle winnable local issues.",
-      "heading": "Logos Circles"
     },
     "circleDetail": {
       "title": "{city} Circle | Logos",

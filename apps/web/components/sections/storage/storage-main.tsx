@@ -59,9 +59,11 @@ export default function StorageMain({ data }: Props) {
                   </p>
                 ) : null}
               </div>
-              <Button href={data.cta.href} variant="primary">
-                {data.cta.label}
-              </Button>
+              {data.cta ? (
+                <Button href={data.cta.href} variant="primary">
+                  {data.cta.label}
+                </Button>
+              ) : null}
             </div>
           </div>
 

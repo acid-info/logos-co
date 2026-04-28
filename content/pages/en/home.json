@@ -19,7 +19,7 @@
       "componentType": "hero",
       "key": "home.atf",
       "headline": "Pioneering a New Era of Freedom",
-      "body": "Logos is a movement building open technology to enable and restore civil society.",
+      "body": "LOGOS is a movement building open technology to enable and restore civil society.",
       "background": {
         "src": "/cms/pages/home/atf-background.jpg",
         "alt": "",
@@ -27,8 +27,8 @@
         "height": 1080
       },
       "ctas": [
-        { "label": "Join the movement", "href": "/take-action", "variant": "primary" },
-        { "label": "Learn more", "href": "/about", "variant": "secondary" }
+        { "label": "Join the Movement", "href": "/circles", "variant": "primary" },
+        { "label": "Learn More", "href": "/about", "variant": "secondary" }
       ]
     },
     {
@@ -64,6 +64,9 @@
     {
       "componentType": "techStackOverview",
       "key": "home.techStack",
+      "eyebrow": "A unified ecosystem. Private-by-default. Built for real life.",
+      "title": "The Logos Technology Stack",
+      "cta": { "label": "See the Stack", "href": "/technology-stack" },
       "pillars": [
         {
           "id": "storage",

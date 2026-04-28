@@ -30,15 +30,17 @@ export default function NetworkingIntro({ data }: Props) {
             </p>
           ) : null}
 
-          <div className="absolute top-[39px] left-297.5">
-            <Button
-              href={data.cta.href}
-              variant="tertiary"
-              className="cursor-pointer transition-opacity hover:opacity-70"
-            >
-              {data.cta.label}
-            </Button>
-          </div>
+          {data.cta ? (
+            <div className="absolute top-[39px] left-297.5">
+              <Button
+                href={data.cta.href}
+                variant="tertiary"
+                className="cursor-pointer transition-opacity hover:opacity-70"
+              >
+                {data.cta.label}
+              </Button>
+            </div>
+          ) : null}
         </div>
 
         {/* Mobile: vertical stack — title→body gap 12, body→cta gap 24 */}
@@ -55,13 +57,15 @@ export default function NetworkingIntro({ data }: Props) {
               <p className="text-mono-s text-brand-dark-green">{data.description}</p>
             ) : null}
           </div>
-          <Button
-            href={data.cta.href}
-            variant="tertiary"
-            className="w-fit cursor-pointer transition-opacity hover:opacity-70"
-          >
-            {data.cta.label}
-          </Button>
+          {data.cta ? (
+            <Button
+              href={data.cta.href}
+              variant="tertiary"
+              className="w-fit cursor-pointer transition-opacity hover:opacity-70"
+            >
+              {data.cta.label}
+            </Button>
+          ) : null}
         </div>
       </div>
     </section>

@@ -146,7 +146,12 @@ export const ctaPanelSectionSchema = z.object({
   title: z.string().min(1),
   description: z.string().min(1).optional(),
   image: mediaRefSchema.optional(),
-  cta: ctaSchema,
+  /**
+   * Optional. Some "annotated text + image" sections render without a CTA
+   * (e.g. LMN intro on the messaging page). Sections that do need a CTA
+   * just provide it; sections that don't omit the field.
+   */
+  cta: ctaSchema.optional(),
 })
 export type CtaPanelSection = z.infer<typeof ctaPanelSectionSchema>
 
@@ -177,6 +182,16 @@ const techStackPillarSchema = z.object({
 export const techStackOverviewSectionSchema = z.object({
   componentType: z.literal('techStackOverview'),
   key: sectionKeySchema,
+  /**
+   * Optional small label rendered above the title — used by surfaces that
+   * combine the techStackOverview with intro copy (e.g. the home page).
+   */
+  eyebrow: z.string().min(1).optional(),
+  /** Optional section-level title. The /technology-stack page itself shows
+   * the title in a separate hero, so it's not required there. */
+  title: z.string().min(1).optional(),
+  /** Optional section-level CTA (e.g. "See the Stack"). */
+  cta: ctaSchema.optional(),
   pillars: z.array(techStackPillarSchema).length(4),
   networkingTitle: z.string().min(1),
   foundationTitle: z.string().min(1),

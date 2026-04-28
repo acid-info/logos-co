@@ -1,9 +1,13 @@
-import { getTranslations } from 'next-intl/server'
+import { getLocale } from 'next-intl/server'
 
+import { getPageCopy } from '@repo/content/loaders'
+import { isActiveLocale } from '@repo/content/locales'
 import { LogosMark } from '@repo/ui'
 
 import { ROUTES } from '@/constants/routes'
 import { createDefaultMetadata } from '@/utils/metadata'
+
+const ROUTE = ROUTES.circles
 
 export async function generateMetadata({
   params,
@@ -11,22 +15,35 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const t = await getTranslations({ locale, namespace: 'pages.circles' })
+  if (!isActiveLocale(locale)) {
+    throw new Error(`generateMetadata received non-active locale "${locale}"`)
+  }
+  const page = await getPageCopy(ROUTE, locale)
   return createDefaultMetadata({
-    title: t('title'),
-    description: t('description'),
+    title: page.seo?.metaTitle ?? page.title,
+    description: page.seo?.metaDescription ?? page.description,
     locale,
-    path: ROUTES.circles,
+    path: ROUTE,
   })
 }
 
+/**
+ * Placeholder page — the real Circles UI (hero, world map, events list,
+ * initiatives, resources) is rendered from `CirclesSettings` once the section
+ * components are wired up. For now this just renders the page heading from
+ * `content/pages/en/circles.json`.
+ */
 export default async function CirclesPage() {
-  const t = await getTranslations('pages.circles')
+  const rawLocale = await getLocale()
+  if (!isActiveLocale(rawLocale)) {
+    throw new Error(`CirclesPage received non-active locale "${rawLocale}"`)
+  }
+  const page = await getPageCopy(ROUTE, rawLocale)
   return (
     <div className="px-3 pt-16 pb-12">
       <h1 className="text-h2 flex items-center gap-3 text-brand-dark-green">
         <LogosMark size={40} className="shrink-0" />
-        {t('heading')}
+        {page.heading ?? page.title}
       </h1>
     </div>
   )

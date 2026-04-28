@@ -71,9 +71,11 @@ export default function BlockchainPrivacy({ data }: Props) {
                   </p>
                 ) : null}
               </div>
-              <Button href={data.cta.href} variant="primary" className="w-fit cursor-pointer">
-                {data.cta.label}
-              </Button>
+              {data.cta ? (
+                <Button href={data.cta.href} variant="primary" className="w-fit cursor-pointer">
+                  {data.cta.label}
+                </Button>
+              ) : null}
             </div>
 
             {data.eyebrow ? (
@@ -99,9 +101,11 @@ export default function BlockchainPrivacy({ data }: Props) {
                 </p>
               ) : null}
             </div>
-            <Button href={data.cta.href} variant="primary" className="w-fit cursor-pointer">
-              {data.cta.label}
-            </Button>
+            {data.cta ? (
+              <Button href={data.cta.href} variant="primary" className="w-fit cursor-pointer">
+                {data.cta.label}
+              </Button>
+            ) : null}
           </div>
 
           {data.eyebrow ? (
