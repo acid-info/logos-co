@@ -14,14 +14,16 @@ type Props = {
 export function BuildersHubBottomCta({ title, cta }: Props) {
   return (
     <section className="border-t border-brand-dark-green/10 bg-brand-off-white">
-      <div className="mx-auto max-w-360 px-3 py-16 flex flex-col items-center gap-8 text-center">
+      <div className="mx-auto flex max-w-360 flex-col items-center gap-[26px] px-3 py-[100px] text-center">
         <h2 className="text-h3-serif md:text-h2 text-brand-dark-green leading-tight tracking-tight text-balance max-w-[20ch] md:max-w-[24ch]">
           {title}
         </h2>
         <Button
           href={cta.href}
-          variant="secondary"
-          {...(cta.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+          variant="primary"
+          {...(cta.external
+            ? { target: '_blank', rel: 'noopener noreferrer' }
+            : {})}
         >
           {cta.label}
         </Button>

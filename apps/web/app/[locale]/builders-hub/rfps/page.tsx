@@ -1,16 +1,10 @@
 import { getLocale } from 'next-intl/server'
 import { Pagination } from '@repo/ui'
 
-import {
-  getAllRfps,
-  getBuilderHubListingSettings,
-} from '@repo/content/loaders'
+import { getAllRfps, getBuilderHubListingSettings } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
 
-import {
-  BuildersHubBottomCta,
-  BuildersHubListingHeader,
-} from '@/components/sections/builders-hub'
+import { BuildersHubListingHeader } from '@/components/sections/builders-hub'
 import { RfpCard } from '@/components/sections/builders-hub/rfp-card'
 import { RfpListRow } from '@/components/sections/builders-hub/rfp-list-row'
 import { ROUTES } from '@/constants/routes'
@@ -79,45 +73,44 @@ export default async function RfpsPage({
 
   return (
     <main className="bg-brand-off-white">
-      <section className="bg-brand-off-white">
-        <div className="mx-auto max-w-360 px-3 pt-10">
+      <section className="bg-brand-off-white md:mb-3 md:min-h-[1638px]">
+        <div className="mx-auto max-w-360 px-3 pt-20">
           <BuildersHubListingHeader
             title={settings.title}
             description={settings.description}
             submitCta={settings.submitCta}
             view={view}
             buildViewHref={(v) => buildHref({ view: v, page: 1 })}
-            eyebrow={`Page ${currentPage.toString().padStart(2, '0')}`}
+            mobileDescription="Lorem ipsum dolor sit amet consectetur. Risus ut sollicitudin tortor aliquet sed. Consequat vestibulum lacus mauris mauris."
+            mobileSpacious
+            backHref={ROUTES.buildersHub}
           />
+        </div>
 
-          {view === 'grid' ? (
-            <div className="mt-8 grid grid-cols-1 gap-3 md:grid-cols-4">
+        {view === 'grid' ? (
+          <div className="mx-auto mt-[90px] max-w-360 px-3 md:mt-[160px]">
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
               {pageRfps.map((rfp) => (
                 <RfpCard key={rfp.slug} rfp={rfp} />
               ))}
             </div>
-          ) : (
-            <ul className="mt-8 w-full">
-              {pageRfps.map((rfp, i) => (
-                <RfpListRow key={rfp.slug} index={start + i + 1} rfp={rfp} />
-              ))}
-            </ul>
-          )}
-
-          <div className="mt-12 flex justify-center pb-12">
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              getHref={(page) => buildHref({ page })}
-            />
           </div>
+        ) : (
+          <ul className="mt-0 w-full md:mt-[60px]">
+            {pageRfps.map((rfp, i) => (
+              <RfpListRow key={rfp.slug} index={start + i + 1} rfp={rfp} />
+            ))}
+          </ul>
+        )}
+
+        <div className="mt-12 flex justify-center pb-[100px]">
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            getHref={(page) => buildHref({ page })}
+          />
         </div>
       </section>
-
-      <BuildersHubBottomCta
-        title={settings.bottomCta.title}
-        cta={settings.bottomCta.cta}
-      />
     </main>
   )
 }

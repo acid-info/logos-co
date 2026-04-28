@@ -79,38 +79,41 @@ export default async function IdeasPage({
 
   return (
     <main className="bg-brand-off-white">
-      <section className="bg-brand-off-white">
-        <div className="mx-auto max-w-360 px-3 pt-10">
+      <section className="bg-brand-off-white md:mb-[100px] md:min-h-[971px]">
+        <div className="mx-auto max-w-360 px-3 pt-20">
           <BuildersHubListingHeader
             title={settings.title}
             description={settings.description}
             submitCta={settings.submitCta}
             view={view}
             buildViewHref={(v) => buildHref({ view: v, page: 1 })}
-            eyebrow={`Page ${currentPage.toString().padStart(2, '0')}`}
+            mobileDescription="Lorem ipsum dolor sit amet consectetur. Sed in quis lorem vel proin auctor feugiat ut eget. Enim at in tellus sed fusce odio mi."
+            backHref={ROUTES.buildersHub}
           />
+        </div>
 
-          {view === 'grid' ? (
+        {view === 'grid' ? (
+          <div className="mx-auto mt-[60px] max-w-360 px-3">
             <div className="mt-8 grid grid-cols-1 gap-3 md:grid-cols-4">
               {pageIdeas.map((idea) => (
                 <IdeaCard key={idea.slug} idea={idea} />
               ))}
             </div>
-          ) : (
-            <ul className="mt-8 w-full">
-              {pageIdeas.map((idea, i) => (
-                <IdeaRow key={idea.slug} index={start + i + 1} idea={idea} />
-              ))}
-            </ul>
-          )}
-
-          <div className="mt-12 flex justify-center pb-12">
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              getHref={(page) => buildHref({ page })}
-            />
           </div>
+        ) : (
+          <ul className="mt-0 w-full md:mt-[60px]">
+            {pageIdeas.map((idea, i) => (
+              <IdeaRow key={idea.slug} index={start + i + 1} idea={idea} />
+            ))}
+          </ul>
+        )}
+
+        <div className="mt-12 flex justify-center pb-[100px]">
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            getHref={(page) => buildHref({ page })}
+          />
         </div>
       </section>
 

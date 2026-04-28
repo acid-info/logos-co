@@ -8,10 +8,10 @@ type Props = {
   idea: Idea
 }
 
-const formatReward = (reward: Idea['reward']): string | null => {
-  if (!reward) return null
+const formatRewardLines = (reward: Idea['reward']): string[] => {
+  if (!reward) return []
   const amount = `${reward.amount} ${reward.currency}`
-  return reward.xp ? `${amount} + ${reward.xp} XP` : amount
+  return reward.xp ? [amount, `+ ${reward.xp} XP`] : [amount]
 }
 
 /**
@@ -26,9 +26,11 @@ export function IdeaRow({ index, idea }: Props) {
   const indexLabel = index.toString().padStart(2, '0')
   const isOdd = index % 2 === 1
   const bg = isOdd ? 'bg-gray-01' : 'bg-brand-dark-green/5'
-  const submitter = `${idea.tagline ?? idea.summary} / Idea by @${idea.submitter.handle}`
+  const description = idea.tagline ?? idea.summary
+  const submitter = `Idea by @${idea.submitter.handle}`
+  const mobileDescription = `${description} / ${submitter}`
   const detailHref = `${ROUTES.ideas}/${idea.slug}`
-  const reward = formatReward(idea.reward)
+  const rewardLines = formatRewardLines(idea.reward)
   const ctaHref = idea.discussionUrl ?? detailHref
   const ctaExternal = Boolean(idea.discussionUrl)
 
@@ -43,21 +45,31 @@ export function IdeaRow({ index, idea }: Props) {
       >
         {/* Mobile: 116 px stacked layout */}
         <div className="relative h-[116px] md:hidden">
-          <p className="absolute top-3 left-3 w-[179px] font-sans text-[14px] leading-[1.2] text-brand-dark-green">
+          <p className="absolute top-3 left-3 w-[191px] font-sans text-[14px] leading-[1.2] text-brand-dark-green">
             <span className="font-medium">{indexLabel}</span>
             <span className="ml-3 font-display">{idea.title}</span>
           </p>
-          <p className="absolute top-[75px] left-3 w-[260px] font-mono text-[10px] leading-[1.3] text-brand-dark-green truncate">
-            {submitter}
+          <p className="absolute top-[75px] left-3 w-[179px] font-mono text-[10px] leading-[1.3] text-brand-dark-green">
+            {mobileDescription}
           </p>
-          <span className="absolute top-3 right-3 inline-flex items-center justify-center rounded-[4px] border border-brand-dark-green/50 px-3 py-2 text-brand-dark-green">
+          <span className="absolute top-3 right-7 inline-flex items-center justify-center rounded-[4px] border border-brand-dark-green/50 px-3 py-2 text-brand-dark-green">
             <span className="font-mono text-[10px] leading-[1.35] font-semibold uppercase whitespace-nowrap">
               Apply
             </span>
+            <span
+              aria-hidden="true"
+              className="ml-1 font-mono text-[10px] leading-none"
+            >
+              →
+            </span>
           </span>
-          {reward ? (
-            <p className="absolute top-[75px] right-3 w-[83px] font-mono text-[10px] leading-[1.3] text-brand-dark-green text-right">
-              {reward}
+          {rewardLines.length > 0 ? (
+            <p className="absolute top-[75px] right-3 w-[83px] font-mono text-[10px] leading-[1.3] text-brand-dark-green text-left">
+              {rewardLines.map((line) => (
+                <span key={line} className="block">
+                  {line}
+                </span>
+              ))}
             </p>
           ) : null}
         </div>
@@ -74,14 +86,19 @@ export function IdeaRow({ index, idea }: Props) {
             </span>
           </div>
           {/* Submitter line */}
-          <p className="absolute top-3 left-[50%] translate-x-[6px] w-[464px] font-mono text-[10px] leading-[1.3] text-brand-dark-green truncate">
-            {submitter}
+          <p className="absolute top-3 left-[50%] translate-x-[6px] w-[464px] font-mono text-[10px] leading-[1.3] text-brand-dark-green">
+            <span className="block truncate">{description}</span>
+            <span className="block">{submitter}</span>
           </p>
           {/* Reward + CTA */}
-          <div className="absolute top-3 left-[83.33%] translate-x-[2px] flex items-center gap-3">
-            {reward ? (
+          <div className="absolute top-3 left-[83.33%] translate-x-[2px] flex items-start gap-3">
+            {rewardLines.length > 0 ? (
               <span className="w-[107px] font-mono text-[10px] leading-[1.3] text-brand-dark-green">
-                {reward}
+                {rewardLines.map((line) => (
+                  <span key={line} className="block">
+                    {line}
+                  </span>
+                ))}
               </span>
             ) : (
               <span className="w-[107px]" />

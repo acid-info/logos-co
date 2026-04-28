@@ -3,10 +3,10 @@
   "language": "en",
   "page": "rfps",
   "title": "RFPs",
-  "description": "Funded calls for builders to ship Logos-powered applications.",
+  "description": "Lorem ipsum dolor sit amet consectetur. Risus ut sollicitudin tortor aliquet sed. Consequat vestibulum lacus mauris mauris.",
   "breadcrumbLabel": "RFPs",
   "submitCta": {
-    "label": "Submit an RFP",
+    "label": "Submit an idea",
     "href": "https://forms.logos.co/rfp",
     "external": true
   },
