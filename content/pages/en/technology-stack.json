@@ -80,29 +80,47 @@
       }
     },
     {
+      "componentType": "featuredText",
+      "key": "techStack.modular",
+      "title": {
+        "highlight": "Modular",
+        "rest": "by design."
+      },
+      "body": [
+        "Logos provides developers with a modular, plugin-based runtime for building decentralised applications. Consolidated development and deployment across the Logos network.",
+        "This architecture allows nodes to dynamically discover and load modules while preserving privacy. This approach allows the network to evolve and provides a foundation for decentralised applications and social institutions that remain resistant to capture and corruption — whether deployed by local communities or nation-states."
+      ]
+    },
+    {
       "componentType": "cardGrid",
       "key": "techStack.useCases",
       "heading": "Use Cases",
       "subheading": "We know today's systems are captured and brittle. We build alternatives to give people a choice. Build on Logos and serve your community.",
+      "subheadingExtra": "Privacy-preserving blockchain for sovereign order and decentralised governance.",
+      "cta": { "label": "View the Docs", "href": "https://docs.logos.co", "external": true },
       "cards": [
         {
           "title": "Attack-Resistant Public Registries",
           "description": "Privacy-preserving blockchain for sovereign order and decentralised governance.",
+          "image": { "src": "/images/technology-stack/usecase-1.jpg", "alt": "", "width": 96, "height": 120 },
           "cta": { "label": "Learn more", "href": "/technology-stack/blockchain" }
         },
         {
           "title": "Decentralised Archives",
           "description": "Permanent, censorship-proof preservation of knowledge, culture, and history.",
+          "image": { "src": "/images/technology-stack/usecase-2.jpg", "alt": "", "width": 96, "height": 77 },
           "cta": { "label": "Learn more", "href": "/technology-stack/storage" }
         },
         {
           "title": "Private Financial Networks",
           "description": "Money that moves securely and freely, without surveillance or control.",
+          "image": { "src": "/images/technology-stack/usecase-3.jpg", "alt": "", "width": 96, "height": 119 },
           "cta": { "label": "Learn more", "href": "/technology-stack/blockchain" }
         },
         {
           "title": "Community Governance",
           "description": "Self-organising groups establish and enforce their own rules, with members engaging voluntarily.",
+          "image": { "src": "/images/technology-stack/usecase-4.jpg", "alt": "", "width": 96, "height": 127 },
           "cta": { "label": "Learn more", "href": "/circles" }
         }
       ]

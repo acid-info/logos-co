@@ -1,11 +1,14 @@
 import Image from 'next/image'
-import { getTranslations } from 'next-intl/server'
+
+import type { FeaturedTextSection } from '@repo/content/schemas'
 
 const MODULAR_CLIP_PATH = 'inset(0 round 900px)'
 
-export default async function TechOverviewModular() {
-  const t = await getTranslations('pages.technologyStack.modular')
+type Props = {
+  data: FeaturedTextSection
+}
 
+export default function TechOverviewModular({ data }: Props) {
   return (
     <section className="bg-brand-off-white px-3 py-10">
       <div className="mx-auto max-w-354">
@@ -30,15 +33,18 @@ export default async function TechOverviewModular() {
                   <div className="flex w-full max-w-[329px] flex-col items-center gap-[60px] text-center md:max-w-[809px] md:gap-[46px]">
                     <h2 className="text-h1 text-brand-off-white">
                       <span className="text-accent-light-blue">
-                        {t('highlightedWord')}
+                        {data.title.highlight}
                       </span>
-                      <span>{` ${t('rest')}`}</span>
+                      <span>{` ${data.title.rest}`}</span>
                     </h2>
 
-                    <div className="text-body-sans flex flex-col gap-3 text-brand-off-white md:max-w-[809px]">
-                      <p>{t('body1')}</p>
-                      <p>{t('body2')}</p>
-                    </div>
+                    {data.body && data.body.length > 0 ? (
+                      <div className="text-body-sans flex flex-col gap-3 text-brand-off-white md:max-w-[809px]">
+                        {data.body.map((paragraph, i) => (
+                          <p key={i}>{paragraph}</p>
+                        ))}
+                      </div>
+                    ) : null}
                   </div>
                 </div>
               </div>

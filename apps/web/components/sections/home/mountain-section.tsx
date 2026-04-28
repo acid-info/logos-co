@@ -1,16 +1,18 @@
-import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 
+import type { FeaturedTextSection } from '@repo/content/schemas'
+
 import { Button } from '@/components/ui'
-import { ROUTES } from '@/constants/routes'
 
 const MOUNTAIN_ASPECT_RATIO = '1416 / 2283'
 const MOUNTAIN_IMAGE_WIDTH_RATIO = '130.65%'
 const MOUNTAIN_CLIP_PATH = 'inset(0 round 900px)'
 
-export default async function MountainSection() {
-  const t = await getTranslations('home.mountain')
+type Props = {
+  data: FeaturedTextSection
+}
 
+export default function MountainSection({ data }: Props) {
   return (
     <section className="bg-brand-off-white px-3">
       <div className="mx-auto max-w-354">
@@ -41,19 +43,21 @@ export default async function MountainSection() {
                 <div className="flex h-full flex-col items-center justify-center gap-10 px-4 text-center md:gap-[60px] md:px-0">
                   <h2 className="text-h1 w-full max-w-88 text-brand-off-white md:max-w-full">
                     <span className="text-accent-light-blue">
-                      {t('highlightedWord')}
+                      {data.title.highlight}
                     </span>
-                    <span>{` ${t('rest')}`}</span>
+                    <span>{` ${data.title.rest}`}</span>
                   </h2>
 
-                  <div className="pointer-events-auto">
-                    <Button
-                      href={ROUTES.press}
-                      className="bg-brand-off-white text-brand-dark-green backdrop-blur-none transition-opacity hover:opacity-80"
-                    >
-                      {t('cta')}
-                    </Button>
-                  </div>
+                  {data.cta ? (
+                    <div className="pointer-events-auto">
+                      <Button
+                        href={data.cta.href}
+                        className="bg-brand-off-white text-brand-dark-green backdrop-blur-none transition-opacity hover:opacity-80"
+                      >
+                        {data.cta.label}
+                      </Button>
+                    </div>
+                  ) : null}
                 </div>
               </div>
             </div>

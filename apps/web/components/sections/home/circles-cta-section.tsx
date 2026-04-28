@@ -1,42 +1,52 @@
-import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 
 import { IconButton } from '@repo/ui'
+import type { FeaturedTextSection } from '@repo/content/schemas'
+
 import { Button, ButtonArrowIcon } from '@/components/ui'
-import { ROUTES } from '@/constants/routes'
 
-export default async function CirclesCtaSection() {
-  const t = await getTranslations('home.circlesCta')
+type Props = {
+  data: FeaturedTextSection
+}
 
+export default function CirclesCtaSection({ data }: Props) {
   return (
     <section className="bg-brand-off-white py-20 md:py-28">
       <div className="mx-auto max-w-354 px-3">
         {/* Headline + body + CTAs */}
         <div className="flex flex-col items-center text-center">
           <h2 className="text-h1 text-brand-dark-green">
-            <span className="text-brand-yellow">{t('count')}</span>{' '}
-            {t('headline')}
+            <span className="text-brand-yellow">{data.title.highlight}</span>{' '}
+            {data.title.rest}
           </h2>
 
-          <p className="text-mono-s text-brand-dark-green/70 mt-10 max-w-114">
-            {t('body')}
-          </p>
+          {data.body && data.body.length > 0 ? (
+            <div className="text-mono-s text-brand-dark-green/70 mt-10 max-w-114 flex flex-col gap-3">
+              {data.body.map((paragraph, i) => (
+                <p key={i}>{paragraph}</p>
+              ))}
+            </div>
+          ) : null}
 
           <div className="mt-8 flex items-center gap-4">
-            <Button
-              href={ROUTES.circles}
-              className="transition-opacity hover:opacity-70"
-            >
-              {t('findCta')}
-            </Button>
-            <Button
-              href={ROUTES.circles}
-              variant="link"
-              icon={<ButtonArrowIcon />}
-              className="transition-opacity hover:opacity-70"
-            >
-              {t('startCta')}
-            </Button>
+            {data.cta ? (
+              <Button
+                href={data.cta.href}
+                className="transition-opacity hover:opacity-70"
+              >
+                {data.cta.label}
+              </Button>
+            ) : null}
+            {data.secondaryCta ? (
+              <Button
+                href={data.secondaryCta.href}
+                variant="link"
+                icon={<ButtonArrowIcon />}
+                className="transition-opacity hover:opacity-70"
+              >
+                {data.secondaryCta.label}
+              </Button>
+            ) : null}
           </div>
         </div>
 
@@ -49,7 +59,6 @@ export default async function CirclesCtaSection() {
               fill
               className="object-cover opacity-80"
             />
-            {/* Zoom controls */}
             <div className="absolute top-4 right-4 flex gap-2">
               <IconButton
                 aria-label="Zoom out"

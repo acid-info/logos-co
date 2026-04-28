@@ -2,27 +2,36 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
-import { useTranslations } from 'next-intl'
+
+import type { CardGridSection } from '@repo/content/schemas'
 
 import { Button } from '@/components/ui'
-import { ROUTES } from '@/constants/routes'
 
-type UseCaseCard = {
+type UseCaseCardData = {
   title: string
   description: string
   href: string
+  ctaLabel: string
   imageSrc: string
+  imageAlt: string
   imageClassName: string
 }
 
+/**
+ * Per-card image className is positional — Figma renders the four use-case
+ * cards with different image aspect crops. Editors keep the slot order
+ * stable; reordering would shuffle the aspects.
+ */
+const CARD_IMAGE_CLASSNAMES = [
+  'h-[120px] w-24',
+  'h-[77px] w-24',
+  'h-[119px] w-24',
+  'h-[127px] w-24',
+]
+
 function ArrowIcon({ direction }: { direction: 'left' | 'right' }) {
   return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 14 14"
-      className="size-3.5"
-      fill="none"
-    >
+    <svg aria-hidden="true" viewBox="0 0 14 14" className="size-3.5" fill="none">
       {direction === 'left' ? (
         <path d="M9 3L5 7L9 11" stroke="currentColor" strokeWidth="1.5" />
       ) : (
@@ -55,11 +64,11 @@ function UseCaseCard({
   title,
   description,
   href,
+  ctaLabel,
   imageSrc,
+  imageAlt,
   imageClassName,
-}: UseCaseCard) {
-  const t = useTranslations('pages.technologyStack.useCases')
-
+}: UseCaseCardData) {
   return (
     <article className="border-brand-dark-green/50 relative h-[317px] w-[345px] shrink-0 overflow-hidden rounded-xl border bg-brand-off-white">
       <h3 className="text-h4-sans absolute left-4 top-4 w-[249px] text-brand-dark-green">
@@ -72,7 +81,7 @@ function UseCaseCard({
           variant="link"
           className="transition-opacity hover:opacity-70"
         >
-          {t('learnMore')}
+          {ctaLabel}
         </Button>
       </div>
 
@@ -85,7 +94,7 @@ function UseCaseCard({
       >
         <Image
           src={imageSrc}
-          alt=""
+          alt={imageAlt}
           fill
           sizes="96px"
           className="object-cover"
@@ -95,8 +104,11 @@ function UseCaseCard({
   )
 }
 
-export default function TechOverviewUseCases() {
-  const t = useTranslations('pages.technologyStack.useCases')
+type Props = {
+  data: CardGridSection
+}
+
+export default function TechOverviewUseCases({ data }: Props) {
   const scrollRef = useRef<HTMLDivElement>(null)
   const dragStartXRef = useRef(0)
   const dragStartScrollLeftRef = useRef(0)
@@ -117,37 +129,24 @@ export default function TechOverviewUseCases() {
     scrollRef.current.scrollBy({ left: amount, behavior: 'smooth' })
   }
 
-  const baseCards: UseCaseCard[] = [
-    {
-      title: t('card1Title'),
-      description: t('card1Desc'),
-      href: ROUTES.blockchain,
-      imageSrc: '/images/technology-stack/usecase-1.jpg',
-      imageClassName: 'h-[120px] w-24',
-    },
-    {
-      title: t('card2Title'),
-      description: t('card2Desc'),
-      href: ROUTES.storage,
-      imageSrc: '/images/technology-stack/usecase-2.jpg',
-      imageClassName: 'h-[77px] w-24',
-    },
-    {
-      title: t('card3Title'),
-      description: t('card3Desc'),
-      href: ROUTES.blockchain,
-      imageSrc: '/images/technology-stack/usecase-3.jpg',
-      imageClassName: 'h-[119px] w-24',
-    },
-    {
-      title: t('card4Title'),
-      description: t('card4Desc'),
-      href: ROUTES.circles,
-      imageSrc: '/images/technology-stack/usecase-4.jpg',
-      imageClassName: 'h-[127px] w-24',
-    },
-  ]
-
+  const baseCards: UseCaseCardData[] = data.cards.flatMap((card, index) =>
+    card.image && card.cta
+      ? [
+          {
+            title: card.title,
+            description: card.description ?? '',
+            href: card.cta.href,
+            ctaLabel: card.cta.label,
+            imageSrc: card.image.src,
+            imageAlt: card.image.alt || card.title,
+            imageClassName:
+              CARD_IMAGE_CLASSNAMES[index] ?? CARD_IMAGE_CLASSNAMES[0],
+          },
+        ]
+      : [],
+  )
+  // Carousel duplicates cards for infinite-feel scrolling; matches existing
+  // behaviour.
   const cards = [...baseCards, ...baseCards]
 
   const handleMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -186,7 +185,7 @@ export default function TechOverviewUseCases() {
           </div>
 
           <p className="text-mono-s w-[178px] text-brand-dark-green">
-            {`${t('tagline')} ${t('tagline2')}`}
+            {[data.subheading, data.subheadingExtra].filter(Boolean).join(' ')}
           </p>
         </div>
 
@@ -201,44 +200,56 @@ export default function TechOverviewUseCases() {
             />
           </div>
 
-          <p className="text-mono-s absolute left-[714px] top-6 w-[226px] text-brand-dark-green">
-            {t('tagline')}
-          </p>
-          <p className="text-mono-s absolute left-[1071px] top-6 w-[226px] text-brand-dark-green">
-            {t('tagline2')}
-          </p>
+          {data.subheading ? (
+            <p className="text-mono-s absolute left-[714px] top-6 w-[226px] text-brand-dark-green">
+              {data.subheading}
+            </p>
+          ) : null}
+          {data.subheadingExtra ? (
+            <p className="text-mono-s absolute left-[1071px] top-6 w-[226px] text-brand-dark-green">
+              {data.subheadingExtra}
+            </p>
+          ) : null}
 
-          <h2 className="text-h2 absolute left-[476px] top-[140px] w-[464px] text-center text-brand-dark-green">
-            {t('title')}
-          </h2>
+          {data.heading ? (
+            <h2 className="text-h2 absolute left-[476px] top-[140px] w-[464px] text-center text-brand-dark-green">
+              {data.heading}
+            </h2>
+          ) : null}
 
           <div className="absolute left-0 top-[269px] flex gap-2.5">
             <ScrollControl direction="left" onClick={() => scroll('left')} />
             <ScrollControl direction="right" onClick={() => scroll('right')} />
           </div>
 
-          <Button
-            href={ROUTES.buildersHub}
-            variant="link"
-            className="absolute left-[714px] top-[272px] transition-opacity hover:opacity-70"
-          >
-            {t('cta')}
-          </Button>
+          {data.cta ? (
+            <Button
+              href={data.cta.href}
+              variant="link"
+              className="absolute left-[714px] top-[272px] transition-opacity hover:opacity-70"
+            >
+              {data.cta.label}
+            </Button>
+          ) : null}
         </div>
 
-        <h2 className="text-h2 relative left-1/2 mt-16 w-[464px] max-w-none -translate-x-1/2 text-center text-brand-dark-green md:hidden">
-          {t('title')}
-        </h2>
+        {data.heading ? (
+          <h2 className="text-h2 relative left-1/2 mt-16 w-[464px] max-w-none -translate-x-1/2 text-center text-brand-dark-green md:hidden">
+            {data.heading}
+          </h2>
+        ) : null}
 
-        <div className="mt-[52px] flex items-center justify-center md:hidden">
-          <Button
-            href={ROUTES.buildersHub}
-            variant="link"
-            className="transition-opacity hover:opacity-70"
-          >
-            {t('cta')}
-          </Button>
-        </div>
+        {data.cta ? (
+          <div className="mt-[52px] flex items-center justify-center md:hidden">
+            <Button
+              href={data.cta.href}
+              variant="link"
+              className="transition-opacity hover:opacity-70"
+            >
+              {data.cta.label}
+            </Button>
+          </div>
+        ) : null}
       </div>
 
       <div

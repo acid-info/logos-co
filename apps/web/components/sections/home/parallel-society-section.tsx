@@ -1,15 +1,32 @@
-import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 
+import type {
+  FeaturedTextSection,
+  GallerySection,
+} from '@repo/content/schemas'
+
 import { Button, ButtonArrowIcon } from '@/components/ui'
-import { ROUTES } from '@/constants/routes'
+
+/**
+ * Per-image desktop dimensions are positional — Figma's gallery has four
+ * cards at fixed widths/heights to match the photo crops. Editors keep the
+ * slot order stable; reordering would shuffle aspect ratios.
+ */
+const DESKTOP_DIMENSIONS = [
+  { w: 407, h: 502 },
+  { w: 534, h: 667 },
+  { w: 466, h: 577 },
+  { w: 596, h: 402 },
+]
 
 function MobileGalleryCard({
   src,
+  alt,
   caption,
   date,
 }: {
   src: string
+  alt: string
   caption: string
   date: string
 }) {
@@ -18,7 +35,7 @@ function MobileGalleryCard({
       <div className="aspect-[356/440] overflow-hidden rounded-[4.375rem] bg-brand-dark-green/10">
         <Image
           src={src}
-          alt={caption}
+          alt={alt}
           width={356}
           height={440}
           className="h-full w-full object-cover object-center"
@@ -34,12 +51,14 @@ function MobileGalleryCard({
 
 function DesktopGalleryCard({
   src,
+  alt,
   w,
   h,
   caption,
   date,
 }: {
   src: string
+  alt: string
   w: number
   h: number
   caption: string
@@ -53,7 +72,7 @@ function DesktopGalleryCard({
       >
         <Image
           src={src}
-          alt={caption}
+          alt={alt}
           width={w}
           height={h}
           className="h-full w-full object-cover object-top"
@@ -67,65 +86,47 @@ function DesktopGalleryCard({
   )
 }
 
-export default async function ParallelSocietySection() {
-  const t = await getTranslations('home.parallelSociety')
-  const headline = t('headline')
-  const [before, after] = headline.split('Parallel Society')
-  const galleryImages = [
-    {
-      src: '/images/home/event-1.jpg',
-      w: 407,
-      h: 502,
-      caption: t('gallery1Caption'),
-      date: t('gallery1Date'),
-    },
-    {
-      src: '/images/home/event-2.jpg',
-      w: 534,
-      h: 667,
-      caption: t('gallery2Caption'),
-      date: t('gallery2Date'),
-    },
-    {
-      src: '/images/home/event-3.jpg',
-      w: 466,
-      h: 577,
-      caption: t('gallery3Caption'),
-      date: t('gallery3Date'),
-    },
-    {
-      src: '/images/home/event-4.jpg',
-      w: 596,
-      h: 402,
-      caption: t('gallery4Caption'),
-      date: t('gallery4Date'),
-    },
-  ]
+type Props = {
+  /** Highlighted-word headline + CTA above the gallery. */
+  headline: FeaturedTextSection
+  /** Gallery items for the cards row below the headline. */
+  gallery: GallerySection
+}
+
+export default function ParallelSocietySection({ headline, gallery }: Props) {
+  const items = gallery.items.map((item, index) => ({
+    src: item.image.src,
+    alt: item.image.alt,
+    caption: item.caption ?? '',
+    date: item.date ?? '',
+    desktop: DESKTOP_DIMENSIONS[index] ?? DESKTOP_DIMENSIONS[0],
+  }))
 
   return (
     <section className="overflow-hidden bg-brand-off-white py-20 md:py-28">
       <div className="mx-auto max-w-354 px-3">
-        {/* Headline */}
+        {/* Headline — highlighted leading word + dimmed trailing words */}
         <h2 className="text-h1 text-brand-dark-green mb-4 text-center">
           <span className="text-brand-dark-green">
-            {before ? '' : ''}Parallel Society{' '}
+            {headline.title.highlight}{' '}
           </span>
           <span className="text-brand-dark-green/50">
-            {after ??
-              'is a two-day event in Lisbon where music, art, and technology converge.'}
+            {headline.title.rest}
           </span>
         </h2>
 
-        <div className="mb-10 flex justify-center">
-          <Button
-            href={ROUTES.press}
-            variant="link"
-            icon={<ButtonArrowIcon />}
-            className="transition-opacity hover:opacity-70"
-          >
-            {t('cta')}
-          </Button>
-        </div>
+        {headline.cta ? (
+          <div className="mb-10 flex justify-center">
+            <Button
+              href={headline.cta.href}
+              variant="link"
+              icon={<ButtonArrowIcon />}
+              className="transition-opacity hover:opacity-70"
+            >
+              {headline.cta.label}
+            </Button>
+          </div>
+        ) : null}
       </div>
 
       <div
@@ -133,12 +134,13 @@ export default async function ParallelSocietySection() {
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         <div className="flex w-max snap-x snap-mandatory items-start gap-3 pr-3">
-          {galleryImages.map(({ src, caption, date }) => (
+          {items.map((item) => (
             <MobileGalleryCard
-              key={src}
-              src={src}
-              caption={caption}
-              date={date}
+              key={item.src}
+              src={item.src}
+              alt={item.alt}
+              caption={item.caption}
+              date={item.date}
             />
           ))}
         </div>
@@ -149,14 +151,15 @@ export default async function ParallelSocietySection() {
         className="hidden items-start gap-3 px-3 md:flex"
         style={{ marginLeft: '-141px', width: 'calc(100% + 282px)' }}
       >
-        {galleryImages.map(({ src, w, h, caption, date }) => (
+        {items.map((item) => (
           <DesktopGalleryCard
-            key={src}
-            src={src}
-            w={w}
-            h={h}
-            caption={caption}
-            date={date}
+            key={item.src}
+            src={item.src}
+            alt={item.alt}
+            w={item.desktop.w}
+            h={item.desktop.h}
+            caption={item.caption}
+            date={item.date}
           />
         ))}
       </div>

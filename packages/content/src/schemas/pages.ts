@@ -86,6 +86,13 @@ export const cardGridSectionSchema = z.object({
   eyebrow: z.string().min(1).optional(),
   heading: z.string().min(1).optional(),
   subheading: z.string().min(1).optional(),
+  /**
+   * Optional second subheading paragraph. Some sections (Use Cases on home
+   * and /technology-stack) split a long subheading across two desktop
+   * columns; the component renders both side-by-side on desktop and
+   * concatenated on mobile.
+   */
+  subheadingExtra: z.string().min(1).optional(),
   /** Section-level CTA, separate from per-card CTAs. */
   cta: ctaSchema.optional(),
   cards: z.array(cardGridCardSchema).min(1),
@@ -152,6 +159,12 @@ export const ctaPanelSectionSchema = z.object({
    * just provide it; sections that don't omit the field.
    */
   cta: ctaSchema.optional(),
+  /**
+   * Optional secondary CTA rendered alongside the primary one. Used by
+   * sections like the home Circles CTA where users can either find an
+   * existing circle or start a new one.
+   */
+  secondaryCta: ctaSchema.optional(),
 })
 export type CtaPanelSection = z.infer<typeof ctaPanelSectionSchema>
 
@@ -199,6 +212,36 @@ export const techStackOverviewSectionSchema = z.object({
 export type TechStackOverviewSection = z.infer<typeof techStackOverviewSectionSchema>
 
 /**
+ * Marketing slogan / annotated-text section: a title with a highlighted
+ * leading word (accent color), followed by an optional multi-paragraph body
+ * and optional CTA. Common Logos design pattern that appears on the home
+ * page (Mountain, Parallel Society headline) and the technology-stack page
+ * (Modular by design.).
+ *
+ * The split between `highlight` and `rest` is data-driven rather than
+ * derived by string matching so editors can change either independently
+ * without component refactors.
+ */
+export const featuredTextSectionSchema = z.object({
+  componentType: z.literal('featuredText'),
+  key: sectionKeySchema,
+  eyebrow: z.string().min(1).optional(),
+  /** Title rendered as a highlighted leading phrase + plain trailing phrase. */
+  title: z.object({
+    highlight: z.string().min(1),
+    rest: z.string().min(1),
+  }),
+  /** Optional multi-paragraph body. Each entry renders as its own <p>. */
+  body: z.array(z.string().min(1)).optional(),
+  cta: ctaSchema.optional(),
+  /** Optional secondary CTA — used by sections like home Circles CTA where
+   * users can pick between two related actions. */
+  secondaryCta: ctaSchema.optional(),
+  image: mediaRefSchema.optional(),
+})
+export type FeaturedTextSection = z.infer<typeof featuredTextSectionSchema>
+
+/**
  * Escape hatch for one-off sections. The `payload` is validated against the
  * Zod schema registered for `customSchemaId` at load time (see
  * `./custom-sections.ts`), not at parse time.
@@ -225,6 +268,7 @@ export const pageSectionSchema = z.discriminatedUnion('componentType', [
   ctaPanelSectionSchema,
   gallerySectionSchema,
   techStackOverviewSectionSchema,
+  featuredTextSectionSchema,
   customSectionSchema,
 ])
 export type PageSection = z.infer<typeof pageSectionSchema>

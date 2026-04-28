@@ -101,28 +101,43 @@
       "key": "home.useCases",
       "heading": "Use Cases",
       "subheading": "We know today's systems are captured and brittle. We build alternatives to give people a choice. Build on Logos and serve your community.",
+      "subheadingExtra": "Privacy-preserving blockchain for sovereign order and decentralised governance.",
+      "cta": { "label": "View the Docs", "href": "https://docs.logos.co", "external": true },
       "cards": [
         {
           "title": "Attack-Resistant Public Registries",
           "description": "Privacy-preserving blockchain for sovereign order and decentralised governance.",
+          "image": { "src": "/images/home/usecase-1.jpg", "alt": "", "width": 96, "height": 120 },
           "cta": { "label": "Learn more", "href": "/technology-stack/blockchain" }
         },
         {
           "title": "Decentralised Archives",
           "description": "Permanent, censorship-proof preservation of knowledge, culture, and history.",
+          "image": { "src": "/images/home/usecase-2.jpg", "alt": "", "width": 96, "height": 120 },
           "cta": { "label": "Learn more", "href": "/technology-stack/storage" }
         },
         {
           "title": "Private Financial Networks",
           "description": "Money that moves securely and freely, without surveillance or control.",
+          "image": { "src": "/images/home/usecase-3.jpg", "alt": "", "width": 96, "height": 120 },
           "cta": { "label": "Learn more", "href": "/technology-stack/blockchain" }
         },
         {
           "title": "Community Governance",
           "description": "Self-organising groups establish and enforce their own rules, with members engaging voluntarily.",
+          "image": { "src": "/images/home/usecase-4.jpg", "alt": "", "width": 96, "height": 120 },
           "cta": { "label": "Learn more", "href": "/circles" }
         }
       ]
+    },
+    {
+      "componentType": "featuredText",
+      "key": "home.parallelSocietyHeadline",
+      "title": {
+        "highlight": "Parallel Society",
+        "rest": "is a two-day event in Lisbon where music, art, and technology converge."
+      },
+      "cta": { "label": "Learn More", "href": "/press" }
     },
     {
       "componentType": "gallery",
@@ -194,11 +209,26 @@
       "pinnedSlugs": ["from-cybernetics-to-blockchain-communities"]
     },
     {
-      "componentType": "ctaPanel",
+      "componentType": "featuredText",
+      "key": "home.mountain",
+      "title": {
+        "highlight": "Parallel Society",
+        "rest": "is a two-day event in Lisbon where music, art, and technology converge."
+      },
+      "cta": { "label": "Learn More", "href": "/press" }
+    },
+    {
+      "componentType": "featuredText",
       "key": "home.circlesCta",
-      "title": "Circles and Counting.",
-      "description": "These meetups are essential for anyone taking action with us. Explore what nonviolence is, how we use it, and what it can help us achieve. If there isn't a Logos Circle listed in your area, please get in touch with the team.",
-      "cta": { "label": "Find a circle near you", "href": "/circles" }
+      "title": {
+        "highlight": "19",
+        "rest": "Circles and Counting."
+      },
+      "body": [
+        "These meetups are essential for anyone taking action with us. Explore what nonviolence is, how we use it, and what it can help us achieve. If there isn't a Logos Circle listed in your area, please get in touch with the team."
+      ],
+      "cta": { "label": "Find a Circle Near You", "href": "/circles" },
+      "secondaryCta": { "label": "Start a Circle", "href": "/circles" }
     }
   ]
 }

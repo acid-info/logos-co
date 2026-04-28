@@ -3,6 +3,9 @@ import { getLocale } from 'next-intl/server'
 import { getPageCopy, resolvePressList } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
 import type {
+  CardGridSection,
+  FeaturedTextSection,
+  GallerySection,
   HeroSection,
   RelatedArticlesSection,
   TechStackOverviewSection,
@@ -55,31 +58,19 @@ const findSection = <T extends { componentType: string; key: string }>(
 }
 
 /**
- * Three of ten home sections wired to PageCopy:
- *   - home.atf       → HeroSectionView      (hero)
- *   - home.techStack → TechStackSection     (techStackOverview)
- *   - home.press     → PressSection         (relatedArticles + resolvePressList)
+ * Eight of ten home sections wired to PageCopy. The remaining two
+ * (about-section, builder-portal-section, feature-cards-section) keep using
+ * `getTranslations` because their composite shapes do not fit any current
+ * PageSection type cleanly:
  *
- * Seven sections still source copy from `messages.en.json` because their
- * shapes do not fit the current PageSection types cleanly:
- *   - feature-cards-section   : multi-row "table" cards (Build / Node / Circles
- *                               with 4 example rows each + sticky-scroll layout)
- *   - about-section           : quote + image card + headline + body composite
- *   - use-cases-section       : tagline + tagline2 split across two desktop
- *                               coordinates plus per-card image variants and
- *                               a client-side carousel
- *   - parallel-society-section: highlighted-word headline + cta + 4 gallery
- *                               items with positional widths/heights
- *   - builder-portal-section  : 4 example rows + 3 feature blurbs + use-case
- *                               banner — too rich for ctaPanel/cardGrid alone
- *   - mountain-section        : highlighted-word title + cta (same pattern as
- *                               the deferred /technology-stack modular section)
- *   - circles-cta-section     : "19 Circles and Counting." with yellow accent
- *                               number prefix + dual CTAs (find / start)
- *
- * Migrating these cleanly will need new schema types (`featuredText`,
- * `quoteCard`) or extensions (`cardGrid.subheadingExtra`, multi-CTA on
- * ctaPanel). Out of scope for this step.
+ *   - feature-cards-section : Build/Node/Circles cards each with 4 sub-rows
+ *                             and a sticky-scroll layout (cardGrid + table-
+ *                             style row data needs a new section type).
+ *   - about-section         : large quote + image card + headline + body
+ *                             composite (no matching schema; would need a
+ *                             `quoteCard` type).
+ *   - builder-portal-section: 4 example rows + 3 feature blurbs + use-case
+ *                             banner — too rich for ctaPanel/cardGrid alone.
  */
 export default async function HomePage() {
   const rawLocale = await getLocale()
@@ -94,10 +85,35 @@ export default async function HomePage() {
     'techStackOverview',
     'home.techStack',
   )
+  const useCases = findSection<CardGridSection>(
+    page.sections,
+    'cardGrid',
+    'home.useCases',
+  )
+  const parallelSocietyHeadline = findSection<FeaturedTextSection>(
+    page.sections,
+    'featuredText',
+    'home.parallelSocietyHeadline',
+  )
+  const parallelSocietyGallery = findSection<GallerySection>(
+    page.sections,
+    'gallery',
+    'home.parallelSociety',
+  )
+  const mountain = findSection<FeaturedTextSection>(
+    page.sections,
+    'featuredText',
+    'home.mountain',
+  )
   const press = findSection<RelatedArticlesSection>(
     page.sections,
     'relatedArticles',
     'home.press',
+  )
+  const circlesCta = findSection<FeaturedTextSection>(
+    page.sections,
+    'featuredText',
+    'home.circlesCta',
   )
 
   const articles = await resolvePressList(press.pinnedSlugs, {
@@ -115,12 +131,15 @@ export default async function HomePage() {
         networkingHref={ROUTES.networking}
         foundationHref={ROUTES.technologyStack}
       />
-      <UseCasesSection />
-      <ParallelSocietySection />
+      <UseCasesSection data={useCases} />
+      <ParallelSocietySection
+        headline={parallelSocietyHeadline}
+        gallery={parallelSocietyGallery}
+      />
       <BuilderPortalSection />
-      <MountainSection />
+      <MountainSection data={mountain} />
       <PressSection data={press} articles={articles} />
-      <CirclesCtaSection />
+      <CirclesCtaSection data={circlesCta} />
     </>
   )
 }

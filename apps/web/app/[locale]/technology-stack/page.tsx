@@ -4,6 +4,7 @@ import { getPageCopy } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
 import type {
   CardGridSection,
+  FeaturedTextSection,
   GiantSwitchSection,
   HeroSection,
   TechStackOverviewSection,
@@ -50,21 +51,10 @@ const findSection = <T extends { componentType: string; key: string }>(
 }
 
 /**
- * Two of five sections wired to PageCopy:
- *   - techStack.overview     → TechOverviewStack
- *   - techStack.appInstall   → TechOverviewLogosApp
- *
- * Three sections still source copy from `messages.en.json`
- * (`pages.technologyStack.*`):
- *   - hero      : 4-string blurb pattern (introTop / introSide / introBody at three
- *                 absolute desktop positions plus heading) does not fit the current
- *                 `hero` schema (single eyebrow + headline + body).
- *   - modular   : highlighted-word + multi-paragraph body has no matching schema
- *                 type yet.
- *   - useCases  : tagline + tagline2 split across two desktop coordinates, plus
- *                 per-card image dimensions that require positional styling.
- *                 Migrating cleanly needs a `subheadingExtra?` field on cardGrid
- *                 or per-card `aspect` data — out of scope for this step.
+ * Four of five sections wired to PageCopy. `tech-overview-hero` is still
+ * deferred — its 4-string blurb pattern (introTop / introSide / introBody +
+ * heading at four absolute desktop positions) does not fit the current
+ * `hero` schema cleanly.
  */
 export default async function TechnologyStackPage() {
   const rawLocale = await getLocale()
@@ -73,10 +63,9 @@ export default async function TechnologyStackPage() {
   }
   const page = await getPageCopy(ROUTE, rawLocale)
 
-  // Sentinel checks so the schema does not silently drift while the components
-  // for these sections keep rendering from `messages`.
+  // Sentinel — hero copy still reads from messages.en.json, but we want the
+  // fixture to keep the section so a future schema update lands cleanly.
   findSection<HeroSection>(page.sections, 'hero', 'techStack.hero')
-  findSection<CardGridSection>(page.sections, 'cardGrid', 'techStack.useCases')
 
   const overview = findSection<TechStackOverviewSection>(
     page.sections,
@@ -88,6 +77,16 @@ export default async function TechnologyStackPage() {
     'giantSwitch',
     'techStack.appInstall',
   )
+  const modular = findSection<FeaturedTextSection>(
+    page.sections,
+    'featuredText',
+    'techStack.modular',
+  )
+  const useCases = findSection<CardGridSection>(
+    page.sections,
+    'cardGrid',
+    'techStack.useCases',
+  )
 
   return (
     <>
@@ -98,8 +97,8 @@ export default async function TechnologyStackPage() {
         foundationHref={ROUTE}
       />
       <TechOverviewLogosApp data={appInstall} />
-      <TechOverviewModular />
-      <TechOverviewUseCases />
+      <TechOverviewModular data={modular} />
+      <TechOverviewUseCases data={useCases} />
     </>
   )
 }
