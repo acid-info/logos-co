@@ -2,6 +2,7 @@ import '@/css/tailwind.css'
 
 import { themeInitScript } from '@/utils/theme'
 import { fontVariables } from '@/app/fonts'
+import PageTransition from '@/components/page-transition'
 import ScrollToTop from '@/components/scroll-to-top'
 import SiteHeader from '@/components/site-header'
 import SiteFooter from '@/components/site-footer'
@@ -56,7 +57,9 @@ export default async function RootLayout({
         <body>
           <ScrollToTop />
           <SiteHeader />
-          <main className="relative">{children}</main>
+          <main className="relative">
+            <PageTransition>{children}</PageTransition>
+          </main>
           <SiteFooter />
         </body>
       </html>

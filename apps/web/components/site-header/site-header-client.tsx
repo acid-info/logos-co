@@ -69,6 +69,13 @@ export default function SiteHeaderClient({
   const close = () => setIsOpen(false)
 
   useEffect(() => {
+    window.addEventListener('logos:navigation-start', close)
+    return () => {
+      window.removeEventListener('logos:navigation-start', close)
+    }
+  }, [])
+
+  useEffect(() => {
     if (!usesHeroHeaderTone) {
       setHasPassedHero(false)
       return
