@@ -49,6 +49,17 @@ For local dev copy apps/cms/.env.example to apps/cms/.env and fill it in.
 | `DATABASE_URL` | yes | Postgres connection string. Supabase pooler URLs (port 6543) work directly. |
 | `PAYLOAD_DB_SCHEMA` | optional | Schema name scoping Payload tables. Defaults to `payload`. Use a distinct value per env when sharing one database (e.g. `payload_preview`). |
 | `PAYLOAD_DB_PUSH` | optional | When `false`, disables automatic schema sync. Default behaviour pushes schema changes on every boot — leave it on until proper migrations are wired up (Phase 4+). |
+| `GITHUB_OWNER` | required (Phase 4+) | Repo owner / org for the content repository (this repo). |
+| `GITHUB_REPO` | required (Phase 4+) | Repo name. |
+| `GITHUB_APP_ID` | required (App auth) | GitHub App ID. Preferred mode for staging/production. |
+| `GITHUB_APP_PRIVATE_KEY` | required (App auth) | Multiline PEM. In Vercel paste verbatim — Vercel preserves newlines. |
+| `GITHUB_INSTALLATION_ID` | required (App auth) | Numeric ID from the App's installation page. |
+| `GITHUB_TOKEN` | required (PAT auth) | Personal access token with `contents:write` + `pull_requests:write`. **Local dev only**; rejected by code review when used in production. |
+| `GITHUB_STAGING_BRANCH` | optional | Defaults to `develop`. Where CMS PRs land first. |
+| `GITHUB_PRODUCTION_BRANCH` | optional | Defaults to `master`. The promoted branch. |
+| `GITHUB_PR_BASE_BRANCH` | optional | Defaults to `develop`. Target branch for new content PRs. |
+| `GITHUB_CONTENT_BRANCH_PREFIX` | optional | Defaults to `content/`. Mutation primitives reject branches outside this prefix unless `CONTENT_DIRECT_COMMIT_ENABLED=true`. |
+| `CONTENT_DIRECT_COMMIT_ENABLED` | optional | `true` allows commits to staging/production directly. Off by default — branch protection enforces this on the GitHub side too. |
 | `NEXT_PUBLIC_SERVER_URL` | recommended | Public CMS URL for CORS + CSRF. Falls back to `https://$VERCEL_URL` (different per preview deploy). |
 | `NEXT_PUBLIC_WEB_URL` | recommended | Public web URL for CORS + CSRF. Falls back to `https://$VERCEL_PROJECT_PRODUCTION_URL`. |
 
