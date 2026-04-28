@@ -3,7 +3,11 @@
   "language": "en",
   "hero": {
     "title": "Logos Builders Hub",
-    "description": "Ideas, resources, and everything you need to start building with Logos tech today."
+    "description": "Ideas, resources, and everything you need to start building with Logos tech today.",
+    "topRightCta": {
+      "label": "Logos App Install",
+      "href": "/builders-hub#app-install"
+    }
   },
   "overviewLinks": [
     {
@@ -65,7 +69,8 @@
       "thumbnailSlugs": [
         "quadratic-voting",
         "community-bank",
-        "permissionless-dns"
+        "permissionless-dns",
+        "private-event-tickets"
       ],
       "href": "/builders-hub/ideas"
     }

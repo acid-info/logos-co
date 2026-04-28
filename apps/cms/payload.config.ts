@@ -5,6 +5,7 @@ import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { buildConfig } from 'payload'
 
+import { ContentChangeRequests } from './src/collections/ContentChangeRequests'
 import { Pages } from './src/collections/Pages'
 import { Users } from './src/collections/Users'
 import { SiteSettings } from './src/globals/SiteSettings'
@@ -64,7 +65,7 @@ export default buildConfig({
   admin: {
     user: Users.slug,
   },
-  collections: [Users, Pages],
+  collections: [Users, Pages, ContentChangeRequests],
   cors: [serverURL, frontendURL],
   csrf: [serverURL, frontendURL],
   db: postgresAdapter({

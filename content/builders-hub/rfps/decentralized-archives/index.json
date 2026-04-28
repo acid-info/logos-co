@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "slug": "decentralized-archives",
+  "status": "published",
+  "reward": { "amount": 2000, "currency": "USDC", "xp": 800 },
+  "applyUrl": "https://forms.logos.co/rfp/decentralized-archives",
+  "tags": ["archives", "preservation", "codex"],
+  "image": {
+    "src": "/cms/builders-hub/rfps/decentralized-archives/cover.webp",
+    "alt": "",
+    "width": 96,
+    "height": 77
+  },
+  "featured": false,
+  "order": 5,
+  "publishedAt": "2026-02-20T00:00:00Z",
+  "owner": { "name": "Logos Core" }
+}

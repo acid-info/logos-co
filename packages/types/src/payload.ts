@@ -69,6 +69,7 @@ export interface Config {
   collections: {
     users: User;
     pages: Page;
+    'content-change-requests': ContentChangeRequest;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -78,6 +79,7 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
+    'content-change-requests': ContentChangeRequestsSelect<false> | ContentChangeRequestsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -175,6 +177,46 @@ export interface Page {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Mirror of in-flight content PRs. Rows are created by the CMS workflow service — do not edit by hand unless you know what you are doing.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "content-change-requests".
+ */
+export interface ContentChangeRequest {
+  id: number;
+  /**
+   * Logical content type — e.g. "pages", "rfp", "circle-event". Matches the loader namespace.
+   */
+  contentType: string;
+  /**
+   * Repo-relative path the PR touches (e.g. "content/pages/en/home.json"). Indexed for lock queries.
+   */
+  targetPath: string;
+  /**
+   * GitHub branch name. One row per branch.
+   */
+  branchName: string;
+  /**
+   * GitHub PR number once opened.
+   */
+  pullRequestNumber?: number | null;
+  /**
+   * Public GitHub PR URL once opened.
+   */
+  pullRequestUrl?: string | null;
+  status: 'draft' | 'open' | 'merged' | 'closed';
+  /**
+   * Latest commit SHA on the branch — useful for cache invalidation.
+   */
+  commitSha?: string | null;
+  /**
+   * Payload user who triggered this change request.
+   */
+  createdBy?: (number | null) | User;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -205,6 +247,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'pages';
         value: number | Page;
+      } | null)
+    | ({
+        relationTo: 'content-change-requests';
+        value: number | ContentChangeRequest;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -282,6 +328,22 @@ export interface PagesSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "content-change-requests_select".
+ */
+export interface ContentChangeRequestsSelect<T extends boolean = true> {
+  contentType?: T;
+  targetPath?: T;
+  branchName?: T;
+  pullRequestNumber?: T;
+  pullRequestUrl?: T;
+  status?: T;
+  commitSha?: T;
+  createdBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

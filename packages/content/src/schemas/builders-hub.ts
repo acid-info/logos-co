@@ -78,6 +78,13 @@ export type RFPIndex = z.infer<typeof rfpIndexSchema>
 export const rfpLocaleSchema = z.object({
   language: languageSchema,
   title: z.string().min(1),
+  /**
+   * One-line pitch (~80 chars). Renders on the Builders Hub home card and
+   * compact listing rows. Falls back to the leading clause of `summary` when
+   * absent, but authors should set it explicitly because auto-truncation can
+   * cut mid-sentence.
+   */
+  tagline: z.string().min(1).max(120).optional(),
   summary: z.string().min(1),
   description: z.string().min(1),
   ctaLabel: z.string().min(1).optional(),
@@ -119,6 +126,11 @@ export type IdeaIndex = z.infer<typeof ideaIndexSchema>
 export const ideaLocaleSchema = z.object({
   language: languageSchema,
   title: z.string().min(1),
+  /**
+   * One-line pitch (~80 chars) for the Builders Hub home idea row. Same
+   * fallback semantics as the RFP `tagline`.
+   */
+  tagline: z.string().min(1).max(120).optional(),
   summary: z.string().min(1),
   description: z.string().min(1),
   ctaLabel: z.string().min(1).optional(),

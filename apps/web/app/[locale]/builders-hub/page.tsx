@@ -1,8 +1,23 @@
 import { getLocale } from 'next-intl/server'
 
-import { getPageCopy } from '@repo/content/loaders'
+import {
+  getBuilderHubSettings,
+  getBuilderResources,
+  getPageCopy,
+  resolveBuilderHubHomeIdeas,
+  resolveBuilderHubHomeRfps,
+} from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
 
+import {
+  BuildersHubActionPanels,
+  BuildersHubAppInstall,
+  BuildersHubHero,
+  BuildersHubIdeasSection,
+  BuildersHubOverviewLinks,
+  BuildersHubResources,
+  BuildersHubRfpsSection,
+} from '@/components/sections/builders-hub'
 import { ROUTES } from '@/constants/routes'
 import { createDefaultMetadata } from '@/utils/metadata'
 
@@ -26,21 +41,42 @@ export async function generateMetadata({
   })
 }
 
-/**
- * Placeholder page — the real Builders Hub UI (RFP grid, Ideas table,
- * App Install banner, action panels) is rendered from `BuilderHubSettings`
- * once the section components are wired up. For now this just renders the
- * page heading from `content/pages/en/builders-hub.json`.
- */
 export default async function BuildersHubPage() {
   const rawLocale = await getLocale()
   if (!isActiveLocale(rawLocale)) {
     throw new Error(`BuildersHubPage received non-active locale "${rawLocale}"`)
   }
-  const page = await getPageCopy(ROUTE, rawLocale)
+  const locale = rawLocale
+
+  const [settings, rfpResolution, ideaResolution, resources] =
+    await Promise.all([
+      getBuilderHubSettings(locale),
+      resolveBuilderHubHomeRfps(locale),
+      resolveBuilderHubHomeIdeas(locale),
+      getBuilderResources({ locale, status: 'published' }),
+    ])
+
   return (
-    <div className="px-3 pt-16 pb-12">
-      <h1 className="text-h2 text-brand-dark-green">{page.heading ?? page.title}</h1>
-    </div>
+    <main className="bg-brand-off-white">
+      <BuildersHubHero hero={settings.hero} />
+      <BuildersHubOverviewLinks links={settings.overviewLinks} />
+      <BuildersHubAppInstall data={settings.appInstall} />
+      <BuildersHubRfpsSection
+        settings={settings.rfpsSection}
+        resolution={rfpResolution}
+      />
+      <BuildersHubIdeasSection
+        settings={settings.ideasSection}
+        ideas={ideaResolution.ideas}
+      />
+      <BuildersHubActionPanels
+        panels={settings.actionPanels}
+        officeHours={settings.officeHours}
+      />
+      <BuildersHubResources
+        settings={settings.resourcesSection}
+        resources={resources}
+      />
+    </main>
   )
 }
