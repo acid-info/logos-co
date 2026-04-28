@@ -53,7 +53,10 @@ export function BuildersHubAppInstall({ data }: Props) {
         tags={
           <>
             {data.tags.map((tag) => (
-              <GiantSwitchTag key={tag.label} icon={<TagIcon icon={tag.icon} />}>
+              <GiantSwitchTag
+                key={tag.label}
+                icon={<TagIcon icon={tag.icon} />}
+              >
                 {tag.label}
               </GiantSwitchTag>
             ))}

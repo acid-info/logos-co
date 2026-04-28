@@ -37,8 +37,8 @@ export const ROUTES = {
   // Node Program
   nodeProgram: '/node-program',
 
-  // Take Action / Top-level nav
-  takeAction: '/take-action',
+  // Movement / Top-level nav
+  movement: '/movement',
   book: '/book',
   links: '/links',
 

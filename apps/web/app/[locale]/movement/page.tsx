@@ -9,17 +9,17 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const t = await getTranslations({ locale, namespace: 'pages.takeAction' })
+  const t = await getTranslations({ locale, namespace: 'pages.movement' })
   return createDefaultMetadata({
     title: t('title'),
     description: t('description'),
     locale,
-    path: ROUTES.takeAction,
+    path: ROUTES.movement,
   })
 }
 
-export default async function TakeActionPage() {
-  const t = await getTranslations('pages.takeAction')
+export default async function MovementPage() {
+  const t = await getTranslations('pages.movement')
   return (
     <div className="px-3 pt-16 pb-12">
       <h1 className="text-h2 flex items-center gap-3 text-brand-dark-green">

@@ -122,15 +122,15 @@
       "description": "Run a Logos node. Help revitalize civil society with decentralized technology.",
       "heading": "Node Program"
     },
-    "takeAction": {
-      "title": "Take Action | Logos",
+    "movement": {
+      "title": "Movement | Logos",
       "description": "Ways to contribute to the Logos movement.",
-      "heading": "Take Action"
+      "heading": "Movement"
     },
     "book": {
-      "title": "Book | Logos",
-      "description": "The Logos book — foundational writings on decentralized civil society.",
-      "heading": "Book"
+      "title": "Farewell to Westphalia | Logos",
+      "description": "Farewell to Westphalia is a book co-authored by Logos co-founder Jarrad Hope and Peter Ludlow.",
+      "heading": "Farewell to Westphalia"
     },
     "links": {
       "title": "Links | Logos",
