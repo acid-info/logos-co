@@ -56,7 +56,7 @@ export const buildContentBranchName = ({
   const timestamp = formatTimestamp(now ?? new Date())
   if (!namespace || !slug) {
     throw new Error(
-      `branch name requires non-empty contentType and identifier (got contentType="${contentType}", identifier="${identifier}")`,
+      `branch name requires non-empty contentType and identifier (got contentType="${contentType}", identifier="${identifier}")`
     )
   }
   return `content/${namespace}-${slug}-${timestamp}`

@@ -6,7 +6,9 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { buildConfig } from 'payload'
 
 import { ContentChangeRequests } from './src/collections/ContentChangeRequests'
+import { Ideas } from './src/collections/Ideas'
 import { Pages } from './src/collections/Pages'
+import { Rfps } from './src/collections/Rfps'
 import { Users } from './src/collections/Users'
 import { SiteSettings } from './src/globals/SiteSettings'
 
@@ -22,12 +24,12 @@ const isVercel = Boolean(process.env.VERCEL)
 if (isProduction && !isVercel) {
   if (!process.env.NEXT_PUBLIC_SERVER_URL) {
     throw new Error(
-      'NEXT_PUBLIC_SERVER_URL is required in production (self-hosted) — set it to the public CMS origin (e.g. https://cms.example.com).',
+      'NEXT_PUBLIC_SERVER_URL is required in production (self-hosted) — set it to the public CMS origin (e.g. https://cms.example.com).'
     )
   }
   if (!process.env.NEXT_PUBLIC_WEB_URL) {
     throw new Error(
-      'NEXT_PUBLIC_WEB_URL is required in production (self-hosted) — set it to the public web origin used for CORS / CSRF.',
+      'NEXT_PUBLIC_WEB_URL is required in production (self-hosted) — set it to the public web origin used for CORS / CSRF.'
     )
   }
 }
@@ -37,7 +39,9 @@ if (isProduction && !isVercel) {
 // localhost:3001.
 const serverURL =
   process.env.NEXT_PUBLIC_SERVER_URL ||
-  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3001')
+  (process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : 'http://localhost:3001')
 
 const frontendURL =
   process.env.NEXT_PUBLIC_WEB_URL ||
@@ -52,20 +56,22 @@ const databaseUrl = process.env.DATABASE_URL
 if (!databaseUrl) {
   throw new Error(
     'DATABASE_URL is required (postgresql:// connection string). ' +
-      'For local dev copy apps/cms/.env.example to apps/cms/.env and fill it in.',
+      'For local dev copy apps/cms/.env.example to apps/cms/.env and fill it in.'
   )
 }
 
 const payloadSecret = process.env.PAYLOAD_SECRET
 if (isProduction && !payloadSecret) {
-  throw new Error('PAYLOAD_SECRET environment variable is required in production')
+  throw new Error(
+    'PAYLOAD_SECRET environment variable is required in production'
+  )
 }
 
 export default buildConfig({
   admin: {
     user: Users.slug,
   },
-  collections: [Users, Pages, ContentChangeRequests],
+  collections: [Users, Pages, Rfps, Ideas, ContentChangeRequests],
   cors: [serverURL, frontendURL],
   csrf: [serverURL, frontendURL],
   db: postgresAdapter({

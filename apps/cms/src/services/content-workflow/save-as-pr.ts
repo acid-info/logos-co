@@ -71,7 +71,7 @@ export type SaveAsPullRequestResult = {
  * instead (4b.3 follow-up).
  */
 export const saveAsPullRequest = async (
-  input: SaveAsPullRequestInput,
+  input: SaveAsPullRequestInput
 ): Promise<SaveAsPullRequestResult> => {
   if (input.changes.length === 0) {
     throw new Error('saveAsPullRequest requires at least one file change')

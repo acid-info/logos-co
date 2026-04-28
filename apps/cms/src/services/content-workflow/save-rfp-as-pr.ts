@@ -1,0 +1,161 @@
+import {
+  ideaIndexSchema as _ideaIndexSchema,
+  rfpIndexSchema,
+  rfpLocaleSchema,
+} from '@repo/content/schemas'
+import type { FileChange } from '@repo/content/github'
+import type { Payload } from 'payload'
+
+import { saveAsPullRequest, type SaveAsPullRequestResult } from './save-as-pr'
+
+void _ideaIndexSchema // ensures we can extend the same way for ideas later
+
+/**
+ * Shape of an Rfp doc as Payload returns it from `payload.findByID`. Mirrors
+ * the collection's field config — see `apps/cms/src/collections/Rfps.ts`.
+ *
+ * Hand-typed (rather than imported from `@repo/types`) because the generated
+ * Payload types are emitted from a build step that may lag the collection
+ * during development.
+ */
+export type RfpDocLike = {
+  slug: string
+  status: 'draft' | 'review' | 'published' | 'archived'
+  title: string
+  tagline?: string | null
+  summary: string
+  description: string
+  ctaLabel?: string | null
+  rewardAmount: number
+  rewardCurrency: 'USDC'
+  rewardXp?: number | null
+  applyUrl: string
+  tags?: string[] | null
+  featured?: boolean | null
+  order?: number | null
+  publishedAt?: string | null
+  closesAt?: string | null
+  ownerName?: string | null
+  ownerHandle?: string | null
+  relatedIdeas?: string[] | null
+}
+
+const stripEmpty = <T extends Record<string, unknown>>(obj: T): T => {
+  const out: Record<string, unknown> = {}
+  for (const [k, v] of Object.entries(obj)) {
+    if (v === undefined || v === null || v === '') continue
+    if (Array.isArray(v) && v.length === 0) continue
+    out[k] = v
+  }
+  return out as T
+}
+
+const toIsoDateOrUndefined = (
+  raw: string | null | undefined
+): string | undefined => {
+  if (!raw) return undefined
+  const d = new Date(raw)
+  if (Number.isNaN(d.getTime())) return undefined
+  return d.toISOString()
+}
+
+/**
+ * Maps a Payload Rfp document to the locale-agnostic `index.json` shape and
+ * the per-locale `<lang>.json` shape used by `@repo/content` loaders, then
+ * Zod-validates each before they touch GitHub. Validation failure throws
+ * here rather than at PR-open time, so the editor sees a precise error
+ * before any branch is created.
+ */
+export const buildRfpFixtureChanges = (
+  doc: RfpDocLike
+): { indexChange: FileChange; localeChange: FileChange } => {
+  const targetDir = `content/builders-hub/rfps/${doc.slug}`
+
+  const indexCandidate = stripEmpty({
+    schemaVersion: 1,
+    slug: doc.slug,
+    status: doc.status,
+    reward: stripEmpty({
+      amount: doc.rewardAmount,
+      currency: doc.rewardCurrency,
+      xp: doc.rewardXp ?? undefined,
+    }),
+    applyUrl: doc.applyUrl,
+    tags: doc.tags ?? [],
+    featured: doc.featured ?? false,
+    order: doc.order ?? undefined,
+    publishedAt: toIsoDateOrUndefined(doc.publishedAt),
+    closesAt: toIsoDateOrUndefined(doc.closesAt),
+    owner:
+      doc.ownerName || doc.ownerHandle
+        ? stripEmpty({
+            name: doc.ownerName ?? undefined,
+            handle: doc.ownerHandle ?? undefined,
+          })
+        : undefined,
+    relatedIdeas: doc.relatedIdeas ?? undefined,
+  })
+
+  const localeCandidate = stripEmpty({
+    language: 'en',
+    title: doc.title,
+    tagline: doc.tagline ?? undefined,
+    summary: doc.summary,
+    description: doc.description,
+    ctaLabel: doc.ctaLabel ?? undefined,
+  })
+
+  // Zod-validate before serialising — surface field-level errors to the editor.
+  const indexParsed = rfpIndexSchema.parse(indexCandidate)
+  const localeParsed = rfpLocaleSchema.parse(localeCandidate)
+
+  return {
+    indexChange: {
+      path: `${targetDir}/index.json`,
+      content: JSON.stringify(indexParsed, null, 2) + '\n',
+    },
+    localeChange: {
+      path: `${targetDir}/en.json`,
+      content: JSON.stringify(localeParsed, null, 2) + '\n',
+    },
+  }
+}
+
+/**
+ * High-level entry point invoked by the Admin "Create PR" action. Takes the
+ * Payload doc + the request's Payload instance and editor metadata, builds
+ * the file-change pair, and delegates to `saveAsPullRequest`.
+ */
+export const saveRfpAsPullRequest = async ({
+  doc,
+  payload,
+  editor,
+}: {
+  doc: RfpDocLike
+  payload: Payload
+  editor?: {
+    email?: string
+    payloadUserId?: string | number
+    payloadAuditUrl?: string
+  }
+}): Promise<SaveAsPullRequestResult> => {
+  const { indexChange, localeChange } = buildRfpFixtureChanges(doc)
+
+  return saveAsPullRequest({
+    contentType: 'rfp',
+    identifier: doc.slug,
+    changes: [indexChange, localeChange],
+    commitMessage: `content(rfp): update ${doc.slug}`,
+    prTitle: `content(rfp): update ${doc.slug}`,
+    prBody: [
+      `Updates the **${doc.title}** RFP fixture from the CMS Admin.`,
+      '',
+      `- slug: \`${doc.slug}\``,
+      `- status: \`${doc.status}\``,
+      `- reward: ${doc.rewardAmount} ${doc.rewardCurrency}${doc.rewardXp ? ` + ${doc.rewardXp} XP` : ''}`,
+    ].join('\n'),
+    draft: true,
+    editor,
+    payload,
+  })
+}

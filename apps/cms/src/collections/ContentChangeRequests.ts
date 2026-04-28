@@ -16,7 +16,13 @@ import type { CollectionConfig } from 'payload'
 export const ContentChangeRequests: CollectionConfig = {
   slug: 'content-change-requests',
   admin: {
-    defaultColumns: ['contentType', 'targetPath', 'branchName', 'status', 'updatedAt'],
+    defaultColumns: [
+      'contentType',
+      'targetPath',
+      'branchName',
+      'status',
+      'updatedAt',
+    ],
     useAsTitle: 'branchName',
     description:
       'Mirror of in-flight content PRs. Rows are created by the CMS workflow ' +
@@ -92,7 +98,8 @@ export const ContentChangeRequests: CollectionConfig = {
       name: 'commitSha',
       type: 'text',
       admin: {
-        description: 'Latest commit SHA on the branch — useful for cache invalidation.',
+        description:
+          'Latest commit SHA on the branch — useful for cache invalidation.',
       },
     },
     {

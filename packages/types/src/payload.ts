@@ -69,6 +69,8 @@ export interface Config {
   collections: {
     users: User;
     pages: Page;
+    rfps: Rfp;
+    ideas: Idea;
     'content-change-requests': ContentChangeRequest;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -79,6 +81,8 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
+    rfps: RfpsSelect<false> | RfpsSelect<true>;
+    ideas: IdeasSelect<false> | IdeasSelect<true>;
     'content-change-requests': ContentChangeRequestsSelect<false> | ContentChangeRequestsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -177,6 +181,121 @@ export interface Page {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Funded calls for builders to ship Logos-powered applications. Saves as a draft to Payload; click "Create PR" to publish to the repo.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "rfps".
+ */
+export interface Rfp {
+  id: number;
+  /**
+   * URL-safe identifier — kebab-case, ASCII only. Used as the directory name in `content/builders-hub/rfps/<slug>/`.
+   */
+  slug: string;
+  status: 'draft' | 'review' | 'published' | 'archived';
+  title: string;
+  /**
+   * One-line pitch (~80 chars) shown on the home grid card and listing rows.
+   */
+  tagline?: string | null;
+  summary: string;
+  /**
+   * Full-length RFP description — 2–3 paragraphs of context and deliverables.
+   */
+  description: string;
+  /**
+   * Per-card CTA text. Defaults to "Apply" when empty.
+   */
+  ctaLabel?: string | null;
+  rewardAmount: number;
+  rewardCurrency: 'USDC';
+  /**
+   * Optional XP bonus.
+   */
+  rewardXp?: number | null;
+  /**
+   * Where the "Apply" CTA points. Internal route ("/path") or external https URL.
+   */
+  applyUrl: string;
+  /**
+   * Free-form lower-case tags — used for filtering on the listing page.
+   */
+  tags?: string[] | null;
+  featured?: boolean | null;
+  /**
+   * Sort key (ascending). Lower numbers appear first on the home grid.
+   */
+  order?: number | null;
+  publishedAt?: string | null;
+  closesAt?: string | null;
+  /**
+   * Display name (e.g. "Logos Core").
+   */
+  ownerName?: string | null;
+  /**
+   * Stored without the leading "@".
+   */
+  ownerHandle?: string | null;
+  /**
+   * Slugs from the Ideas collection that this RFP relates to.
+   */
+  relatedIdeas?: string[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Community-submitted concepts driving sovereignty forward. Saves as a draft to Payload; click "Create PR" to publish to the repo.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ideas".
+ */
+export interface Idea {
+  id: number;
+  /**
+   * URL-safe identifier — kebab-case, ASCII only. Used as the directory name in `content/builders-hub/ideas/<slug>/`.
+   */
+  slug: string;
+  status: 'draft' | 'review' | 'published' | 'archived';
+  title: string;
+  /**
+   * One-line pitch (~80 chars) shown on the home Ideas table and listing rows.
+   */
+  tagline?: string | null;
+  summary: string;
+  description: string;
+  /**
+   * Per-row CTA text. Defaults to "Discuss" when empty.
+   */
+  ctaLabel?: string | null;
+  /**
+   * Display name (optional).
+   */
+  submitterName?: string | null;
+  /**
+   * Stored without the leading "@". Validation rejects "@" prefixes.
+   */
+  submitterHandle: string;
+  /**
+   * Leave empty if no reward.
+   */
+  rewardAmount?: number | null;
+  rewardCurrency?: 'USDC' | null;
+  rewardXp?: number | null;
+  /**
+   * Forum thread for the idea (optional). External https URL.
+   */
+  discussionUrl?: string | null;
+  tags?: string[] | null;
+  featured?: boolean | null;
+  /**
+   * Sort key (ascending).
+   */
+  order?: number | null;
+  submittedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * Mirror of in-flight content PRs. Rows are created by the CMS workflow service — do not edit by hand unless you know what you are doing.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -247,6 +366,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'pages';
         value: number | Page;
+      } | null)
+    | ({
+        relationTo: 'rfps';
+        value: number | Rfp;
+      } | null)
+    | ({
+        relationTo: 'ideas';
+        value: number | Idea;
       } | null)
     | ({
         relationTo: 'content-change-requests';
@@ -328,6 +455,58 @@ export interface PagesSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "rfps_select".
+ */
+export interface RfpsSelect<T extends boolean = true> {
+  slug?: T;
+  status?: T;
+  title?: T;
+  tagline?: T;
+  summary?: T;
+  description?: T;
+  ctaLabel?: T;
+  rewardAmount?: T;
+  rewardCurrency?: T;
+  rewardXp?: T;
+  applyUrl?: T;
+  tags?: T;
+  featured?: T;
+  order?: T;
+  publishedAt?: T;
+  closesAt?: T;
+  ownerName?: T;
+  ownerHandle?: T;
+  relatedIdeas?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ideas_select".
+ */
+export interface IdeasSelect<T extends boolean = true> {
+  slug?: T;
+  status?: T;
+  title?: T;
+  tagline?: T;
+  summary?: T;
+  description?: T;
+  ctaLabel?: T;
+  submitterName?: T;
+  submitterHandle?: T;
+  rewardAmount?: T;
+  rewardCurrency?: T;
+  rewardXp?: T;
+  discussionUrl?: T;
+  tags?: T;
+  featured?: T;
+  order?: T;
+  submittedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

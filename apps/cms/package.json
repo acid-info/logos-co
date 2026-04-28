@@ -9,12 +9,14 @@
     "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix",
     "check-types": "next typegen && tsc --noEmit",
-    "generate-types": "PAYLOAD_CONFIG_PATH=payload.config.ts payload generate:types"
+    "generate-types": "PAYLOAD_CONFIG_PATH=payload.config.ts payload generate:types",
+    "save-as-pr-smoke": "tsx scripts/save-as-pr-smoke.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.83.0",
     "@payloadcms/next": "3.83.0",
     "@payloadcms/richtext-lexical": "3.83.0",
+    "@payloadcms/ui": "3.83.0",
     "@repo/content": "workspace:*",
     "graphql": "^16.13.2",
     "next": "16.2.4",
@@ -28,6 +30,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "19.2.3",
     "eslint": "^10.2.1",
+    "tsx": "^4.20.0",
     "typescript": "^6.0.3"
   }
 }

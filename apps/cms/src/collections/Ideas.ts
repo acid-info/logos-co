@@ -1,0 +1,217 @@
+import type { CollectionConfig } from 'payload'
+
+/**
+ * Editor-facing collection for Builders Hub Ideas — community-submitted
+ * proposals that the Logos team curates and surfaces on the home page Ideas
+ * table and the `/builders-hub/ideas` listing.
+ *
+ * Storage and workflow follow the same model as `Rfps`: drafts live in
+ * Payload's Postgres database, and clicking "Create PR" pushes the JSON
+ * fixtures to a fresh `content/...` branch via the workflow service. The
+ * loader picks up the change once the PR merges.
+ *
+ * Field shape mirrors the IdeaIndex + IdeaLocale Zod schemas in
+ * `@repo/content/schemas/builders-hub.ts`. Differences from Rfp:
+ *
+ *  - submitter (handle is required, no leading "@") instead of owner
+ *  - reward is optional
+ *  - discussionUrl instead of applyUrl, and optional
+ *  - submittedAt instead of publishedAt + closesAt
+ *  - no `relatedIdeas` (the relationship is one-way: RFP → Ideas)
+ */
+export const Ideas: CollectionConfig = {
+  slug: 'ideas',
+  admin: {
+    defaultColumns: ['title', 'slug', 'status', 'featured', 'updatedAt'],
+    useAsTitle: 'title',
+    description:
+      'Community-submitted concepts driving sovereignty forward. ' +
+      'Saves as a draft to Payload; click "Create PR" to publish to the repo.',
+  },
+  access: {
+    read: () => true,
+    create: ({ req }) => Boolean(req.user),
+    update: ({ req }) => Boolean(req.user),
+    delete: ({ req }) => Boolean(req.user),
+  },
+  fields: [
+    // ----- Lock banner: surface in-flight PRs for this slug -----
+    {
+      name: 'lockBanner',
+      type: 'ui',
+      admin: {
+        components: {
+          Field: '@/components/admin/lock-banner.tsx#IdeaLockBanner',
+        },
+      },
+    },
+
+    // ----- Identity / status -----
+    {
+      name: 'slug',
+      type: 'text',
+      required: true,
+      unique: true,
+      index: true,
+      admin: {
+        description:
+          'URL-safe identifier — kebab-case, ASCII only. Used as the directory name in `content/builders-hub/ideas/<slug>/`.',
+      },
+    },
+    {
+      name: 'status',
+      type: 'select',
+      required: true,
+      defaultValue: 'draft',
+      options: [
+        { label: 'Draft', value: 'draft' },
+        { label: 'Review', value: 'review' },
+        { label: 'Published', value: 'published' },
+        { label: 'Archived', value: 'archived' },
+      ],
+    },
+
+    // ----- Locale-level (English) -----
+    {
+      type: 'collapsible',
+      label: 'Copy (English)',
+      admin: { initCollapsed: false },
+      fields: [
+        { name: 'title', type: 'text', required: true },
+        {
+          name: 'tagline',
+          type: 'text',
+          maxLength: 120,
+          admin: {
+            description:
+              'One-line pitch (~80 chars) shown on the home Ideas table and listing rows.',
+          },
+        },
+        { name: 'summary', type: 'textarea', required: true },
+        { name: 'description', type: 'textarea', required: true },
+        {
+          name: 'ctaLabel',
+          type: 'text',
+          admin: {
+            description: 'Per-row CTA text. Defaults to "Discuss" when empty.',
+          },
+        },
+      ],
+    },
+
+    // ----- Submitter -----
+    {
+      type: 'collapsible',
+      label: 'Submitter',
+      admin: { initCollapsed: false },
+      fields: [
+        {
+          type: 'row',
+          fields: [
+            {
+              name: 'submitterName',
+              type: 'text',
+              admin: { width: '50%', description: 'Display name (optional).' },
+            },
+            {
+              name: 'submitterHandle',
+              type: 'text',
+              required: true,
+              admin: {
+                width: '50%',
+                description:
+                  'Stored without the leading "@". Validation rejects "@" prefixes.',
+              },
+              validate: (value: unknown): true | string => {
+                if (typeof value !== 'string' || value.length === 0) {
+                  return 'Handle is required.'
+                }
+                if (value.startsWith('@')) {
+                  return 'Handle must be stored without the leading "@".'
+                }
+                return true
+              },
+            },
+          ],
+        },
+      ],
+    },
+
+    // ----- Reward (optional) -----
+    {
+      type: 'collapsible',
+      label: 'Reward (optional)',
+      admin: { initCollapsed: true },
+      fields: [
+        {
+          type: 'row',
+          fields: [
+            {
+              name: 'rewardAmount',
+              type: 'number',
+              min: 0,
+              admin: { width: '40%', description: 'Leave empty if no reward.' },
+            },
+            {
+              name: 'rewardCurrency',
+              type: 'select',
+              defaultValue: 'USDC',
+              options: [{ label: 'USDC', value: 'USDC' }],
+              admin: { width: '30%' },
+            },
+            {
+              name: 'rewardXp',
+              type: 'number',
+              min: 0,
+              admin: { width: '30%' },
+            },
+          ],
+        },
+      ],
+    },
+
+    // ----- Index-level metadata -----
+    {
+      type: 'collapsible',
+      label: 'Metadata',
+      admin: { initCollapsed: true },
+      fields: [
+        {
+          name: 'discussionUrl',
+          type: 'text',
+          admin: {
+            description:
+              'Forum thread for the idea (optional). External https URL.',
+          },
+        },
+        {
+          name: 'tags',
+          type: 'text',
+          hasMany: true,
+        },
+        { name: 'featured', type: 'checkbox', defaultValue: false },
+        {
+          name: 'order',
+          type: 'number',
+          min: 0,
+          admin: {
+            description: 'Sort key (ascending).',
+          },
+        },
+        { name: 'submittedAt', type: 'date' },
+      ],
+    },
+
+    // ----- Action: Create / update PR -----
+    {
+      name: 'createPrAction',
+      type: 'ui',
+      admin: {
+        components: {
+          Field: '@/components/admin/save-pr-button.tsx#SaveIdeaPrButton',
+        },
+      },
+    },
+  ],
+  timestamps: true,
+}

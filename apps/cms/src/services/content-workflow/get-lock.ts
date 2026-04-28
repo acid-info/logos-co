@@ -43,7 +43,10 @@ export const getContentLock = async ({
     payload.find({
       collection: 'content-change-requests',
       where: {
-        and: [{ targetPath: { equals: targetPath } }, { status: { in: ['draft', 'open'] } }],
+        and: [
+          { targetPath: { equals: targetPath } },
+          { status: { in: ['draft', 'open'] } },
+        ],
       },
       limit: 50,
     }),
