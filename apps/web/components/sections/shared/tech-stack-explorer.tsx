@@ -9,8 +9,15 @@ import { ROUTES } from '@/constants/routes'
 const cardClassName = 'border-brand-dark-green h-64.5 md:h-91.5'
 const rowClassName = 'border-brand-dark-green h-35 md:h-49'
 
-export default async function TechStackExplorer() {
-  const t = await getTranslations('pages.technologyStack.stack')
+export default async function TechStackExplorer({
+  locale,
+}: {
+  locale: string
+}) {
+  const t = await getTranslations({
+    locale,
+    namespace: 'pages.technologyStack.stack',
+  })
 
   return (
     <section className="border-brand-dark-green/10 bg-brand-off-white border-t">

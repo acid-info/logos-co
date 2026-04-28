@@ -1,5 +1,3 @@
-import { getLocale } from 'next-intl/server'
-
 import { getPageCopy } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
 import type {
@@ -56,12 +54,16 @@ const findSection = <T extends { componentType: string; key: string }>(
  * heading at four absolute desktop positions) does not fit the current
  * `hero` schema cleanly.
  */
-export default async function TechnologyStackPage() {
-  const rawLocale = await getLocale()
-  if (!isActiveLocale(rawLocale)) {
-    throw new Error(`TechnologyStackPage received non-active locale "${rawLocale}"`)
+export default async function TechnologyStackPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  if (!isActiveLocale(locale)) {
+    throw new Error(`TechnologyStackPage received non-active locale "${locale}"`)
   }
-  const page = await getPageCopy(ROUTE, rawLocale)
+  const page = await getPageCopy(ROUTE, locale)
 
   // Sentinel — hero copy still reads from messages.en.json, but we want the
   // fixture to keep the section so a future schema update lands cleanly.
@@ -90,7 +92,7 @@ export default async function TechnologyStackPage() {
 
   return (
     <>
-      <TechOverviewHero />
+      <TechOverviewHero locale={locale} />
       <TechOverviewStack
         data={overview}
         networkingHref={ROUTES.networking}

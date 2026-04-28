@@ -38,10 +38,10 @@ export async function generateMetadata({
 export default async function CircleDetailPage({
   params,
 }: {
-  params: Promise<{ slug: string }>
+  params: Promise<{ locale: string; slug: string }>
 }) {
-  const { slug } = await params
-  const t = await getTranslations('pages.circleDetail')
+  const { locale, slug } = await params
+  const t = await getTranslations({ locale, namespace: 'pages.circleDetail' })
   const city = slugToCity(slug)
   return (
     <div className="px-3 pt-16 pb-12">

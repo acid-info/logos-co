@@ -3,8 +3,8 @@ import Image from 'next/image'
 
 import { LogosMark } from '@repo/ui'
 
-export default async function AboutSection() {
-  const t = await getTranslations('home.about')
+export default async function AboutSection({ locale }: { locale: string }) {
+  const t = await getTranslations({ locale, namespace: 'home.about' })
 
   return (
     <section

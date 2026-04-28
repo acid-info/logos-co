@@ -1,5 +1,3 @@
-import { getLocale } from 'next-intl/server'
-
 import { getPageCopy, resolvePressList } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
 import type {
@@ -63,12 +61,16 @@ const findSection = <T extends { componentType: string; key: string }>(
  * cross-page shared partial or extra fields on `techStackOverview`. Until then
  * the component continues to read from `messages.en.json`.
  */
-export default async function StoragePage() {
-  const rawLocale = await getLocale()
-  if (!isActiveLocale(rawLocale)) {
-    throw new Error(`StoragePage received non-active locale "${rawLocale}"`)
+export default async function StoragePage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  if (!isActiveLocale(locale)) {
+    throw new Error(`StoragePage received non-active locale "${locale}"`)
   }
-  const page = await getPageCopy(ROUTE, rawLocale)
+  const page = await getPageCopy(ROUTE, locale)
 
   const hero = findSection<HeroSection>(page.sections, 'hero', 'storage.hero')
   const main = findSection<CtaPanelSection>(page.sections, 'ctaPanel', 'storage.main')
@@ -85,7 +87,7 @@ export default async function StoragePage() {
 
   const articles = await resolvePressList(relatedArticles.pinnedSlugs, {
     limit: relatedArticles.visibleCount ?? 4,
-    locale: rawLocale,
+    locale,
   })
 
   return (
@@ -93,7 +95,7 @@ export default async function StoragePage() {
       <StorageHero data={hero} backHref={ROUTES.technologyStack} />
       <StorageMain data={main} />
       <StorageBuilderCta data={builderCta} />
-      <StorageTechStack />
+      <StorageTechStack locale={locale} />
       <StorageRelatedArticles data={relatedArticles} articles={articles} />
     </>
   )

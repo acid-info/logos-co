@@ -1,8 +1,11 @@
 import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 
-export default async function TechOverviewHero() {
-  const t = await getTranslations('pages.technologyStack')
+export default async function TechOverviewHero({ locale }: { locale: string }) {
+  const t = await getTranslations({
+    locale,
+    namespace: 'pages.technologyStack',
+  })
 
   return (
     <section className="bg-brand-off-white px-3 pt-[52px] pb-10 md:pt-[52px] md:pb-14">

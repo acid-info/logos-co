@@ -91,8 +91,12 @@ function MobileExampleRow({ title, desc }: ExampleRow) {
   )
 }
 
-export default async function BuilderPortalSection() {
-  const t = await getTranslations('home.builderPortal')
+export default async function BuilderPortalSection({
+  locale,
+}: {
+  locale: string
+}) {
+  const t = await getTranslations({ locale, namespace: 'home.builderPortal' })
 
   const features: FeatureRow[] = [
     { id: '01', body: t('feature1') },

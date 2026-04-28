@@ -1,5 +1,3 @@
-import { getLocale } from 'next-intl/server'
-
 import { getPageCopy, resolvePressList } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
 import type {
@@ -51,12 +49,16 @@ const findSection = <T extends { componentType: string; key: string }>(
   return found as T
 }
 
-export default async function NetworkingPage() {
-  const rawLocale = await getLocale()
-  if (!isActiveLocale(rawLocale)) {
-    throw new Error(`NetworkingPage received non-active locale "${rawLocale}"`)
+export default async function NetworkingPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  if (!isActiveLocale(locale)) {
+    throw new Error(`NetworkingPage received non-active locale "${locale}"`)
   }
-  const page = await getPageCopy(ROUTE, rawLocale)
+  const page = await getPageCopy(ROUTE, locale)
 
   const hero = findSection<HeroSection>(page.sections, 'hero', 'networking.hero')
   const intro = findSection<CtaPanelSection>(
@@ -82,7 +84,7 @@ export default async function NetworkingPage() {
 
   const articles = await resolvePressList(relatedArticles.pinnedSlugs, {
     limit: relatedArticles.visibleCount ?? 4,
-    locale: rawLocale,
+    locale,
   })
 
   return (
@@ -91,7 +93,7 @@ export default async function NetworkingPage() {
       <NetworkingIntro data={intro} />
       <NetworkingFeatures data={features} />
       <NetworkingBuilderCta data={builderCta} />
-      <TechStackExplorer />
+      <TechStackExplorer locale={locale} />
       <NetworkingRelatedArticles data={relatedArticles} articles={articles} />
     </>
   )

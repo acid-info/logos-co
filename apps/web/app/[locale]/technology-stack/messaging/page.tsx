@@ -1,5 +1,3 @@
-import { getLocale } from 'next-intl/server'
-
 import { getPageCopy, resolvePressList } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
 import type {
@@ -63,12 +61,16 @@ const findSection = <T extends { componentType: string; key: string }>(
  * copy. Migration awaits either a cross-page shared partial or extra fields
  * on `techStackOverview`.
  */
-export default async function MessagingPage() {
-  const rawLocale = await getLocale()
-  if (!isActiveLocale(rawLocale)) {
-    throw new Error(`MessagingPage received non-active locale "${rawLocale}"`)
+export default async function MessagingPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  if (!isActiveLocale(locale)) {
+    throw new Error(`MessagingPage received non-active locale "${locale}"`)
   }
-  const page = await getPageCopy(ROUTE, rawLocale)
+  const page = await getPageCopy(ROUTE, locale)
 
   const hero = findSection<HeroSection>(page.sections, 'hero', 'messaging.hero')
   const privacy = findSection<CtaPanelSection>(
@@ -95,7 +97,7 @@ export default async function MessagingPage() {
 
   const articles = await resolvePressList(relatedArticles.pinnedSlugs, {
     limit: relatedArticles.visibleCount ?? 4,
-    locale: rawLocale,
+    locale,
   })
 
   return (
@@ -104,7 +106,7 @@ export default async function MessagingPage() {
       <MessagingIntro privacy={privacy} lmn={lmn} />
       <MessagingCaseStudies data={caseStudies} />
       <MessagingBuilderCta data={builderCta} />
-      <MessagingTechStack />
+      <MessagingTechStack locale={locale} />
       <MessagingRelatedArticles data={relatedArticles} articles={articles} />
     </>
   )

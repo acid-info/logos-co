@@ -10,7 +10,6 @@
  * shell that owns the interactivity.
  */
 import Image from 'next/image'
-import { getLocale } from 'next-intl/server'
 import { getNavigation } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
 import type {
@@ -34,12 +33,11 @@ const formatPressDateUTC = (iso: string): string => {
   return `${month}.${day}.${year}`
 }
 
-export default async function SiteHeader() {
-  const rawLocale = await getLocale()
-  if (!isActiveLocale(rawLocale)) {
-    throw new Error(`SiteHeader received non-active locale "${rawLocale}"`)
+export default async function SiteHeader({ locale }: { locale: string }) {
+  if (!isActiveLocale(locale)) {
+    throw new Error(`SiteHeader received non-active locale "${locale}"`)
   }
-  const navigation = await getNavigation(rawLocale)
+  const navigation = await getNavigation(locale)
 
   const sitemap: NavOverlayLink[] = navigation.sitemap
 

@@ -51,9 +51,15 @@ function StackCard({ title, body, href, wide, zones }: CardProps) {
   )
 }
 
-export default async function StorageTechStack() {
-  const t = await getTranslations('pages.technologyStack.stack')
-  const storageT = await getTranslations('pages.storage.techStack')
+export default async function StorageTechStack({ locale }: { locale: string }) {
+  const t = await getTranslations({
+    locale,
+    namespace: 'pages.technologyStack.stack',
+  })
+  const storageT = await getTranslations({
+    locale,
+    namespace: 'pages.storage.techStack',
+  })
 
   return (
     <section className="mt-15 border-t border-brand-dark-green/10 bg-brand-off-white md:mt-25">

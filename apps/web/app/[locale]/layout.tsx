@@ -56,11 +56,11 @@ export default async function RootLayout({
         </head>
         <body>
           <ScrollToTop />
-          <SiteHeader />
+          <SiteHeader locale={locale} />
           <main className="relative">
             <PageTransition>{children}</PageTransition>
           </main>
-          <SiteFooter />
+          <SiteFooter locale={locale} />
         </body>
       </html>
     </NextIntlClientProvider>

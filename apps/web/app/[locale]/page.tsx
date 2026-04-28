@@ -1,5 +1,3 @@
-import { getLocale } from 'next-intl/server'
-
 import { getPageCopy, resolvePressList } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
 import type {
@@ -72,12 +70,16 @@ const findSection = <T extends { componentType: string; key: string }>(
  *   - builder-portal-section: 4 example rows + 3 feature blurbs + use-case
  *                             banner — too rich for ctaPanel/cardGrid alone.
  */
-export default async function HomePage() {
-  const rawLocale = await getLocale()
-  if (!isActiveLocale(rawLocale)) {
-    throw new Error(`HomePage received non-active locale "${rawLocale}"`)
+export default async function HomePage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  if (!isActiveLocale(locale)) {
+    throw new Error(`HomePage received non-active locale "${locale}"`)
   }
-  const page = await getPageCopy(ROUTE, rawLocale)
+  const page = await getPageCopy(ROUTE, locale)
 
   const hero = findSection<HeroSection>(page.sections, 'hero', 'home.atf')
   const techStack = findSection<TechStackOverviewSection>(
@@ -118,14 +120,14 @@ export default async function HomePage() {
 
   const articles = await resolvePressList(press.pinnedSlugs, {
     limit: press.visibleCount ?? 4,
-    locale: rawLocale,
+    locale,
   })
 
   return (
     <>
       <HeroSectionView data={hero} />
       <FeatureCardsSection />
-      <AboutSection />
+      <AboutSection locale={locale} />
       <TechStackSection
         data={techStack}
         networkingHref={ROUTES.networking}
@@ -136,7 +138,7 @@ export default async function HomePage() {
         headline={parallelSocietyHeadline}
         gallery={parallelSocietyGallery}
       />
-      <BuilderPortalSection />
+      <BuilderPortalSection locale={locale} />
       <MountainSection data={mountain} />
       <PressSection data={press} articles={articles} />
       <CirclesCtaSection data={circlesCta} />

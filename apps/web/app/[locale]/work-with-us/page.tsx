@@ -18,8 +18,13 @@ export async function generateMetadata({
   })
 }
 
-export default async function WorkWithUsPage() {
-  const t = await getTranslations('pages.workWithUs')
+export default async function WorkWithUsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'pages.workWithUs' })
   return (
     <div className="px-3 pt-16 pb-12">
       <h1 className="text-h2 flex items-center gap-3 text-brand-dark-green">

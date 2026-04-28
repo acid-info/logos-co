@@ -1,5 +1,3 @@
-import { getLocale } from 'next-intl/server'
-
 import {
   getBuilderHubSettings,
   getBuilderResources,
@@ -41,12 +39,15 @@ export async function generateMetadata({
   })
 }
 
-export default async function BuildersHubPage() {
-  const rawLocale = await getLocale()
-  if (!isActiveLocale(rawLocale)) {
-    throw new Error(`BuildersHubPage received non-active locale "${rawLocale}"`)
+export default async function BuildersHubPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  if (!isActiveLocale(locale)) {
+    throw new Error(`BuildersHubPage received non-active locale "${locale}"`)
   }
-  const locale = rawLocale
 
   const [settings, rfpResolution, ideaResolution, resources] =
     await Promise.all([

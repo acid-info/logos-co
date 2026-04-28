@@ -1,5 +1,3 @@
-import { getLocale } from 'next-intl/server'
-
 import { getPageCopy, resolvePressList } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
 import type {
@@ -50,12 +48,16 @@ const findSection = <T extends { componentType: string; key: string }>(
   return found as T
 }
 
-export default async function BlockchainPage() {
-  const rawLocale = await getLocale()
-  if (!isActiveLocale(rawLocale)) {
-    throw new Error(`BlockchainPage received non-active locale "${rawLocale}"`)
+export default async function BlockchainPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  if (!isActiveLocale(locale)) {
+    throw new Error(`BlockchainPage received non-active locale "${locale}"`)
   }
-  const page = await getPageCopy(ROUTE, rawLocale)
+  const page = await getPageCopy(ROUTE, locale)
 
   const hero = findSection<HeroSection>(page.sections, 'hero', 'blockchain.hero')
   const privacy = findSection<CtaPanelSection>(
@@ -81,7 +83,7 @@ export default async function BlockchainPage() {
 
   const articles = await resolvePressList(relatedArticles.pinnedSlugs, {
     limit: relatedArticles.visibleCount ?? 4,
-    locale: rawLocale,
+    locale,
   })
 
   return (
@@ -90,7 +92,7 @@ export default async function BlockchainPage() {
       <BlockchainPrivacy data={privacy} />
       <BlockchainCryptarchia data={cryptarchia} />
       <BlockchainBuilderCta data={builderCta} />
-      <TechStackExplorer />
+      <TechStackExplorer locale={locale} />
       <BlockchainRelatedArticles data={relatedArticles} articles={articles} />
     </>
   )

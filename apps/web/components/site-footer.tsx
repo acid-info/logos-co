@@ -6,7 +6,6 @@
  * `@repo/content`.
  */
 import Image from 'next/image'
-import { getLocale } from 'next-intl/server'
 import { Footer, LogosMark } from '@repo/ui'
 import { getFooter } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
@@ -22,12 +21,11 @@ function LogosLockup() {
   )
 }
 
-export default async function SiteFooter() {
-  const rawLocale = await getLocale()
-  if (!isActiveLocale(rawLocale)) {
-    throw new Error(`SiteFooter received non-active locale "${rawLocale}"`)
+export default async function SiteFooter({ locale }: { locale: string }) {
+  if (!isActiveLocale(locale)) {
+    throw new Error(`SiteFooter received non-active locale "${locale}"`)
   }
-  const footer = await getFooter(rawLocale)
+  const footer = await getFooter(locale)
 
   return (
     <Footer

@@ -12,7 +12,8 @@ type Props = {
   submitCta?: CTA
   view: View
   /** Builds the href for switching to a given view (server-side toggle). */
-  buildViewHref: (view: View) => string
+  buildViewHref?: (view: View) => string
+  onViewChange?: (view: View) => void
   mobileDescription?: string
   mobileSpacious?: boolean
   eyebrow?: string
@@ -33,6 +34,7 @@ export function BuildersHubListingHeader({
   submitCta,
   view,
   buildViewHref,
+  onViewChange,
   mobileDescription,
   mobileSpacious = false,
   eyebrow,
@@ -104,15 +106,27 @@ export function BuildersHubListingHeader({
       <div
         className={`${mobileToggleMarginClass} grid md:mt-[34px] md:grid-cols-12 md:gap-3`}
       >
-        <ViewToggle
-          view={view}
-          options={[
-            { id: 'grid', label: 'Grid' },
-            { id: 'list', label: 'List' },
-          ]}
-          getHref={(id) => buildViewHref(id as View)}
-          className="md:col-span-2 md:col-start-7"
-        />
+        {onViewChange ? (
+          <ViewToggle
+            view={view}
+            options={[
+              { id: 'grid', label: 'Grid' },
+              { id: 'list', label: 'List' },
+            ]}
+            onChange={(id) => onViewChange(id as View)}
+            className="md:col-span-2 md:col-start-7"
+          />
+        ) : (
+          <ViewToggle
+            view={view}
+            options={[
+              { id: 'grid', label: 'Grid' },
+              { id: 'list', label: 'List' },
+            ]}
+            getHref={(id) => buildViewHref?.(id as View) ?? '#'}
+            className="md:col-span-2 md:col-start-7"
+          />
+        )}
       </div>
     </header>
   )

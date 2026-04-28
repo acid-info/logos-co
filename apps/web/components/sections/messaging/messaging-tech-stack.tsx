@@ -71,8 +71,15 @@ function StackTile({
   )
 }
 
-export default async function MessagingTechStack() {
-  const t = await getTranslations('pages.technologyStack.stack')
+export default async function MessagingTechStack({
+  locale,
+}: {
+  locale: string
+}) {
+  const t = await getTranslations({
+    locale,
+    namespace: 'pages.technologyStack.stack',
+  })
 
   return (
     <section className="mt-15 border-t border-brand-dark-green/10 bg-brand-off-white md:mt-10">
