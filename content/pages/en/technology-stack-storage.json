@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "route": "/technology-stack/storage",
+  "title": "Storage | Logos",
+  "description": "Private, Secure, Decentralized Storage. Content-addressed file storage and retrieval with built-in privacy guarantees, built around the Logos Messaging Nim (LMN) node.",
+  "heading": "Storage",
+  "seo": {
+    "keywords": ["logos", "storage", "decentralised", "codex", "content-addressed"]
+  },
+  "sections": [
+    {
+      "componentType": "hero",
+      "key": "storage.hero",
+      "eyebrow": "Technology stack",
+      "headline": "Storage",
+      "body": "Decentralized file storage and retrieval, using content-addressed (CID-based) data.",
+      "ctas": [
+        { "label": "Logos app", "href": "https://logos.co/app", "external": true, "variant": "primary" },
+        { "label": "Docs", "href": "https://docs.logos.co/storage", "external": true, "variant": "secondary" }
+      ]
+    },
+    {
+      "componentType": "ctaPanel",
+      "key": "storage.main",
+      "eyebrow": "Storage",
+      "title": "Private, Secure,\nDecentralized Storage",
+      "description": "Built around the Logos Messaging Nim (LMN) node, it provides publish-subscribe messaging, reliable delivery, and is evolving toward a ChatSDK that simplifies building encrypted communication into applications.",
+      "cta": {
+        "label": "View the docs",
+        "href": "https://docs.logos.co/storage",
+        "external": true
+      }
+    },
+    {
+      "componentType": "cardGrid",
+      "key": "storage.builderCta",
+      "cards": [
+        {
+          "title": "Docs",
+          "description": "Reference for the kernel, modules, and UI packages.",
+          "cta": {
+            "label": "View the docs",
+            "href": "https://docs.logos.co",
+            "external": true
+          }
+        },
+        {
+          "title": "Logos Builder Hub",
+          "description": "Everything you need to start building privacy-first decentralised applications. Explore RFPs, find ideas, and connect with other builders.",
+          "image": {
+            "src": "/images/storage/builder-hub.webp",
+            "alt": "",
+            "width": 1280,
+            "height": 720
+          },
+          "cta": { "label": "Build", "href": "/builders-hub" }
+        },
+        {
+          "title": "Logos App",
+          "description": "Download the app to start building with the kernel + modules + UI packages bundled.",
+          "cta": {
+            "label": "Download",
+            "href": "https://logos.co/app",
+            "external": true
+          }
+        }
+      ]
+    },
+    {
+      "componentType": "relatedArticles",
+      "key": "storage.relatedArticles",
+      "label": "Logos Press Engine",
+      "eyebrow": "Logos in the News",
+      "title": "Related Articles",
+      "cta": { "label": "Explore all articles", "href": "/press" },
+      "visibleCount": 4
+    }
+  ]
+}

@@ -513,11 +513,11 @@ const buildPagesChecks = (locale: Language): Check[] => [
     },
   },
   {
-    name: `pages.technology-stack/blockchain (${locale}) → relatedArticles section + ctaPanel present`,
+    name: `pages.technology-stack/blockchain (${locale}) → expected section types present`,
     run: async () => {
       const page = await getPageCopy('/technology-stack/blockchain', locale)
       const types = new Set(page.sections.map((s) => s.componentType))
-      for (const required of ['hero', 'richText', 'cardGrid', 'ctaPanel', 'relatedArticles']) {
+      for (const required of ['hero', 'ctaPanel', 'cardGrid', 'relatedArticles']) {
         if (!types.has(required as never)) {
           throw new Error(`blockchain page missing "${required}" section`)
         }

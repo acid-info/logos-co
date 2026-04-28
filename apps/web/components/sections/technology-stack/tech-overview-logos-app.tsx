@@ -1,9 +1,23 @@
 import Image from 'next/image'
-import { getTranslations } from 'next-intl/server'
 
 import { GiantSwitch, GiantSwitchTag } from '@repo/ui'
+import type { GiantSwitchSection } from '@repo/content/schemas'
+
 import { Button } from '@/components/ui'
-import { ROUTES } from '@/constants/routes'
+
+/**
+ * Map the icon enum on a giantSwitch tag to the actual SVG asset shipped in
+ * the public design-systems folder. Adding a new icon is a two-step change:
+ * extend the schema enum (`builderHubTagIconSchema`) and add a corresponding
+ * entry here.
+ */
+const TAG_ICON_PATH: Record<string, string> = {
+  wallet: '/design-systems/wallet.svg',
+  chat: '/design-systems/chat.svg',
+  files: '/design-systems/file.svg',
+  explorer: '/design-systems/globe.svg',
+  lambda: '/design-systems/lambda.svg',
+}
 
 function TagIcon({ src, alt }: { src: string; alt: string }) {
   return (
@@ -35,18 +49,28 @@ function ExternalLinkIcon() {
   )
 }
 
-export default async function TechOverviewLogosApp() {
-  const t = await getTranslations('pages.technologyStack.logosApp')
+type Props = {
+  data: GiantSwitchSection
+}
+
+export default function TechOverviewLogosApp({ data }: Props) {
+  // Mobile breaks the title at the second-to-last word — keep the existing
+  // "Install the\nLogos app." pattern by splitting at the last whitespace
+  // group. Editors who care about the break can leave the title clean and
+  // rely on this rule, or adjust copy length so natural wrapping handles it.
+  const titleWords = data.title.split(' ')
+  const mobileTitleHead = titleWords.slice(0, Math.max(1, titleWords.length - 2)).join(' ')
+  const mobileTitleTail = titleWords.slice(-2).join(' ')
 
   return (
     <section className="bg-brand-off-white py-10">
       <GiantSwitch
-        accent="grey"
-        imagePosition="left"
+        accent={data.accent}
+        imagePosition={data.imagePosition}
         image={
           <Image
-            src="/images/technology-stack/logos-app.jpg"
-            alt=""
+            src={data.image.src}
+            alt={data.image.alt}
             fill
             sizes="(max-width: 767px) 345px, 566px"
           />
@@ -54,50 +78,47 @@ export default async function TechOverviewLogosApp() {
         title={
           <>
             <span className="md:hidden">
-              Install the
+              {mobileTitleHead}
               <br />
-              Logos app.
+              {mobileTitleTail}
             </span>
-            <span className="hidden md:inline">Install the Logos app.</span>
+            <span className="hidden md:inline">{data.title}</span>
           </>
         }
-        description={t('description')}
+        description={data.description}
         tags={
-          <>
-            <GiantSwitchTag
-              icon={<TagIcon src="/design-systems/wallet.svg" alt="" />}
-            >
-              {t('wallet')}
-            </GiantSwitchTag>
-            <GiantSwitchTag
-              icon={<TagIcon src="/design-systems/chat.svg" alt="" />}
-            >
-              {t('chatInterface')}
-            </GiantSwitchTag>
-            <GiantSwitchTag
-              icon={<TagIcon src="/design-systems/file.svg" alt="" />}
-            >
-              {t('filesharingTool')}
-            </GiantSwitchTag>
-            <GiantSwitchTag
-              icon={<TagIcon src="/design-systems/globe.svg" alt="" />}
-            >
-              {t('explorer')}
-            </GiantSwitchTag>
-          </>
+          data.tags && data.tags.length > 0 ? (
+            <>
+              {data.tags.map((tag) => {
+                const iconSrc = tag.icon ? TAG_ICON_PATH[tag.icon] : undefined
+                return (
+                  <GiantSwitchTag
+                    key={tag.label}
+                    icon={iconSrc ? <TagIcon src={iconSrc} alt="" /> : undefined}
+                  >
+                    {tag.label}
+                  </GiantSwitchTag>
+                )
+              })}
+            </>
+          ) : undefined
         }
         actions={
           <>
-            <Button
-              href={ROUTES.buildersHub}
-              variant="secondary"
-              icon={<ExternalLinkIcon />}
-            >
-              {t('installCta')}
-            </Button>
-            <Button href={ROUTES.buildersHub} variant="tertiary">
-              {t('learnMoreCta')}
-            </Button>
+            {data.primaryCta ? (
+              <Button
+                href={data.primaryCta.href}
+                variant="secondary"
+                icon={<ExternalLinkIcon />}
+              >
+                {data.primaryCta.label}
+              </Button>
+            ) : null}
+            {data.secondaryCta ? (
+              <Button href={data.secondaryCta.href} variant="tertiary">
+                {data.secondaryCta.label}
+              </Button>
+            ) : null}
           </>
         }
       />

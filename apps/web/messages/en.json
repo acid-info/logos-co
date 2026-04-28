@@ -194,115 +194,6 @@
         "card4Desc": "Self-organising groups can establish and enforce their own rules, with members engaging voluntarily."
       }
     },
-    "blockchain": {
-      "title": "Blockchain | Logos",
-      "description": "This isn't just another L1—it's a purpose-built blockchain using Cryptarchia, a private proof-of-stake consensus mechanism where validator identities and stake amounts remain hidden.",
-      "heading": "Blockchain",
-      "hero": {
-        "back": "Technology stack",
-        "body": "This isn't just another L1—it's a purpose-built blockchain using Cryptarchia, a private proof-of-stake consensus mechanism where validator identities and stake amounts remain hidden.",
-        "logosApp": "Logos app",
-        "docs": "Docs"
-      },
-      "privacy": {
-        "eyebrow": "Privacy",
-        "title": "Privacy as infrastructure.",
-        "body": "Logos addresses privacy concerns through a combination of private leadership elections and anonymous broadcasting, creating a system where proposers can participate in consensus without revealing their identity or stake.",
-        "cta": "View the docs"
-      },
-      "cryptarchia": {
-        "eyebrow": "Cryptarchia",
-        "title": "Cryptarchia:",
-        "body": "A private proof-of-stake consensus mechanism where validator identities and stake amounts remain hidden.",
-        "cta": "View the docs",
-        "blendNetworkLabel": "The Blend Network",
-        "blendNetworkBody": "Providing network-level anonymity for block propagation.",
-        "lezLabel": "Logos Execution Zone (LEZ)",
-        "lezBody": "Enabling programmable state — both public and private — where developers can deploy programs, run AMMs, transfer tokens, and build financial primitives with built-in privacy."
-      },
-      "builderCta": {
-        "docsTitle": "Docs",
-        "docsBody": "Lorem ipsum dolor sit amet consectetur",
-        "docsCta": "View the docs",
-        "builderHubTitle": "Logos Builder Hub",
-        "builderHubBody": "Lorem ipsum dolor sit amet consectetur. Augue feugiat dictum aliquet feugiat.",
-        "builderHubCta": "Build",
-        "logosAppTitle": "Logos App",
-        "logosAppBody": "Download the app to start building.",
-        "logosAppCta": "Download"
-      },
-      "relatedArticles": {
-        "label": "Lorem ipsum dolor si amet",
-        "eyebrow": "Logos in the News",
-        "cta": "Explore all articles",
-        "title": "Related Articles",
-        "article1Title": "State of the Logos Network: November 2025",
-        "article1Date": "02.14.26",
-        "article1Author": "Sterlin Lujan",
-        "article2Title": "Story of the Network: From CyberNetics to Blockchain Communities",
-        "article2Date": "02.14.26",
-        "article2Author": "Sterlin Lujan",
-        "article3Title": "State of the Logos Network: October 2025",
-        "article3Date": "02.14.26",
-        "article3Author": "Sterlin Lujan",
-        "article4Title": "Hacking for Real World Impact with Funding the Commons & Tor",
-        "article4Date": "02.14.26",
-        "article4Author": "Sterlin Lujan"
-      }
-    },
-    "networking": {
-      "title": "Networking Stack | Logos",
-      "description": "Privacy built from the ground up. The Logos networking layer handles how nodes discover each other, peer, and route messages through a mix-net without exposing identities or metadata.",
-      "heading": "Networking Stack",
-      "hero": {
-        "back": "Technology stack",
-        "body": "Built with privacy from the ground up, this layer handles how Logos nodes find each other, establish connections, and communicate. Discovery, Peering, and Mix-Net.",
-        "logosApp": "Logos app"
-      },
-      "intro": {
-        "titleLine1": "Privacy built from",
-        "titleLine2": "the ground up.",
-        "body": "The networking layer handles how Logos nodes find each other, establish connections, and communicate. Private-by-default, this layer doesn’t care whether modules above it are storing files, sending chat messages, or processing transactions. It provides private, reliable communication as a shared foundation.",
-        "cta": "View the docs"
-      },
-      "features": {
-        "mixNetTitle": "The Mix-Net",
-        "mixNetBody": "The mix-net routes messages through multiple relay nodes, mixing traffic patterns so that observers can’t determine who is talking to whom.",
-        "capabilityTitle": "Capability Discovery Protocol",
-        "capabilityBody": "A capability discovery protocol lets nodes advertise and find services without centralized registries.",
-        "peeringTitle": "Peering Layer",
-        "peeringBody": "Peering layer manages connections across the decentralized network."
-      },
-      "builderCta": {
-        "docsTitle": "Docs",
-        "docsBody": "Lorem ipsum dolor sit amet consectetur",
-        "docsCta": "View the docs",
-        "builderHubTitle": "Logos Builder Hub",
-        "builderHubBody": "Lorem ipsum dolor sit amet consectetur. Augue feugiat dictum aliquet feugiat.",
-        "builderHubCta": "Build",
-        "logosAppTitle": "Logos App",
-        "logosAppBody": "Download the app to start building.",
-        "logosAppCta": "Download"
-      },
-      "relatedArticles": {
-        "label": "Lorem ipsum dolor si amet",
-        "eyebrow": "Logos in the News",
-        "cta": "Explore all articles",
-        "title": "Related Articles",
-        "article1Title": "State of the Logos Network: November 2025",
-        "article1Date": "02.14.26",
-        "article1Author": "Sterlin Lujan",
-        "article2Title": "Story of the Network: From CyberNetics to Blockchain Communities",
-        "article2Date": "02.14.26",
-        "article2Author": "Sterlin Lujan",
-        "article3Title": "State of the Logos Network: October 2025",
-        "article3Date": "02.14.26",
-        "article3Author": "Sterlin Lujan",
-        "article4Title": "Hacking for Real World Impact with Funding the Commons & Tor",
-        "article4Date": "02.14.26",
-        "article4Author": "Sterlin Lujan"
-      }
-    },
     "messaging": {
       "title": "Messaging | Logos",
       "description": "Logos Messaging (formerly Waku) was designed and developed as the replacement for Whisper — the messaging protocol of Ethereum. This protocol is used in a number of production applications and provides strong privacy and security guarantees.",
@@ -363,35 +254,6 @@
       }
     },
     "storage": {
-      "title": "Storage | Logos",
-      "description": "Private, Secure, Decentralized Storage. Content-addressed file storage and retrieval with built-in privacy guarantees, built around the Logos Messaging Nim (LMN) node.",
-      "heading": "Storage",
-      "hero": {
-        "back": "Technology stack",
-        "title": "Storage",
-        "body": "Decentralized file storage and retrieval, using content-addressed (CID-based) data.",
-        "logosApp": "Logos app",
-        "docs": "Docs"
-      },
-      "main": {
-        "desktopLabel": "Storage",
-        "mobileLabel": "Privacy",
-        "titleLine1": "Private, Secure,",
-        "titleLine2": "Decentralized Storage",
-        "body": "Built around the Logos Messaging Nim (LMN) node, it provides publish-subscribe messaging, reliable delivery, and is evolving toward a ChatSDK that simplifies building encrypted communication into applications.",
-        "cta": "View the docs"
-      },
-      "builderCta": {
-        "docsTitle": "Docs",
-        "docsBody": "Lorem ipsum dolor sit amet consectetur",
-        "docsCta": "View the docs",
-        "builderHubTitle": "Logos Builder Hub",
-        "builderHubBody": "Lorem ipsum dolor sit amet consectetur. Augue feugiat dictum aliquet feugiat.",
-        "builderHubCta": "Build",
-        "logosAppTitle": "Logos App",
-        "logosAppBody": "Download the app to start building.",
-        "logosAppCta": "Download"
-      },
       "techStack": {
         "storageBody": "Decentralized file storage and retrieval, using content-addressed (CID-based) data",
         "messagingBody": "Private, censorship-resistant communication between parties.",
@@ -401,25 +263,6 @@
         "foundationBody": "A microkernel that handles the essential primitives every decentralized application needs.",
         "lez": "LOGOS Execution zone (LEZ)",
         "cryptarchia": "Data Availability and Consensus: Cryptarchia"
-      },
-      "relatedArticles": {
-        "label": "Lorem ipsum dolor si amet",
-        "eyebrow": "Logos in the News",
-        "cta": "Explore all articles",
-        "title": "Related Articles",
-        "mobileArticleTitle": "Story of the Network: From CyberNetics to Blockchain Communities",
-        "article1Title": "State of the Logos Network: November 2025",
-        "article1Date": "02.14.26",
-        "article1Author": "Sterlin Lujan",
-        "article2Title": "Story of the Network: From CyberNetics to Blockchain Communities",
-        "article2Date": "02.14.26",
-        "article2Author": "Sterlin Lujan",
-        "article3Title": "State of the Logos Network: October 2025",
-        "article3Date": "02.14.26",
-        "article3Author": "Sterlin Lujan",
-        "article4Title": "Hacking for Real World Impact with Funding the Commons & Tor",
-        "article4Date": "02.14.26",
-        "article4Author": "Sterlin Lujan"
       }
     },
     "buildersHub": {

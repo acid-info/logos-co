@@ -1,7 +1,8 @@
 import Image from 'next/image'
-import { getTranslations } from 'next-intl/server'
 
 import { LogosMark } from '@repo/ui'
+import type { CardGridSection } from '@repo/content/schemas'
+
 import { Button } from '@/components/ui'
 
 function SectionEyebrow({
@@ -60,14 +61,12 @@ function CryptarchiaImage({
   )
 }
 
-export default async function BlockchainCryptarchia() {
-  const t = await getTranslations('pages.blockchain.cryptarchia')
+type Props = {
+  data: CardGridSection
+}
 
-  const blendCard = {
-    label: t('blendNetworkLabel'),
-    body: t('blendNetworkBody'),
-  }
-  const lezCard = { label: t('lezLabel'), body: t('lezBody') }
+export default function BlockchainCryptarchia({ data }: Props) {
+  const [blendCard, lezCard] = data.cards
 
   return (
     <section className="bg-gray-02">
@@ -76,26 +75,36 @@ export default async function BlockchainCryptarchia() {
         <div className="flex h-144 items-start justify-between">
           <CryptarchiaImage className="h-144 w-175.5">
             <div className="absolute right-3 bottom-3 left-3 flex items-start gap-3">
-              <div className="flex-1">
-                <Card {...blendCard} />
-              </div>
-              <div className="flex-1">
-                <Card {...lezCard} />
-              </div>
+              {blendCard ? (
+                <div className="flex-1">
+                  <Card label={blendCard.title} body={blendCard.description ?? ''} />
+                </div>
+              ) : null}
+              {lezCard ? (
+                <div className="flex-1">
+                  <Card label={lezCard.title} body={lezCard.description ?? ''} />
+                </div>
+              ) : null}
             </div>
           </CryptarchiaImage>
 
           <div className="flex h-full w-175.5 flex-col justify-between pb-3">
-            <SectionEyebrow label={t('eyebrow')} />
+            {data.eyebrow ? <SectionEyebrow label={data.eyebrow} /> : null}
 
             <div className="flex flex-col items-center justify-center gap-1.5 text-center text-brand-dark-green">
-              <p className="text-h4-sans w-53.5">{t('title')}</p>
-              <p className="w-76.25 font-sans text-[12px] leading-[1.2] font-medium">
-                {t('body')}
-              </p>
+              {data.heading ? (
+                <p className="text-h4-sans w-53.5">{data.heading}</p>
+              ) : null}
+              {data.subheading ? (
+                <p className="w-76.25 font-sans text-[12px] leading-[1.2] font-medium">
+                  {data.subheading}
+                </p>
+              ) : null}
             </div>
 
-            <SectionEyebrow label={t('eyebrow')} className="opacity-0" />
+            {data.eyebrow ? (
+              <SectionEyebrow label={data.eyebrow} className="opacity-0" />
+            ) : null}
           </div>
         </div>
       </div>
@@ -103,27 +112,43 @@ export default async function BlockchainCryptarchia() {
       {/* Mobile: stacked — text (288h) + image (576h with 2 cards at bottom) */}
       <div className="mx-auto flex max-w-360 flex-col gap-3 p-3 md:hidden">
         <div className="flex h-72 flex-col justify-between">
-          <SectionEyebrow label={t('eyebrow')} />
+          {data.eyebrow ? <SectionEyebrow label={data.eyebrow} /> : null}
 
           <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-3 text-brand-dark-green">
-              <p className="text-h4-sans">{t('title')}</p>
-              <p className="font-sans text-[12px] leading-[1.2] font-medium">
-                {t('body')}
-              </p>
+              {data.heading ? (
+                <p className="text-h4-sans">{data.heading}</p>
+              ) : null}
+              {data.subheading ? (
+                <p className="font-sans text-[12px] leading-[1.2] font-medium">
+                  {data.subheading}
+                </p>
+              ) : null}
             </div>
-            <Button href="#" variant="primary" className="w-fit cursor-pointer">
-              {t('cta')}
-            </Button>
+            {data.cta ? (
+              <Button
+                href={data.cta.href}
+                variant="primary"
+                className="w-fit cursor-pointer"
+              >
+                {data.cta.label}
+              </Button>
+            ) : null}
           </div>
 
-          <SectionEyebrow label="Storage" className="opacity-0" />
+          {data.eyebrow ? (
+            <SectionEyebrow label={data.eyebrow} className="opacity-0" />
+          ) : null}
         </div>
 
         <CryptarchiaImage sizes="100vw" className="h-144 w-full">
           <div className="absolute right-3 bottom-3 left-3 flex flex-col gap-3">
-            <Card {...blendCard} />
-            <Card {...lezCard} />
+            {blendCard ? (
+              <Card label={blendCard.title} body={blendCard.description ?? ''} />
+            ) : null}
+            {lezCard ? (
+              <Card label={lezCard.title} body={lezCard.description ?? ''} />
+            ) : null}
           </div>
         </CryptarchiaImage>
       </div>

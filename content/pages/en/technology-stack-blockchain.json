@@ -21,15 +21,28 @@
       ]
     },
     {
-      "componentType": "richText",
+      "componentType": "ctaPanel",
       "key": "blockchain.privacy",
-      "body": "Privacy as infrastructure. Logos addresses privacy concerns through a combination of private leadership elections and anonymous broadcasting, creating a system where proposers can participate in consensus without revealing their identity or stake."
+      "eyebrow": "Privacy",
+      "title": "Privacy as infrastructure.",
+      "description": "Logos addresses privacy concerns through a combination of private leadership elections and anonymous broadcasting, creating a system where proposers can participate in consensus without revealing their identity or stake.",
+      "cta": {
+        "label": "View the docs",
+        "href": "https://docs.logos.co/blockchain/privacy",
+        "external": true
+      }
     },
     {
       "componentType": "cardGrid",
       "key": "blockchain.cryptarchia",
-      "heading": "Cryptarchia",
+      "eyebrow": "Cryptarchia",
+      "heading": "Cryptarchia:",
       "subheading": "A private proof-of-stake consensus mechanism where validator identities and stake amounts remain hidden.",
+      "cta": {
+        "label": "View the docs",
+        "href": "https://docs.logos.co/blockchain/cryptarchia",
+        "external": true
+      },
       "cards": [
         {
           "title": "The Blend Network",
@@ -42,15 +55,44 @@
       ]
     },
     {
-      "componentType": "ctaPanel",
+      "componentType": "cardGrid",
       "key": "blockchain.builderCta",
-      "title": "Logos Builder Hub",
-      "description": "Everything you need to start building privacy-first decentralised applications. Explore RFPs, find ideas, and connect with other builders.",
-      "cta": { "label": "Build", "href": "/builders-hub" }
+      "cards": [
+        {
+          "title": "Docs",
+          "description": "Reference for the kernel, modules, and UI packages.",
+          "cta": {
+            "label": "View the docs",
+            "href": "https://docs.logos.co",
+            "external": true
+          }
+        },
+        {
+          "title": "Logos Builder Hub",
+          "description": "Everything you need to start building privacy-first decentralised applications. Explore RFPs, find ideas, and connect with other builders.",
+          "image": {
+            "src": "/images/blockchain/builder-hub.jpg",
+            "alt": "",
+            "width": 1280,
+            "height": 720
+          },
+          "cta": { "label": "Build", "href": "/builders-hub" }
+        },
+        {
+          "title": "Logos App",
+          "description": "Download the app to start building with the kernel + modules + UI packages bundled.",
+          "cta": {
+            "label": "Download",
+            "href": "https://logos.co/app",
+            "external": true
+          }
+        }
+      ]
     },
     {
       "componentType": "relatedArticles",
       "key": "blockchain.relatedArticles",
+      "label": "Logos Press Engine",
       "eyebrow": "Logos in the News",
       "title": "Related Articles",
       "cta": { "label": "Explore all articles", "href": "/press" },

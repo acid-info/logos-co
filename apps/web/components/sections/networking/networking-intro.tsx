@@ -1,9 +1,15 @@
-import { getTranslations } from 'next-intl/server'
+import type { CtaPanelSection } from '@repo/content/schemas'
 
 import { Button } from '@/components/ui'
 
-export default async function NetworkingIntro() {
-  const t = await getTranslations('pages.networking.intro')
+type Props = {
+  data: CtaPanelSection
+}
+
+export default function NetworkingIntro({ data }: Props) {
+  // Title supports `\n` for visual line breaks (currently rendered as
+  // separate <p> blocks for whitespace-nowrap control on each line).
+  const titleLines = data.title.split('\n')
 
   return (
     <section className="border-t border-brand-dark-green/10 bg-brand-off-white">
@@ -11,21 +17,26 @@ export default async function NetworkingIntro() {
         {/* Desktop: three columns, absolute positioning to match Figma */}
         <div className="relative hidden md:block md:h-39.5">
           <div className="text-h4-sans absolute top-[39px] left-0 text-brand-dark-green">
-            <p className="whitespace-nowrap">{t('titleLine1')}</p>
-            <p className="whitespace-nowrap">{t('titleLine2')}</p>
+            {titleLines.map((line, i) => (
+              <p key={i} className="whitespace-nowrap">
+                {line}
+              </p>
+            ))}
           </div>
 
-          <p className="text-mono-s absolute top-[39px] left-178.5 w-86.25 text-brand-dark-green">
-            {t('body')}
-          </p>
+          {data.description ? (
+            <p className="text-mono-s absolute top-[39px] left-178.5 w-86.25 text-brand-dark-green">
+              {data.description}
+            </p>
+          ) : null}
 
           <div className="absolute top-[39px] left-297.5">
             <Button
-              href="#"
+              href={data.cta.href}
               variant="tertiary"
               className="cursor-pointer transition-opacity hover:opacity-70"
             >
-              {t('cta')}
+              {data.cta.label}
             </Button>
           </div>
         </div>
@@ -34,17 +45,22 @@ export default async function NetworkingIntro() {
         <div className="flex flex-col gap-6 pt-10 pb-10 md:hidden">
           <div className="flex flex-col gap-3">
             <div className="text-h4-sans text-brand-dark-green">
-              <p className="whitespace-nowrap">{t('titleLine1')}</p>
-              <p className="whitespace-nowrap">{t('titleLine2')}</p>
+              {titleLines.map((line, i) => (
+                <p key={i} className="whitespace-nowrap">
+                  {line}
+                </p>
+              ))}
             </div>
-            <p className="text-mono-s text-brand-dark-green">{t('body')}</p>
+            {data.description ? (
+              <p className="text-mono-s text-brand-dark-green">{data.description}</p>
+            ) : null}
           </div>
           <Button
-            href="#"
+            href={data.cta.href}
             variant="tertiary"
             className="w-fit cursor-pointer transition-opacity hover:opacity-70"
           >
-            {t('cta')}
+            {data.cta.label}
           </Button>
         </div>
       </div>

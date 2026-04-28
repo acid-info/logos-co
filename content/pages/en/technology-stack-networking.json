@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "language": "en",
+  "route": "/technology-stack/networking",
+  "title": "Networking Stack | Logos",
+  "description": "Privacy built from the ground up. The Logos networking layer handles how nodes discover each other, peer, and route messages through a mix-net without exposing identities or metadata.",
+  "heading": "Networking Stack",
+  "seo": {
+    "keywords": ["logos", "networking", "mix-net", "discovery", "peering", "privacy"]
+  },
+  "sections": [
+    {
+      "componentType": "hero",
+      "key": "networking.hero",
+      "eyebrow": "Technology stack",
+      "headline": "Networking Stack",
+      "body": "Built with privacy from the ground up, this layer handles how Logos nodes find each other, establish connections, and communicate. Discovery, Peering, and Mix-Net.",
+      "ctas": [
+        { "label": "Logos app", "href": "https://logos.co/app", "external": true, "variant": "primary" }
+      ]
+    },
+    {
+      "componentType": "ctaPanel",
+      "key": "networking.intro",
+      "title": "Privacy built from\nthe ground up.",
+      "description": "The networking layer handles how Logos nodes find each other, establish connections, and communicate. Private-by-default, this layer doesn't care whether modules above it are storing files, sending chat messages, or processing transactions. It provides private, reliable communication as a shared foundation.",
+      "cta": {
+        "label": "View the docs",
+        "href": "https://docs.logos.co/networking",
+        "external": true
+      }
+    },
+    {
+      "componentType": "cardGrid",
+      "key": "networking.features",
+      "cards": [
+        {
+          "title": "The Mix-Net",
+          "description": "The mix-net routes messages through multiple relay nodes, mixing traffic patterns so that observers can't determine who is talking to whom.",
+          "image": {
+            "src": "/images/networking/mix-net.jpg",
+            "alt": "",
+            "width": 720,
+            "height": 480
+          }
+        },
+        {
+          "title": "Capability Discovery Protocol",
+          "description": "A capability discovery protocol lets nodes advertise and find services without centralized registries.",
+          "image": {
+            "src": "/images/networking/capability-discovery.jpg",
+            "alt": "",
+            "width": 720,
+            "height": 480
+          }
+        },
+        {
+          "title": "Peering Layer",
+          "description": "Peering layer manages connections across the decentralized network.",
+          "image": {
+            "src": "/images/networking/peering-layer.jpg",
+            "alt": "",
+            "width": 720,
+            "height": 480
+          }
+        }
+      ]
+    },
+    {
+      "componentType": "cardGrid",
+      "key": "networking.builderCta",
+      "cards": [
+        {
+          "title": "Docs",
+          "description": "Reference for the kernel, modules, and UI packages.",
+          "cta": {
+            "label": "View the docs",
+            "href": "https://docs.logos.co",
+            "external": true
+          }
+        },
+        {
+          "title": "Logos Builder Hub",
+          "description": "Everything you need to start building privacy-first decentralised applications. Explore RFPs, find ideas, and connect with other builders.",
+          "image": {
+            "src": "/images/networking/builder-hub.jpg",
+            "alt": "",
+            "width": 1280,
+            "height": 720
+          },
+          "cta": { "label": "Build", "href": "/builders-hub" }
+        },
+        {
+          "title": "Logos App",
+          "description": "Download the app to start building with the kernel + modules + UI packages bundled.",
+          "cta": {
+            "label": "Download",
+            "href": "https://logos.co/app",
+            "external": true
+          }
+        }
+      ]
+    },
+    {
+      "componentType": "relatedArticles",
+      "key": "networking.relatedArticles",
+      "label": "Logos Press Engine",
+      "eyebrow": "Logos in the News",
+      "title": "Related Articles",
+      "cta": { "label": "Explore all articles", "href": "/press" },
+      "visibleCount": 4
+    }
+  ]
+}

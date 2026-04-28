@@ -78,8 +78,16 @@ const cardGridCardSchema = z.object({
 export const cardGridSectionSchema = z.object({
   componentType: z.literal('cardGrid'),
   key: sectionKeySchema,
+  /**
+   * Optional small eyebrow label rendered above the heading. Common in mid-
+   * page section blocks ("Cryptarchia", "Use Cases") that sit alongside body
+   * copy and a section-level CTA.
+   */
+  eyebrow: z.string().min(1).optional(),
   heading: z.string().min(1).optional(),
   subheading: z.string().min(1).optional(),
+  /** Section-level CTA, separate from per-card CTAs. */
+  cta: ctaSchema.optional(),
   cards: z.array(cardGridCardSchema).min(1),
 })
 export type CardGridSection = z.infer<typeof cardGridSectionSchema>
@@ -133,6 +141,8 @@ export type RelatedArticlesSection = z.infer<typeof relatedArticlesSectionSchema
 export const ctaPanelSectionSchema = z.object({
   componentType: z.literal('ctaPanel'),
   key: sectionKeySchema,
+  /** Optional small eyebrow label rendered above the title. */
+  eyebrow: z.string().min(1).optional(),
   title: z.string().min(1),
   description: z.string().min(1).optional(),
   image: mediaRefSchema.optional(),

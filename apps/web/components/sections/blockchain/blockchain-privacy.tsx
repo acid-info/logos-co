@@ -1,7 +1,8 @@
 import Image from 'next/image'
-import { getTranslations } from 'next-intl/server'
 
 import { LogosMark } from '@repo/ui'
+import type { CtaPanelSection } from '@repo/content/schemas'
+
 import { Button } from '@/components/ui'
 
 function SectionEyebrow({
@@ -48,30 +49,36 @@ function PrivacyImage({
   )
 }
 
-export default async function BlockchainPrivacy() {
-  const t = await getTranslations('pages.blockchain.privacy')
+type Props = {
+  data: CtaPanelSection
+}
 
+export default function BlockchainPrivacy({ data }: Props) {
   return (
     <section className="bg-gray-01">
       {/* Desktop: 1440×600 row with 702w text column + 702w image column */}
       <div className="mx-auto hidden max-w-360 p-3 md:block">
         <div className="flex h-144 items-center justify-between">
           <div className="flex h-full w-175.5 flex-col justify-between">
-            <SectionEyebrow label={t('eyebrow')} />
+            {data.eyebrow ? <SectionEyebrow label={data.eyebrow} /> : null}
 
             <div className="flex flex-col gap-6">
               <div className="flex flex-col gap-3 text-brand-dark-green">
-                <p className="text-h4-sans w-94.25">{t('title')}</p>
-                <p className="w-121.25 font-sans text-[12px] leading-[1.2] font-medium">
-                  {t('body')}
-                </p>
+                <p className="text-h4-sans w-94.25">{data.title}</p>
+                {data.description ? (
+                  <p className="w-121.25 font-sans text-[12px] leading-[1.2] font-medium">
+                    {data.description}
+                  </p>
+                ) : null}
               </div>
-              <Button href="#" variant="primary" className="w-fit cursor-pointer">
-                {t('cta')}
+              <Button href={data.cta.href} variant="primary" className="w-fit cursor-pointer">
+                {data.cta.label}
               </Button>
             </div>
 
-            <SectionEyebrow label="Storage" className="opacity-0" />
+            {data.eyebrow ? (
+              <SectionEyebrow label={data.eyebrow} className="opacity-0" />
+            ) : null}
           </div>
 
           <PrivacyImage className="h-full w-175.5" />
@@ -81,21 +88,25 @@ export default async function BlockchainPrivacy() {
       {/* Mobile: stacked — text block (288h) + image (288h) */}
       <div className="mx-auto flex max-w-360 flex-col gap-3 p-3 md:hidden">
         <div className="flex h-72 flex-col justify-between">
-          <SectionEyebrow label={t('eyebrow')} />
+          {data.eyebrow ? <SectionEyebrow label={data.eyebrow} /> : null}
 
           <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-3 text-brand-dark-green">
-              <p className="text-h4-sans">{t('title')}</p>
-              <p className="font-sans text-[12px] leading-[1.2] font-medium">
-                {t('body')}
-              </p>
+              <p className="text-h4-sans">{data.title}</p>
+              {data.description ? (
+                <p className="font-sans text-[12px] leading-[1.2] font-medium">
+                  {data.description}
+                </p>
+              ) : null}
             </div>
-            <Button href="#" variant="primary" className="w-fit cursor-pointer">
-              {t('cta')}
+            <Button href={data.cta.href} variant="primary" className="w-fit cursor-pointer">
+              {data.cta.label}
             </Button>
           </div>
 
-          <SectionEyebrow label="Storage" className="opacity-0" />
+          {data.eyebrow ? (
+            <SectionEyebrow label={data.eyebrow} className="opacity-0" />
+          ) : null}
         </div>
 
         <PrivacyImage sizes="100vw" className="h-72 w-full" />

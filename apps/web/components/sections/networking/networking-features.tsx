@@ -1,11 +1,21 @@
 import Image from 'next/image'
-import { getTranslations } from 'next-intl/server'
+
+import type { CardGridSection } from '@repo/content/schemas'
+
+/**
+ * Dot accent colors are positional — Figma has three fixed accent dots in
+ * mix-net / capability-discovery / peering order. Editors managing this
+ * section keep the slot order stable; reordering would mismatch each card's
+ * title with its accent.
+ */
+const DOT_CLASSNAMES = ['bg-accent-light-blue', 'bg-brand-yellow', 'bg-accent-steel-teal']
 
 type FeatureCardProps = {
   title: string
   body: string
   dotClassName: string
   imageSrc: string
+  imageAlt: string
 }
 
 function FeatureCard({
@@ -13,6 +23,7 @@ function FeatureCard({
   body,
   dotClassName,
   imageSrc,
+  imageAlt,
 }: FeatureCardProps) {
   return (
     <div className="flex flex-1 flex-col items-start justify-between gap-3 rounded-3xl bg-gray-01 p-1.5">
@@ -31,7 +42,7 @@ function FeatureCard({
       <div className="relative h-62 w-full overflow-hidden rounded-[18px]">
         <Image
           src={imageSrc}
-          alt=""
+          alt={imageAlt}
           fill
           sizes="(min-width: 768px) 33vw, 100vw"
           className="object-cover"
@@ -41,37 +52,27 @@ function FeatureCard({
   )
 }
 
-export default async function NetworkingFeatures() {
-  const t = await getTranslations('pages.networking.features')
+type Props = {
+  data: CardGridSection
+}
 
-  const cards: FeatureCardProps[] = [
-    {
-      title: t('mixNetTitle'),
-      body: t('mixNetBody'),
-      dotClassName: 'bg-accent-light-blue',
-      imageSrc: '/images/networking/mix-net.jpg',
-    },
-    {
-      title: t('capabilityTitle'),
-      body: t('capabilityBody'),
-      dotClassName: 'bg-brand-yellow',
-      imageSrc: '/images/networking/capability-discovery.jpg',
-    },
-    {
-      title: t('peeringTitle'),
-      body: t('peeringBody'),
-      dotClassName: 'bg-accent-steel-teal',
-      imageSrc: '/images/networking/peering-layer.jpg',
-    },
-  ]
-
+export default function NetworkingFeatures({ data }: Props) {
   return (
     <section className="bg-brand-off-white">
       <div className="mx-auto max-w-360 px-3 pt-3 pb-3 md:pt-[100px]">
         <div className="flex flex-col gap-3 md:flex-row md:items-stretch">
-          {cards.map((card) => (
-            <FeatureCard key={card.title} {...card} />
-          ))}
+          {data.cards.map((card, index) =>
+            card.image ? (
+              <FeatureCard
+                key={card.title}
+                title={card.title}
+                body={card.description ?? ''}
+                dotClassName={DOT_CLASSNAMES[index] ?? DOT_CLASSNAMES[0]}
+                imageSrc={card.image.src}
+                imageAlt={card.image.alt}
+              />
+            ) : null,
+          )}
         </div>
       </div>
     </section>
