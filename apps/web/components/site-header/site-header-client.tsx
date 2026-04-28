@@ -63,12 +63,13 @@ export default function SiteHeaderClient({
   const [hasPassedHero, setHasPassedHero] = useState(false)
   const pathname = usePathname()
 
-  const isHome = pathname === ROUTES.home
+  const usesHeroHeaderTone =
+    pathname === ROUTES.home || pathname === ROUTES.book
   const open = () => setIsOpen(true)
   const close = () => setIsOpen(false)
 
   useEffect(() => {
-    if (!isHome) {
+    if (!usesHeroHeaderTone) {
       setHasPassedHero(false)
       return
     }
@@ -85,9 +86,9 @@ export default function SiteHeaderClient({
       window.removeEventListener('scroll', syncHeaderColor)
       window.removeEventListener('resize', syncHeaderColor)
     }
-  }, [isHome])
+  }, [usesHeroHeaderTone])
 
-  const headerToneClass = isHome
+  const headerToneClass = usesHeroHeaderTone
     ? hasPassedHero
       ? 'text-black'
       : 'text-white'
@@ -100,7 +101,7 @@ export default function SiteHeaderClient({
         <div
           className={clsx(
             'grid h-10 grid-cols-3 items-center px-3 transition-colors duration-300',
-            headerToneClass,
+            headerToneClass
           )}
         >
           <a
