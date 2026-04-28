@@ -6,6 +6,12 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { buildConfig } from 'payload'
 
 import { ContentChangeRequests } from './src/collections/ContentChangeRequests'
+import {
+  CircleEvents,
+  CircleInitiatives,
+  CircleResources,
+  Circles,
+} from './src/collections/Circles'
 import { Ideas } from './src/collections/Ideas'
 import { Pages } from './src/collections/Pages'
 import { Rfps } from './src/collections/Rfps'
@@ -71,7 +77,17 @@ export default buildConfig({
   admin: {
     user: Users.slug,
   },
-  collections: [Users, Pages, Rfps, Ideas, ContentChangeRequests],
+  collections: [
+    Users,
+    Pages,
+    Rfps,
+    Ideas,
+    Circles,
+    CircleEvents,
+    CircleInitiatives,
+    CircleResources,
+    ContentChangeRequests,
+  ],
   cors: [serverURL, frontendURL],
   csrf: [serverURL, frontendURL],
   db: postgresAdapter({
