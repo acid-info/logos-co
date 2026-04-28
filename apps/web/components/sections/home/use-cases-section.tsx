@@ -1,12 +1,19 @@
 'use client'
 
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import Image from 'next/image'
 
 import type { CardGridSection } from '@repo/content/schemas'
 
-import { Button, ButtonArrowIcon } from '@/components/ui'
+import { Button } from '@/components/ui'
 import { Link } from '@/i18n/navigation'
+
+const CARD_IMAGE_CLASSNAMES = [
+  'h-[120px] w-24 right-[10px] bottom-[11px]',
+  'h-[77px] w-24 right-[9px] bottom-[11px]',
+  'h-[119px] w-24 right-[10px] bottom-[10px]',
+  'h-[127px] w-24 right-[9px] bottom-[11px]',
+]
 
 function ScrollButton({
   direction,
@@ -43,6 +50,7 @@ interface UseCaseCardProps {
   ctaLabel: string
   imageSrc: string
   imageAlt: string
+  imageClassName: string
 }
 
 function UseCaseCard({
@@ -52,30 +60,33 @@ function UseCaseCard({
   ctaLabel,
   imageSrc,
   imageAlt,
+  imageClassName,
 }: UseCaseCardProps) {
   return (
     <Link
       href={href}
-      className="border-brand-dark-green/10 group flex h-79.25 w-71.25 shrink-0 cursor-pointer flex-col rounded-2xl border p-4 transition-colors hover:bg-gray-01 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark-green md:w-auto"
+      className="group relative h-[317px] w-[345px] shrink-0 cursor-pointer overflow-hidden rounded-xl border border-brand-dark-green/50 bg-brand-off-white transition-colors hover:bg-gray-01 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark-green"
     >
-      <h4 className="text-h4-serif text-brand-dark-green">{title}</h4>
-      <div className="mt-3">
+      <h4 className="text-h4-sans absolute top-2.5 left-[15px] w-[249px] text-brand-dark-green">
+        {title}
+      </h4>
+
+      <div className="absolute top-[82px] left-[15px]">
         <span className="inline-flex items-center justify-center text-brand-dark-green">
           <span className="font-mono text-[10px] leading-[1.35] font-semibold uppercase whitespace-nowrap border-b border-brand-dark-green/50 pb-[2px]">
             {ctaLabel}
           </span>
-          <span className="ml-1 transition-transform group-hover:translate-x-0.5">
-            <ButtonArrowIcon />
-          </span>
         </span>
       </div>
-      <div className="mt-auto flex items-end justify-between gap-4">
-        <p className="text-mono-s text-brand-dark-green/70 max-w-46.5">
-          {description}
-        </p>
-        <div className="bg-brand-dark-green/5 relative h-30 w-24 shrink-0 overflow-hidden rounded-lg">
-          <Image src={imageSrc} alt={imageAlt} fill className="object-cover" />
-        </div>
+
+      <p className="text-mono-s absolute bottom-[15px] left-[15px] w-[186px] text-brand-dark-green">
+        {description}
+      </p>
+
+      <div
+        className={`absolute overflow-hidden bg-brand-dark-green/5 ${imageClassName}`}
+      >
+        <Image src={imageSrc} alt={imageAlt} fill className="object-cover" />
       </div>
     </Link>
   )
@@ -88,57 +99,68 @@ type Props = {
 export default function UseCasesSection({ data }: Props) {
   const scrollRef = useRef<HTMLDivElement>(null)
 
+  useEffect(() => {
+    if (!scrollRef.current) return
+    scrollRef.current.scrollLeft = window.innerWidth >= 768 ? 120 : 0
+  }, [])
+
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
-      const amount = direction === 'left' ? -360 : 360
+      const amount = direction === 'left' ? -357 : 357
       scrollRef.current.scrollBy({ left: amount, behavior: 'smooth' })
     }
   }
 
-  // The header image reuses the first card's image (matches existing render).
-  const headerImage = data.cards[0]?.image
+  const cards = data.cards.flatMap((card, index) =>
+    card.image && card.cta
+      ? [
+          {
+            ...card,
+            image: card.image,
+            cta: card.cta,
+            imageClassName:
+              CARD_IMAGE_CLASSNAMES[index % 4] ?? CARD_IMAGE_CLASSNAMES[0],
+          },
+        ]
+      : []
+  )
 
   return (
     <section
       id="use-cases"
-      className="w-full overflow-hidden bg-brand-off-white py-20 md:py-28"
+      className="relative w-full overflow-hidden bg-brand-off-white md:h-[816px]"
     >
-      <div className="mx-auto max-w-354 px-3">
-        {/* Header row — subheading + subheadingExtra at two desktop columns */}
-        <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+      <div className="px-3 py-16 md:hidden">
+        <div className="flex items-start justify-between gap-4">
+          <div className="relative h-[81px] w-[107px] shrink-0 overflow-hidden">
+            <Image
+              src="/images/technology-stack/use-cases-top.jpg"
+              alt=""
+              fill
+              sizes="107px"
+              className="object-cover"
+            />
+          </div>
           {data.subheading ? (
-            <p className="text-mono-s text-brand-dark-green/70 max-w-56.5">
+            <p className="text-mono-s w-[226px] text-brand-dark-green">
               {data.subheading}
-            </p>
-          ) : null}
-          {data.subheadingExtra ? (
-            <p className="text-mono-s text-brand-dark-green/70 max-w-56.5 md:text-right">
-              {data.subheadingExtra}
             </p>
           ) : null}
         </div>
 
-        {/* Image + title */}
-        {headerImage ? (
-          <div className="mb-2 flex items-start gap-3">
-            <div className="relative h-20.25 w-26.75 shrink-0 overflow-hidden rounded-lg">
-              <Image
-                src={headerImage.src}
-                alt=""
-                fill
-                className="object-cover"
-              />
-            </div>
-          </div>
+        {data.subheadingExtra ? (
+          <p className="text-mono-s mt-6 w-[226px] text-brand-dark-green">
+            {data.subheadingExtra}
+          </p>
         ) : null}
+
         {data.heading ? (
-          <h2 className="text-h1 text-brand-dark-green text-center">
+          <h2 className="text-h2 mt-16 text-center text-brand-dark-green">
             {data.heading}
           </h2>
         ) : null}
 
-        {/* Scroll controls + CTA */}
-        <div className="mt-4 mb-6 flex items-center justify-between">
+        <div className="mt-12 flex items-center justify-between">
           <div className="flex gap-2.5">
             <ScrollButton direction="left" onClick={() => scroll('left')} />
             <ScrollButton direction="right" onClick={() => scroll('right')} />
@@ -147,7 +169,7 @@ export default function UseCasesSection({ data }: Props) {
             <Button
               href={data.cta.href}
               variant="link"
-              icon={<ButtonArrowIcon />}
+              icon={false}
               className="transition-opacity hover:opacity-70"
             >
               {data.cta.label}
@@ -156,25 +178,69 @@ export default function UseCasesSection({ data }: Props) {
         </div>
       </div>
 
-      {/* Cards — horizontal scroll */}
+      <div className="hidden md:block">
+        <div className="absolute top-6 left-3 h-[81px] w-[107px] overflow-hidden">
+          <Image
+            src="/images/technology-stack/use-cases-top.jpg"
+            alt=""
+            fill
+            sizes="107px"
+            className="object-cover"
+          />
+        </div>
+
+        {data.subheading ? (
+          <p className="text-mono-s absolute top-6 left-[calc(50%+6px)] w-[226px] text-brand-dark-green">
+            {data.subheading}
+          </p>
+        ) : null}
+
+        {data.subheadingExtra ? (
+          <p className="text-mono-s absolute top-6 left-[calc(75%+3px)] w-[226px] text-brand-dark-green">
+            {data.subheadingExtra}
+          </p>
+        ) : null}
+
+        {data.heading ? (
+          <h2 className="text-h2 absolute top-[140px] left-1/2 w-[464px] -translate-x-1/2 text-center text-brand-dark-green">
+            {data.heading}
+          </h2>
+        ) : null}
+
+        <div className="absolute top-[269px] left-3 flex gap-2.5">
+          <ScrollButton direction="left" onClick={() => scroll('left')} />
+          <ScrollButton direction="right" onClick={() => scroll('right')} />
+        </div>
+
+        {data.cta ? (
+          <Button
+            href={data.cta.href}
+            variant="link"
+            icon={false}
+            className="absolute top-[272px] left-[calc(54.17%-15px)] -translate-x-1/2 transition-opacity hover:opacity-70"
+          >
+            {data.cta.label}
+          </Button>
+        ) : null}
+      </div>
+
       <div
         ref={scrollRef}
-        className="flex w-full gap-3 overflow-x-auto px-3 pb-4 md:px-[calc((100%-88.5rem)/2+0.75rem)]"
-        style={{ scrollbarWidth: 'none' }}
+        className="flex w-full gap-3 overflow-x-auto px-3 pb-4 md:absolute md:top-[403px] md:left-0 md:px-0"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
-        {data.cards.map((card) =>
-          card.image && card.cta ? (
-            <UseCaseCard
-              key={card.title}
-              title={card.title}
-              description={card.description ?? ''}
-              href={card.cta.href}
-              ctaLabel={card.cta.label}
-              imageSrc={card.image.src}
-              imageAlt={card.image.alt || card.title}
-            />
-          ) : null
-        )}
+        {cards.map((card) => (
+          <UseCaseCard
+            key={`${card.title}-${card.cta.href}`}
+            title={card.title}
+            description={card.description ?? ''}
+            href={card.cta.href}
+            ctaLabel={card.cta.label}
+            imageSrc={card.image.src}
+            imageAlt={card.image.alt || card.title}
+            imageClassName={card.imageClassName}
+          />
+        ))}
       </div>
     </section>
   )

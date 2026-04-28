@@ -25,6 +25,7 @@ interface FeatureCardProps {
   rows: TableRow[]
   bgImage: string
   cardTopOffset: number
+  bgImageClassName?: string
   hasBackdropBlur?: boolean
   priority?: boolean
 }
@@ -40,6 +41,7 @@ function FeatureCard({
   rows,
   bgImage,
   cardTopOffset,
+  bgImageClassName = 'scale-110 object-cover',
   hasBackdropBlur,
   priority = false,
 }: FeatureCardProps) {
@@ -59,10 +61,10 @@ function FeatureCard({
           src={bgImage}
           alt=""
           fill
-          className="scale-110 object-cover"
+          className={bgImageClassName}
           priority={priority}
         />
-        <div className="absolute inset-0 bg-black/20" />
+        <div className="absolute inset-0 bg-black/30" />
 
         <div className="relative z-10 flex h-full w-full">
           {/* Left — eyebrow + description + CTA */}
@@ -77,7 +79,7 @@ function FeatureCard({
                   {eyebrow}
                 </span>
               </div>
-              <p className="text-body-sans w-80 font-medium text-brand-off-white">
+              <p className="w-80 text-[14px] leading-[1.2] font-medium text-brand-off-white">
                 {description}
               </p>
             </div>
@@ -102,14 +104,16 @@ function FeatureCard({
               {rows.map((row, i) => (
                 <div
                   key={i}
-                  className="flex gap-3 border-t border-brand-off-white/50 pt-1.5"
+                  className="flex gap-3 border-t border-brand-off-white/50 pt-1.5 text-brand-off-white"
                 >
                   {row.title && (
-                    <span className="text-eyebrow w-83.25 shrink-0 text-brand-off-white">
+                    <span className="text-eyebrow w-83.25 shrink-0">
                       {row.title}
                     </span>
                   )}
-                  <span className="text-mono-s text-brand-off-white">
+                  <span
+                    className={`text-mono-s ${row.title ? 'flex-1' : 'w-83.25'}`}
+                  >
                     {row.desc}
                   </span>
                 </div>
@@ -155,9 +159,26 @@ export default function FeatureCardsSection() {
               cta={t('node.cta')}
               ctaHref={ROUTES.nodeProgram}
               tableIndex={t('node.number')}
-              tableName={t('node.eyebrow').toLowerCase()}
+              tableName="Node"
               tableLabel={t('node.examples')}
-              rows={[]}
+              rows={[
+                {
+                  title: 'Lorem ipsum',
+                  desc: 'Lorem ipsum dolor sit amet consectetur.',
+                },
+                {
+                  title: 'Dolor si',
+                  desc: 'Sed quis in purus ante nunc nulla habitant fringilla.',
+                },
+                {
+                  title: 'Lorem ipsum dolor',
+                  desc: 'Lorem ipsum dolor sit amet consectetur. Sed quis in purus ante nunc nulla habitant fringilla.',
+                },
+                {
+                  title: 'Amet',
+                  desc: 'Sed quis in purus ante nunc nulla habitant fringilla.',
+                },
+              ]}
               bgImage="/images/home/node-card-bg.webp"
               cardTopOffset={200}
             />
@@ -170,8 +191,30 @@ export default function FeatureCardsSection() {
               tableIndex={t('circles.number')}
               tableName=""
               tableLabel={t('circles.winnableIssues')}
-              rows={[]}
+              rows={[
+                {
+                  title: '',
+                  desc: 'Lorem ipsum dolor sit amet consectetur. Sed quis in purus ante nunc nulla habitant fringilla.',
+                },
+                {
+                  title: '',
+                  desc: 'Scelerisque erat convallis non cursus sagittis turpis. Consectetur in mollis in mattis. Mi imperdiet eget in nunc blandit tristique scelerisque nec.',
+                },
+                {
+                  title: '',
+                  desc: 'Lorem ipsum dolor sit amet consectetur. Sed quis in purus ante nunc nulla habitant fringilla.',
+                },
+                {
+                  title: '',
+                  desc: 'Scelerisque erat convallis non cursus sagittis turpis. Consectetur in mollis in mattis. Mi imperdiet eget in nunc blandit tristique scelerisque nec.',
+                },
+                {
+                  title: '',
+                  desc: 'Lorem ipsum dolor sit amet consectetur. Sed quis in purus ante nunc nulla habitant fringilla. dolor sit amet consectetur. Lectus arcu libero non varius tempus cursus pulvinar massa sed.',
+                },
+              ]}
               bgImage="/images/home/circles-card-bg.webp"
+              bgImageClassName="object-cover object-[50%_78%]"
               cardTopOffset={350}
               hasBackdropBlur
             />
