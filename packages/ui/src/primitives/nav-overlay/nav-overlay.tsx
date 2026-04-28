@@ -223,7 +223,7 @@ export function NavOverlay({
       <div className="grid h-10 grid-cols-3 items-center px-3">
         <LinkAs
           href={logoHref}
-          className="text-eyebrow cursor-pointer tracking-[0.12em] transition-opacity hover:opacity-70"
+          className="text-eyebrow -mx-3 inline-flex min-h-10 cursor-pointer items-center px-3 tracking-[0.12em] transition-opacity hover:opacity-70"
         >
           {logo ?? 'LOGOS'}
         </LinkAs>
@@ -241,7 +241,13 @@ export function NavOverlay({
         </div>
 
         <div className="flex justify-end">
-          <LambdaGlyph />
+          <LinkAs
+            href={logoHref}
+            aria-label="LOGOS"
+            className="-mx-3 inline-flex min-h-10 cursor-pointer items-center px-3 transition-opacity hover:opacity-70"
+          >
+            <LambdaGlyph />
+          </LinkAs>
         </div>
       </div>
 

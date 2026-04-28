@@ -114,7 +114,7 @@ export default function SiteHeaderClient({
         >
           <a
             href={ROUTES.home}
-            className="text-eyebrow w-fit cursor-pointer tracking-[0.12em] transition-opacity hover:opacity-70"
+            className="text-eyebrow -mx-3 inline-flex min-h-10 w-fit cursor-pointer items-center px-3 tracking-[0.12em] transition-opacity hover:opacity-70"
           >
             {closedBar.brandLabel}
           </a>
@@ -132,7 +132,13 @@ export default function SiteHeaderClient({
           </div>
 
           <div className="flex justify-end">
-            <LambdaGlyph className={headerToneClass} />
+            <a
+              href={ROUTES.home}
+              aria-label={closedBar.brandLabel}
+              className="-mx-3 inline-flex min-h-10 cursor-pointer items-center px-3 transition-opacity hover:opacity-70"
+            >
+              <LambdaGlyph className={headerToneClass} />
+            </a>
           </div>
         </div>
       </header>
