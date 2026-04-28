@@ -51,7 +51,7 @@ export function BuildersHubSectionHeader({
       </div>
 
       {/* Mobile layout — eyebrow + CTA stacked on the right side */}
-      <div className="absolute top-0 right-3 flex flex-col items-start gap-3 md:hidden w-[178px] text-right">
+      <div className="absolute top-0 right-3 flex flex-col items-start gap-6 md:hidden w-[178px] text-right">
         {eyebrow ? (
           <p className="font-mono text-[10px] leading-[1.3] text-black w-full">
             {eyebrow}
