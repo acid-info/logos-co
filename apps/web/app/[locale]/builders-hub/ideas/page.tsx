@@ -80,7 +80,7 @@ export default async function IdeasPage({
   return (
     <main className="bg-brand-off-white">
       <section className="bg-brand-off-white md:mb-[100px] md:min-h-[971px]">
-        <div className="mx-auto max-w-360 px-3 pt-20">
+        <div className="mx-auto max-w-360 px-3 pt-10">
           <BuildersHubListingHeader
             title={settings.title}
             description={settings.description}

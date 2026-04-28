@@ -96,8 +96,14 @@ export default function SiteHeaderClient({
 
   return (
     <>
-      {/* Closed nav bar — fixed, sits above page content */}
-      <header className="fixed left-0 right-0 top-0 z-50">
+      {/* Closed nav bar. Hero pages keep the overlay treatment; regular pages
+          reserve the 40px nav height so content starts below the bar. */}
+      <header
+        className={clsx(
+          'left-0 right-0 top-0 z-50',
+          usesHeroHeaderTone ? 'fixed' : 'sticky'
+        )}
+      >
         <div
           className={clsx(
             'grid h-10 grid-cols-3 items-center px-3 transition-colors duration-300',
@@ -117,7 +123,7 @@ export default function SiteHeaderClient({
               onClick={open}
               aria-expanded={isOpen}
               aria-label={closedBar.openAriaLabel}
-              className="text-eyebrow inline-flex cursor-pointer items-center gap-1.5 tracking-[0.08em] transition-opacity hover:opacity-70"
+              className="text-eyebrow -mx-3 inline-flex min-h-10 cursor-pointer items-center gap-1.5 px-3 tracking-[0.08em] transition-opacity hover:opacity-70"
             >
               {closedBar.menuLabel} <HamburgerIcon />
             </button>

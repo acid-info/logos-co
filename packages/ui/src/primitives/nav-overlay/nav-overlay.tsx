@@ -233,7 +233,7 @@ export function NavOverlay({
             type="button"
             onClick={onClose}
             aria-label="Close navigation menu"
-            className="text-eyebrow inline-flex cursor-pointer items-center gap-1.5 tracking-[0.08em] transition-opacity hover:opacity-70"
+            className="text-eyebrow -mx-3 inline-flex min-h-10 cursor-pointer items-center gap-1.5 px-3 tracking-[0.08em] transition-opacity hover:opacity-70"
           >
             {closeMenu}
             <XIcon size={15} className="shrink-0" />
