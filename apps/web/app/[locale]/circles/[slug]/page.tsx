@@ -1,22 +1,31 @@
-import { getTranslations } from 'next-intl/server'
+import { notFound } from 'next/navigation'
 
-import { LogosMark } from '@repo/ui'
+import {
+  getCircleBySlug,
+  getCircleEvents,
+  getCircleInitiatives,
+  getCircles,
+  getCirclesSettings,
+} from '@repo/content/loaders'
+import { isActiveLocale } from '@repo/content/locales'
 
+import { CircleDetailPageView } from '@/components/sections/circles'
 import { ROUTES } from '@/constants/routes'
 import { routing } from '@/i18n/routing'
 import { createDefaultMetadata } from '@/utils/metadata'
 
 export const dynamicParams = false
 
-export function generateStaticParams() {
-  return routing.locales.flatMap((locale) => [{ locale, slug: 'global' }])
-}
+export async function generateStaticParams() {
+  const params: Array<{ locale: string; slug: string }> = []
 
-function slugToCity(slug: string) {
-  return slug
-    .split('-')
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(' ')
+  for (const locale of routing.locales) {
+    if (!isActiveLocale(locale)) continue
+    const circles = await getCircles({ locale, status: 'published' })
+    params.push(...circles.map((circle) => ({ locale, slug: circle.slug })))
+  }
+
+  return params
 }
 
 export async function generateMetadata({
@@ -25,11 +34,14 @@ export async function generateMetadata({
   params: Promise<{ locale: string; slug: string }>
 }) {
   const { locale, slug } = await params
-  const t = await getTranslations({ locale, namespace: 'pages.circleDetail' })
-  const city = slugToCity(slug)
+  if (!isActiveLocale(locale)) {
+    throw new Error(`generateMetadata received non-active locale "${locale}"`)
+  }
+
+  const circle = await getCircleBySlug(slug, locale)
   return createDefaultMetadata({
-    title: t('title', { city }),
-    description: t('description', { city }),
+    title: `${circle.name} Circle`,
+    description: circle.description,
     locale,
     path: ROUTES.circle(slug),
   })
@@ -41,14 +53,31 @@ export default async function CircleDetailPage({
   params: Promise<{ locale: string; slug: string }>
 }) {
   const { locale, slug } = await params
-  const t = await getTranslations({ locale, namespace: 'pages.circleDetail' })
-  const city = slugToCity(slug)
-  return (
-    <div className="px-3 pt-16 pb-12">
-      <h1 className="text-h2 flex items-center gap-3 text-brand-dark-green">
-        <LogosMark size={40} className="shrink-0" />
-        {t('heading', { city })}
-      </h1>
-    </div>
-  )
+  if (!isActiveLocale(locale)) {
+    throw new Error(`CircleDetailPage received non-active locale "${locale}"`)
+  }
+
+  try {
+    const [circle, settings, events, initiatives] = await Promise.all([
+      getCircleBySlug(slug, locale),
+      getCirclesSettings(locale),
+      getCircleEvents({ circleSlug: slug, locale, status: 'published' }),
+      getCircleInitiatives({ circleSlug: slug, locale, status: 'published' }),
+    ])
+
+    return (
+      <CircleDetailPageView
+        circle={circle}
+        events={events}
+        initiatives={initiatives}
+        settings={settings}
+        locale={locale}
+      />
+    )
+  } catch (error) {
+    if (error instanceof Error && error.message.includes('failed to read')) {
+      notFound()
+    }
+    throw error
+  }
 }
