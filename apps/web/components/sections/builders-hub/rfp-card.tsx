@@ -2,7 +2,6 @@ import Image from 'next/image'
 
 import type { Rfp } from '@repo/content/loaders'
 
-import { Button } from '@/components/ui'
 import { Link } from '@/i18n/navigation'
 import { ROUTES } from '@/constants/routes'
 
@@ -22,23 +21,23 @@ export function RfpCard({ rfp }: Props) {
   const blurb = rfp.tagline ?? rfp.summary
 
   return (
-    <article className="relative w-[345px] h-[317px] rounded-[12px] border border-brand-dark-green/50 overflow-hidden bg-brand-off-white shrink-0">
+    <Link
+      href={detailHref}
+      className="group relative block w-[345px] h-[317px] rounded-[12px] border border-brand-dark-green/50 overflow-hidden bg-brand-off-white shrink-0 transition-colors hover:bg-gray-01 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark-green"
+    >
       {/* Title */}
-      <Link
-        href={detailHref}
-        className="absolute left-4 top-4 w-[249px] cursor-pointer"
-      >
+      <div className="absolute left-4 top-4 w-[249px]">
         <h3 className="font-sans text-[24px] font-normal leading-[1.1] tracking-tight text-brand-dark-green">
           {rfp.title}
         </h3>
-      </Link>
+      </div>
 
       {/* CTA */}
-      <div className="absolute left-4 top-[83px]">
-        <Button href={detailHref} variant="link">
-          {rfp.ctaLabel ?? 'Learn more'}
-        </Button>
-      </div>
+      <span className="absolute left-4 top-[83px] inline-flex items-center justify-center text-brand-dark-green">
+        <span className="font-mono text-[10px] leading-[1.35] font-semibold uppercase whitespace-nowrap border-b border-brand-dark-green/50 pb-[2px]">
+          Learn More
+        </span>
+      </span>
 
       {/* Image */}
       {rfp.image ? (
@@ -57,6 +56,6 @@ export function RfpCard({ rfp }: Props) {
       <p className="absolute left-4 bottom-4 w-[186px] font-mono text-[10px] leading-[1.3] text-brand-dark-green">
         {blurb}
       </p>
-    </article>
+    </Link>
   )
 }

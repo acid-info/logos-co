@@ -10,7 +10,8 @@
   },
   "sitemap": [
     { "label": "Technology Stack", "href": "/technology-stack" },
-    { "label": "Take Action", "href": "/take-action" },
+    { "label": "Movement", "href": "/take-action" },
+    { "label": "Builders Hub", "href": "/builders-hub" },
     { "label": "Logos Circles", "href": "/circles" },
     { "label": "Book", "href": "/book" },
     { "label": "Links", "href": "/links" }

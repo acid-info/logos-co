@@ -1,7 +1,7 @@
 import type { BuilderResource } from '@repo/content/loaders'
 import type { BuilderHubSettings } from '@repo/content/schemas'
 
-import { Button } from '@/components/ui'
+import { Link } from '@/i18n/navigation'
 
 import { BuildersHubSectionHeader } from './section-header'
 
@@ -54,50 +54,46 @@ function ResourceRow({
 
   return (
     <li className={`${bg} relative w-full`}>
-      {/* Mobile: 58 px */}
-      <div className="relative h-[58px] md:hidden">
-        <p className="absolute top-3 left-3 font-sans text-[14px] leading-[1.2] text-brand-dark-green">
-          <span className="font-medium">{indexLabel}</span>
-          <span className="ml-3 font-display">{resource.title}</span>
-        </p>
-        <div className="absolute top-3 right-3">
-          <Button
-            href={resource.href}
-            variant="link"
-            {...(isExternal
-              ? { target: '_blank', rel: 'noopener noreferrer' }
-              : {})}
-          >
-            {resource.ctaLabel}
-          </Button>
+      <Link
+        href={resource.href}
+        className="group block transition-colors hover:bg-brand-dark-green/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-brand-dark-green"
+        {...(isExternal
+          ? { target: '_blank', rel: 'noopener noreferrer' }
+          : {})}
+      >
+        {/* Mobile: 58 px */}
+        <div className="relative h-[58px] md:hidden">
+          <p className="absolute top-3 left-3 font-sans text-[14px] leading-[1.2] text-brand-dark-green">
+            <span className="font-medium">{indexLabel}</span>
+            <span className="ml-3 font-display">{resource.title}</span>
+          </p>
+          <span className="absolute top-3 right-3 inline-flex items-center justify-center text-brand-dark-green">
+            <span className="font-mono text-[10px] leading-[1.35] font-semibold uppercase whitespace-nowrap border-b border-brand-dark-green/50 pb-[2px]">
+              {resource.ctaLabel}
+            </span>
+          </span>
         </div>
-      </div>
 
-      {/* Desktop: 50 px */}
-      <div className="relative hidden h-[50px] md:block">
-        <div className="absolute top-3 left-3 flex items-baseline gap-3">
-          <span className="font-sans text-[14px] font-medium leading-[1.2] text-brand-dark-green w-[18px]">
-            {indexLabel}
-          </span>
-          <span className="font-display text-[14px] leading-[1.2] text-brand-dark-green whitespace-nowrap">
-            {resource.title}
+        {/* Desktop: 50 px */}
+        <div className="relative hidden h-[50px] md:block">
+          <div className="absolute top-3 left-3 flex items-baseline gap-3">
+            <span className="font-sans text-[14px] font-medium leading-[1.2] text-brand-dark-green w-[18px]">
+              {indexLabel}
+            </span>
+            <span className="font-display text-[14px] leading-[1.2] text-brand-dark-green whitespace-nowrap">
+              {resource.title}
+            </span>
+          </div>
+          <p className="absolute top-3 left-[50%] translate-x-[6px] w-[312px] font-mono text-[10px] leading-[1.3] text-brand-dark-green">
+            {resource.description}
+          </p>
+          <span className="absolute top-3 left-[83.33%] translate-x-[2px] inline-flex items-center justify-center text-brand-dark-green">
+            <span className="font-mono text-[10px] leading-[1.35] font-semibold uppercase whitespace-nowrap border-b border-brand-dark-green/50 pb-[2px]">
+              {resource.ctaLabel}
+            </span>
           </span>
         </div>
-        <p className="absolute top-3 left-[50%] translate-x-[6px] w-[312px] font-mono text-[10px] leading-[1.3] text-brand-dark-green">
-          {resource.description}
-        </p>
-        <div className="absolute top-3 left-[83.33%] translate-x-[2px]">
-          <Button
-            href={resource.href}
-            variant="link"
-            {...(isExternal
-              ? { target: '_blank', rel: 'noopener noreferrer' }
-              : {})}
-          >
-            {resource.ctaLabel}
-          </Button>
-        </div>
-      </div>
+      </Link>
     </li>
   )
 }

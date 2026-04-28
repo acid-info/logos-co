@@ -49,9 +49,9 @@
   ],
   "rfpsSection": {
     "title": "RFPs",
-    "description": "Funded calls for builders to ship Logos-powered applications.",
+    "description": "Lorem ipsum dolor si amet.",
     "filterCta": { "label": "Filter", "href": "/builders-hub/rfps?filter=open" },
-    "seeAllCta": { "label": "See all RFPs", "href": "/builders-hub/rfps" },
+    "seeAllCta": { "label": "Explore RFPs", "href": "/builders-hub/rfps" },
     "submitCta": {
       "label": "Submit an RFP",
       "href": "https://forms.logos.co/rfp",
@@ -90,7 +90,7 @@
     "accent": "grey",
     "imagePosition": "left",
     "title": "Install the Logos app.",
-    "description": "The Logos App is a complete distribution that bundles the kernel, default modules, and UI packages into a usable product. It provides the primary user interface, hosting Simple Apps that let users interact with the various modules.",
+    "description": "The Logos App is a a complete distribution that bundles the kernel, the default modules, and UI packages into a usable product. It provides the primary user interface, hosting \"Simple Apps\" that let users interact with the various modules:",
     "tags": [
       { "label": "Wallet", "icon": "wallet" },
       { "label": "Chat Interface", "icon": "chat" },
