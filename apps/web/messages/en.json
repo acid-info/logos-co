@@ -145,7 +145,51 @@
     "about": {
       "title": "About | Logos",
       "description": "Logos is on a mission to revitalize Civil Society. A community of builders, activists, and change seekers contributing in a wide variety of ways.",
-      "heading": "Logos is on a mission to revitalize Civil Society."
+      "heading": "Logos is on a mission to revitalize Civil Society.",
+      "hero": {
+        "title": "Logos is on a mission to revitalize Civil Society."
+      },
+      "community": {
+        "eyebrow": "A global community committed to driving change",
+        "body": "We are a community of builders, activists, and change seekers who contribute in a wide variety of ways.",
+        "cta": "Join a circle"
+      },
+      "initiative": {
+        "caption": "Our lorem ipsum initiative dolor si amet."
+      },
+      "whoWeAre": {
+        "title": "Who We Are",
+        "eyebrow": "Lorem Ipsum",
+        "taglineLine1": "Lorem ipsum dolor.",
+        "taglineLine2": "Si amet.",
+        "useCasesLabel": "Use Cases",
+        "useCase1Label": "Your own bank",
+        "useCase1Body": "Build a bank powered by logic you've programmedd",
+        "useCase2Label": "Your own currency",
+        "useCase2Body": "Create tokens that you can transfer and use across applications",
+        "useCase3Label": "A JavaScript Lorem Ipsum wallet",
+        "useCase3Body": "Use existing languages to interact with Lorem Ipsum and other applications",
+        "useCase4Label": "An open, permissionless DNS",
+        "useCase4Body": "Re-imagine existing services as decentralized, open applications",
+        "historyTitle": "Our History",
+        "historyBody": "Logos was created to give people the tools to live soverign lives.",
+        "principlesTitle": "Our Principles",
+        "principlesBody": "Our mission is to empower individuals to achieve their aspirations and create a better future for all.  Where freedom, liberty, and human sovereignty are protected, and censorship resistance is ensured.",
+        "principlesAside": "(Mission, Vision, Prinicples)",
+        "howWeWorkTitle": "How We Work",
+        "howWeWorkBody": "We build decentralised technology and inspire change. We work with local communities to use our technology to build the tools they need.",
+        "howWeWorkCta": "See our process"
+      },
+      "ourWork": {
+        "title": "Our Work",
+        "body": "We build the tools for people to create what they need. We create the underlying technology. People all over the world have created amazing applications specific to their needs.",
+        "ctaAll": "All Case Studies",
+        "cardEyebrow": "Case Study",
+        "cardCta": "Learn More",
+        "card1Title": "Logos-Powered Nextdoor App Clone",
+        "card2Title": "Digital ID Replacement with Logos",
+        "cardBody": "Lorem ipsum dolor sit amet consectetur. At vulputate volutpat amet vitae morbi. Laoreet cursus magna arcu consectetur scelerisque natoque pretium proin. Nec vivamus pellentesque senectus iaculis tristique odio.\n\nDolor sit amet consectetur. At vulputate volutpat amet vitae morbi. Laoreet cursus magna arcu consectetur scelerisque natoque pretium proin. Nec vivamus pellentesque senectus iaculis tristique odio.\n\nAt vulputate volutpat amet vitae morbi. Laoreet cursus magna arcu consectetur scelerisque natoque pretium proin. Nec vivamus pellentesque senectus iaculis tristique odio. Lorem ipsum dolor sit amet consectetur."
+      }
     },
     "faq": {
       "title": "FAQ | Logos",

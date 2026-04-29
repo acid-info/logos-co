@@ -13,7 +13,7 @@ export default async function AboutSection({ locale }: { locale: string }) {
     >
       <div className="mx-auto grid max-w-[1416px] grid-cols-1 gap-10 py-16 md:h-[776px] md:grid-cols-[minmax(0,1fr)_minmax(320px,583px)] md:gap-6 md:py-0">
         <div className="flex items-center px-3 md:px-0">
-          <blockquote className="text-h2 max-w-[528px] bg-[linear-gradient(90deg,#5f8fbd_0%,#385a78_58%,rgba(21,37,33,0.28)_100%)] bg-clip-text text-transparent md:ml-[30px]">
+          <blockquote className="text-h2 max-w-142.75 bg-[linear-gradient(90deg,#5f8fbd_0%,#385a78_58%,rgba(21,37,33,0.28)_100%)] bg-clip-text text-transparent md:ml-[30px]">
             {t('quote')}
           </blockquote>
         </div>

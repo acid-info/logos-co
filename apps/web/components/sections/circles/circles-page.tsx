@@ -97,7 +97,9 @@ function SectionIntro({
           href={cta.href}
           variant="link"
           className="col-start-2 w-fit self-start md:col-span-2 md:col-start-11"
-          {...(cta.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+          {...(cta.external
+            ? { target: '_blank', rel: 'noopener noreferrer' }
+            : {})}
         >
           {cta.label}
         </Button>
@@ -163,10 +165,9 @@ function CirclesHero({
       <div className="mx-auto flex max-w-360 flex-col">
         <div className="absolute inset-x-0 top-[130px] flex justify-center md:relative md:top-auto md:mt-[119px]">
           <h1 className="flex items-center gap-2 font-display text-[40px] leading-none text-brand-dark-green md:text-[48px]">
-            <span className="flex size-[41px] items-center justify-center rounded-full border border-brand-dark-green/50 md:size-[23px]">
-              <LogosMark size={16} className="text-brand-dark-green md:hidden" />
+            <span className="flex size-[41px] items-center justify-center rounded-full border border-brand-dark-green/50 md:size-[41px]">
               <LogosMark
-                size={9}
+                size={16}
                 className="hidden text-brand-dark-green md:inline-block"
               />
             </span>
@@ -310,7 +311,8 @@ function EventsSection({
             className="grid gap-3 border-t border-brand-dark-green/10 px-3 pt-3 md:grid-cols-12"
           >
             <p className="text-eyebrow text-brand-dark-green md:col-span-2">
-              {group.date} <span className="font-normal">/ {group.weekday}</span>
+              {group.date}{' '}
+              <span className="font-normal">/ {group.weekday}</span>
             </p>
             <div className="flex flex-col gap-3 md:col-span-8 md:col-start-3 md:flex-row md:flex-wrap">
               {group.events.map((event) => (
@@ -414,7 +416,11 @@ function ResourcesSection({
                 index % 2 === 0 ? 'bg-gray-01' : 'bg-brand-dark-green/5'
               }`}
               target={isExternalHref(resource.href) ? '_blank' : undefined}
-              rel={isExternalHref(resource.href) ? 'noopener noreferrer' : undefined}
+              rel={
+                isExternalHref(resource.href)
+                  ? 'noopener noreferrer'
+                  : undefined
+              }
             >
               <div className="flex gap-3 md:col-span-4">
                 <span className="w-[26px] font-sans text-[14px] font-medium leading-[1.2]">

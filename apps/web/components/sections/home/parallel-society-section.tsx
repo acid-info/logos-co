@@ -107,7 +107,7 @@ export default function ParallelSocietySection({ headline, gallery }: Props) {
           <span className="text-brand-dark-green">
             {headline.title.highlight}{' '}
           </span>
-          <span className="text-brand-dark-green/50">
+          <span className="text-gray-04">
             {headline.title.rest}
           </span>
         </h2>

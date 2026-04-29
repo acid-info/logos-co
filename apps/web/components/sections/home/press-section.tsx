@@ -156,7 +156,7 @@ export default function PressSection({ data, articles }: Props) {
             ) : null}
           </div>
 
-          <h2 className="text-h1 text-brand-dark-green mt-[65px] text-center">
+          <h2 className="text-h2 text-brand-dark-green mt-[65px] text-center">
             {data.title}
           </h2>
 

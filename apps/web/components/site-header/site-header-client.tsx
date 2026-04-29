@@ -61,7 +61,8 @@ export default function SiteHeaderClient({
 
   const usesHeroHeaderTone =
     normalizedPathname === ROUTES.home ||
-    normalizedPathname.endsWith(ROUTES.book)
+    normalizedPathname.endsWith(ROUTES.book) ||
+    normalizedPathname.endsWith(ROUTES.about)
   const usesTransparentHeader = normalizedPathname.endsWith(ROUTES.press)
   const usesOverlayHeader = usesHeroHeaderTone || usesTransparentHeader
   const open = () => setIsOpen(true)

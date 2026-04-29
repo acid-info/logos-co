@@ -28,14 +28,7 @@ export default function MessagingHero({ data, backHref }: Props) {
         </Link>
 
         <div className="absolute top-30 left-3 flex items-center gap-3 md:gap-3">
-          <LogosMark
-            size={26}
-            className="hidden shrink-0 text-brand-dark-green md:block"
-          />
-          <LogosMark
-            size={22}
-            className="shrink-0 text-brand-dark-green md:hidden"
-          />
+          <LogosMark size={26} className="shrink-0 text-gray-03" />
           <h1 className="text-h3-serif leading-none text-brand-dark-green">
             {data.headline}
           </h1>

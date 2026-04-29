@@ -48,7 +48,7 @@ export default function HeroSectionView({ data }: Props) {
         style={{ opacity: contentOpacity }}
       >
         <motion.h1
-          className="text-hero text-brand-off-white mt-41.25 w-full text-center leading-[0.95]"
+          className="text-hero text-brand-off-white mt-41.25 w-full text-center leading-[0.95] whitespace-pre-line"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1], delay: 0.3 }}

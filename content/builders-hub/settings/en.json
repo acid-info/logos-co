@@ -14,14 +14,14 @@
       "key": "ideas",
       "title": "Ideas",
       "description": "Community-submitted concepts driving sovereignty forward.",
-      "primaryCta": { "label": "Learn more", "href": "/builders-hub/ideas#about" },
+      "primaryCta": { "label": "Learn more", "href": "/builders-hub/ideas" },
       "secondaryCta": { "label": "View now", "href": "/builders-hub/ideas" }
     },
     {
       "key": "rfps",
       "title": "RFPs",
       "description": "Funded calls for builders to ship privacy-first decentralised applications.",
-      "primaryCta": { "label": "Learn more", "href": "/builders-hub/rfps#about" },
+      "primaryCta": { "label": "Learn more", "href": "/builders-hub/rfps" },
       "secondaryCta": { "label": "View now", "href": "/builders-hub/rfps" }
     },
     {
@@ -50,7 +50,10 @@
   "rfpsSection": {
     "title": "RFPs",
     "description": "Lorem ipsum dolor si amet.",
-    "filterCta": { "label": "Filter", "href": "/builders-hub/rfps?filter=open" },
+    "filterCta": {
+      "label": "Filter",
+      "href": "/builders-hub/rfps?filter=open"
+    },
     "seeAllCta": { "label": "Explore RFPs", "href": "/builders-hub/rfps" },
     "submitCta": {
       "label": "Submit an RFP",

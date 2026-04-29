@@ -32,7 +32,7 @@ export default function NetworkingHero({ data, backHref }: Props) {
         {/* Desktop: title left, body right, Logos app button below body */}
         <div className="relative hidden md:block md:h-29.75">
           <div className="absolute top-0 left-0 flex items-center gap-3">
-            <LogosMark size={26} className="shrink-0 text-brand-dark-green" />
+            <LogosMark size={26} className="shrink-0 text-gray-03" />
             <span className="text-h3-serif leading-none text-brand-dark-green">
               {data.headline}
             </span>
@@ -56,7 +56,7 @@ export default function NetworkingHero({ data, backHref }: Props) {
         {/* Mobile: vertical stack */}
         <div className="flex flex-col gap-15.5 md:hidden">
           <div className="flex items-center gap-3">
-            <LogosMark size={22} className="shrink-0 text-brand-dark-green" />
+            <LogosMark size={26} className="shrink-0 text-gray-03" />
             <span className="text-h3-serif leading-none text-brand-dark-green">
               {data.headline}
             </span>

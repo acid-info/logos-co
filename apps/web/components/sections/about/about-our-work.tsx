@@ -1,0 +1,112 @@
+import Image from 'next/image'
+import { getTranslations } from 'next-intl/server'
+
+import { LogosMark } from '@repo/ui'
+
+import { Button } from '@/components/ui'
+
+/**
+ * About — "Our Work" section. Top intro row (mark + body + "All Case Studies"
+ * link), large centered "Our Work" h2, then two side-by-side case-study
+ * cards.
+ *
+ * Figma desktop 40009046:27358 (mobile collapses to a vertical card stack).
+ */
+export async function AboutOurWork() {
+  const t = await getTranslations('pages.about.ourWork')
+
+  return (
+    <section className="bg-brand-off-white pt-6 pb-24 md:pt-6 md:pb-[100px]">
+      <div className="flex flex-col items-center gap-10 px-3 md:gap-[100px]">
+        <div className="flex w-full max-w-[1416px] flex-col gap-10">
+          <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between md:gap-[131px]">
+            <div className="relative h-[81px] w-[107px] shrink-0 overflow-hidden">
+              <Image
+                src="/images/about/work-mark.webp"
+                alt=""
+                fill
+                sizes="107px"
+                className="object-cover"
+              />
+            </div>
+
+            <div className="flex flex-col gap-6 md:flex-row md:items-start md:gap-[131px]">
+              <p className="text-mono-s text-brand-dark-green md:max-w-[226px]">
+                {t('body')}
+              </p>
+              <Button href="#" variant="link" className="self-start">
+                {t('ctaAll')}
+              </Button>
+            </div>
+          </div>
+
+          <h2 className="text-h2 text-brand-dark-green text-center">
+            {t('title')}
+          </h2>
+        </div>
+
+        <div className="grid w-full max-w-[1440px] grid-cols-1 gap-3 md:grid-cols-2">
+          <Card
+            eyebrow={t('cardEyebrow')}
+            title={t('card1Title')}
+            body={t('cardBody')}
+            cta={t('cardCta')}
+            image="/images/about/case-1.webp"
+            imageRatio="aspect-[4/5]"
+          />
+          <Card
+            eyebrow={t('cardEyebrow')}
+            title={t('card2Title')}
+            body={t('cardBody')}
+            cta={t('cardCta')}
+            image="/images/about/case-2.webp"
+            imageRatio="aspect-[5/4]"
+          />
+        </div>
+      </div>
+    </section>
+  )
+}
+
+type CardProps = {
+  eyebrow: string
+  title: string
+  body: string
+  cta: string
+  image: string
+  imageRatio: string
+}
+
+function Card({ eyebrow, title, body, cta, image, imageRatio }: CardProps) {
+  return (
+    <article className="relative flex h-[406px] flex-col rounded-[12px] border border-brand-dark-green/50 p-[11px]">
+      <header className="flex items-center gap-3">
+        <LogosMark size={10} className="text-brand-dark-green" />
+        <p className="text-eyebrow text-brand-dark-green">{eyebrow}</p>
+      </header>
+
+      <div className="mt-auto flex flex-col gap-6">
+        <h3 className="text-subhead-sans text-brand-dark-green max-w-[228px]">
+          {title}
+        </h3>
+        <p className="text-mono-s text-brand-dark-green whitespace-pre-line">
+          {body}
+        </p>
+      </div>
+
+      <div
+        className={`absolute right-[11px] bottom-[11px] w-[96px] overflow-hidden ${imageRatio}`}
+      >
+        <Image src={image} alt="" fill sizes="96px" className="object-cover" />
+      </div>
+
+      <Button
+        href="#"
+        variant="primary"
+        className="absolute top-[11px] right-[11px]"
+      >
+        {cta}
+      </Button>
+    </article>
+  )
+}

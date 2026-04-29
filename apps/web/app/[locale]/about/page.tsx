@@ -1,5 +1,12 @@
 import { getTranslations } from 'next-intl/server'
-import { LogosMark } from '@repo/ui'
+
+import {
+  AboutCommunity,
+  AboutHero,
+  AboutInitiative,
+  AboutOurWork,
+  AboutWhoWeAre,
+} from '@/components/sections/about'
 import { ROUTES } from '@/constants/routes'
 import { createDefaultMetadata } from '@/utils/metadata'
 
@@ -18,19 +25,14 @@ export async function generateMetadata({
   })
 }
 
-export default async function AboutPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>
-}) {
-  const { locale } = await params
-  const t = await getTranslations({ locale, namespace: 'pages.about' })
+export default async function AboutPage() {
   return (
-    <div className="px-3 pt-16 pb-12">
-      <h1 className="text-h2 flex items-center gap-3 text-brand-dark-green">
-        <LogosMark size={40} className="shrink-0" />
-        {t('heading')}
-      </h1>
-    </div>
+    <>
+      <AboutHero />
+      <AboutCommunity />
+      <AboutInitiative />
+      <AboutWhoWeAre />
+      <AboutOurWork />
+    </>
   )
 }
