@@ -5,8 +5,8 @@
  * text color (`text-brand-dark-green`, `text-brand-off-white`, etc.) —
  * no separate black/white variants needed.
  *
- * Original viewBox is 93×126 (aspect ratio ≈ 0.738).
- * Default render size is 14px tall (≈ 10×14). Pass `size` to scale
+ * Original viewBox is 20×26 (aspect ratio ≈ 0.769).
+ * Default render size is 14px tall (≈ 11×14). Pass `size` to scale
  * uniformly, or override `width` / `height` individually.
  */
 import type { CSSProperties, HTMLAttributes } from 'react'
@@ -31,7 +31,7 @@ export function LogosMark({
   const computedWidth =
     width ??
     (typeof computedHeight === 'number'
-      ? (computedHeight * 93) / 126
+      ? (computedHeight * 20) / 26
       : undefined)
 
   const maskStyle = {

@@ -148,6 +148,7 @@ function PressCard({
     <LinkAs
       href={item.href}
       onClick={onClose}
+      target="_blank"
       className="flex w-41.5 shrink-0 cursor-pointer flex-col gap-1.5 transition-opacity hover:opacity-70 md:w-auto"
     >
       {/* Thumbnail — 166×211 portrait per Figma */}

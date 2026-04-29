@@ -1,4 +1,4 @@
-import { LogosMark } from '@repo/ui'
+import Image from 'next/image'
 import type { BuilderHubSettings } from '@repo/content/schemas'
 
 import { Button } from '@/components/ui'
@@ -8,8 +8,9 @@ type Props = {
 }
 
 /**
- * Builders Hub hero — λ logomark top-left, eyebrow + optional top-right CTA at
- * top, large two-line title centered (desktop) / left-aligned (mobile).
+ * Builders Hub hero — top-left blurred photo (desktop), eyebrow + optional
+ * top-right CTA at top, large two-line title centered (desktop) / left-aligned
+ * (mobile).
  *
  * Figma desktop node 40009046:23949 — frame 1440 × 727; mobile 40009046:23765
  * — frame 393 × 857.
@@ -17,9 +18,19 @@ type Props = {
 export function BuildersHubHero({ hero }: Props) {
   return (
     <div className="relative w-full pt-6 md:h-[337px]">
-      {/* λ mark, top-left */}
-      <div className="absolute left-3 top-6">
-        <LogosMark size={75} className="text-brand-dark-green" />
+      {/* Top-left photo — desktop only. Outer box clips a 125×157 source down to
+          a 107×75 viewport, with a 30% black overlay (Figma 40009046:24005). */}
+      <div className="absolute top-6 left-3 hidden h-[75px] w-[107px] overflow-hidden md:block">
+        <div className="absolute -top-[29px] -left-[7px] h-[157px] w-[125px]">
+          <Image
+            src="/images/builders-hub/hero.webp"
+            alt=""
+            fill
+            sizes="125px"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-black/30" />
+        </div>
       </div>
 
       {/* Eyebrow — desktop center / mobile right */}

@@ -57,9 +57,13 @@ export default function SiteHeaderClient({
   const [isOpen, setIsOpen] = useState(false)
   const [hasPassedHero, setHasPassedHero] = useState(false)
   const pathname = usePathname()
+  const normalizedPathname = pathname.replace(/\/$/, '') || ROUTES.home
 
   const usesHeroHeaderTone =
-    pathname === ROUTES.home || pathname === ROUTES.book
+    normalizedPathname === ROUTES.home ||
+    normalizedPathname.endsWith(ROUTES.book)
+  const usesTransparentHeader = normalizedPathname.endsWith(ROUTES.press)
+  const usesOverlayHeader = usesHeroHeaderTone || usesTransparentHeader
   const open = () => setIsOpen(true)
   const close = () => setIsOpen(false)
 
@@ -103,7 +107,7 @@ export default function SiteHeaderClient({
       <header
         className={clsx(
           'left-0 right-0 top-0 z-50',
-          usesHeroHeaderTone ? 'fixed' : 'sticky'
+          usesOverlayHeader ? 'fixed' : 'sticky'
         )}
       >
         <div

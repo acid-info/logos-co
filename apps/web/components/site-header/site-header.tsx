@@ -18,50 +18,42 @@ import type {
   NavOverlayPressItem,
 } from '@repo/ui'
 
-import SiteHeaderClient from './site-header-client'
+import { getLatestPressArticles } from '@/lib/press-engine'
 
-const formatPressDateUTC = (iso: string): string => {
-  const parts = new Intl.DateTimeFormat('en-US', {
-    timeZone: 'UTC',
-    year: '2-digit',
-    month: '2-digit',
-    day: '2-digit',
-  }).formatToParts(new Date(iso))
-  const month = parts.find((p) => p.type === 'month')?.value ?? ''
-  const day = parts.find((p) => p.type === 'day')?.value ?? ''
-  const year = parts.find((p) => p.type === 'year')?.value ?? ''
-  return `${month}.${day}.${year}`
-}
+import SiteHeaderClient from './site-header-client'
 
 export default async function SiteHeader({ locale }: { locale: string }) {
   if (!isActiveLocale(locale)) {
     throw new Error(`SiteHeader received non-active locale "${locale}"`)
   }
-  const navigation = await getNavigation(locale)
+  const [navigation, latestPressArticles] = await Promise.all([
+    getNavigation(locale),
+    getLatestPressArticles(4),
+  ])
 
   const sitemap: NavOverlayLink[] = navigation.sitemap
 
-  const community: NavOverlayCommunityCard[] = navigation.communityCards.map((card) => ({
-    label: card.label,
-    href: card.href,
-    description: card.description,
-    image: (
-      <Image
-        src={card.image.src}
-        alt={card.image.alt}
-        fill
-        sizes="(max-width: 768px) 100vw, 33vw"
-      />
-    ),
-  }))
+  const community: NavOverlayCommunityCard[] = navigation.communityCards.map(
+    (card) => ({
+      label: card.label,
+      href: card.href,
+      description: card.description,
+      image: (
+        <Image
+          src={card.image.src}
+          alt={card.image.alt}
+          fill
+          sizes="(max-width: 768px) 100vw, 33vw"
+        />
+      ),
+    })
+  )
 
-  const press: NavOverlayPressItem[] = navigation.press.articles.map((article) => ({
-    date: article.displayDate ?? formatPressDateUTC(article.publishedAt),
+  const press: NavOverlayPressItem[] = latestPressArticles.map((article) => ({
+    date: article.galleryDate,
     headline: article.title,
-    href: article.externalUrl,
-    image: (
-      <Image src={article.image.src} alt={article.image.alt} fill sizes="160px" />
-    ),
+    href: article.href,
+    image: <Image src={article.image} alt="" fill sizes="160px" />,
   }))
 
   return (
