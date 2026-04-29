@@ -1,23 +1,10 @@
 import Image from 'next/image'
 
-import type { PressArticle } from '@repo/content/loaders'
 import type { RelatedArticlesSection } from '@repo/content/schemas'
 
 import { Button, ButtonArrowIcon } from '@/components/ui'
 import { Link } from '@/i18n/navigation'
-
-const formatPressDateUTC = (iso: string): string => {
-  const parts = new Intl.DateTimeFormat('en-US', {
-    timeZone: 'UTC',
-    year: '2-digit',
-    month: '2-digit',
-    day: '2-digit',
-  }).formatToParts(new Date(iso))
-  const month = parts.find((p) => p.type === 'month')?.value ?? ''
-  const day = parts.find((p) => p.type === 'day')?.value ?? ''
-  const year = parts.find((p) => p.type === 'year')?.value ?? ''
-  return `${month}.${day}.${year}`
-}
+import type { PressArticleRow } from '@/lib/press-engine'
 
 interface PressCardProps {
   title: string
@@ -112,18 +99,18 @@ function CardBody({
 
 type Props = {
   data: RelatedArticlesSection
-  articles: PressArticle[]
+  articles: PressArticleRow[]
 }
 
 export default function PressSection({ data, articles }: Props) {
   const cards = articles.map((article) => ({
     title: article.title,
-    imageSrc: article.image.src,
-    imageAlt: article.image.alt || article.title,
-    date: article.displayDate ?? formatPressDateUTC(article.publishedAt),
-    author: article.author?.name ?? '',
-    href: article.externalUrl,
-    external: article.externalUrl.startsWith('https://'),
+    imageSrc: article.image,
+    imageAlt: article.title,
+    date: article.galleryDate,
+    author: article.author,
+    href: article.href,
+    external: article.href.startsWith('https://'),
   }))
 
   return (

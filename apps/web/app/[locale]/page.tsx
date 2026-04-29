@@ -1,4 +1,4 @@
-import { getPageCopy, resolvePressList } from '@repo/content/loaders'
+import { getPageCopy } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
 import type {
   CardGridSection,
@@ -21,6 +21,7 @@ import TechStackSection from '@/components/sections/home/tech-stack-section'
 import UseCasesSection from '@/components/sections/home/use-cases-section'
 
 import { ROUTES } from '@/constants/routes'
+import { getLatestPressArticles } from '@/lib/press-engine'
 import { createDefaultMetadata } from '@/utils/metadata'
 
 const ROUTE = ROUTES.home
@@ -46,9 +47,11 @@ export async function generateMetadata({
 const findSection = <T extends { componentType: string; key: string }>(
   sections: ReadonlyArray<{ componentType: string; key: string }>,
   componentType: T['componentType'],
-  key: string,
+  key: string
 ): T => {
-  const found = sections.find((s) => s.componentType === componentType && s.key === key)
+  const found = sections.find(
+    (s) => s.componentType === componentType && s.key === key
+  )
   if (!found) {
     throw new Error(`home page section not found: ${componentType} "${key}"`)
   }
@@ -85,43 +88,40 @@ export default async function HomePage({
   const techStack = findSection<TechStackOverviewSection>(
     page.sections,
     'techStackOverview',
-    'home.techStack',
+    'home.techStack'
   )
   const useCases = findSection<CardGridSection>(
     page.sections,
     'cardGrid',
-    'home.useCases',
+    'home.useCases'
   )
   const parallelSocietyHeadline = findSection<FeaturedTextSection>(
     page.sections,
     'featuredText',
-    'home.parallelSocietyHeadline',
+    'home.parallelSocietyHeadline'
   )
   const parallelSocietyGallery = findSection<GallerySection>(
     page.sections,
     'gallery',
-    'home.parallelSociety',
+    'home.parallelSociety'
   )
   const mountain = findSection<FeaturedTextSection>(
     page.sections,
     'featuredText',
-    'home.mountain',
+    'home.mountain'
   )
   const press = findSection<RelatedArticlesSection>(
     page.sections,
     'relatedArticles',
-    'home.press',
+    'home.press'
   )
   const circlesCta = findSection<FeaturedTextSection>(
     page.sections,
     'featuredText',
-    'home.circlesCta',
+    'home.circlesCta'
   )
 
-  const articles = await resolvePressList(press.pinnedSlugs, {
-    limit: press.visibleCount ?? 4,
-    locale,
-  })
+  const articles = await getLatestPressArticles(press.visibleCount ?? 4)
 
   return (
     <>

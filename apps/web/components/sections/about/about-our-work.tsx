@@ -79,23 +79,23 @@ type CardProps = {
 
 function Card({ eyebrow, title, body, cta, image, imageRatio }: CardProps) {
   return (
-    <article className="relative flex h-[406px] flex-col rounded-[12px] border border-brand-dark-green/50 p-[11px]">
+    <article className="relative flex h-[299px] flex-col overflow-hidden rounded-[12px] border border-brand-dark-green/50 p-[11px] md:h-[406px]">
       <header className="flex items-center gap-3">
         <LogosMark size={10} className="text-brand-dark-green" />
         <p className="text-eyebrow text-brand-dark-green">{eyebrow}</p>
       </header>
 
       <div className="mt-auto flex flex-col gap-6">
-        <h3 className="text-subhead-sans text-brand-dark-green max-w-[228px]">
+        <h3 className="text-subhead-sans max-w-[185px] text-brand-dark-green md:max-w-[228px]">
           {title}
         </h3>
-        <p className="text-mono-s text-brand-dark-green whitespace-pre-line">
+        <p className="text-mono-s whitespace-pre-line text-brand-dark-green">
           {body}
         </p>
       </div>
 
       <div
-        className={`absolute right-[11px] bottom-[11px] w-[96px] overflow-hidden ${imageRatio}`}
+        className={`absolute top-[11px] right-[11px] h-[120px] w-[96px] overflow-hidden md:top-auto md:bottom-[11px] md:h-auto md:${imageRatio}`}
       >
         <Image src={image} alt="" fill sizes="96px" className="object-cover" />
       </div>
@@ -103,7 +103,7 @@ function Card({ eyebrow, title, body, cta, image, imageRatio }: CardProps) {
       <Button
         href="#"
         variant="primary"
-        className="absolute top-[11px] right-[11px]"
+        className="absolute top-[11px] right-[11px] hidden md:inline-flex"
       >
         {cta}
       </Button>

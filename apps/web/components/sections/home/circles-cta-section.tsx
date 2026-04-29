@@ -1,15 +1,17 @@
-import Image from 'next/image'
-
-import { IconButton } from '@repo/ui'
 import type { FeaturedTextSection } from '@repo/content/schemas'
 
-import { Button, ButtonArrowIcon } from '@/components/ui'
+import { Button } from '@/components/ui'
+import { fetchCircleEvents } from '@/lib/circle-events'
+
+import CirclesMapLoader from './circles-map-loader'
 
 type Props = {
   data: FeaturedTextSection
 }
 
-export default function CirclesCtaSection({ data }: Props) {
+export default async function CirclesCtaSection({ data }: Props) {
+  const events = await fetchCircleEvents()
+
   return (
     <section className="bg-brand-off-white py-20 md:py-28">
       <div className="mx-auto max-w-354 px-3">
@@ -50,26 +52,8 @@ export default function CirclesCtaSection({ data }: Props) {
         </div>
 
         {/* World map */}
-        <div className="mt-14 aspect-1416/710 overflow-hidden rounded-2xl bg-brand-dark-green/10">
-          <div className="relative h-full w-full">
-            <Image
-              src="/images/home/world-map-img.jpg"
-              alt="World map showing Logos Circles locations"
-              fill
-              className="object-cover opacity-80"
-            />
-            <div className="absolute top-4 right-4 flex gap-2">
-              <IconButton
-                aria-label="Zoom out"
-                className="font-display text-lg"
-              >
-                &minus;
-              </IconButton>
-              <IconButton aria-label="Zoom in" className="font-display text-lg">
-                +
-              </IconButton>
-            </div>
-          </div>
+        <div className="bg-gray-01 mt-14 aspect-1416/710 overflow-hidden rounded-[100px]">
+          <CirclesMapLoader events={events} />
         </div>
       </div>
     </section>
