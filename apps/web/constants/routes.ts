@@ -31,6 +31,7 @@ export const ROUTES = {
 
   // Circles
   circles: '/circles',
+  activeCircles: '/active-circles',
   /** Dynamic route — `/circles/[slug]`. */
   circle: (slug: string) => `/circles/${slug}`,
 
