@@ -1029,7 +1029,7 @@ function LogosLockup() {
 function Footers() {
   const mainLinks = [
     { label: 'Work With Us', href: '#' },
-    { label: 'Brand Guidelines', href: '#' },
+    { label: 'Brand Kit', href: '#' },
   ]
   const socialLinks = [
     { label: 'Twitter', href: '#' },

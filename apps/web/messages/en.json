@@ -263,10 +263,18 @@
       "description": "Open roles and ways to collaborate with the Logos team.",
       "heading": "Work With Us"
     },
-    "brandGuidelines": {
-      "title": "Brand Guidelines | Logos",
-      "description": "The Logos brand identity — logo usage, color palette, typography, and voice.",
-      "heading": "Brand Guidelines"
+    "brandKit": {
+      "title": "Brand Kit | Logos",
+      "description": "Official brand assets, guidelines, and resources for using the Logos visual identity.",
+      "heading": "Brand Kit",
+      "intro": "Official brand assets, guidelines, and resources for using the Logos visual identity. Logos is open by design, open in spirit. Here are some assets to guide you as you chart your own path.",
+      "downloads": {
+        "brandMarksLabel": "Download Brand Marks",
+        "brandMarksHref": "/brand-kit/brand-marks.zip",
+        "guidelinesSection": "Brand Guidelines",
+        "guidelinesLabel": "Download Brand Guidelines",
+        "guidelinesHref": "/brand-kit/logos-brand-guidelines.pdf"
+      }
     },
     "blog": {
       "title": "Blog | Logos",

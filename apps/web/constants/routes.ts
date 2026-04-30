@@ -58,7 +58,7 @@ export const ROUTES = {
 
   // Footer misc
   workWithUs: '/work-with-us',
-  brandGuidelines: '/brand-guidelines',
+  brandKit: '/brand-kit',
   blog: '/blog',
 
   // Design system reference (internal)
@@ -78,6 +78,9 @@ export const EXTERNAL_URLS = {
   discord: 'https://discord.gg/logos',
   youtube: 'https://youtube.com/@logos_network',
   github: 'https://github.com/logos-co',
+
+  // Forums
+  forum: 'https://forum.logos.co',
 
   // Research
   vacp2p: 'https://vac.dev',
