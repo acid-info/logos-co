@@ -22,6 +22,14 @@ export default function PageTransition({ children }: Props) {
   const timeoutRef = useRef<number | null>(null)
 
   useEffect(() => {
+    // Always cancel any pending router.push timer so a browser back/forward
+    // press during the cover-in window doesn't get hijacked into a forward
+    // navigation 560 ms later.
+    if (timeoutRef.current) {
+      window.clearTimeout(timeoutRef.current)
+      timeoutRef.current = null
+    }
+
     if (!isNavigatingRef.current) return
 
     window.requestAnimationFrame(() => {
@@ -29,6 +37,33 @@ export default function PageTransition({ children }: Props) {
       setIsCovered(false)
     })
   }, [pathname])
+
+  // Reset cover state on browser back/forward and on bfcache restore.
+  // Without this, a page snapshotted mid-transition (isCovered === true)
+  // restores with the off-white overlay stuck because effects don't re-run
+  // on bfcache restore.
+  useEffect(() => {
+    const reset = () => {
+      if (timeoutRef.current) {
+        window.clearTimeout(timeoutRef.current)
+        timeoutRef.current = null
+      }
+      isNavigatingRef.current = false
+      setIsCovered(false)
+    }
+
+    const handlePageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) reset()
+    }
+
+    window.addEventListener('popstate', reset)
+    window.addEventListener('pageshow', handlePageShow)
+
+    return () => {
+      window.removeEventListener('popstate', reset)
+      window.removeEventListener('pageshow', handlePageShow)
+    }
+  }, [])
 
   useEffect(() => {
     if (shouldReduceMotion) return
