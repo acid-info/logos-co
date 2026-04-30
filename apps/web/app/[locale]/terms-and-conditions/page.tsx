@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server'
-import { LogosMark } from '@repo/ui'
+
+import { DocsPageShell } from '@/components/sections/shared/docs-page-shell'
 import { ROUTES } from '@/constants/routes'
 import { createDefaultMetadata } from '@/utils/metadata'
 
@@ -25,12 +26,15 @@ export default async function TermsPage({
 }) {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'pages.terms' })
+
   return (
-    <div className="px-3 pt-16 pb-12">
-      <h1 className="text-h2 flex items-center gap-3 text-brand-dark-green">
-        <LogosMark size={40} className="shrink-0" />
+    <DocsPageShell activeKey="terms">
+      <h1 className="text-eyebrow w-full text-brand-dark-green">
         {t('heading')}
       </h1>
-    </div>
+      <div className="text-mono-s w-full whitespace-pre-line text-brand-dark-green">
+        {t('body')}
+      </div>
+    </DocsPageShell>
   )
 }
