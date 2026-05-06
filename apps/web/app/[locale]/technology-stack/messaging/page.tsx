@@ -14,6 +14,7 @@ import MessagingIntro from '@/components/sections/messaging/messaging-intro'
 import MessagingRelatedArticles from '@/components/sections/messaging/messaging-related-articles'
 import MessagingTechStack from '@/components/sections/messaging/messaging-tech-stack'
 import { ROUTES } from '@/constants/routes'
+import { createSectionFinder } from '@/lib/page-sections'
 import { createDefaultMetadata } from '@/utils/metadata'
 
 const ROUTE = ROUTES.messaging
@@ -36,17 +37,7 @@ export async function generateMetadata({
   })
 }
 
-const findSection = <T extends { componentType: string; key: string }>(
-  sections: ReadonlyArray<{ componentType: string; key: string }>,
-  componentType: T['componentType'],
-  key: string,
-): T => {
-  const found = sections.find((s) => s.componentType === componentType && s.key === key)
-  if (!found) {
-    throw new Error(`messaging page section not found: ${componentType} "${key}"`)
-  }
-  return found as T
-}
+const findSection = createSectionFinder('messaging')
 
 /**
  * Five of six sections wired to PageCopy:
