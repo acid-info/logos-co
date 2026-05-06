@@ -14,28 +14,12 @@ import BlockchainPrivacy from '@/components/sections/blockchain/blockchain-priva
 import BlockchainRelatedArticles from '@/components/sections/blockchain/blockchain-related-articles'
 import TechStackExplorer from '@/components/sections/shared/tech-stack-explorer'
 import { ROUTES } from '@/constants/routes'
+import { createPageMetadata } from '@/lib/page-metadata'
 import { createSectionFinder } from '@/lib/page-sections'
-import { createDefaultMetadata } from '@/utils/metadata'
 
 const ROUTE = ROUTES.blockchain
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>
-}) {
-  const { locale } = await params
-  if (!isActiveLocale(locale)) {
-    throw new Error(`generateMetadata received non-active locale "${locale}"`)
-  }
-  const page = await getPageCopy(ROUTE, locale)
-  return createDefaultMetadata({
-    title: page.seo?.metaTitle ?? page.title,
-    description: page.seo?.metaDescription ?? page.description,
-    locale,
-    path: ROUTE,
-  })
-}
+export const generateMetadata = createPageMetadata(ROUTE)
 
 const findSection = createSectionFinder('blockchain')
 

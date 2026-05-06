@@ -14,28 +14,12 @@ import StorageRelatedArticles from '@/components/sections/storage/storage-relate
 import StorageTechStack from '@/components/sections/storage/storage-tech-stack'
 
 import { ROUTES } from '@/constants/routes'
+import { createPageMetadata } from '@/lib/page-metadata'
 import { createSectionFinder } from '@/lib/page-sections'
-import { createDefaultMetadata } from '@/utils/metadata'
 
 const ROUTE = ROUTES.storage
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>
-}) {
-  const { locale } = await params
-  if (!isActiveLocale(locale)) {
-    throw new Error(`generateMetadata received non-active locale "${locale}"`)
-  }
-  const page = await getPageCopy(ROUTE, locale)
-  return createDefaultMetadata({
-    title: page.seo?.metaTitle ?? page.title,
-    description: page.seo?.metaDescription ?? page.description,
-    locale,
-    path: ROUTE,
-  })
-}
+export const generateMetadata = createPageMetadata(ROUTE)
 
 const findSection = createSectionFinder('storage')
 

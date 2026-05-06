@@ -1,7 +1,6 @@
 import {
   getBuilderHubSettings,
   getBuilderResources,
-  getPageCopy,
   resolveBuilderHubHomeIdeas,
   resolveBuilderHubHomeRfps,
 } from '@repo/content/loaders'
@@ -17,27 +16,11 @@ import {
   BuildersHubRfpsSection,
 } from '@/components/sections/builders-hub'
 import { ROUTES } from '@/constants/routes'
-import { createDefaultMetadata } from '@/utils/metadata'
+import { createPageMetadata } from '@/lib/page-metadata'
 
 const ROUTE = ROUTES.buildersHub
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>
-}) {
-  const { locale } = await params
-  if (!isActiveLocale(locale)) {
-    throw new Error(`generateMetadata received non-active locale "${locale}"`)
-  }
-  const page = await getPageCopy(ROUTE, locale)
-  return createDefaultMetadata({
-    title: page.seo?.metaTitle ?? page.title,
-    description: page.seo?.metaDescription ?? page.description,
-    locale,
-    path: ROUTE,
-  })
-}
+export const generateMetadata = createPageMetadata(ROUTE)
 
 export default async function BuildersHubPage({
   params,
