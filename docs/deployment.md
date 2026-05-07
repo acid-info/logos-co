@@ -292,6 +292,50 @@ Plan §1 requires per-PR preview URLs reviewers can open. Replace Vercel's per-P
 
 Whatever route you pick, the Phase 4c PR Status Panel reads the preview URL from a configurable callback so the CMS is not coupled to a specific host.
 
+### 9.8 Security headers (self-hosted)
+
+`apps/web` ships as a static export (`output: 'export'` in `next.config.mjs`) — Next.js's `headers()` config has no effect on the emitted HTML. Headers must come from the upstream web server.
+
+**nginx (recommended for self-host):**
+
+```nginx
+server {
+  listen 443 ssl http2;
+  server_name logos.co;
+  root /var/www/logos-co/out;
+
+  # Security headers
+  add_header X-Frame-Options "DENY" always;
+  add_header X-Content-Type-Options "nosniff" always;
+  add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+  add_header Permissions-Policy "camera=(), microphone=(), geolocation=()" always;
+  # Strict-Transport-Security: enable once HTTPS is confirmed across all subdomains.
+  # add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+
+  location / {
+    try_files $uri $uri/ $uri.html =404;
+  }
+}
+```
+
+**Caddy:**
+
+```caddyfile
+logos.co {
+  root * /var/www/logos-co/out
+  file_server
+  header {
+    X-Frame-Options "DENY"
+    X-Content-Type-Options "nosniff"
+    Referrer-Policy "strict-origin-when-cross-origin"
+    Permissions-Policy "camera=(), microphone=(), geolocation=()"
+    # Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  }
+}
+```
+
+CSP is intentionally omitted from these snippets — Leaflet tiles, Hasura GraphQL, and the press API need an inventory of `connect-src`/`img-src` hosts before CSP can be enabled without breaking pages. Track it as a separate task.
+
 ## 10. What Is Not Yet Wired
 
 Tracked in plan §11 phases:

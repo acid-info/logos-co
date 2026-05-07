@@ -1,4 +1,5 @@
 import siteConfig from '@/constants/site-config'
+import { env } from '@/lib/env'
 import { Metadata } from 'next'
 
 type DefaultMetadataProps = {
@@ -65,7 +66,7 @@ export async function createDefaultMetadata({
     creator: siteConfig.name,
     keywords: siteConfig.keywords,
     robots: {
-      index: process.env.NEXT_PUBLIC_API_MODE === 'production',
+      index: env.NEXT_PUBLIC_API_MODE === 'production',
       follow: true,
     },
   }

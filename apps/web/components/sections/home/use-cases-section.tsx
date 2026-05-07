@@ -87,7 +87,13 @@ function UseCaseCard({
       <div
         className={`absolute overflow-hidden bg-brand-dark-green/5 ${imageClassName}`}
       >
-        <Image src={imageSrc} alt={imageAlt} fill className="object-cover" />
+        <Image
+          src={imageSrc}
+          alt={imageAlt}
+          fill
+          sizes="(max-width: 768px) 33vw, 96px"
+          className="object-cover"
+        />
       </div>
     </Link>
   )

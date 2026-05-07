@@ -2,22 +2,14 @@ import { getTranslations } from 'next-intl/server'
 
 import { DocsPageShell } from '@/components/sections/shared/docs-page-shell'
 import { ROUTES } from '@/constants/routes'
-import { createDefaultMetadata } from '@/lib/metadata'
+import { createTranslatedPageMetadata } from '@/lib/translated-page-metadata'
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>
-}) {
-  const { locale } = await params
-  const t = await getTranslations({ locale, namespace: 'pages.brandKit' })
-  return createDefaultMetadata({
-    title: t('title'),
-    description: t('description'),
-    locale,
-    path: ROUTES.brandKit,
-  })
-}
+const NAMESPACE = 'pages.brandKit'
+
+export const generateMetadata = createTranslatedPageMetadata({
+  namespace: NAMESPACE,
+  path: ROUTES.brandKit,
+})
 
 export default async function BrandKitPage({
   params,
@@ -25,7 +17,7 @@ export default async function BrandKitPage({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const t = await getTranslations({ locale, namespace: 'pages.brandKit' })
+  const t = await getTranslations({ locale, namespace: NAMESPACE })
 
   return (
     <DocsPageShell activeKey="brandKit">

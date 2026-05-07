@@ -1,22 +1,14 @@
 import { getTranslations } from 'next-intl/server'
 import { LogosMark } from '@repo/ui'
 import { ROUTES } from '@/constants/routes'
-import { createDefaultMetadata } from '@/lib/metadata'
+import { createTranslatedPageMetadata } from '@/lib/translated-page-metadata'
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>
-}) {
-  const { locale } = await params
-  const t = await getTranslations({ locale, namespace: 'pages.workWithUs' })
-  return createDefaultMetadata({
-    title: t('title'),
-    description: t('description'),
-    locale,
-    path: ROUTES.workWithUs,
-  })
-}
+const NAMESPACE = 'pages.workWithUs'
+
+export const generateMetadata = createTranslatedPageMetadata({
+  namespace: NAMESPACE,
+  path: ROUTES.workWithUs,
+})
 
 export default async function WorkWithUsPage({
   params,
@@ -24,7 +16,7 @@ export default async function WorkWithUsPage({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const t = await getTranslations({ locale, namespace: 'pages.workWithUs' })
+  const t = await getTranslations({ locale, namespace: NAMESPACE })
   return (
     <div className="px-3 pt-16 pb-12">
       <h1 className="text-h2 flex items-center gap-3 text-brand-dark-green">

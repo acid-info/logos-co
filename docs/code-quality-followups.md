@@ -7,6 +7,97 @@ implementer needs.
 
 ---
 
+## i18n: single-locale today, multi-locale infra in place
+
+### Status
+
+Configured for English only.
+
+- `apps/web/i18n/routing.ts` declares `locales: ['en']`.
+- Only `apps/web/messages/en.json` exists.
+- `packages/content/src/locales/registry.ts` defaults to `['en']` until the
+  app calls `setActiveLocales` with more.
+- `apps/web/scripts/strip-default-locale-prefix.sh` runs after `next build`
+  to strip the `/en` prefix from the static-export output (single-locale
+  optimization).
+
+### When adding `fr` / `ko` / etc
+
+1. Add the locale code to `apps/web/i18n/routing.ts` `locales` array.
+2. Create `apps/web/messages/<locale>.json` mirroring the `en.json` keys.
+3. Boot the registry at startup with the new list (the next-intl provider
+   already does this for the `routing.locales` array).
+4. For each PageCopy-driven route, create `<locale>.json` files alongside the
+   existing English copy under `content/pages/<route>/<locale>.json`.
+5. Re-run the build; `strip-default-locale-prefix.sh` continues to strip
+   the default locale (`en`) prefix only.
+
+### Why not yet
+
+No translated content shipped. Locking single-locale wiring keeps the
+codebase honest until that arrives.
+
+---
+
+## `knip` dead-export audit
+
+### Status
+
+Open. 102 `export` keywords appear under `apps/web/components/`. Likely some
+are unused after the previous refactors (sub-component extractions,
+re-exports from barrel files).
+
+### Run path
+
+```bash
+pnpm dlx knip --workspace apps/web
+```
+
+A typical first-run baseline:
+
+- Unused exports flagged → review one batch per feature area; some are
+  intentional public API for sibling files in the same barrel and should be
+  marked with `// @public` or moved into a private file.
+- Unused dependencies flagged → confirm in `package.json` before removing.
+
+### Why not yet
+
+Running knip casually creates noise; the right pass is once the structural
+refactors settle, then bake `knip --no-progress` into CI as a warn-only step.
+
+---
+
+## Bundle analyzer
+
+### Status
+
+Open. Heavy dependencies (`motion`, `leaflet`, `react-leaflet-cluster`) ship
+to clients but actual cost is unmeasured.
+
+### Wiring (when ready)
+
+```bash
+pnpm add -D @next/bundle-analyzer --filter web
+```
+
+Then in `next.config.mjs`:
+
+```js
+import withBundleAnalyzer from '@next/bundle-analyzer'
+const analyzer = withBundleAnalyzer({ enabled: process.env.ANALYZE === 'true' })
+export default withNextIntl(analyzer(nextConfig))
+```
+
+`pnpm --filter web build` with `ANALYZE=true` emits HTML reports under
+`.next/analyze/`.
+
+### Why not yet
+
+devDep install needs explicit user approval; once installed, also worth
+adding a CI bundle-size budget (e.g. `bundlewatch`).
+
+---
+
 ## Typography token migration
 
 ### Status

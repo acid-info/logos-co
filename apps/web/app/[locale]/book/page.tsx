@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 
 import { IconMask } from '@/components/icons/icon-mask'
+import { BOOK_DOWNLOADS } from '@/constants/book-assets'
 import { ROUTES } from '@/constants/routes'
 import { createDefaultMetadata } from '@/lib/metadata'
 
@@ -15,7 +16,7 @@ const actions = [
   {
     label: 'Open source',
     subtext: 'Free',
-    href: '/book/farewell-to-westphalia-foss-edition.pdf',
+    href: BOOK_DOWNLOADS.fossEditionEn,
     external: true,
   },
   {
@@ -243,7 +244,7 @@ export default async function BookPage() {
             <BookAction
               label="PDF ebook (Spanish)"
               subtext="available FREE here"
-              href="/book/farewell-to-westphalia-spanish.pdf"
+              href={BOOK_DOWNLOADS.spanish}
               external
             />
           </div>
