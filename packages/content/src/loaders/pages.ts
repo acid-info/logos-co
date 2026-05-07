@@ -26,13 +26,16 @@ export const routeToPageSlug = (route: string): string => {
   return trimmed.replace(/\//g, '-')
 }
 
-const validateAndNarrowCustomSections = (page: PageCopy, filePath: string): void => {
+const validateAndNarrowCustomSections = (
+  page: PageCopy,
+  filePath: string
+): void => {
   for (const section of page.sections) {
     if (section.componentType !== 'custom') continue
     const schema = getCustomSectionSchema(section.customSchemaId)
     if (!schema) {
       throw new Error(
-        `unknown customSchemaId "${section.customSchemaId}" at ${filePath} (section "${section.key}"); register it via registerCustomSection() before loading the page`,
+        `unknown customSchemaId "${section.customSchemaId}" at ${filePath} (section "${section.key}"); register it via registerCustomSection() before loading the page`
       )
     }
     const result = schema.safeParse(section.payload)
@@ -41,21 +44,24 @@ const validateAndNarrowCustomSections = (page: PageCopy, filePath: string): void
         .map((issue) => `${issue.path.join('.') || '<root>'}: ${issue.message}`)
         .join('; ')
       throw new Error(
-        `custom section payload validation failed at ${filePath} (section "${section.key}", schema "${section.customSchemaId}"): ${issues}`,
+        `custom section payload validation failed at ${filePath} (section "${section.key}", schema "${section.customSchemaId}"): ${issues}`
       )
     }
     section.payload = result.data
   }
 }
 
-export const getPageCopy = async (route: string, locale: Language): Promise<PageCopy> => {
+export const getPageCopy = async (
+  route: string,
+  locale: Language
+): Promise<PageCopy> => {
   assertActiveLocale(locale)
   const slug = routeToPageSlug(route)
   const filePath = contentPath(PAGES_DIR, locale, `${slug}.json`)
   const page = await readJson(filePath, pageCopySchema)
   if (page.route !== route) {
     throw new Error(
-      `page route mismatch at ${filePath}: loader called with "${route}" but file declares "${page.route}"`,
+      `page route mismatch at ${filePath}: loader called with "${route}" but file declares "${page.route}"`
     )
   }
   validateAndNarrowCustomSections(page, filePath)
@@ -69,5 +75,5 @@ export const getPageCopy = async (route: string, locale: Language): Promise<Page
  */
 export const parseCustomSectionPayload = <S extends ZodTypeAny>(
   section: CustomSection,
-  schema: S,
+  schema: S
 ): zInfer<S> => schema.parse(section.payload)

@@ -51,23 +51,27 @@ export default async function MessagingPage({
   const privacy = findSection<CtaPanelSection>(
     page.sections,
     'ctaPanel',
-    'messaging.privacy',
+    'messaging.privacy'
   )
-  const lmn = findSection<CtaPanelSection>(page.sections, 'ctaPanel', 'messaging.lmn')
+  const lmn = findSection<CtaPanelSection>(
+    page.sections,
+    'ctaPanel',
+    'messaging.lmn'
+  )
   const caseStudies = findSection<CardGridSection>(
     page.sections,
     'cardGrid',
-    'messaging.caseStudies',
+    'messaging.caseStudies'
   )
   const builderCta = findSection<CardGridSection>(
     page.sections,
     'cardGrid',
-    'messaging.builderCta',
+    'messaging.builderCta'
   )
   const relatedArticles = findSection<RelatedArticlesSection>(
     page.sections,
     'relatedArticles',
-    'messaging.relatedArticles',
+    'messaging.relatedArticles'
   )
 
   const articles = await resolvePressList(relatedArticles.pinnedSlugs, {

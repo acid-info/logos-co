@@ -55,7 +55,8 @@ export async function fetchCircleEvents(): Promise<CircleEvent[]> {
     const rows = payload.data?.stg_external_circle_circle_event ?? []
 
     return rows.filter((event) => {
-      if (event.geo_latitude == null || event.geo_longitude == null) return false
+      if (event.geo_latitude == null || event.geo_longitude == null)
+        return false
       const lat = Number(event.geo_latitude)
       const lng = Number(event.geo_longitude)
       return !Number.isNaN(lat) && !Number.isNaN(lng)

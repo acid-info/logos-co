@@ -40,7 +40,10 @@ export function AnimatedHeading({
       transition={{ delayChildren: delay + 0.2 }}
     >
       {words.map((word, i) => (
-        <span key={`${word}-${i}`} className="inline-block overflow-hidden pb-[0.08em] align-bottom">
+        <span
+          key={`${word}-${i}`}
+          className="inline-block overflow-hidden pb-[0.08em] align-bottom"
+        >
           <motion.span variants={heroFadeUp} className="inline-block">
             {word}
             {i < words.length - 1 ? ' ' : ''}

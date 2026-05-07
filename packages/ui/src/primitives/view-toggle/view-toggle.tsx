@@ -39,7 +39,7 @@ export type ViewToggleProps<Id extends string = string> =
   | ClickProps<Id>
 
 export function ViewToggle<Id extends string = string>(
-  props: ViewToggleProps<Id>,
+  props: ViewToggleProps<Id>
 ) {
   const { options, view, className } = props
 

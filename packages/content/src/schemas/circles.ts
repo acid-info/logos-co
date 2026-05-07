@@ -39,7 +39,10 @@ const isValidIanaTimeZone = (value: string): boolean => {
 export const ianaTimeZoneSchema = z
   .string()
   .min(1)
-  .refine(isValidIanaTimeZone, 'must be a valid IANA timezone, e.g. "America/Los_Angeles"')
+  .refine(
+    isValidIanaTimeZone,
+    'must be a valid IANA timezone, e.g. "America/Los_Angeles"'
+  )
 
 /**
  * Discord channel handle stored without the leading `#`. UI prepends it when
@@ -50,7 +53,7 @@ const discordChannelSchema = z
   .min(1)
   .refine(
     (value) => !value.startsWith('#'),
-    'discordChannel must be stored without leading "#"',
+    'discordChannel must be stored without leading "#"'
   )
 
 const organizerSchema = z.object({
@@ -151,7 +154,10 @@ export const circleEventIndexSchema = z
   })
   .refine(
     (event) => event.endsAt === undefined || event.endsAt >= event.startsAt,
-    { message: 'endsAt must be greater than or equal to startsAt', path: ['endsAt'] },
+    {
+      message: 'endsAt must be greater than or equal to startsAt',
+      path: ['endsAt'],
+    }
   )
 export type CircleEventIndex = z.infer<typeof circleEventIndexSchema>
 
@@ -194,7 +200,9 @@ export const circleInitiativeLocaleSchema = z.object({
   description: z.string().min(1),
   ctaLabel: z.string().min(1),
 })
-export type CircleInitiativeLocale = z.infer<typeof circleInitiativeLocaleSchema>
+export type CircleInitiativeLocale = z.infer<
+  typeof circleInitiativeLocaleSchema
+>
 
 // ---------------------------------------------------------------------------
 // CircleResource (per-locale flat file, same shape as BuilderResource)

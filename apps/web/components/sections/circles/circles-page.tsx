@@ -29,7 +29,6 @@ type CirclesPageProps = {
 const formatHostList = (hosts: { name: string }[]) =>
   hosts.length > 0 ? `By ${hosts.map((host) => host.name).join(', ')}` : ''
 
-
 function SectionIntro({
   title,
   description,

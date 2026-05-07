@@ -103,7 +103,10 @@ export type RFPLocale = z.infer<typeof rfpLocaleSchema>
 const submitterHandleSchema = z
   .string()
   .min(1)
-  .refine((value) => !value.startsWith('@'), 'handle must be stored without leading "@"')
+  .refine(
+    (value) => !value.startsWith('@'),
+    'handle must be stored without leading "@"'
+  )
 
 export const ideaIndexSchema = z.object({
   schemaVersion: schemaVersion(1),
@@ -243,7 +246,10 @@ const actionPanelSchema = z
   })
   .refine(
     (panel) => panel.variant !== 'image-overlay' || panel.image !== undefined,
-    { message: 'actionPanel.image is required when variant is "image-overlay"', path: ['image'] },
+    {
+      message: 'actionPanel.image is required when variant is "image-overlay"',
+      path: ['image'],
+    }
   )
 
 const officeHoursSchema = z.object({
@@ -301,4 +307,6 @@ export const builderHubListingPageSettingsSchema = z.object({
     cta: ctaSchema,
   }),
 })
-export type BuilderHubListingPageSettings = z.infer<typeof builderHubListingPageSettingsSchema>
+export type BuilderHubListingPageSettings = z.infer<
+  typeof builderHubListingPageSettingsSchema
+>

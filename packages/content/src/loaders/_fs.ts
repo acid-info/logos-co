@@ -42,7 +42,7 @@ export const getContentRoot = (): string => {
       const candidate = resolve(dir, 'content')
       if (existsSync(candidate)) return candidate
       throw new Error(
-        `workspace root found at ${dir} but no content/ directory exists; create one or set ${CONTENT_ROOT_ENV}`,
+        `workspace root found at ${dir} but no content/ directory exists; create one or set ${CONTENT_ROOT_ENV}`
       )
     }
     const parent = resolve(dir, '..')
@@ -50,7 +50,7 @@ export const getContentRoot = (): string => {
     dir = parent
   }
   throw new Error(
-    `content root not found from cwd "${process.cwd()}"; set ${CONTENT_ROOT_ENV} or call setContentRoot()`,
+    `content root not found from cwd "${process.cwd()}"; set ${CONTENT_ROOT_ENV} or call setContentRoot()`
   )
 }
 
@@ -81,7 +81,7 @@ const isFsNotFound = (err: unknown): boolean =>
 
 export const readJson = async <S extends ZodTypeAny>(
   filePath: string,
-  schema: S,
+  schema: S
 ): Promise<zInfer<S>> => {
   let raw: string
   try {
@@ -91,7 +91,7 @@ export const readJson = async <S extends ZodTypeAny>(
       throw new ContentNotFoundError(filePath)
     }
     const reason = err instanceof Error ? err.message : String(err)
-    throw new Error(`failed to read ${filePath}: ${reason}`)
+    throw new Error(`failed to read ${filePath}: ${reason}`, { cause: err })
   }
 
   let parsed: unknown
@@ -99,7 +99,7 @@ export const readJson = async <S extends ZodTypeAny>(
     parsed = JSON.parse(raw)
   } catch (err) {
     const reason = err instanceof Error ? err.message : String(err)
-    throw new Error(`invalid JSON at ${filePath}: ${reason}`)
+    throw new Error(`invalid JSON at ${filePath}: ${reason}`, { cause: err })
   }
 
   const result = schema.safeParse(parsed)
@@ -115,5 +115,7 @@ export const readJson = async <S extends ZodTypeAny>(
 export const listDirectories = async (parent: string): Promise<string[]> => {
   if (!existsSync(parent)) return []
   const entries = await readdir(parent, { withFileTypes: true })
-  return entries.filter((entry) => entry.isDirectory()).map((entry) => entry.name)
+  return entries
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
 }

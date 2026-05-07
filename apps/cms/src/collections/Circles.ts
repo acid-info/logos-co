@@ -65,8 +65,18 @@ export const Circles: CollectionConfig = {
         {
           type: 'row',
           fields: [
-            { name: 'lat', type: 'number', required: true, admin: { width: '33%' } },
-            { name: 'lng', type: 'number', required: true, admin: { width: '33%' } },
+            {
+              name: 'lat',
+              type: 'number',
+              required: true,
+              admin: { width: '33%' },
+            },
+            {
+              name: 'lng',
+              type: 'number',
+              required: true,
+              admin: { width: '33%' },
+            },
             {
               name: 'timezone',
               type: 'text',
@@ -138,9 +148,19 @@ export const CircleEvents: CollectionConfig = {
     {
       type: 'row',
       fields: [
-        { name: 'startsAt', type: 'date', required: true, admin: { width: '33%' } },
+        {
+          name: 'startsAt',
+          type: 'date',
+          required: true,
+          admin: { width: '33%' },
+        },
         { name: 'endsAt', type: 'date', admin: { width: '33%' } },
-        { name: 'timezone', type: 'text', required: true, admin: { width: '34%' } },
+        {
+          name: 'timezone',
+          type: 'text',
+          required: true,
+          admin: { width: '34%' },
+        },
       ],
     },
     { name: 'venueName', type: 'text' },

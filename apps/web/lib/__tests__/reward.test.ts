@@ -12,9 +12,9 @@ describe('formatReward', () => {
   })
 
   it('appends xp when present', () => {
-    expect(
-      formatReward({ amount: 2500, currency: 'USDC', xp: 1000 }),
-    ).toBe('2500 USDC + 1000 XP')
+    expect(formatReward({ amount: 2500, currency: 'USDC', xp: 1000 })).toBe(
+      '2500 USDC + 1000 XP'
+    )
   })
 })
 
@@ -31,7 +31,7 @@ describe('formatRewardLines', () => {
 
   it('returns two lines when xp is present', () => {
     expect(
-      formatRewardLines({ amount: 2500, currency: 'USDC', xp: 1000 }),
+      formatRewardLines({ amount: 2500, currency: 'USDC', xp: 1000 })
     ).toEqual(['2500 USDC', '+ 1000 XP'])
   })
 })

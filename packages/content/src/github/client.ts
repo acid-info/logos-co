@@ -42,7 +42,7 @@ export const getOctokit = (): Octokit => {
   throw new Error(
     'GitHub auth not configured. Set either ' +
       '(GITHUB_APP_ID + GITHUB_APP_PRIVATE_KEY + GITHUB_INSTALLATION_ID) ' +
-      'for App auth, or GITHUB_TOKEN for PAT auth (local dev only).',
+      'for App auth, or GITHUB_TOKEN for PAT auth (local dev only).'
   )
 }
 

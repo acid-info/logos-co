@@ -22,13 +22,13 @@ export function StackCard({
       href={href}
       className={twMerge(
         'flex cursor-pointer items-center justify-center rounded-3xl border transition-colors',
-        className,
+        className
       )}
     >
       <span
         className={twMerge(
           'text-subhead-sans flex items-center gap-2 text-brand-dark-green',
-          labelClassName,
+          labelClassName
         )}
       >
         <LogosMark size={14} className="shrink-0" />
@@ -54,13 +54,13 @@ export function StackRow({
   const containerClasses = twMerge(
     'flex items-center justify-center rounded-3xl border px-6 text-center transition-colors',
     href && 'cursor-pointer',
-    className,
+    className
   )
   const content = (
     <span
       className={twMerge(
         'text-subhead-sans text-brand-dark-green',
-        labelClassName,
+        labelClassName
       )}
     >
       {children}

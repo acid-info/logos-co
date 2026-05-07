@@ -33,7 +33,7 @@ export type LocaleSlugParams = {
  */
 export async function resolveLocale(
   params: Promise<{ locale: string }>,
-  pageName: string,
+  pageName: string
 ): Promise<Language> {
   const { locale } = await params
   if (!isActiveLocale(locale)) {

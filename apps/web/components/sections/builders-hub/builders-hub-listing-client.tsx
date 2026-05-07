@@ -80,7 +80,11 @@ export function BuildersHubListingClient({ kind, settings, items }: Props) {
   }
 
   const updateUrl = (nextView: View, nextPage: number) => {
-    window.history.pushState(null, '', buildHref({ view: nextView, page: nextPage }))
+    window.history.pushState(
+      null,
+      '',
+      buildHref({ view: nextView, page: nextPage })
+    )
     setView(nextView)
     setCurrentPage(nextPage)
   }
@@ -88,7 +92,7 @@ export function BuildersHubListingClient({ kind, settings, items }: Props) {
   const start = (currentPage - 1) * settings.pageSize
   const pageItems = useMemo(
     () => items.slice(start, start + settings.pageSize),
-    [items, settings.pageSize, start],
+    [items, settings.pageSize, start]
   )
 
   return (

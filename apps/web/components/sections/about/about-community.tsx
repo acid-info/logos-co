@@ -49,7 +49,11 @@ export async function AboutCommunity() {
         <div className="col-span-4 col-start-9 flex max-w-[464px] flex-col gap-6 self-center">
           <p className="text-eyebrow text-brand-dark-green">{t('eyebrow')}</p>
           <p className="text-h3-serif text-brand-dark-green">{t('body')}</p>
-          <Button href={ROUTES.circles} variant="primary" className="self-start">
+          <Button
+            href={ROUTES.circles}
+            variant="primary"
+            className="self-start"
+          >
             {t('cta')}
           </Button>
         </div>

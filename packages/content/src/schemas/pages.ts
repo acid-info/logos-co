@@ -143,7 +143,9 @@ export const relatedArticlesSectionSchema = z.object({
   /** Loader applies a default of 4 when omitted. */
   visibleCount: z.number().int().positive().optional(),
 })
-export type RelatedArticlesSection = z.infer<typeof relatedArticlesSectionSchema>
+export type RelatedArticlesSection = z.infer<
+  typeof relatedArticlesSectionSchema
+>
 
 export const ctaPanelSectionSchema = z.object({
   componentType: z.literal('ctaPanel'),
@@ -209,7 +211,9 @@ export const techStackOverviewSectionSchema = z.object({
   networkingTitle: z.string().min(1),
   foundationTitle: z.string().min(1),
 })
-export type TechStackOverviewSection = z.infer<typeof techStackOverviewSectionSchema>
+export type TechStackOverviewSection = z.infer<
+  typeof techStackOverviewSectionSchema
+>
 
 /**
  * Marketing slogan / annotated-text section: a title with a highlighted

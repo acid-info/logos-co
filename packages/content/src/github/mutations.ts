@@ -12,17 +12,24 @@ export type FileChange = {
 }
 
 const ASSERT_BRANCH_PREFIX = (branchName: string): void => {
-  const { contentBranchPrefix, directCommitEnabled, stagingBranch, productionBranch } =
-    getGithubConfig()
+  const {
+    contentBranchPrefix,
+    directCommitEnabled,
+    stagingBranch,
+    productionBranch,
+  } = getGithubConfig()
   if (directCommitEnabled) return
   if (branchName === stagingBranch || branchName === productionBranch) {
     throw new Error(
-      `direct commit to "${branchName}" is disabled (set CONTENT_DIRECT_COMMIT_ENABLED=true to override)`,
+      `direct commit to "${branchName}" is disabled (set CONTENT_DIRECT_COMMIT_ENABLED=true to override)`
     )
   }
-  if (!branchName.startsWith(contentBranchPrefix) && !branchName.startsWith('schema/')) {
+  if (
+    !branchName.startsWith(contentBranchPrefix) &&
+    !branchName.startsWith('schema/')
+  ) {
     throw new Error(
-      `branch "${branchName}" must start with "${contentBranchPrefix}" or "schema/"`,
+      `branch "${branchName}" must start with "${contentBranchPrefix}" or "schema/"`
     )
   }
 }
@@ -103,7 +110,12 @@ export const commitTextFile = async ({
 
   let sha: string | undefined
   try {
-    const { data } = await octokit.repos.getContent({ owner, repo, path, ref: branch })
+    const { data } = await octokit.repos.getContent({
+      owner,
+      repo,
+      path,
+      ref: branch,
+    })
     if (!Array.isArray(data) && 'sha' in data) {
       sha = data.sha
     }
@@ -170,7 +182,7 @@ export const commitFiles = async ({
         type: 'blob' as const,
         sha: blob.sha,
       }
-    }),
+    })
   )
 
   const { data: newTree } = await octokit.git.createTree({
@@ -222,6 +234,9 @@ export const commitBinaryFile = async ({
 
 const isNotFound = (err: unknown): boolean => {
   return Boolean(
-    err && typeof err === 'object' && 'status' in err && (err as { status: number }).status === 404,
+    err &&
+    typeof err === 'object' &&
+    'status' in err &&
+    (err as { status: number }).status === 404
   )
 }

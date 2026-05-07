@@ -36,7 +36,9 @@ export default async function TechnologyStackPage({
 }) {
   const { locale } = await params
   if (!isActiveLocale(locale)) {
-    throw new Error(`TechnologyStackPage received non-active locale "${locale}"`)
+    throw new Error(
+      `TechnologyStackPage received non-active locale "${locale}"`
+    )
   }
   const page = await getPageCopy(ROUTE, locale)
 
@@ -47,22 +49,22 @@ export default async function TechnologyStackPage({
   const overview = findSection<TechStackOverviewSection>(
     page.sections,
     'techStackOverview',
-    'techStack.overview',
+    'techStack.overview'
   )
   const appInstall = findSection<GiantSwitchSection>(
     page.sections,
     'giantSwitch',
-    'techStack.appInstall',
+    'techStack.appInstall'
   )
   const modular = findSection<FeaturedTextSection>(
     page.sections,
     'featuredText',
-    'techStack.modular',
+    'techStack.modular'
   )
   const useCases = findSection<CardGridSection>(
     page.sections,
     'cardGrid',
-    'techStack.useCases',
+    'techStack.useCases'
   )
 
   return (

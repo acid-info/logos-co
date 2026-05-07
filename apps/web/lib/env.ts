@@ -32,19 +32,19 @@ function assertOneOf<T extends string>(
   raw: string | undefined,
   allowed: ReadonlyArray<T>,
   name: string,
-  optional: false,
+  optional: false
 ): T
 function assertOneOf<T extends string>(
   raw: string | undefined,
   allowed: ReadonlyArray<T>,
   name: string,
-  optional: true,
+  optional: true
 ): T | undefined
 function assertOneOf<T extends string>(
   raw: string | undefined,
   allowed: ReadonlyArray<T>,
   name: string,
-  optional: boolean,
+  optional: boolean
 ): T | undefined {
   if (raw === undefined || raw === '') {
     if (optional) return undefined
@@ -52,7 +52,7 @@ function assertOneOf<T extends string>(
   }
   if (!allowed.includes(raw as T)) {
     throw new Error(
-      `${name}="${raw}" is invalid; must be one of: ${allowed.join(', ')}`,
+      `${name}="${raw}" is invalid; must be one of: ${allowed.join(', ')}`
     )
   }
   return raw as T
@@ -66,6 +66,6 @@ export const env: Env = {
     process.env.NEXT_PUBLIC_API_MODE,
     API_MODE_VALUES,
     'NEXT_PUBLIC_API_MODE',
-    true,
+    true
   ),
 }

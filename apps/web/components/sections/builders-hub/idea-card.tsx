@@ -36,7 +36,9 @@ export function IdeaCard({ idea }: Props) {
         <Button
           href={ctaHref}
           variant="link"
-          {...(ctaExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+          {...(ctaExternal
+            ? { target: '_blank', rel: 'noopener noreferrer' }
+            : {})}
         >
           {idea.ctaLabel ?? 'Discuss'}
         </Button>
@@ -55,7 +57,8 @@ export function IdeaCard({ idea }: Props) {
       ) : null}
 
       <p className="absolute left-4 bottom-4 w-[186px] font-mono text-[10px] leading-[1.3] text-brand-dark-green">
-        {blurb} <span className="opacity-70">/ Idea by @{idea.submitter.handle}</span>
+        {blurb}{' '}
+        <span className="opacity-70">/ Idea by @{idea.submitter.handle}</span>
       </p>
     </article>
   )

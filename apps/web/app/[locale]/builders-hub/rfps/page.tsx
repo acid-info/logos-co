@@ -40,5 +40,7 @@ export default async function RfpsPage({
     getAllRfps({ locale, status: 'published' }),
   ])
 
-  return <BuildersHubListingClient kind="rfps" settings={settings} items={allRfps} />
+  return (
+    <BuildersHubListingClient kind="rfps" settings={settings} items={allRfps} />
+  )
 }

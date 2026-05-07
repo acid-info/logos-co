@@ -8,7 +8,11 @@ import type { CardGridSection } from '@repo/content/schemas'
  * section keep the slot order stable; reordering would mismatch each card's
  * title with its accent.
  */
-const DOT_CLASSNAMES = ['bg-accent-light-blue', 'bg-brand-yellow', 'bg-accent-steel-teal']
+const DOT_CLASSNAMES = [
+  'bg-accent-light-blue',
+  'bg-brand-yellow',
+  'bg-accent-steel-teal',
+]
 
 type FeatureCardProps = {
   title: string
@@ -71,7 +75,7 @@ export default function NetworkingFeatures({ data }: Props) {
                 imageSrc={card.image.src}
                 imageAlt={card.image.alt}
               />
-            ) : null,
+            ) : null
           )}
         </div>
       </div>

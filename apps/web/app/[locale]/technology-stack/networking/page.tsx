@@ -35,26 +35,30 @@ export default async function NetworkingPage({
   }
   const page = await getPageCopy(ROUTE, locale)
 
-  const hero = findSection<HeroSection>(page.sections, 'hero', 'networking.hero')
+  const hero = findSection<HeroSection>(
+    page.sections,
+    'hero',
+    'networking.hero'
+  )
   const intro = findSection<CtaPanelSection>(
     page.sections,
     'ctaPanel',
-    'networking.intro',
+    'networking.intro'
   )
   const features = findSection<CardGridSection>(
     page.sections,
     'cardGrid',
-    'networking.features',
+    'networking.features'
   )
   const builderCta = findSection<CardGridSection>(
     page.sections,
     'cardGrid',
-    'networking.builderCta',
+    'networking.builderCta'
   )
   const relatedArticles = findSection<RelatedArticlesSection>(
     page.sections,
     'relatedArticles',
-    'networking.relatedArticles',
+    'networking.relatedArticles'
   )
 
   const articles = await resolvePressList(relatedArticles.pinnedSlugs, {

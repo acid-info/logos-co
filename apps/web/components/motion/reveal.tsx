@@ -17,11 +17,7 @@
 import { motion } from 'motion/react'
 import type { ComponentPropsWithoutRef, ReactNode } from 'react'
 
-import {
-  fadeUp,
-  stagger as staggerVariants,
-  VIEWPORT_ONCE,
-} from '@/lib/motion'
+import { fadeUp, stagger as staggerVariants, VIEWPORT_ONCE } from '@/lib/motion'
 
 type RevealProps = ComponentPropsWithoutRef<typeof motion.div> & {
   children: ReactNode
@@ -38,9 +34,8 @@ export function Reveal({
   ...rest
 }: RevealProps) {
   const variants = stagger ? staggerVariants : fadeUp
-  const viewport = amount !== undefined
-    ? { ...VIEWPORT_ONCE, amount }
-    : VIEWPORT_ONCE
+  const viewport =
+    amount !== undefined ? { ...VIEWPORT_ONCE, amount } : VIEWPORT_ONCE
 
   return (
     <motion.div

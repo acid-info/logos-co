@@ -71,7 +71,7 @@ export type BuilderHubHomeIdeaResolution = {
  */
 const compareWithFallback = (
   a: { slug: string; order?: number; date?: string },
-  b: { slug: string; order?: number; date?: string },
+  b: { slug: string; order?: number; date?: string }
 ): number => {
   const aOrder = a.order ?? Number.MAX_SAFE_INTEGER
   const bOrder = b.order ?? Number.MAX_SAFE_INTEGER
@@ -88,16 +88,16 @@ const sortRfpsCanonical = (rfps: Rfp[]): Rfp[] =>
   [...rfps].sort((a, b) =>
     compareWithFallback(
       { slug: a.slug, order: a.order, date: a.publishedAt },
-      { slug: b.slug, order: b.order, date: b.publishedAt },
-    ),
+      { slug: b.slug, order: b.order, date: b.publishedAt }
+    )
   )
 
 const sortIdeasCanonical = (ideas: Idea[]): Idea[] =>
   [...ideas].sort((a, b) =>
     compareWithFallback(
       { slug: a.slug, order: a.order, date: a.submittedAt },
-      { slug: b.slug, order: b.order, date: b.submittedAt },
-    ),
+      { slug: b.slug, order: b.order, date: b.submittedAt }
+    )
   )
 
 // ---------------------------------------------------------------------------
@@ -105,14 +105,17 @@ const sortIdeasCanonical = (ideas: Idea[]): Idea[] =>
 // ---------------------------------------------------------------------------
 
 const loadRfpRecord = async (slug: string, locale: Language): Promise<Rfp> => {
-  const indexData = await readJson(contentPath(RFPS_DIR, slug, 'index.json'), rfpIndexSchema)
+  const indexData = await readJson(
+    contentPath(RFPS_DIR, slug, 'index.json'),
+    rfpIndexSchema
+  )
   const localeData = await readJson(
     contentPath(RFPS_DIR, slug, `${locale}.json`),
-    rfpLocaleSchema,
+    rfpLocaleSchema
   )
   if (indexData.slug !== slug) {
     throw new Error(
-      `RFP slug mismatch: directory "${slug}" but index.json says "${indexData.slug}"`,
+      `RFP slug mismatch: directory "${slug}" but index.json says "${indexData.slug}"`
     )
   }
   return { ...indexData, ...localeData }
@@ -120,16 +123,19 @@ const loadRfpRecord = async (slug: string, locale: Language): Promise<Rfp> => {
 
 const loadIdeaRecordWithoutReverseRefs = async (
   slug: string,
-  locale: Language,
+  locale: Language
 ): Promise<Omit<Idea, 'relatedRfpSlugs'>> => {
-  const indexData = await readJson(contentPath(IDEAS_DIR, slug, 'index.json'), ideaIndexSchema)
+  const indexData = await readJson(
+    contentPath(IDEAS_DIR, slug, 'index.json'),
+    ideaIndexSchema
+  )
   const localeData = await readJson(
     contentPath(IDEAS_DIR, slug, `${locale}.json`),
-    ideaLocaleSchema,
+    ideaLocaleSchema
   )
   if (indexData.slug !== slug) {
     throw new Error(
-      `Idea slug mismatch: directory "${slug}" but index.json says "${indexData.slug}"`,
+      `Idea slug mismatch: directory "${slug}" but index.json says "${indexData.slug}"`
     )
   }
   return { ...indexData, ...localeData }
@@ -139,9 +145,14 @@ const loadIdeaRecordWithoutReverseRefs = async (
 // Settings + flat files
 // ---------------------------------------------------------------------------
 
-export const getBuilderHubSettings = async (locale: Language): Promise<BuilderHubSettings> => {
+export const getBuilderHubSettings = async (
+  locale: Language
+): Promise<BuilderHubSettings> => {
   assertActiveLocale(locale)
-  return readJson(contentPath(SETTINGS_DIR, `${locale}.json`), builderHubSettingsSchema)
+  return readJson(
+    contentPath(SETTINGS_DIR, `${locale}.json`),
+    builderHubSettingsSchema
+  )
 }
 
 export const getBuilderHubListingSettings = async ({
@@ -154,7 +165,7 @@ export const getBuilderHubListingSettings = async ({
   assertActiveLocale(locale)
   return readJson(
     contentPath(LISTINGS_DIR, page, `${locale}.json`),
-    builderHubListingPageSettingsSchema,
+    builderHubListingPageSettingsSchema
   )
 }
 
@@ -168,9 +179,11 @@ export const getBuilderResources = async ({
   assertActiveLocale(locale)
   const file = await readJson(
     contentPath(RESOURCES_DIR, `${locale}.json`),
-    builderResourcesFileSchema,
+    builderResourcesFileSchema
   )
-  return status ? file.items.filter((item) => item.status === status) : file.items
+  return status
+    ? file.items.filter((item) => item.status === status)
+    : file.items
 }
 
 // ---------------------------------------------------------------------------
@@ -190,7 +203,9 @@ export const getAllRfps = async ({
 }: CollectionListOptions): Promise<Rfp[]> => {
   assertActiveLocale(locale)
   const slugs = await listDirectories(contentPath(RFPS_DIR))
-  const rfps = await Promise.all(slugs.map((slug) => loadRfpRecord(slug, locale)))
+  const rfps = await Promise.all(
+    slugs.map((slug) => loadRfpRecord(slug, locale))
+  )
   const filtered = status ? rfps.filter((rfp) => rfp.status === status) : rfps
   const sorted = sortRfpsCanonical(filtered)
   return typeof limit === 'number' ? sorted.slice(0, limit) : sorted
@@ -204,7 +219,9 @@ export const getAllIdeas = async ({
   assertActiveLocale(locale)
   const ideaSlugs = await listDirectories(contentPath(IDEAS_DIR))
   const [rawIdeas, allRfps] = await Promise.all([
-    Promise.all(ideaSlugs.map((slug) => loadIdeaRecordWithoutReverseRefs(slug, locale))),
+    Promise.all(
+      ideaSlugs.map((slug) => loadIdeaRecordWithoutReverseRefs(slug, locale))
+    ),
     // Reverse-ref source: pull all RFPs (no status filter — a published Idea
     // may be referenced by an in-review RFP and the editor still wants to see
     // the link surfaced).
@@ -225,17 +242,25 @@ export const getAllIdeas = async ({
     relatedRfpSlugs: reverseRefs.get(idea.slug) ?? [],
   }))
 
-  const filtered = status ? ideas.filter((idea) => idea.status === status) : ideas
+  const filtered = status
+    ? ideas.filter((idea) => idea.status === status)
+    : ideas
   const sorted = sortIdeasCanonical(filtered)
   return typeof limit === 'number' ? sorted.slice(0, limit) : sorted
 }
 
-export const getRfpBySlug = async (slug: string, locale: Language): Promise<Rfp> => {
+export const getRfpBySlug = async (
+  slug: string,
+  locale: Language
+): Promise<Rfp> => {
   assertActiveLocale(locale)
   return loadRfpRecord(slug, locale)
 }
 
-export const getIdeaBySlug = async (slug: string, locale: Language): Promise<Idea> => {
+export const getIdeaBySlug = async (
+  slug: string,
+  locale: Language
+): Promise<Idea> => {
   assertActiveLocale(locale)
   const [base, allRfps] = await Promise.all([
     loadIdeaRecordWithoutReverseRefs(slug, locale),
@@ -254,7 +279,7 @@ export const getIdeaBySlug = async (slug: string, locale: Language): Promise<Ide
 const pickByPinnedThenLatest = <T extends { slug: string }>(
   pool: T[],
   pinnedSlugs: readonly string[] | undefined,
-  totalSlots: number,
+  totalSlots: number
 ): T[] => {
   if (totalSlots <= 0) return []
   const bySlug = new Map(pool.map((item) => [item.slug, item]))
@@ -271,7 +296,7 @@ const pickByPinnedThenLatest = <T extends { slug: string }>(
 }
 
 export const resolveBuilderHubHomeRfps = async (
-  locale: Language,
+  locale: Language
 ): Promise<BuilderHubHomeRfpResolution> => {
   assertActiveLocale(locale)
   const [settings, allRfps] = await Promise.all([
@@ -281,7 +306,9 @@ export const resolveBuilderHubHomeRfps = async (
   const section = settings.rfpsSection
 
   const totalGridSlots = section.displayCount ?? DEFAULT_HOME_RFP_GRID_COUNT
-  const rfpSlots = section.terminatorCard ? Math.max(0, totalGridSlots - 1) : totalGridSlots
+  const rfpSlots = section.terminatorCard
+    ? Math.max(0, totalGridSlots - 1)
+    : totalGridSlots
   const rfps = pickByPinnedThenLatest(allRfps, section.pinnedSlugs, rfpSlots)
 
   let terminator: BuilderHubHomeTerminator | null = null
@@ -293,13 +320,23 @@ export const resolveBuilderHubHomeRfps = async (
       const thumbnailIdeas = tc.thumbnailSlugs
         .map((slug) => bySlug.get(slug))
         .filter((idea): idea is Idea => idea !== undefined)
-      terminator = { kind: 'see-all-ideas', title: tc.title, href: tc.href, thumbnailIdeas }
+      terminator = {
+        kind: 'see-all-ideas',
+        title: tc.title,
+        href: tc.href,
+        thumbnailIdeas,
+      }
     } else {
       const bySlug = new Map(allRfps.map((rfp) => [rfp.slug, rfp]))
       const thumbnailRfps = tc.thumbnailSlugs
         .map((slug) => bySlug.get(slug))
         .filter((rfp): rfp is Rfp => rfp !== undefined)
-      terminator = { kind: 'see-all-rfps', title: tc.title, href: tc.href, thumbnailRfps }
+      terminator = {
+        kind: 'see-all-rfps',
+        title: tc.title,
+        href: tc.href,
+        thumbnailRfps,
+      }
     }
   }
 
@@ -307,7 +344,7 @@ export const resolveBuilderHubHomeRfps = async (
 }
 
 export const resolveBuilderHubHomeIdeas = async (
-  locale: Language,
+  locale: Language
 ): Promise<BuilderHubHomeIdeaResolution> => {
   assertActiveLocale(locale)
   const [settings, allIdeas] = await Promise.all([
@@ -320,7 +357,4 @@ export const resolveBuilderHubHomeIdeas = async (
   return { ideas }
 }
 
-export {
-  DEFAULT_HOME_IDEAS_COUNT,
-  DEFAULT_HOME_RFP_GRID_COUNT,
-}
+export { DEFAULT_HOME_IDEAS_COUNT, DEFAULT_HOME_RFP_GRID_COUNT }

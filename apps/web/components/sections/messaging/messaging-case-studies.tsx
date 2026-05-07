@@ -39,7 +39,10 @@ function CaseStudyCard({
   return (
     <article className="relative h-[299px] overflow-hidden rounded-xl border border-brand-dark-green/50 md:h-[406px] md:flex-1">
       <div className="absolute top-3 left-3 flex h-[263px] w-[348px] flex-col justify-between md:h-[380px] md:w-[453px]">
-        <SectionMarker label="Case Study" className="scale-[0.98] origin-left" />
+        <SectionMarker
+          label="Case Study"
+          className="scale-[0.98] origin-left"
+        />
 
         <div className="flex flex-col gap-6 text-brand-dark-green md:gap-6">
           <h3 className="text-subhead-sans w-[195px] md:w-57">{title}</h3>
@@ -80,7 +83,9 @@ export default function MessagingCaseStudies({ data }: Props) {
       <div className="mx-auto max-w-360 px-3 pt-31 md:px-0 md:pt-25">
         <div className="flex flex-col gap-3 md:grid md:grid-cols-2 md:gap-3 md:px-3">
           {data.heading ? (
-            <h2 className="text-h4-sans text-brand-dark-green">{data.heading}</h2>
+            <h2 className="text-h4-sans text-brand-dark-green">
+              {data.heading}
+            </h2>
           ) : null}
           {data.subheading ? (
             <p className="text-mono-s text-brand-dark-green md:w-83.5">
@@ -104,7 +109,7 @@ export default function MessagingCaseStudies({ data }: Props) {
                 ctaLabel={card.cta?.label}
                 ctaHref={card.cta?.href}
               />
-            ) : null,
+            ) : null
           )}
         </div>
       </div>

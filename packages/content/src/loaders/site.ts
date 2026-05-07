@@ -31,9 +31,14 @@ export type NavigationViewModel = Omit<Navigation, 'press'> & {
   }
 }
 
-export const getSiteSettings = async (locale: Language): Promise<SiteSettings> => {
+export const getSiteSettings = async (
+  locale: Language
+): Promise<SiteSettings> => {
   assertActiveLocale(locale)
-  return readJson(contentPath(SITE_DIR, locale, 'settings.json'), siteSettingsSchema)
+  return readJson(
+    contentPath(SITE_DIR, locale, 'settings.json'),
+    siteSettingsSchema
+  )
 }
 
 export const getFooter = async (locale: Language): Promise<Footer> => {
@@ -41,11 +46,13 @@ export const getFooter = async (locale: Language): Promise<Footer> => {
   return readJson(contentPath(SITE_DIR, locale, 'footer.json'), footerSchema)
 }
 
-export const getNavigation = async (locale: Language): Promise<NavigationViewModel> => {
+export const getNavigation = async (
+  locale: Language
+): Promise<NavigationViewModel> => {
   assertActiveLocale(locale)
   const navigation = await readJson(
     contentPath(SITE_DIR, locale, 'navigation.json'),
-    navigationSchema,
+    navigationSchema
   )
 
   const limit = navigation.press.visibleCount ?? DEFAULT_PRESS_VISIBLE_COUNT

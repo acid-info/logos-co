@@ -9,7 +9,12 @@ import { z } from 'zod'
 export const languageSchema = z.enum(['en', 'fr', 'ko'])
 export type Language = z.infer<typeof languageSchema>
 
-export const publishStateSchema = z.enum(['draft', 'review', 'published', 'archived'])
+export const publishStateSchema = z.enum([
+  'draft',
+  'review',
+  'published',
+  'archived',
+])
 export type PublishState = z.infer<typeof publishStateSchema>
 
 const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
@@ -27,13 +32,16 @@ export const linkHrefSchema = z
   .min(1)
   .refine(
     (value) => value.startsWith('/') || value.startsWith('https://'),
-    'href must start with "/" (internal) or "https://" (external)',
+    'href must start with "/" (internal) or "https://" (external)'
   )
 
 export const httpsUrlSchema = z
   .string()
   .min(1)
-  .refine((value) => value.startsWith('https://'), 'URL must start with "https://"')
+  .refine(
+    (value) => value.startsWith('https://'),
+    'URL must start with "https://"'
+  )
 
 export const isoDateTimeSchema = z.string().datetime({ offset: true })
 
@@ -42,7 +50,8 @@ export const isoDateTimeSchema = z.string().datetime({ offset: true })
  * Loaders compare the parsed version against the latest known version and
  * either pass through, run a migration, or fail the build.
  */
-export const schemaVersion = <V extends number>(version: V) => z.literal(version)
+export const schemaVersion = <V extends number>(version: V) =>
+  z.literal(version)
 
 export const mediaRefSchema = z.object({
   /**
@@ -62,7 +71,12 @@ export const mediaRefSchema = z.object({
 })
 export type MediaRef = z.infer<typeof mediaRefSchema>
 
-export const ctaVariantSchema = z.enum(['primary', 'secondary', 'tertiary', 'link'])
+export const ctaVariantSchema = z.enum([
+  'primary',
+  'secondary',
+  'tertiary',
+  'link',
+])
 export type CtaVariant = z.infer<typeof ctaVariantSchema>
 
 export const ctaIconOverrideSchema = z.union([

@@ -51,7 +51,7 @@ export const listOpenPullRequests = async (): Promise<PullRequestSummary[]> => {
  * exists for that branch.
  */
 export const findPullRequestByBranch = async (
-  branchName: string,
+  branchName: string
 ): Promise<PullRequestSummary | null> => {
   const octokit = getOctokit()
   const { owner, repo } = getGithubConfig()
@@ -100,7 +100,9 @@ export const createOrGetPullRequest = async ({
   })
 }
 
-export const getPullRequest = async (number: number): Promise<PullRequestSummary> => {
+export const getPullRequest = async (
+  number: number
+): Promise<PullRequestSummary> => {
   const octokit = getOctokit()
   const { owner, repo } = getGithubConfig()
   const { data } = await octokit.pulls.get({ owner, repo, pull_number: number })

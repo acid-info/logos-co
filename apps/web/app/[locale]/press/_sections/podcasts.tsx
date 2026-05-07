@@ -4,7 +4,11 @@
  */
 import Image from 'next/image'
 
-import { PRESS_ORIGIN, repeatToLength, type PressPodcastRow } from '@/lib/press-engine'
+import {
+  PRESS_ORIGIN,
+  repeatToLength,
+  type PressPodcastRow,
+} from '@/lib/press-engine'
 
 import {
   Dot,

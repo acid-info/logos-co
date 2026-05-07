@@ -54,7 +54,9 @@ const buildSiteChecks = (locale: Language): Check[] => [
     run: async () => {
       const nav = await getNavigation(locale)
       if (nav.press.articles.length === 0) {
-        throw new Error('expected at least one resolved press article in nav.press.articles')
+        throw new Error(
+          'expected at least one resolved press article in nav.press.articles'
+        )
       }
       return nav
     },
@@ -80,7 +82,7 @@ const buildPressChecks = (locale: Language): Check[] => [
         if (articles[i - 1].publishedAt < articles[i].publishedAt) {
           throw new Error(
             `out-of-order: "${articles[i - 1].slug}" (${articles[i - 1].publishedAt}) ` +
-              `before "${articles[i].slug}" (${articles[i].publishedAt})`,
+              `before "${articles[i].slug}" (${articles[i].publishedAt})`
           )
         }
       }
@@ -131,7 +133,7 @@ const buildBuilderHubChecks = (locale: Language): Check[] => [
         const curOrder = rfps[i].order ?? Number.MAX_SAFE_INTEGER
         if (prevOrder > curOrder) {
           throw new Error(
-            `out-of-order: "${rfps[i - 1].slug}" (order=${prevOrder}) before "${rfps[i].slug}" (order=${curOrder})`,
+            `out-of-order: "${rfps[i - 1].slug}" (order=${prevOrder}) before "${rfps[i].slug}" (order=${curOrder})`
           )
         }
       }
@@ -148,8 +150,13 @@ const buildBuilderHubChecks = (locale: Language): Check[] => [
       if (!result.terminator) {
         throw new Error('terminator card not resolved')
       }
-      if (result.terminator.kind === 'see-all-ideas' && result.terminator.thumbnailIdeas.length === 0) {
-        throw new Error('see-all-ideas terminator resolved with zero thumbnail ideas')
+      if (
+        result.terminator.kind === 'see-all-ideas' &&
+        result.terminator.thumbnailIdeas.length === 0
+      ) {
+        throw new Error(
+          'see-all-ideas terminator resolved with zero thumbnail ideas'
+        )
       }
       return result
     },
@@ -170,9 +177,12 @@ const buildBuilderHubChecks = (locale: Language): Check[] => [
       // quadratic-voting is referenced by secure-decentralized-frontends.relatedIdeas
       // → its reverse ref must contain that RFP slug.
       const qv = ideas.find((i) => i.slug === 'quadratic-voting')
-      if (qv && !qv.relatedRfpSlugs.includes('secure-decentralized-frontends')) {
+      if (
+        qv &&
+        !qv.relatedRfpSlugs.includes('secure-decentralized-frontends')
+      ) {
         throw new Error(
-          `quadratic-voting.relatedRfpSlugs missing "secure-decentralized-frontends": got [${qv.relatedRfpSlugs.join(', ')}]`,
+          `quadratic-voting.relatedRfpSlugs missing "secure-decentralized-frontends": got [${qv.relatedRfpSlugs.join(', ')}]`
         )
       }
       return ideas
@@ -224,7 +234,7 @@ const buildCirclesChecks = (locale: Language): Check[] => [
         const cur = circles[i].order ?? Number.MAX_SAFE_INTEGER
         if (prev > cur) {
           throw new Error(
-            `out-of-order: "${circles[i - 1].slug}" (order=${prev}) before "${circles[i].slug}" (order=${cur})`,
+            `out-of-order: "${circles[i - 1].slug}" (order=${prev}) before "${circles[i].slug}" (order=${cur})`
           )
         }
       }
@@ -237,14 +247,23 @@ const buildCirclesChecks = (locale: Language): Check[] => [
       const circles = await getCircles({ locale, status: 'published' })
       for (const circle of circles) {
         if (!circle.detailBackLink) {
-          throw new Error(`circle "${circle.slug}" missing detailBackLink (default should always apply)`)
+          throw new Error(
+            `circle "${circle.slug}" missing detailBackLink (default should always apply)`
+          )
         }
-        if (!Array.isArray(circle.coordinatesGeoJson) || circle.coordinatesGeoJson.length !== 2) {
-          throw new Error(`circle "${circle.slug}" missing coordinatesGeoJson [lng, lat]`)
+        if (
+          !Array.isArray(circle.coordinatesGeoJson) ||
+          circle.coordinatesGeoJson.length !== 2
+        ) {
+          throw new Error(
+            `circle "${circle.slug}" missing coordinatesGeoJson [lng, lat]`
+          )
         }
         const [lng, lat] = circle.coordinatesGeoJson
         if (lng !== circle.coordinates.lng || lat !== circle.coordinates.lat) {
-          throw new Error(`circle "${circle.slug}" coordinatesGeoJson does not match coordinates`)
+          throw new Error(
+            `circle "${circle.slug}" coordinatesGeoJson does not match coordinates`
+          )
         }
       }
       // Florianópolis was authored with an explicit detailBackLink override
@@ -252,14 +271,14 @@ const buildCirclesChecks = (locale: Language): Check[] => [
       const flori = circles.find((c) => c.slug === 'florianopolis')
       if (flori && flori.detailBackLink.label !== 'Back to all circles') {
         throw new Error(
-          `florianopolis detailBackLink override lost: got "${flori.detailBackLink.label}"`,
+          `florianopolis detailBackLink override lost: got "${flori.detailBackLink.label}"`
         )
       }
       // Any circle without an explicit override should land on the loader default.
       const la = circles.find((c) => c.slug === 'los-angeles')
       if (la && la.detailBackLink.label !== 'All circles') {
         throw new Error(
-          `los-angeles detailBackLink default not applied: got "${la.detailBackLink.label}"`,
+          `los-angeles detailBackLink default not applied: got "${la.detailBackLink.label}"`
         )
       }
       return circles
@@ -282,7 +301,7 @@ const buildCirclesChecks = (locale: Language): Check[] => [
         const expected = expectations[event.slug]
         if (expected !== undefined && event.sequenceNumber !== expected) {
           throw new Error(
-            `event "${event.slug}" expected sequenceNumber=${expected}, got ${event.sequenceNumber}`,
+            `event "${event.slug}" expected sequenceNumber=${expected}, got ${event.sequenceNumber}`
           )
         }
       }
@@ -292,7 +311,10 @@ const buildCirclesChecks = (locale: Language): Check[] => [
   {
     name: `circle events (${locale}) → grouped by event-local date across timezones`,
     run: async () => {
-      const groups = await getCircleEventsGroupedByDate({ locale, status: 'published' })
+      const groups = await getCircleEventsGroupedByDate({
+        locale,
+        status: 'published',
+      })
       if (groups.length === 0) {
         throw new Error('no event groups returned')
       }
@@ -300,7 +322,7 @@ const buildCirclesChecks = (locale: Language): Check[] => [
       for (let i = 1; i < groups.length; i++) {
         if (groups[i - 1].groupKey > groups[i].groupKey) {
           throw new Error(
-            `group out-of-order: ${groups[i - 1].groupKey} before ${groups[i].groupKey}`,
+            `group out-of-order: ${groups[i - 1].groupKey} before ${groups[i].groupKey}`
           )
         }
       }
@@ -309,11 +331,14 @@ const buildCirclesChecks = (locale: Language): Check[] => [
       const jan21 = groups.find((g) => g.groupKey === '2026-01-21')
       if (!jan21) {
         throw new Error(
-          `expected a "2026-01-21" group; got [${groups.map((g) => g.groupKey).join(', ')}]`,
+          `expected a "2026-01-21" group; got [${groups.map((g) => g.groupKey).join(', ')}]`
         )
       }
       const slugsInJan21 = new Set(jan21.events.map((e) => e.slug))
-      for (const required of ['los-angeles-circle-4', 'florianopolis-circle-2']) {
+      for (const required of [
+        'los-angeles-circle-4',
+        'florianopolis-circle-2',
+      ]) {
         if (!slugsInJan21.has(required)) {
           throw new Error(`Jan 21 group missing "${required}"`)
         }
@@ -336,7 +361,11 @@ const buildCirclesChecks = (locale: Language): Check[] => [
       if (!/January 21\s*\/\s*Wednesday/i.test(indexGroup)) {
         throw new Error(`index-group format unexpected: "${indexGroup}"`)
       }
-      const indexCardTime = formatEventDateForSurface(la4, 'index-card-time', locale)
+      const indexCardTime = formatEventDateForSurface(
+        la4,
+        'index-card-time',
+        locale
+      )
       if (!/^7:00\s*PM$/.test(indexCardTime)) {
         throw new Error(`index-card-time format unexpected: "${indexCardTime}"`)
       }
@@ -372,15 +401,18 @@ const buildCirclesChecks = (locale: Language): Check[] => [
         })
         const got = filtered.map((i) => i.slug).sort()
         const want = [...expectedSlugs].sort()
-        if (got.length !== want.length || got.some((s, idx) => s !== want[idx])) {
+        if (
+          got.length !== want.length ||
+          got.some((s, idx) => s !== want[idx])
+        ) {
           throw new Error(
-            `circleSlug="${circleSlug}" expected [${want.join(', ')}], got [${got.join(', ')}]`,
+            `circleSlug="${circleSlug}" expected [${want.join(', ')}], got [${got.join(', ')}]`
           )
         }
         for (const initiative of filtered) {
           if (initiative.circleSlug !== circleSlug) {
             throw new Error(
-              `filter leak: "${initiative.slug}" returned for circleSlug="${circleSlug}" but its circleSlug is "${initiative.circleSlug}"`,
+              `filter leak: "${initiative.slug}" returned for circleSlug="${circleSlug}" but its circleSlug is "${initiative.circleSlug}"`
             )
           }
         }
@@ -397,7 +429,7 @@ const buildCirclesChecks = (locale: Language): Check[] => [
         const cur = all[i].order ?? Number.MAX_SAFE_INTEGER
         if (prev > cur) {
           throw new Error(
-            `out-of-order: "${all[i - 1].slug}" (order=${prev}) before "${all[i].slug}" (order=${cur})`,
+            `out-of-order: "${all[i - 1].slug}" (order=${prev}) before "${all[i].slug}" (order=${cur})`
           )
         }
       }
@@ -431,17 +463,22 @@ const buildPagesChecks = (locale: Language): Check[] => [
         'ctaPanel',
         'relatedArticles',
       ]
-      const seen: Set<string> = new Set(page.sections.map((s) => s.componentType))
+      const seen: Set<string> = new Set(
+        page.sections.map((s) => s.componentType)
+      )
       const missing = expected.filter((t) => !seen.has(t))
       if (missing.length > 0) {
-        throw new Error(`home.json missing expected section types: [${missing.join(', ')}]`)
+        throw new Error(
+          `home.json missing expected section types: [${missing.join(', ')}]`
+        )
       }
       // Spot-check the discriminated union narrowing — pulls a typed field
       // from each variant so a regression in pageSectionSchema would surface.
       for (const section of page.sections) {
         switch (section.componentType) {
           case 'hero':
-            if (!section.headline) throw new Error(`hero "${section.key}" missing headline`)
+            if (!section.headline)
+              throw new Error(`hero "${section.key}" missing headline`)
             break
           case 'cardGrid':
             if (section.cards.length === 0) {
@@ -450,7 +487,9 @@ const buildPagesChecks = (locale: Language): Check[] => [
             break
           case 'techStackOverview':
             if (section.pillars.length !== 4) {
-              throw new Error(`techStackOverview "${section.key}" expected 4 pillars`)
+              throw new Error(
+                `techStackOverview "${section.key}" expected 4 pillars`
+              )
             }
             break
           case 'gallery':
@@ -461,13 +500,16 @@ const buildPagesChecks = (locale: Language): Check[] => [
           case 'ctaPanel':
             // `cta` is optional (sections like the LMN intro render without one).
             // Verify the always-required `title` is set instead.
-            if (!section.title) throw new Error(`ctaPanel "${section.key}" missing title`)
+            if (!section.title)
+              throw new Error(`ctaPanel "${section.key}" missing title`)
             break
           case 'relatedArticles':
-            if (!section.title) throw new Error(`relatedArticles "${section.key}" missing title`)
+            if (!section.title)
+              throw new Error(`relatedArticles "${section.key}" missing title`)
             break
           case 'richText':
-            if (!section.body) throw new Error(`richText "${section.key}" missing body`)
+            if (!section.body)
+              throw new Error(`richText "${section.key}" missing body`)
             break
         }
       }
@@ -480,11 +522,13 @@ const buildPagesChecks = (locale: Language): Check[] => [
       for (const { route, minSections } of PAGE_ROUTES) {
         const page = await getPageCopy(route, locale)
         if (page.route !== route) {
-          throw new Error(`route mismatch on "${route}": file declares "${page.route}"`)
+          throw new Error(
+            `route mismatch on "${route}": file declares "${page.route}"`
+          )
         }
         if (page.sections.length < minSections) {
           throw new Error(
-            `page "${route}" has ${page.sections.length} sections, expected at least ${minSections}`,
+            `page "${route}" has ${page.sections.length} sections, expected at least ${minSections}`
           )
         }
         if (!page.title || !page.description) {
@@ -503,12 +547,16 @@ const buildPagesChecks = (locale: Language): Check[] => [
         throw new Error('technology-stack.json missing a giantSwitch section')
       }
       if (!gs.tags || gs.tags.length === 0) {
-        throw new Error('giantSwitch tags missing — Logos App banner expects at least one tag')
+        throw new Error(
+          'giantSwitch tags missing — Logos App banner expects at least one tag'
+        )
       }
       const allowed = new Set(['wallet', 'chat', 'files', 'explorer', 'lambda'])
       for (const tag of gs.tags) {
         if (tag.icon !== undefined && !allowed.has(tag.icon)) {
-          throw new Error(`giantSwitch tag "${tag.label}" has unknown icon "${tag.icon}"`)
+          throw new Error(
+            `giantSwitch tag "${tag.label}" has unknown icon "${tag.icon}"`
+          )
         }
       }
       return gs
@@ -519,7 +567,12 @@ const buildPagesChecks = (locale: Language): Check[] => [
     run: async () => {
       const page = await getPageCopy('/technology-stack/blockchain', locale)
       const types = new Set(page.sections.map((s) => s.componentType))
-      for (const required of ['hero', 'ctaPanel', 'cardGrid', 'relatedArticles']) {
+      for (const required of [
+        'hero',
+        'ctaPanel',
+        'cardGrid',
+        'relatedArticles',
+      ]) {
         if (!types.has(required as never)) {
           throw new Error(`blockchain page missing "${required}" section`)
         }
@@ -557,7 +610,9 @@ const buildCustomSectionChecks = (): Check[] => {
 
         // After registration the schema is retrievable.
         if (getCustomSectionSchema(SCHEMA_ID) !== announcementBannerSchema) {
-          throw new Error('lookup after register did not return the registered schema')
+          throw new Error(
+            'lookup after register did not return the registered schema'
+          )
         }
 
         // Duplicate registration throws.
@@ -589,13 +644,15 @@ const buildCustomSectionChecks = (): Check[] => {
 
         const parsed: AnnouncementBanner = parseCustomSectionPayload(
           section,
-          announcementBannerSchema,
+          announcementBannerSchema
         )
         if (parsed.level !== 'info') {
           throw new Error(`expected level=info, got ${parsed.level}`)
         }
         if (parsed.dismissible !== false) {
-          throw new Error('schema default for dismissible should resolve to false')
+          throw new Error(
+            'schema default for dismissible should resolve to false'
+          )
         }
         return parsed
       },
@@ -640,7 +697,7 @@ const main = async (): Promise<void> => {
       ...buildPressChecks(locale),
       ...buildBuilderHubChecks(locale),
       ...buildCirclesChecks(locale),
-      ...buildPagesChecks(locale),
+      ...buildPagesChecks(locale)
     )
   }
   // Locale-agnostic checks (registry behaviour, schema-only).

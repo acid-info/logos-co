@@ -8,6 +8,7 @@
     "lint:fix": "turbo run lint:fix",
     "format": "prettier --write \"**/*.{js,mjs,ts,tsx,json,md,css}\"",
     "check-types": "turbo run check-types",
+    "test": "turbo run test",
     "generate-types": "turbo run generate-types --filter=cms"
   },
   "devDependencies": {

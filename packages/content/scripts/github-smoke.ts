@@ -49,6 +49,7 @@ const resolveToken = (): string => {
       `GITHUB_TOKEN not set and \`gh auth token\` failed: ${
         err instanceof Error ? err.message : String(err)
       }`,
+      { cause: err }
     )
   }
 }
@@ -69,17 +70,14 @@ const config: GithubConfig = {
   directCommitEnabled: false,
 }
 
-const stamp = new Date()
-  .toISOString()
-  .replace(/[:.]/g, '-')
-  .replace(/-Z$/, 'Z')
+const stamp = new Date().toISOString().replace(/[:.]/g, '-').replace(/-Z$/, 'Z')
 const suffix = Math.random().toString(36).slice(2, 8)
 const branchName = `content/smoke-test-${stamp}-${suffix}`
 const filePath = `tmp/github-smoke/${stamp}-${suffix}.json`
 const fileContent = JSON.stringify(
   { stamp, suffix, note: 'smoke test artifact — safe to delete' },
   null,
-  2,
+  2
 )
 
 const main = async (): Promise<void> => {
@@ -103,7 +101,8 @@ const main = async (): Promise<void> => {
     },
     {
       name: 'createBranch',
-      run: () => createBranch({ newBranch: branchName, fromBranch: baseBranch }),
+      run: () =>
+        createBranch({ newBranch: branchName, fromBranch: baseBranch }),
     },
     {
       name: 'branchExists',
@@ -187,7 +186,7 @@ const main = async (): Promise<void> => {
           throw new Error(
             `expected to find our smoke PR in lock query for ${filePath}; got [${matches
               .map((pr) => `#${pr.number}`)
-              .join(', ')}]`,
+              .join(', ')}]`
           )
         }
         return `${matches.length} PR(s) touch the path; ours #${ours.number}`
@@ -232,7 +231,7 @@ const cleanup = async (): Promise<void> => {
     }
   } catch (err) {
     console.warn(
-      `warn  PR close skipped: ${err instanceof Error ? err.message : String(err)}`,
+      `warn  PR close skipped: ${err instanceof Error ? err.message : String(err)}`
     )
   }
 
@@ -246,7 +245,7 @@ const cleanup = async (): Promise<void> => {
     console.log(`ok    deleted branch ${branchName}`)
   } catch (err) {
     console.warn(
-      `warn  branch delete skipped: ${err instanceof Error ? err.message : String(err)}`,
+      `warn  branch delete skipped: ${err instanceof Error ? err.message : String(err)}`
     )
   }
 }

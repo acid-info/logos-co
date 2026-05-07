@@ -60,7 +60,9 @@ const parseInstallationId = (value: string | undefined): number | undefined => {
   if (!value) return undefined
   const parsed = Number.parseInt(value, 10)
   if (!Number.isFinite(parsed) || parsed <= 0) {
-    throw new Error(`GITHUB_INSTALLATION_ID must be a positive integer; got "${value}"`)
+    throw new Error(
+      `GITHUB_INSTALLATION_ID must be a positive integer; got "${value}"`
+    )
   }
   return parsed
 }
@@ -84,7 +86,8 @@ export const loadGithubConfigFromEnv = (): GithubConfig => {
     installationId: parseInstallationId(process.env.GITHUB_INSTALLATION_ID),
     token: optional(process.env.GITHUB_TOKEN),
     directCommitEnabled:
-      (process.env.CONTENT_DIRECT_COMMIT_ENABLED || '').toLowerCase() === 'true',
+      (process.env.CONTENT_DIRECT_COMMIT_ENABLED || '').toLowerCase() ===
+      'true',
   }
 }
 

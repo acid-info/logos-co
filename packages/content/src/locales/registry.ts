@@ -36,7 +36,7 @@ export const isActiveLocale = (value: string): value is Language => {
 export const assertActiveLocale = (locale: Language): void => {
   if (!isActiveLocale(locale)) {
     throw new Error(
-      `locale "${locale}" is not active; active locales are [${activeLocales.join(', ')}]`,
+      `locale "${locale}" is not active; active locales are [${activeLocales.join(', ')}]`
     )
   }
 }

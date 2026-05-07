@@ -108,8 +108,7 @@ export default function UseCasesSection({ data }: Props) {
 
   useEffect(() => {
     if (!scrollRef.current) return
-    scrollRef.current.scrollLeft =
-      window.innerWidth >= BREAKPOINTS.md ? 120 : 0
+    scrollRef.current.scrollLeft = window.innerWidth >= BREAKPOINTS.md ? 120 : 0
   }, [])
 
   const scroll = (direction: 'left' | 'right') => {

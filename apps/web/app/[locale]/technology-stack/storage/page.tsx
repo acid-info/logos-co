@@ -48,16 +48,20 @@ export default async function StoragePage({
   const page = await getPageCopy(ROUTE, locale)
 
   const hero = findSection<HeroSection>(page.sections, 'hero', 'storage.hero')
-  const main = findSection<CtaPanelSection>(page.sections, 'ctaPanel', 'storage.main')
+  const main = findSection<CtaPanelSection>(
+    page.sections,
+    'ctaPanel',
+    'storage.main'
+  )
   const builderCta = findSection<CardGridSection>(
     page.sections,
     'cardGrid',
-    'storage.builderCta',
+    'storage.builderCta'
   )
   const relatedArticles = findSection<RelatedArticlesSection>(
     page.sections,
     'relatedArticles',
-    'storage.relatedArticles',
+    'storage.relatedArticles'
   )
 
   const articles = await resolvePressList(relatedArticles.pinnedSlugs, {

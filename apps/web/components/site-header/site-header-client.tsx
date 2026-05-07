@@ -32,9 +32,7 @@ type Props = {
 }
 
 function HamburgerIcon() {
-  return (
-    <IconMask src="/icons/hamburger-menu.svg" className="size-[15px]" />
-  )
+  return <IconMask src="/icons/hamburger-menu.svg" className="size-[15px]" />
 }
 
 function LambdaGlyph({ className }: { className?: string }) {

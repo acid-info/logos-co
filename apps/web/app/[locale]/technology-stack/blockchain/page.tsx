@@ -34,26 +34,30 @@ export default async function BlockchainPage({
   }
   const page = await getPageCopy(ROUTE, locale)
 
-  const hero = findSection<HeroSection>(page.sections, 'hero', 'blockchain.hero')
+  const hero = findSection<HeroSection>(
+    page.sections,
+    'hero',
+    'blockchain.hero'
+  )
   const privacy = findSection<CtaPanelSection>(
     page.sections,
     'ctaPanel',
-    'blockchain.privacy',
+    'blockchain.privacy'
   )
   const cryptarchia = findSection<CardGridSection>(
     page.sections,
     'cardGrid',
-    'blockchain.cryptarchia',
+    'blockchain.cryptarchia'
   )
   const builderCta = findSection<CardGridSection>(
     page.sections,
     'cardGrid',
-    'blockchain.builderCta',
+    'blockchain.builderCta'
   )
   const relatedArticles = findSection<RelatedArticlesSection>(
     page.sections,
     'relatedArticles',
-    'blockchain.relatedArticles',
+    'blockchain.relatedArticles'
   )
 
   const articles = await resolvePressList(relatedArticles.pinnedSlugs, {

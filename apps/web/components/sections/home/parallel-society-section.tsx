@@ -2,7 +2,7 @@ import Image from 'next/image'
 
 import type { FeaturedTextSection, GallerySection } from '@repo/content/schemas'
 
-import { Button, ButtonArrowIcon } from '@/components/ui'
+import { Button } from '@/components/ui'
 
 /**
  * Per-image desktop dimensions are positional — Figma's gallery has four
@@ -107,9 +107,7 @@ export default function ParallelSocietySection({ headline, gallery }: Props) {
           <span className="text-brand-dark-green">
             {headline.title.highlight}{' '}
           </span>
-          <span className="text-gray-04">
-            {headline.title.rest}
-          </span>
+          <span className="text-gray-04">{headline.title.rest}</span>
         </h2>
 
         {headline.cta ? (

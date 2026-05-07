@@ -1,10 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import {
-  formatDateLong,
-  formatDateMdy2,
-  formatTzOffsetLabel,
-} from '../dates'
+import { formatDateLong, formatDateMdy2, formatTzOffsetLabel } from '../dates'
 
 describe('formatDateMdy2', () => {
   it('formats a UTC midnight as MM.DD.YY', () => {
@@ -36,14 +32,14 @@ describe('formatTzOffsetLabel', () => {
     // Don't pin the exact label (varies by ICU version); ensure non-empty.
     const label = formatTzOffsetLabel(
       'America/Los_Angeles',
-      '2025-06-01T12:00:00Z',
+      '2025-06-01T12:00:00Z'
     )
     expect(label.length).toBeGreaterThan(0)
   })
 
   it('falls back to the input zone when nothing comes back', () => {
     expect(formatTzOffsetLabel('NotAZone', '2025-01-01T00:00:00Z')).toBe(
-      'NotAZone',
+      'NotAZone'
     )
   })
 })

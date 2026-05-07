@@ -43,7 +43,9 @@ export default function TechOverviewStack({
         <div className="mt-3 space-y-3">
           <StackRow href={networkingHref} className={rowClassName}>
             <span className="block">{networkLine1}</span>
-            {networkLine2 ? <span className="block">{networkLine2}</span> : null}
+            {networkLine2 ? (
+              <span className="block">{networkLine2}</span>
+            ) : null}
           </StackRow>
           <StackRow href={foundationHref} className={rowClassName}>
             {data.foundationTitle}

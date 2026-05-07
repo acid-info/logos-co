@@ -63,7 +63,9 @@ export default function HeroSectionView({ data }: Props) {
           transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1], delay: 0.8 }}
         >
           {data.body ? (
-            <p className="text-mono-s text-brand-off-white w-56.5">{data.body}</p>
+            <p className="text-mono-s text-brand-off-white w-56.5">
+              {data.body}
+            </p>
           ) : null}
           <div className="flex items-center gap-1.5">
             {primaryCta ? (

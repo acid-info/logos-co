@@ -13,7 +13,7 @@ import { type PullRequestSummary } from './pull-requests'
  * cached upstream by `ContentChangeRequest` rows in Payload DB.
  */
 export const findOpenPullRequestsTouchingPath = async (
-  targetPath: string,
+  targetPath: string
 ): Promise<PullRequestSummary[]> => {
   const octokit = getOctokit()
   const { owner, repo, prBaseBranch } = getGithubConfig()

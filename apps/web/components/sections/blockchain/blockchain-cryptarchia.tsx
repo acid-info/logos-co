@@ -78,12 +78,18 @@ export default function BlockchainCryptarchia({ data }: Props) {
             <div className="absolute right-3 bottom-3 left-3 flex items-start gap-3">
               {blendCard ? (
                 <div className="flex-1">
-                  <Card label={blendCard.title} body={blendCard.description ?? ''} />
+                  <Card
+                    label={blendCard.title}
+                    body={blendCard.description ?? ''}
+                  />
                 </div>
               ) : null}
               {lezCard ? (
                 <div className="flex-1">
-                  <Card label={lezCard.title} body={lezCard.description ?? ''} />
+                  <Card
+                    label={lezCard.title}
+                    body={lezCard.description ?? ''}
+                  />
                 </div>
               ) : null}
             </div>
@@ -145,7 +151,10 @@ export default function BlockchainCryptarchia({ data }: Props) {
         <CryptarchiaImage sizes="100vw" className="h-144 w-full">
           <div className="absolute right-3 bottom-3 left-3 flex flex-col gap-3">
             {blendCard ? (
-              <Card label={blendCard.title} body={blendCard.description ?? ''} />
+              <Card
+                label={blendCard.title}
+                body={blendCard.description ?? ''}
+              />
             ) : null}
             {lezCard ? (
               <Card label={lezCard.title} body={lezCard.description ?? ''} />

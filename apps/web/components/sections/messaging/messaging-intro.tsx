@@ -56,7 +56,9 @@ export default function MessagingIntro({ privacy, lmn }: Props) {
 
             <div className="flex flex-col gap-6 md:mt-[194.5px]">
               <div className="flex flex-col gap-3 text-brand-dark-green">
-                <h2 className="text-h4-sans w-full md:w-94.25">{privacy.title}</h2>
+                <h2 className="text-h4-sans w-full md:w-94.25">
+                  {privacy.title}
+                </h2>
                 {privacy.description ? (
                   <p className="font-sans text-[12px] leading-[1.2] font-medium md:w-121.25">
                     {privacy.description}
@@ -64,7 +66,11 @@ export default function MessagingIntro({ privacy, lmn }: Props) {
                 ) : null}
               </div>
               {privacy.cta ? (
-                <Button href={privacy.cta.href} variant="primary" className="w-fit">
+                <Button
+                  href={privacy.cta.href}
+                  variant="primary"
+                  className="w-fit"
+                >
                   {privacy.cta.label}
                 </Button>
               ) : null}

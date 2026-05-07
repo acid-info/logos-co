@@ -31,7 +31,6 @@ const ROUTE = ROUTES.home
 
 export const generateMetadata = createPageMetadata(ROUTE)
 
-
 /**
  * Eight of ten home sections wired to PageCopy. The remaining two
  * (about-section, builder-portal-section, feature-cards-section) keep using

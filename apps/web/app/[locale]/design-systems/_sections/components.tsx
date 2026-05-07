@@ -276,8 +276,7 @@ export function Tables() {
 // --- Giant Switch -------------------------------------------------------
 
 function TagIcon({ src, alt }: { src: string; alt: string }) {
-  // SVGs are rendered as <img> so their fill uses whatever Figma authored.
-  // eslint-disable-next-line @next/next/no-img-element
+  // SVGs are rendered as native <img> so their fill uses whatever Figma authored.
   return <img src={src} alt={alt} width={14} height={14} />
 }
 

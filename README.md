@@ -22,6 +22,8 @@ A pnpm + Turborepo starter with:
 pnpm install
 pnpm dev
 pnpm build
+pnpm test
+pnpm lint
 pnpm check-types
 pnpm generate-types
 ```
@@ -35,6 +37,6 @@ pnpm generate-types
 ## Documentation
 
 - [docs/cms-github-content-plan.md](./docs/cms-github-content-plan.md) — Schema, loader, and CMS-via-GitHub workflow plan (canonical)
-- [docs/deployment.md](./docs/deployment.md) — Vercel deployment, required env vars, Turso DB setup, troubleshooting
+- [docs/deployment.md](./docs/deployment.md) — Self-hosted production deployment + Vercel dev/staging, required env vars, Turso DB setup, security headers, troubleshooting
 - [docs/web-pages.md](./docs/web-pages.md) — Per-page web requirements
 - [docs/components.md](./docs/components.md) — Component-level Figma references

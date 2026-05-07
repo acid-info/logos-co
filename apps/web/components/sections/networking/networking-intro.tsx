@@ -54,7 +54,9 @@ export default function NetworkingIntro({ data }: Props) {
               ))}
             </div>
             {data.description ? (
-              <p className="text-mono-s text-brand-dark-green">{data.description}</p>
+              <p className="text-mono-s text-brand-dark-green">
+                {data.description}
+              </p>
             ) : null}
           </div>
           {data.cta ? (

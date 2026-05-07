@@ -72,18 +72,21 @@ export type CircleEventDateGroup = {
 // Single-record loaders
 // ---------------------------------------------------------------------------
 
-const loadCircleRecord = async (slug: string, locale: Language): Promise<Circle> => {
+const loadCircleRecord = async (
+  slug: string,
+  locale: Language
+): Promise<Circle> => {
   const indexData = await readJson(
     contentPath(CIRCLES_DIR, slug, 'index.json'),
-    circleIndexSchema,
+    circleIndexSchema
   )
   const localeData = await readJson(
     contentPath(CIRCLES_DIR, slug, `${locale}.json`),
-    circleLocaleSchema,
+    circleLocaleSchema
   )
   if (indexData.slug !== slug) {
     throw new Error(
-      `Circle slug mismatch: directory "${slug}" but index.json says "${indexData.slug}"`,
+      `Circle slug mismatch: directory "${slug}" but index.json says "${indexData.slug}"`
     )
   }
   const { detailBackLink, coordinates, ...rest } = indexData
@@ -98,19 +101,19 @@ const loadCircleRecord = async (slug: string, locale: Language): Promise<Circle>
 
 const loadCircleEventRecordRaw = async (
   slug: string,
-  locale: Language,
+  locale: Language
 ): Promise<CircleEventIndex & CircleEventLocale> => {
   const indexData = await readJson(
     contentPath(EVENTS_DIR, slug, 'index.json'),
-    circleEventIndexSchema,
+    circleEventIndexSchema
   )
   const localeData = await readJson(
     contentPath(EVENTS_DIR, slug, `${locale}.json`),
-    circleEventLocaleSchema,
+    circleEventLocaleSchema
   )
   if (indexData.slug !== slug) {
     throw new Error(
-      `CircleEvent slug mismatch: directory "${slug}" but index.json says "${indexData.slug}"`,
+      `CircleEvent slug mismatch: directory "${slug}" but index.json says "${indexData.slug}"`
     )
   }
   return { ...indexData, ...localeData }
@@ -118,19 +121,19 @@ const loadCircleEventRecordRaw = async (
 
 const loadInitiativeRecord = async (
   slug: string,
-  locale: Language,
+  locale: Language
 ): Promise<CircleInitiative> => {
   const indexData = await readJson(
     contentPath(INITIATIVES_DIR, slug, 'index.json'),
-    circleInitiativeIndexSchema,
+    circleInitiativeIndexSchema
   )
   const localeData = await readJson(
     contentPath(INITIATIVES_DIR, slug, `${locale}.json`),
-    circleInitiativeLocaleSchema,
+    circleInitiativeLocaleSchema
   )
   if (indexData.slug !== slug) {
     throw new Error(
-      `CircleInitiative slug mismatch: directory "${slug}" but index.json says "${indexData.slug}"`,
+      `CircleInitiative slug mismatch: directory "${slug}" but index.json says "${indexData.slug}"`
     )
   }
   return { ...indexData, ...localeData }
@@ -146,9 +149,12 @@ const loadInitiativeRecord = async (
  * skipping values already held by explicit overrides.
  */
 const fillSequenceNumbers = (
-  events: ReadonlyArray<CircleEventIndex & CircleEventLocale>,
+  events: ReadonlyArray<CircleEventIndex & CircleEventLocale>
 ): CircleEvent[] => {
-  const groupedBySlug = new Map<string, Array<CircleEventIndex & CircleEventLocale>>()
+  const groupedBySlug = new Map<
+    string,
+    Array<CircleEventIndex & CircleEventLocale>
+  >()
   for (const event of events) {
     const list = groupedBySlug.get(event.circleSlug) ?? []
     list.push(event)
@@ -165,7 +171,10 @@ const fillSequenceNumbers = (
     let next = 1
     for (const event of list) {
       if (event.sequenceNumber !== undefined) {
-        filledBySlug.set(event.slug, { ...event, sequenceNumber: event.sequenceNumber })
+        filledBySlug.set(event.slug, {
+          ...event,
+          sequenceNumber: event.sequenceNumber,
+        })
         continue
       }
       while (taken.has(next)) next++
@@ -176,7 +185,9 @@ const fillSequenceNumbers = (
   }
 
   // Preserve original input order so caller-side filters/sorts stay stable.
-  return events.map((event) => filledBySlug.get(event.slug) ?? { ...event, sequenceNumber: 1 })
+  return events.map(
+    (event) => filledBySlug.get(event.slug) ?? { ...event, sequenceNumber: 1 }
+  )
 }
 
 // ---------------------------------------------------------------------------
@@ -195,10 +206,14 @@ type DateFormatOptions = Intl.DateTimeFormatOptions & { timeZone: string }
 const formatInTimezone = (
   iso: string,
   locale: Language,
-  options: DateFormatOptions,
+  options: DateFormatOptions
 ): string => new Intl.DateTimeFormat(locale, options).format(new Date(iso))
 
-const formatPressDate = (iso: string, locale: Language, timeZone: string): string => {
+const formatPressDate = (
+  iso: string,
+  locale: Language,
+  timeZone: string
+): string => {
   // Press cards render dates as MM.DD.YY (e.g. "02.14.26"). Use formatToParts
   // so the part order is stable regardless of locale.
   const parts = new Intl.DateTimeFormat(locale, {
@@ -239,7 +254,7 @@ type EventDateInputs = Pick<
 export const formatEventDateForSurface = (
   event: EventDateInputs,
   surface: CircleEventSurface,
-  locale: Language,
+  locale: Language
 ): string => {
   switch (surface) {
     case 'index-group': {
@@ -281,12 +296,18 @@ export const formatEventDateForSurface = (
       )
     }
     case 'press': {
-      return event.displayDateOverride ?? formatPressDate(event.startsAt, locale, event.timezone)
+      return (
+        event.displayDateOverride ??
+        formatPressDate(event.startsAt, locale, event.timezone)
+      )
     }
   }
 }
 
-const buildEventGroupKey = (event: { startsAt: string; timezone: string }): string => {
+const buildEventGroupKey = (event: {
+  startsAt: string
+  timezone: string
+}): string => {
   // 'sv-SE' formats dates as ISO YYYY-MM-DD; combined with the event's own
   // timezone this yields a stable, timezone-correct group key.
   return new Intl.DateTimeFormat('sv-SE', {
@@ -301,7 +322,9 @@ const buildEventGroupKey = (event: { startsAt: string; timezone: string }): stri
 // Sorting
 // ---------------------------------------------------------------------------
 
-const sortByOrderThenSlug = <T extends { slug: string; order?: number }>(items: T[]): T[] =>
+const sortByOrderThenSlug = <T extends { slug: string; order?: number }>(
+  items: T[]
+): T[] =>
   [...items].sort((a, b) => {
     const aOrder = a.order ?? Number.MAX_SAFE_INTEGER
     const bOrder = b.order ?? Number.MAX_SAFE_INTEGER
@@ -319,9 +342,14 @@ const sortEventsByStartsAtAsc = (events: CircleEvent[]): CircleEvent[] =>
 // Public loaders
 // ---------------------------------------------------------------------------
 
-export const getCirclesSettings = async (locale: Language): Promise<CirclesSettings> => {
+export const getCirclesSettings = async (
+  locale: Language
+): Promise<CirclesSettings> => {
   assertActiveLocale(locale)
-  return readJson(contentPath(SETTINGS_DIR, `${locale}.json`), circlesSettingsSchema)
+  return readJson(
+    contentPath(SETTINGS_DIR, `${locale}.json`),
+    circlesSettingsSchema
+  )
 }
 
 export const getCircles = async ({
@@ -333,12 +361,17 @@ export const getCircles = async ({
 }): Promise<Circle[]> => {
   assertActiveLocale(locale)
   const slugs = await listDirectories(contentPath(CIRCLES_DIR))
-  const circles = await Promise.all(slugs.map((slug) => loadCircleRecord(slug, locale)))
+  const circles = await Promise.all(
+    slugs.map((slug) => loadCircleRecord(slug, locale))
+  )
   const filtered = status ? circles.filter((c) => c.status === status) : circles
   return sortByOrderThenSlug(filtered)
 }
 
-export const getCircleBySlug = async (slug: string, locale: Language): Promise<Circle> => {
+export const getCircleBySlug = async (
+  slug: string,
+  locale: Language
+): Promise<Circle> => {
   assertActiveLocale(locale)
   return loadCircleRecord(slug, locale)
 }
@@ -353,16 +386,20 @@ export const getCircleResources = async ({
   assertActiveLocale(locale)
   const file = await readJson(
     contentPath(RESOURCES_DIR, `${locale}.json`),
-    circleResourcesFileSchema,
+    circleResourcesFileSchema
   )
-  return status ? file.items.filter((item) => item.status === status) : file.items
+  return status
+    ? file.items.filter((item) => item.status === status)
+    : file.items
 }
 
 const loadAllEventsRaw = async (
-  locale: Language,
+  locale: Language
 ): Promise<Array<CircleEventIndex & CircleEventLocale>> => {
   const slugs = await listDirectories(contentPath(EVENTS_DIR))
-  return Promise.all(slugs.map((slug) => loadCircleEventRecordRaw(slug, locale)))
+  return Promise.all(
+    slugs.map((slug) => loadCircleEventRecordRaw(slug, locale))
+  )
 }
 
 export const getCircleEvents = async ({
@@ -423,7 +460,9 @@ export const getCircleEventsGroupedByDate = async ({
     group.events.push(event)
   }
 
-  return [...groups.values()].sort((a, b) => a.groupKey.localeCompare(b.groupKey))
+  return [...groups.values()].sort((a, b) =>
+    a.groupKey.localeCompare(b.groupKey)
+  )
 }
 
 export const getCircleInitiatives = async ({
@@ -437,7 +476,9 @@ export const getCircleInitiatives = async ({
 }): Promise<CircleInitiative[]> => {
   assertActiveLocale(locale)
   const slugs = await listDirectories(contentPath(INITIATIVES_DIR))
-  const initiatives = await Promise.all(slugs.map((slug) => loadInitiativeRecord(slug, locale)))
+  const initiatives = await Promise.all(
+    slugs.map((slug) => loadInitiativeRecord(slug, locale))
+  )
   const filtered = initiatives.filter((initiative) => {
     if (circleSlug && initiative.circleSlug !== circleSlug) return false
     if (status && initiative.status !== status) return false

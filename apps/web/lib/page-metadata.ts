@@ -29,9 +29,7 @@ export function createPageMetadata(route: string) {
   return async function generateMetadata({ params }: RouteParams) {
     const { locale } = await params
     if (!isActiveLocale(locale)) {
-      throw new Error(
-        `generateMetadata received non-active locale "${locale}"`,
-      )
+      throw new Error(`generateMetadata received non-active locale "${locale}"`)
     }
     const page = await getPageCopy(route, locale)
     return createDefaultMetadata({

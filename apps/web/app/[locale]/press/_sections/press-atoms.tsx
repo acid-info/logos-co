@@ -39,7 +39,7 @@ export function TextLink({
         tone === 'light'
           ? 'text-brand-off-white decoration-brand-off-white/50'
           : 'text-brand-dark-green decoration-brand-dark-green/50',
-        className,
+        className
       )}
     >
       {children}
@@ -61,13 +61,13 @@ export function PlayIcon({ inverted = false }: { inverted?: boolean }) {
       aria-hidden="true"
       className={cn(
         'relative inline-flex size-[30px] shrink-0 items-center justify-center rounded-full border',
-        inverted ? 'border-brand-off-white' : 'border-brand-dark-green',
+        inverted ? 'border-brand-off-white' : 'border-brand-dark-green'
       )}
     >
       <span
         className={cn(
           'ml-[2px] h-0 w-0 border-y-[5px] border-l-[8px] border-y-transparent',
-          inverted ? 'border-l-brand-off-white' : 'border-l-brand-dark-green',
+          inverted ? 'border-l-brand-off-white' : 'border-l-brand-dark-green'
         )}
       />
     </span>
@@ -95,7 +95,7 @@ export function PressRowLink({
       className={cn(
         'group relative block overflow-hidden text-brand-dark-green transition-colors duration-200 hover:bg-brand-yellow focus-visible:bg-brand-yellow',
         getAlternatingRowBackground(index),
-        className,
+        className
       )}
     >
       {children}

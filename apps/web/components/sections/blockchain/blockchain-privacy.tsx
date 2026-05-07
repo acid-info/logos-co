@@ -72,7 +72,11 @@ export default function BlockchainPrivacy({ data }: Props) {
                 ) : null}
               </div>
               {data.cta ? (
-                <Button href={data.cta.href} variant="primary" className="w-fit cursor-pointer">
+                <Button
+                  href={data.cta.href}
+                  variant="primary"
+                  className="w-fit cursor-pointer"
+                >
                   {data.cta.label}
                 </Button>
               ) : null}
@@ -102,7 +106,11 @@ export default function BlockchainPrivacy({ data }: Props) {
               ) : null}
             </div>
             {data.cta ? (
-              <Button href={data.cta.href} variant="primary" className="w-fit cursor-pointer">
+              <Button
+                href={data.cta.href}
+                variant="primary"
+                className="w-fit cursor-pointer"
+              >
                 {data.cta.label}
               </Button>
             ) : null}

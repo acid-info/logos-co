@@ -16,7 +16,7 @@ type SectionLike = { componentType: string; key: string }
 export type SectionFinder = <T extends SectionLike>(
   sections: ReadonlyArray<SectionLike>,
   componentType: T['componentType'],
-  key: string,
+  key: string
 ) => T
 
 /**
@@ -28,14 +28,14 @@ export function createSectionFinder(pageName: string): SectionFinder {
   return <T extends SectionLike>(
     sections: ReadonlyArray<SectionLike>,
     componentType: T['componentType'],
-    key: string,
+    key: string
   ): T => {
     const found = sections.find(
-      (s) => s.componentType === componentType && s.key === key,
+      (s) => s.componentType === componentType && s.key === key
     )
     if (!found) {
       throw new Error(
-        `${pageName} page section not found: ${componentType} "${key}"`,
+        `${pageName} page section not found: ${componentType} "${key}"`
       )
     }
     return found as T

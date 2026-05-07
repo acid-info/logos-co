@@ -37,7 +37,7 @@ const sortPressArticlesDesc = (a: PressArticle, b: PressArticle): number => {
 
 const loadPressArticle = async (
   slug: string,
-  locale: Language,
+  locale: Language
 ): Promise<PressArticle> => {
   const indexPath = contentPath(PRESS_ARTICLES_DIR, slug, 'index.json')
   const localePath = contentPath(PRESS_ARTICLES_DIR, slug, `${locale}.json`)
@@ -47,7 +47,7 @@ const loadPressArticle = async (
   ])
   if (indexData.slug !== slug) {
     throw new Error(
-      `press article slug mismatch: directory "${slug}" but index.json says "${indexData.slug}"`,
+      `press article slug mismatch: directory "${slug}" but index.json says "${indexData.slug}"`
     )
   }
   return { ...indexData, ...localeData }
@@ -60,8 +60,12 @@ export const getPressArticles = async ({
 }: GetPressArticlesOptions): Promise<PressArticle[]> => {
   assertActiveLocale(locale)
   const slugs = await listDirectories(contentPath(PRESS_ARTICLES_DIR))
-  const articles = await Promise.all(slugs.map((slug) => loadPressArticle(slug, locale)))
-  const filtered = status ? articles.filter((article) => article.status === status) : articles
+  const articles = await Promise.all(
+    slugs.map((slug) => loadPressArticle(slug, locale))
+  )
+  const filtered = status
+    ? articles.filter((article) => article.status === status)
+    : articles
   filtered.sort(sortPressArticlesDesc)
   return typeof limit === 'number' ? filtered.slice(0, limit) : filtered
 }
@@ -83,7 +87,7 @@ type ResolvePressListFallback = {
  */
 export const resolvePressList = async (
   pinnedSlugs: readonly string[] | undefined,
-  fallback: ResolvePressListFallback,
+  fallback: ResolvePressListFallback
 ): Promise<PressArticle[]> => {
   const status = fallback.status ?? 'published'
   const all = await getPressArticles({ locale: fallback.locale, status })

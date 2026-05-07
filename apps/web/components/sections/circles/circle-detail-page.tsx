@@ -11,7 +11,6 @@ import type { CirclesSettings, Language } from '@repo/content/schemas'
 import { LogosMark } from '@repo/ui'
 
 import { Button } from '@/components/ui'
-import { ROUTES } from '@/constants/routes'
 
 import { IconMask } from '@/components/icons/icon-mask'
 
@@ -177,7 +176,9 @@ function CircleEventCard({
           <div className="flex flex-col">
             <EventMeta icon="calendar">{date}</EventMeta>
             <EventMeta icon="clock">{time}</EventMeta>
-            <EventMeta icon="map-pin">{event.venueName ?? event.locationLabel}</EventMeta>
+            <EventMeta icon="map-pin">
+              {event.venueName ?? event.locationLabel}
+            </EventMeta>
           </div>
         </div>
 
@@ -300,7 +301,11 @@ function InitiativeCard({ initiative }: { initiative: CircleInitiative }) {
   )
 }
 
-function InitiativesSection({ initiatives }: { initiatives: CircleInitiative[] }) {
+function InitiativesSection({
+  initiatives,
+}: {
+  initiatives: CircleInitiative[]
+}) {
   if (initiatives.length === 0) return null
 
   return (

@@ -35,7 +35,7 @@ const DEFAULT_TITLE_CLASSNAME =
 
 /** Reshape a `PressArticle[]` into props for `<ArticleCard />`. */
 export function articlesToCards(
-  articles: ReadonlyArray<PressArticle>,
+  articles: ReadonlyArray<PressArticle>
 ): Omit<ArticleCardProps, 'titleClassName'>[] {
   return articles.map((article) => ({
     title: article.title,

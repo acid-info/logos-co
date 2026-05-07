@@ -43,5 +43,11 @@ export default async function IdeasPage({
     getAllIdeas({ locale, status: 'published' }),
   ])
 
-  return <BuildersHubListingClient kind="ideas" settings={settings} items={allIdeas} />
+  return (
+    <BuildersHubListingClient
+      kind="ideas"
+      settings={settings}
+      items={allIdeas}
+    />
+  )
 }
