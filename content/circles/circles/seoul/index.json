@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "slug": "seoul",
+  "status": "draft",
+  "city": "Seoul",
+  "country": "South Korea",
+  "region": "Seoul Capital Area",
+  "coordinates": {
+    "lat": 37.5665,
+    "lng": 126.978
+  },
+  "timezone": "Asia/Seoul",
+  "joinUrl": "https://forms.logos.co/join/seoul"
+}
