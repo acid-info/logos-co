@@ -92,17 +92,16 @@ export const saveAsPullRequest = async (
     changes: input.changes,
   })
 
-  const submitterLine = input.editor?.email
-    ? `\n\n---\nSubmitted via Logos CMS by ${input.editor.email}.${
-        input.editor.payloadAuditUrl
-          ? `\nAudit log: ${input.editor.payloadAuditUrl}.`
-          : ''
-      }`
-    : ''
+  // PR body intentionally omits editor identity. The internal CCR row
+  // (created below) records `createdBy` for audit; surfacing the editor's
+  // email on a public PR is PII leakage we explicitly avoid. The
+  // `editor.email` and `editor.payloadAuditUrl` plumbing stays in the
+  // input type for future internal uses (e.g. notification emails) but
+  // never reaches the GitHub PR.
   const pr = await createOrGetPullRequest({
     branchName,
     title: input.prTitle,
-    body: (input.prBody ?? '') + submitterLine,
+    body: input.prBody ?? '',
     draft: input.draft ?? true,
   })
 
