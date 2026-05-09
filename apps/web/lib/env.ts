@@ -31,6 +31,13 @@ export type Env = {
    * canonical, OG and Twitter absolute URLs. Set per environment.
    */
   NEXT_PUBLIC_SITE_URL: string | undefined
+  /**
+   * Public CMS origin (e.g. `https://cms.logos.co` or `http://localhost:3001`).
+   * Optional — only required by features that read directly from the Payload
+   * REST/GraphQL API at runtime (preview tokens, draft fetches). The default
+   * content pipeline reads from local files, not this URL.
+   */
+  NEXT_PUBLIC_CMS_URL: string | undefined
 }
 
 function assertOneOf<T extends string>(
@@ -79,4 +86,5 @@ export const env: Env = {
     true
   ),
   NEXT_PUBLIC_SITE_URL: readOptionalString(process.env.NEXT_PUBLIC_SITE_URL),
+  NEXT_PUBLIC_CMS_URL: readOptionalString(process.env.NEXT_PUBLIC_CMS_URL),
 }

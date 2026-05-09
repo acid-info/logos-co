@@ -114,6 +114,16 @@ export const Circles: CollectionConfig = {
       fields: imageFields,
     },
     { name: 'order', type: 'number', min: 0 },
+    // ----- Action: Create / update PR -----
+    {
+      name: 'createPrAction',
+      type: 'ui',
+      admin: {
+        components: {
+          Field: '@/components/admin/save-pr-button.tsx#SaveCirclePrButton',
+        },
+      },
+    },
   ],
   timestamps: true,
 }

@@ -15,3 +15,8 @@ export {
   saveIdeaAsPullRequest,
   type IdeaDocLike,
 } from './save-idea-as-pr'
+export {
+  buildCircleFixtureChanges,
+  saveCircleAsPullRequest,
+  type CircleDocLike,
+} from './save-circle-as-pr'
