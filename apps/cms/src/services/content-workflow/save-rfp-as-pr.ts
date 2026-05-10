@@ -3,7 +3,6 @@ import {
   rfpIndexSchema,
   rfpLocaleSchema,
 } from '@repo/content/schemas'
-import type { Payload } from 'payload'
 
 import {
   createFixturePair,
@@ -11,7 +10,11 @@ import {
   toIsoDateOrUndefined,
   type FixturePair,
 } from './fixture-helpers'
-import { saveAsPullRequest, type SaveAsPullRequestResult } from './save-as-pr'
+import {
+  saveAsPullRequest,
+  type SaveAsPullRequestResult,
+  type SaveContentAsPullRequestInput,
+} from './save-as-pr'
 
 void _ideaIndexSchema // ensures we can extend the same way for ideas later
 
@@ -110,15 +113,7 @@ export const saveRfpAsPullRequest = async ({
   doc,
   payload,
   editor,
-}: {
-  doc: RfpDocLike
-  payload: Payload
-  editor?: {
-    email?: string
-    payloadUserId?: string | number
-    payloadAuditUrl?: string
-  }
-}): Promise<SaveAsPullRequestResult> => {
+}: SaveContentAsPullRequestInput<RfpDocLike>): Promise<SaveAsPullRequestResult> => {
   const { indexChange, localeChange } = buildRfpFixtureChanges(doc)
 
   return saveAsPullRequest({

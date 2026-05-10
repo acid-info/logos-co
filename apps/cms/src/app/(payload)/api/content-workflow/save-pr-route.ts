@@ -4,12 +4,10 @@ import { getPayload, type Payload, type User } from 'payload'
 import { loadGithubConfigFromEnv, setGithubConfig } from '@repo/content/github'
 
 import config from '@payload-config'
-import type { SaveAsPullRequestResult } from '@/services/content-workflow'
-
-interface SavePrEditor {
-  email?: string
-  payloadUserId?: string | number
-}
+import type {
+  SaveAsPullRequestResult,
+  SavePrEditor,
+} from '@/services/content-workflow'
 
 interface SavePrRouteOptions<TDoc> {
   collection: string

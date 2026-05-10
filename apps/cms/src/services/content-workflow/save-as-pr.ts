@@ -9,6 +9,18 @@ import type { Payload } from 'payload'
 
 import { buildContentBranchName } from './branch-naming'
 
+export interface SavePrEditor {
+  email?: string
+  payloadUserId?: string | number
+  payloadAuditUrl?: string
+}
+
+export interface SaveContentAsPullRequestInput<TDoc> {
+  doc: TDoc
+  editor?: SavePrEditor
+  payload: Payload
+}
+
 export type SaveAsPullRequestInput = {
   /** Logical content type — used for branch naming and the CCR row. */
   contentType: string
@@ -36,11 +48,7 @@ export type SaveAsPullRequestInput = {
    * description can attribute the change without writing the email into the
    * Git commit author (commits stay App-identity).
    */
-  editor?: {
-    email?: string
-    payloadUserId?: string | number
-    payloadAuditUrl?: string
-  }
+  editor?: SavePrEditor
   /**
    * Override for tests / preview-only flows. Defaults to the Payload
    * instance the caller already holds. The payload arg is required so the

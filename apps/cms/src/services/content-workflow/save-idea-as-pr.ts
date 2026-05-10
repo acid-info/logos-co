@@ -1,5 +1,4 @@
 import { ideaIndexSchema, ideaLocaleSchema } from '@repo/content/schemas'
-import type { Payload } from 'payload'
 
 import {
   createFixturePair,
@@ -7,7 +6,11 @@ import {
   toIsoDateOrUndefined,
   type FixturePair,
 } from './fixture-helpers'
-import { saveAsPullRequest, type SaveAsPullRequestResult } from './save-as-pr'
+import {
+  saveAsPullRequest,
+  type SaveAsPullRequestResult,
+  type SaveContentAsPullRequestInput,
+} from './save-as-pr'
 
 /**
  * Shape of an Idea doc as Payload returns it from `payload.findByID`.
@@ -90,15 +93,7 @@ export const saveIdeaAsPullRequest = async ({
   doc,
   payload,
   editor,
-}: {
-  doc: IdeaDocLike
-  payload: Payload
-  editor?: {
-    email?: string
-    payloadUserId?: string | number
-    payloadAuditUrl?: string
-  }
-}): Promise<SaveAsPullRequestResult> => {
+}: SaveContentAsPullRequestInput<IdeaDocLike>): Promise<SaveAsPullRequestResult> => {
   const { indexChange, localeChange } = buildIdeaFixtureChanges(doc)
 
   return saveAsPullRequest({

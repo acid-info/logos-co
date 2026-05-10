@@ -1,12 +1,15 @@
 import { circleIndexSchema, circleLocaleSchema } from '@repo/content/schemas'
-import type { Payload } from 'payload'
 
 import {
   createFixturePair,
   stripEmpty,
   type FixturePair,
 } from './fixture-helpers'
-import { saveAsPullRequest, type SaveAsPullRequestResult } from './save-as-pr'
+import {
+  saveAsPullRequest,
+  type SaveAsPullRequestResult,
+  type SaveContentAsPullRequestInput,
+} from './save-as-pr'
 
 /**
  * Shape of a Circle doc as Payload returns it from `payload.findByID`.
@@ -118,15 +121,7 @@ export const saveCircleAsPullRequest = async ({
   doc,
   payload,
   editor,
-}: {
-  doc: CircleDocLike
-  payload: Payload
-  editor?: {
-    email?: string
-    payloadUserId?: string | number
-    payloadAuditUrl?: string
-  }
-}): Promise<SaveAsPullRequestResult> => {
+}: SaveContentAsPullRequestInput<CircleDocLike>): Promise<SaveAsPullRequestResult> => {
   const { indexChange, localeChange } = buildCircleFixtureChanges(doc)
 
   return saveAsPullRequest({
