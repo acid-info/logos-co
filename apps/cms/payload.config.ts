@@ -71,6 +71,9 @@ if (isProduction && !payloadSecret) {
 
 export default buildConfig({
   admin: {
+    meta: {
+      icons: '/favicon.ico',
+    },
     user: Users.slug,
   },
   collections: [

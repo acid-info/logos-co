@@ -1,5 +1,12 @@
 import type { CollectionConfig, Field } from 'payload'
 
+const timeZoneOptions = ['UTC', ...Intl.supportedValuesOf('timeZone')].map(
+  (timeZone) => ({
+    label: timeZone,
+    value: timeZone,
+  })
+)
+
 const statusField: Field = {
   name: 'status',
   type: 'select',
@@ -27,6 +34,14 @@ const slugField: Field = {
   unique: true,
   index: true,
 }
+
+const createTimeZoneField = (width: string): Field => ({
+  name: 'timezone',
+  type: 'select',
+  required: true,
+  options: timeZoneOptions,
+  admin: { width },
+})
 
 export const Circles: CollectionConfig = {
   slug: 'circles',
@@ -78,10 +93,7 @@ export const Circles: CollectionConfig = {
               admin: { width: '33%' },
             },
             {
-              name: 'timezone',
-              type: 'text',
-              required: true,
-              admin: { width: '34%' },
+              ...createTimeZoneField('34%'),
             },
           ],
         },
@@ -166,10 +178,7 @@ export const CircleEvents: CollectionConfig = {
         },
         { name: 'endsAt', type: 'date', admin: { width: '33%' } },
         {
-          name: 'timezone',
-          type: 'text',
-          required: true,
-          admin: { width: '34%' },
+          ...createTimeZoneField('34%'),
         },
       ],
     },
