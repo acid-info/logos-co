@@ -1,5 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
+import { createPublishStatusField } from './shared-fields'
+
 /**
  * Editor-facing collection for Builders Hub RFPs.
  *
@@ -66,18 +68,7 @@ export const Rfps: CollectionConfig = {
           'URL-safe identifier — kebab-case, ASCII only. Used as the directory name in `content/builders-hub/rfps/<slug>/`.',
       },
     },
-    {
-      name: 'status',
-      type: 'select',
-      required: true,
-      defaultValue: 'draft',
-      options: [
-        { label: 'Draft', value: 'draft' },
-        { label: 'Review', value: 'review' },
-        { label: 'Published', value: 'published' },
-        { label: 'Archived', value: 'archived' },
-      ],
-    },
+    createPublishStatusField(),
 
     // ----- Locale-level (English) -----
     {

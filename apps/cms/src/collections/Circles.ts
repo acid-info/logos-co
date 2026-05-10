@@ -1,19 +1,7 @@
 import type { CollectionConfig, Field } from 'payload'
 
+import { createPublishStatusField } from './shared-fields'
 import { isValidIanaTimeZone } from '@/lib/timezones'
-
-const statusField: Field = {
-  name: 'status',
-  type: 'select',
-  required: true,
-  defaultValue: 'draft',
-  options: [
-    { label: 'Draft', value: 'draft' },
-    { label: 'Review', value: 'review' },
-    { label: 'Published', value: 'published' },
-    { label: 'Archived', value: 'archived' },
-  ],
-}
 
 const imageFields: Field[] = [
   { name: 'imageSrc', type: 'text', admin: { width: '50%' } },
@@ -68,7 +56,7 @@ export const Circles: CollectionConfig = {
   },
   fields: [
     slugField,
-    statusField,
+    createPublishStatusField(),
     {
       type: 'collapsible',
       label: 'Copy (English)',
@@ -165,7 +153,7 @@ export const CircleEvents: CollectionConfig = {
   },
   fields: [
     slugField,
-    statusField,
+    createPublishStatusField(),
     { name: 'circleSlug', type: 'text', required: true, index: true },
     {
       type: 'collapsible',
@@ -238,7 +226,7 @@ export const CircleInitiatives: CollectionConfig = {
   },
   fields: [
     slugField,
-    statusField,
+    createPublishStatusField(),
     { name: 'circleSlug', type: 'text', required: true, index: true },
     { name: 'href', type: 'text', required: true },
     {
@@ -291,7 +279,7 @@ export const CircleResources: CollectionConfig = {
   },
   fields: [
     slugField,
-    statusField,
+    createPublishStatusField(),
     { name: 'title', type: 'text', required: true },
     { name: 'description', type: 'textarea', required: true },
     { name: 'ctaLabel', type: 'text', required: true },
