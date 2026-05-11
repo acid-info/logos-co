@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "slug": "boston",
+  "status": "draft",
+  "city": "Boston",
+  "country": "USA",
+  "coordinates": {
+    "lat": 42.3589942,
+    "lng": -71.0586293
+  },
+  "timezone": "America/New_York",
+  "joinUrl": "https://luma.com/wwskafsy"
+}
