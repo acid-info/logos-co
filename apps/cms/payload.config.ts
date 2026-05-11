@@ -78,6 +78,33 @@ if (!Number.isInteger(databasePoolMax) || databasePoolMax < 1) {
   throw new Error('PAYLOAD_DB_POOL_MAX must be a positive integer')
 }
 
+const parsePositiveIntEnv = (name: string, fallback: number): number => {
+  const rawValue = process.env[name]
+  if (!rawValue) {
+    return fallback
+  }
+
+  const value = Number.parseInt(rawValue, 10)
+  if (!Number.isInteger(value) || value < 1) {
+    throw new Error(`${name} must be a positive integer`)
+  }
+
+  return value
+}
+
+const databaseConnectionTimeoutMs = parsePositiveIntEnv(
+  'PAYLOAD_DB_CONNECTION_TIMEOUT_MS',
+  5000
+)
+const databaseQueryTimeoutMs = parsePositiveIntEnv(
+  'PAYLOAD_DB_QUERY_TIMEOUT_MS',
+  15000
+)
+const databaseIdleTimeoutMs = parsePositiveIntEnv(
+  'PAYLOAD_DB_IDLE_TIMEOUT_MS',
+  5000
+)
+
 export default buildConfig({
   admin: {
     components: {
@@ -106,7 +133,11 @@ export default buildConfig({
   db: postgresAdapter({
     pool: {
       connectionString: databaseUrl,
+      connectionTimeoutMillis: databaseConnectionTimeoutMs,
+      idleTimeoutMillis: databaseIdleTimeoutMs,
       max: databasePoolMax,
+      query_timeout: databaseQueryTimeoutMs,
+      statement_timeout: databaseQueryTimeoutMs,
     },
     // Isolate Payload tables from any other app sharing the database.
     schemaName: process.env.PAYLOAD_DB_SCHEMA || 'payload',
