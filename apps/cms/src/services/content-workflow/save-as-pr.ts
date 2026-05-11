@@ -29,6 +29,14 @@ export const createContentUpdateSubject = ({
   slug: string
 }): string => `content(${scope}): update ${slug}`
 
+export const createContentDeleteSubject = ({
+  scope,
+  slug,
+}: {
+  scope: string
+  slug: string
+}): string => `content(${scope}): delete ${slug}`
+
 export const createContentUpdatePrBody = ({
   displayName,
   contentLabel,
@@ -40,6 +48,21 @@ export const createContentUpdatePrBody = ({
 }): string =>
   [
     `Updates the **${displayName}** ${contentLabel} fixture from the CMS Admin.`,
+    '',
+    ...details,
+  ].join('\n')
+
+export const createContentDeletePrBody = ({
+  displayName,
+  contentLabel,
+  details,
+}: {
+  displayName: string
+  contentLabel: string
+  details: string[]
+}): string =>
+  [
+    `Deletes the **${displayName}** ${contentLabel} fixture from the CMS Admin.`,
     '',
     ...details,
   ].join('\n')

@@ -1,5 +1,7 @@
 export { buildContentBranchName } from './branch-naming'
 export {
+  createContentDeletePrBody,
+  createContentDeleteSubject,
   createContentUpdatePrBody,
   createContentUpdateSubject,
   saveAsPullRequest,
@@ -10,27 +12,37 @@ export {
 } from './save-as-pr'
 export { getContentLock, type ContentLockResult } from './get-lock'
 export {
+  buildRfpFixtureDeleteChanges,
   buildRfpFixtureChanges,
+  deleteRfpAsPullRequest,
   saveRfpAsPullRequest,
   type RfpDocLike,
 } from './save-rfp-as-pr'
 export {
+  buildIdeaFixtureDeleteChanges,
   buildIdeaFixtureChanges,
+  deleteIdeaAsPullRequest,
   saveIdeaAsPullRequest,
   type IdeaDocLike,
 } from './save-idea-as-pr'
 export {
+  buildCircleFixtureDeleteChanges,
   buildCircleFixtureChanges,
+  deleteCircleAsPullRequest,
   saveCircleAsPullRequest,
   type CircleDocLike,
 } from './save-circle-as-pr'
 export {
+  buildCircleEventFixtureDeleteChanges,
   buildCircleEventFixtureChanges,
+  deleteCircleEventAsPullRequest,
   saveCircleEventAsPullRequest,
   type CircleEventDocLike,
 } from './save-circle-event-as-pr'
 export {
+  buildCircleInitiativeFixtureDeleteChanges,
   buildCircleInitiativeFixtureChanges,
+  deleteCircleInitiativeAsPullRequest,
   saveCircleInitiativeAsPullRequest,
   type CircleInitiativeDocLike,
 } from './save-circle-initiative-as-pr'

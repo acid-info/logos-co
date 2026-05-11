@@ -1,12 +1,16 @@
+import type { FileChange } from '@repo/content/github'
 import { rfpIndexSchema, rfpLocaleSchema } from '@repo/content/schemas'
 
 import {
+  createFixtureDeleteChanges,
   createFixturePair,
   stripEmpty,
   toIsoDateOrUndefined,
   type FixturePair,
 } from './fixture-helpers'
 import {
+  createContentDeletePrBody,
+  createContentDeleteSubject,
   createContentUpdatePrBody,
   createContentUpdateSubject,
   saveAsPullRequest,
@@ -100,6 +104,11 @@ export const buildRfpFixtureChanges = (doc: RfpDocLike): FixturePair => {
   })
 }
 
+export const buildRfpFixtureDeleteChanges = (
+  doc: Pick<RfpDocLike, 'slug'>
+): FileChange[] =>
+  createFixtureDeleteChanges(`content/builders-hub/rfps/${doc.slug}`)
+
 /**
  * High-level entry point invoked by the Admin "Create PR" action. Takes the
  * Payload doc + the request's Payload instance and editor metadata, builds
@@ -129,6 +138,36 @@ export const saveRfpAsPullRequest = async ({
         `- slug: \`${doc.slug}\``,
         `- status: \`${doc.status}\``,
         `- reward: ${doc.rewardAmount} ${doc.rewardCurrency}${doc.rewardXp ? ` + ${doc.rewardXp} XP` : ''}`,
+      ],
+    }),
+    draft: true,
+    editor,
+    payload,
+  })
+}
+
+export const deleteRfpAsPullRequest = async ({
+  doc,
+  payload,
+  editor,
+}: SaveContentAsPullRequestInput<RfpDocLike>): Promise<SaveAsPullRequestResult> => {
+  const subject = createContentDeleteSubject({
+    scope: 'rfp',
+    slug: doc.slug,
+  })
+
+  return saveAsPullRequest({
+    contentType: 'rfp',
+    identifier: doc.slug,
+    changes: buildRfpFixtureDeleteChanges(doc),
+    commitMessage: subject,
+    prTitle: subject,
+    prBody: createContentDeletePrBody({
+      displayName: doc.title,
+      contentLabel: 'RFP',
+      details: [
+        `- deletes: \`content/builders-hub/rfps/${doc.slug}/index.json\``,
+        `- deletes: \`content/builders-hub/rfps/${doc.slug}/en.json\``,
       ],
     }),
     draft: true,

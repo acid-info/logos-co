@@ -1,12 +1,16 @@
+import type { FileChange } from '@repo/content/github'
 import { ideaIndexSchema, ideaLocaleSchema } from '@repo/content/schemas'
 
 import {
+  createFixtureDeleteChanges,
   createFixturePair,
   stripEmpty,
   toIsoDateOrUndefined,
   type FixturePair,
 } from './fixture-helpers'
 import {
+  createContentDeletePrBody,
+  createContentDeleteSubject,
   createContentUpdatePrBody,
   createContentUpdateSubject,
   saveAsPullRequest,
@@ -91,6 +95,11 @@ export const buildIdeaFixtureChanges = (doc: IdeaDocLike): FixturePair => {
   })
 }
 
+export const buildIdeaFixtureDeleteChanges = (
+  doc: Pick<IdeaDocLike, 'slug'>
+): FileChange[] =>
+  createFixtureDeleteChanges(`content/builders-hub/ideas/${doc.slug}`)
+
 export const saveIdeaAsPullRequest = async ({
   doc,
   payload,
@@ -115,6 +124,36 @@ export const saveIdeaAsPullRequest = async ({
         `- slug: \`${doc.slug}\``,
         `- status: \`${doc.status}\``,
         `- submitter: @${doc.submitterHandle}${doc.submitterName ? ` (${doc.submitterName})` : ''}`,
+      ],
+    }),
+    draft: true,
+    editor,
+    payload,
+  })
+}
+
+export const deleteIdeaAsPullRequest = async ({
+  doc,
+  payload,
+  editor,
+}: SaveContentAsPullRequestInput<IdeaDocLike>): Promise<SaveAsPullRequestResult> => {
+  const subject = createContentDeleteSubject({
+    scope: 'idea',
+    slug: doc.slug,
+  })
+
+  return saveAsPullRequest({
+    contentType: 'idea',
+    identifier: doc.slug,
+    changes: buildIdeaFixtureDeleteChanges(doc),
+    commitMessage: subject,
+    prTitle: subject,
+    prBody: createContentDeletePrBody({
+      displayName: doc.title,
+      contentLabel: 'Idea',
+      details: [
+        `- deletes: \`content/builders-hub/ideas/${doc.slug}/index.json\``,
+        `- deletes: \`content/builders-hub/ideas/${doc.slug}/en.json\``,
       ],
     }),
     draft: true,

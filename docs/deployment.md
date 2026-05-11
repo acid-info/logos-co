@@ -54,7 +54,7 @@ For local dev copy apps/cms/.env.example to apps/cms/.env and fill it in.
 | `GITHUB_APP_ID` | required (App auth) | GitHub App ID. Preferred mode for staging/production. |
 | `GITHUB_APP_PRIVATE_KEY` | required (App auth) | Multiline PEM. In Vercel paste verbatim — Vercel preserves newlines. |
 | `GITHUB_INSTALLATION_ID` | required (App auth) | Numeric ID from the App's installation page. |
-| `GITHUB_TOKEN` | required (PAT auth) | Personal access token with `contents:write` + `pull_requests:write`. **Local dev only**; rejected by code review when used in production. |
+| `GITHUB_TOKEN` | optional (local PAT fallback only) | Personal access token with `contents:write` + `pull_requests:write`. Do not set this in shared, preview, staging, or production environments. |
 | `GITHUB_STAGING_BRANCH` | optional | Defaults to `develop`. Where CMS PRs land first. |
 | `GITHUB_PRODUCTION_BRANCH` | optional | Defaults to `master`. The promoted branch. |
 | `GITHUB_PR_BASE_BRANCH` | optional | Defaults to `develop`. Target branch for new content PRs. |
@@ -63,7 +63,56 @@ For local dev copy apps/cms/.env.example to apps/cms/.env and fill it in.
 | `NEXT_PUBLIC_SERVER_URL` | recommended | Public CMS URL for CORS + CSRF. Falls back to `https://$VERCEL_URL` (different per preview deploy). |
 | `NEXT_PUBLIC_WEB_URL` | recommended | Public web URL for CORS + CSRF. Falls back to `http://localhost:3000` if unset — set explicitly on every non-local deploy. |
 
-Set all of these for both **Production** and **Preview** environments in the Vercel dashboard (Settings → Environment Variables). Preview deploys without `DATABASE_URL` will throw at build time.
+Set the required App-auth variables for both **Production** and **Preview** environments in the Vercel dashboard (Settings → Environment Variables). Preview deploys without `DATABASE_URL` will throw at build time.
+
+### GitHub App setup for CMS pull requests
+
+Use GitHub App authentication for every shared, preview, staging, and production CMS environment. `GITHUB_TOKEN` is only a local-development fallback; using a personal access token in a shared CMS makes every CMS-created pull request appear to come from that person's GitHub account.
+
+Create the App under the repository owner organization:
+
+1. Open `https://github.com/organizations/acid-info/settings/apps/new`.
+2. Enter a clear app name, for example `Logos CMS Content Bot`.
+3. Set **Homepage URL** to `https://github.com/acid-info/logos-co`.
+4. Leave **Callback URL** and **Setup URL** empty. The CMS does not use GitHub OAuth user authorization.
+5. Turn **Webhook Active** off unless PR-status webhooks are being configured separately.
+6. In **Repository permissions**, grant:
+   - **Contents**: Read and write
+   - **Pull requests**: Read and write
+   - **Metadata**: Read-only (GitHub grants this automatically)
+7. Leave all other permissions at **No access**.
+8. Set the App visibility to **Only on this account**.
+9. Click **Create GitHub App**.
+
+Generate and store the private key:
+
+1. In the new App's settings, find **Private keys**.
+2. Click **Generate a private key**.
+3. Store the downloaded `.pem` file in the team's secret manager.
+4. Use the full PEM contents, including the `BEGIN` and `END` lines, as `GITHUB_APP_PRIVATE_KEY`.
+
+Install the App on this repository:
+
+1. In the App settings sidebar, click **Install App**.
+2. Click **Install** next to `acid-info`.
+3. Choose **Only select repositories**.
+4. Select `logos-co`.
+5. Review the requested permissions and click **Install**.
+
+Record the environment values:
+
+```text
+GITHUB_OWNER=acid-info
+GITHUB_REPO=logos-co
+GITHUB_APP_ID=<App ID from the App settings General page>
+GITHUB_APP_PRIVATE_KEY=<full PEM contents from the downloaded private key>
+GITHUB_INSTALLATION_ID=<numeric ID from the installation settings URL>
+GITHUB_TOKEN=
+```
+
+The installation ID is the number in the installed App URL. For example, in `https://github.com/organizations/acid-info/settings/installations/12345678`, the installation ID is `12345678`.
+
+After setting these variables, restart the CMS and create a test content PR. The PR author should be the GitHub App bot, not a personal account. Editor attribution stays in Payload's `ContentChangeRequest.createdBy` audit record instead of the public GitHub author field.
 
 ## 4. Database: Supabase Postgres
 
@@ -340,8 +389,8 @@ CSP is intentionally omitted from these snippets — Leaflet tiles, Hasura Graph
 
 Tracked in plan §11 phases:
 
-- **Phase 4a:** GitHub App authentication for CMS-driven PRs. Not needed for Payload to boot, but needed for editors to actually save changes back to GitHub.
-- **Phase 4b/c:** Editor save flow + PR status panel — same plan section.
+- **GitHub App credentials:** The CMS PR workflow is implemented, but each deployed environment must provide the App credentials from section 3 before editors can save changes back to GitHub.
+- **Phase 4b/c follow-ups:** Any remaining editor save-flow and PR status-panel hardening tracked in the plan.
 - **Phase 6:** External media storage. Phase 1 stores media in `apps/web/public/cms/...` inside the repo.
 
 These phases are deployment-relevant when they land; this guide will be updated then.

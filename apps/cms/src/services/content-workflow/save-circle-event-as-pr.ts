@@ -1,15 +1,19 @@
+import type { FileChange } from '@repo/content/github'
 import {
   circleEventIndexSchema,
   circleEventLocaleSchema,
 } from '@repo/content/schemas'
 
 import {
+  createFixtureDeleteChanges,
   createFixturePair,
   stripEmpty,
   toIsoDateOrUndefined,
   type FixturePair,
 } from './fixture-helpers'
 import {
+  createContentDeletePrBody,
+  createContentDeleteSubject,
   createContentUpdatePrBody,
   createContentUpdateSubject,
   saveAsPullRequest,
@@ -101,6 +105,11 @@ export const buildCircleEventFixtureChanges = (
   })
 }
 
+export const buildCircleEventFixtureDeleteChanges = (
+  doc: Pick<CircleEventDocLike, 'slug'>
+): FileChange[] =>
+  createFixtureDeleteChanges(`content/circles/events/${doc.slug}`)
+
 export const saveCircleEventAsPullRequest = async ({
   doc,
   payload,
@@ -126,6 +135,36 @@ export const saveCircleEventAsPullRequest = async ({
         `- circleSlug: \`${doc.circleSlug}\``,
         `- status: \`${doc.status}\``,
         `- startsAt: ${doc.startsAt}`,
+      ],
+    }),
+    draft: true,
+    editor,
+    payload,
+  })
+}
+
+export const deleteCircleEventAsPullRequest = async ({
+  doc,
+  payload,
+  editor,
+}: SaveContentAsPullRequestInput<CircleEventDocLike>): Promise<SaveAsPullRequestResult> => {
+  const subject = createContentDeleteSubject({
+    scope: 'circle-event',
+    slug: doc.slug,
+  })
+
+  return saveAsPullRequest({
+    contentType: 'circle-event',
+    identifier: doc.slug,
+    changes: buildCircleEventFixtureDeleteChanges(doc),
+    commitMessage: subject,
+    prTitle: subject,
+    prBody: createContentDeletePrBody({
+      displayName: doc.title,
+      contentLabel: 'Circle event',
+      details: [
+        `- deletes: \`content/circles/events/${doc.slug}/index.json\``,
+        `- deletes: \`content/circles/events/${doc.slug}/en.json\``,
       ],
     }),
     draft: true,

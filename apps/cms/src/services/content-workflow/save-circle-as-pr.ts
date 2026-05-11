@@ -1,11 +1,15 @@
+import type { FileChange } from '@repo/content/github'
 import { circleIndexSchema, circleLocaleSchema } from '@repo/content/schemas'
 
 import {
+  createFixtureDeleteChanges,
   createFixturePair,
   stripEmpty,
   type FixturePair,
 } from './fixture-helpers'
 import {
+  createContentDeletePrBody,
+  createContentDeleteSubject,
   createContentUpdatePrBody,
   createContentUpdateSubject,
   saveAsPullRequest,
@@ -114,6 +118,11 @@ export const buildCircleFixtureChanges = (doc: CircleDocLike): FixturePair => {
   })
 }
 
+export const buildCircleFixtureDeleteChanges = (
+  doc: Pick<CircleDocLike, 'slug'>
+): FileChange[] =>
+  createFixtureDeleteChanges(`content/circles/circles/${doc.slug}`)
+
 /**
  * High-level entry point invoked by the Admin "Create PR" action. Takes the
  * Payload doc + the request's Payload instance and editor metadata, builds
@@ -143,6 +152,36 @@ export const saveCircleAsPullRequest = async ({
         `- slug: \`${doc.slug}\``,
         `- status: \`${doc.status}\``,
         `- city: ${doc.city}, ${doc.country}`,
+      ],
+    }),
+    draft: true,
+    editor,
+    payload,
+  })
+}
+
+export const deleteCircleAsPullRequest = async ({
+  doc,
+  payload,
+  editor,
+}: SaveContentAsPullRequestInput<CircleDocLike>): Promise<SaveAsPullRequestResult> => {
+  const subject = createContentDeleteSubject({
+    scope: 'circle',
+    slug: doc.slug,
+  })
+
+  return saveAsPullRequest({
+    contentType: 'circle',
+    identifier: doc.slug,
+    changes: buildCircleFixtureDeleteChanges(doc),
+    commitMessage: subject,
+    prTitle: subject,
+    prBody: createContentDeletePrBody({
+      displayName: doc.name,
+      contentLabel: 'Circle',
+      details: [
+        `- deletes: \`content/circles/circles/${doc.slug}/index.json\``,
+        `- deletes: \`content/circles/circles/${doc.slug}/en.json\``,
       ],
     }),
     draft: true,

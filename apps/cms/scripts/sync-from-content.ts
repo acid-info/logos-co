@@ -36,6 +36,7 @@ import {
 } from '@repo/content/loaders'
 
 import config from '@payload-config'
+import { SKIP_CONTENT_PR_CONTEXT } from '../src/collections/content-pr-hooks'
 
 type SyncResult = { created: number; updated: number; skipped: number }
 
@@ -197,6 +198,7 @@ const upsertBySlug = async (
       >[0]['collection'],
       id: found.docs[0]!.id,
       data: data as never,
+      context: { [SKIP_CONTENT_PR_CONTEXT]: true },
     })
     return 'updated'
   }
@@ -205,6 +207,7 @@ const upsertBySlug = async (
       PayloadInstance['create']
     >[0]['collection'],
     data: data as never,
+    context: { [SKIP_CONTENT_PR_CONTEXT]: true },
   })
   return 'created'
 }

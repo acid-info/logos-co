@@ -3,10 +3,18 @@ import type { CollectionConfig } from 'payload'
 import {
   authenticatedCollectionAccess,
   createLockBannerField,
-  createPrActionField,
   createPublishStatusField,
   createSlugField,
 } from './shared-fields'
+import {
+  createChangePullRequestHook,
+  createDeletePullRequestHook,
+} from './content-pr-hooks'
+import {
+  deleteIdeaAsPullRequest,
+  saveIdeaAsPullRequest,
+  type IdeaDocLike,
+} from '@/services/content-workflow'
 
 /**
  * Editor-facing collection for Builders Hub Ideas — community-submitted
@@ -34,9 +42,22 @@ export const Ideas: CollectionConfig = {
     useAsTitle: 'title',
     description:
       'Community-submitted concepts driving sovereignty forward. ' +
-      'Saves as a draft to Payload; click "Create PR" to publish to the repo.',
+      'Saving creates a GitHub pull request for review.',
   },
   access: authenticatedCollectionAccess,
+  hooks: {
+    beforeChange: [
+      createChangePullRequestHook<IdeaDocLike>({
+        save: saveIdeaAsPullRequest,
+      }),
+    ],
+    beforeDelete: [
+      createDeletePullRequestHook<IdeaDocLike>({
+        collection: 'ideas',
+        save: deleteIdeaAsPullRequest,
+      }),
+    ],
+  },
   fields: [
     createLockBannerField('@/components/admin/lock-banner.tsx#IdeaLockBanner'),
     createSlugField(
@@ -174,10 +195,6 @@ export const Ideas: CollectionConfig = {
         { name: 'submittedAt', type: 'date' },
       ],
     },
-
-    createPrActionField(
-      '@/components/admin/save-pr-button.tsx#SaveIdeaPrButton'
-    ),
   ],
   timestamps: true,
 }

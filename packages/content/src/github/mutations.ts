@@ -1,15 +1,22 @@
 import { getOctokit } from './client'
 import { getGithubConfig } from './config'
 
-/**
- * A single file change for a multi-file commit. `content` is either UTF-8
- * text (JSON, MDX) or raw bytes (uploaded media). Both pass through the
- * Git Data blob API with base64 encoding.
- */
-export type FileChange = {
+type FileWriteChange = {
   path: string
   content: string | Uint8Array
 }
+
+type FileDeleteChange = {
+  path: string
+  deleted: true
+}
+
+/**
+ * A single file change for a multi-file commit. Writes carry UTF-8 text
+ * (JSON, MDX) or raw bytes (uploaded media). Deletes become Git tree entries
+ * with a null SHA.
+ */
+export type FileChange = FileWriteChange | FileDeleteChange
 
 const ASSERT_BRANCH_PREFIX = (branchName: string): void => {
   const {
@@ -166,21 +173,30 @@ export const commitFiles = async ({
   // base64'd directly so binary content (images, video) survives the trip.
   const tree = await Promise.all(
     changes.map(async (change) => {
-      const buffer =
-        typeof change.content === 'string'
-          ? Buffer.from(change.content, 'utf-8')
-          : Buffer.from(change.content)
-      const { data: blob } = await octokit.git.createBlob({
-        owner,
-        repo,
-        content: buffer.toString('base64'),
-        encoding: 'base64',
-      })
+      if ('content' in change) {
+        const buffer =
+          typeof change.content === 'string'
+            ? Buffer.from(change.content, 'utf-8')
+            : Buffer.from(change.content)
+        const { data: blob } = await octokit.git.createBlob({
+          owner,
+          repo,
+          content: buffer.toString('base64'),
+          encoding: 'base64',
+        })
+        return {
+          path: change.path,
+          mode: '100644' as const,
+          type: 'blob' as const,
+          sha: blob.sha,
+        }
+      }
+
       return {
         path: change.path,
         mode: '100644' as const,
         type: 'blob' as const,
-        sha: blob.sha,
+        sha: null,
       }
     })
   )

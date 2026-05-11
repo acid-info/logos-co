@@ -3,10 +3,18 @@ import type { CollectionConfig } from 'payload'
 import {
   authenticatedCollectionAccess,
   createLockBannerField,
-  createPrActionField,
   createPublishStatusField,
   createSlugField,
 } from './shared-fields'
+import {
+  createChangePullRequestHook,
+  createDeletePullRequestHook,
+} from './content-pr-hooks'
+import {
+  deleteRfpAsPullRequest,
+  saveRfpAsPullRequest,
+  type RfpDocLike,
+} from '@/services/content-workflow'
 
 /**
  * Editor-facing collection for Builders Hub RFPs.
@@ -42,9 +50,22 @@ export const Rfps: CollectionConfig = {
     useAsTitle: 'title',
     description:
       'Funded calls for builders to ship Logos-powered applications. ' +
-      'Saves as a draft to Payload; click "Create PR" to publish to the repo.',
+      'Saving creates a GitHub pull request for review.',
   },
   access: authenticatedCollectionAccess,
+  hooks: {
+    beforeChange: [
+      createChangePullRequestHook<RfpDocLike>({
+        save: saveRfpAsPullRequest,
+      }),
+    ],
+    beforeDelete: [
+      createDeletePullRequestHook<RfpDocLike>({
+        collection: 'rfps',
+        save: deleteRfpAsPullRequest,
+      }),
+    ],
+  },
   fields: [
     createLockBannerField('@/components/admin/lock-banner.tsx#RfpLockBanner'),
     createSlugField(
@@ -194,10 +215,6 @@ export const Rfps: CollectionConfig = {
         },
       ],
     },
-
-    createPrActionField(
-      '@/components/admin/save-pr-button.tsx#SaveRfpPrButton'
-    ),
   ],
   timestamps: true,
 }

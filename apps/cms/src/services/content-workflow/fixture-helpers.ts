@@ -45,3 +45,11 @@ export const createFixturePair = ({
   indexChange: toJsonFileChange(`${targetDir}/index.json`, indexValue),
   localeChange: toJsonFileChange(`${targetDir}/${locale}.json`, localeValue),
 })
+
+export const createFixtureDeleteChanges = (
+  targetDir: string,
+  locale = 'en'
+): FileChange[] => [
+  { path: `${targetDir}/index.json`, deleted: true },
+  { path: `${targetDir}/${locale}.json`, deleted: true },
+]

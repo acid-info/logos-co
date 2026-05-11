@@ -189,7 +189,7 @@ export interface Page {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Funded calls for builders to ship Logos-powered applications. Saves as a draft to Payload; click "Create PR" to publish to the repo.
+ * Funded calls for builders to ship Logos-powered applications. Saving creates a GitHub pull request for review.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "rfps".
@@ -252,7 +252,7 @@ export interface Rfp {
   createdAt: string;
 }
 /**
- * Community-submitted concepts driving sovereignty forward. Saves as a draft to Payload; click "Create PR" to publish to the repo.
+ * Community-submitted concepts driving sovereignty forward. Saving creates a GitHub pull request for review.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "ideas".

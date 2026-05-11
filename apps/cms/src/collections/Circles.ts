@@ -3,11 +3,25 @@ import type { CollectionConfig, Field } from 'payload'
 import {
   authenticatedCollectionAccess,
   createImageFields,
-  createPrActionField,
   createPublishStatusField,
   createSlugField,
 } from './shared-fields'
+import {
+  createChangePullRequestHook,
+  createDeletePullRequestHook,
+} from './content-pr-hooks'
 import { isValidIanaTimeZone } from '@/lib/timezones'
+import {
+  deleteCircleEventAsPullRequest,
+  deleteCircleInitiativeAsPullRequest,
+  deleteCircleAsPullRequest,
+  saveCircleEventAsPullRequest,
+  saveCircleInitiativeAsPullRequest,
+  saveCircleAsPullRequest,
+  type CircleDocLike,
+  type CircleEventDocLike,
+  type CircleInitiativeDocLike,
+} from '@/services/content-workflow'
 
 const createTimeZoneField = (width: string): Field => ({
   name: 'timezone',
@@ -40,6 +54,19 @@ export const Circles: CollectionConfig = {
       'Local Logos chapters. Shape mirrors content/circles/circles fixtures.',
   },
   access: authenticatedCollectionAccess,
+  hooks: {
+    beforeChange: [
+      createChangePullRequestHook<CircleDocLike>({
+        save: saveCircleAsPullRequest,
+      }),
+    ],
+    beforeDelete: [
+      createDeletePullRequestHook<CircleDocLike>({
+        collection: 'circles',
+        save: deleteCircleAsPullRequest,
+      }),
+    ],
+  },
   fields: [
     createSlugField(),
     createPublishStatusField(),
@@ -109,9 +136,6 @@ export const Circles: CollectionConfig = {
       fields: createImageFields(),
     },
     { name: 'order', type: 'number', min: 0 },
-    createPrActionField(
-      '@/components/admin/save-pr-button.tsx#SaveCirclePrButton'
-    ),
   ],
   timestamps: true,
 }
@@ -125,6 +149,19 @@ export const CircleEvents: CollectionConfig = {
       'Circle gatherings. Shape mirrors content/circles/events fixtures.',
   },
   access: authenticatedCollectionAccess,
+  hooks: {
+    beforeChange: [
+      createChangePullRequestHook<CircleEventDocLike>({
+        save: saveCircleEventAsPullRequest,
+      }),
+    ],
+    beforeDelete: [
+      createDeletePullRequestHook<CircleEventDocLike>({
+        collection: 'circle-events',
+        save: deleteCircleEventAsPullRequest,
+      }),
+    ],
+  },
   fields: [
     createSlugField(),
     createPublishStatusField(),
@@ -169,9 +206,6 @@ export const CircleEvents: CollectionConfig = {
       admin: { initCollapsed: true },
       fields: createImageFields(),
     },
-    createPrActionField(
-      '@/components/admin/save-pr-button.tsx#SaveCircleEventPrButton'
-    ),
   ],
   timestamps: true,
 }
@@ -185,6 +219,19 @@ export const CircleInitiatives: CollectionConfig = {
       'Winnable local issues. Shape mirrors content/circles/initiatives fixtures.',
   },
   access: authenticatedCollectionAccess,
+  hooks: {
+    beforeChange: [
+      createChangePullRequestHook<CircleInitiativeDocLike>({
+        save: saveCircleInitiativeAsPullRequest,
+      }),
+    ],
+    beforeDelete: [
+      createDeletePullRequestHook<CircleInitiativeDocLike>({
+        collection: 'circle-initiatives',
+        save: deleteCircleInitiativeAsPullRequest,
+      }),
+    ],
+  },
   fields: [
     createSlugField(),
     createPublishStatusField(),
@@ -209,9 +256,6 @@ export const CircleInitiatives: CollectionConfig = {
     },
     { name: 'featured', type: 'checkbox', defaultValue: false },
     { name: 'order', type: 'number', min: 0 },
-    createPrActionField(
-      '@/components/admin/save-pr-button.tsx#SaveCircleInitiativePrButton'
-    ),
   ],
   timestamps: true,
 }
