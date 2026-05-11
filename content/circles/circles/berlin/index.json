@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "slug": "berlin",
+  "status": "published",
+  "city": "Berlin",
+  "country": "Germany",
+  "coordinates": {
+    "lat": 52.52,
+    "lng": 13.405
+  },
+  "timezone": "Europe/Berlin",
+  "joinUrl": "https://luma.com/z22qr93x"
+}
