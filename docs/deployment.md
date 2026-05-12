@@ -59,7 +59,6 @@ For local dev copy apps/cms/.env.example to apps/cms/.env and fill it in.
 | `GITHUB_APP_ID` | required (App auth) | GitHub App ID. Preferred mode for staging/production. |
 | `GITHUB_APP_PRIVATE_KEY` | required (App auth) | Multiline PEM. In Vercel paste verbatim — Vercel preserves newlines. |
 | `GITHUB_INSTALLATION_ID` | required (App auth) | Numeric ID from the App's installation page. |
-| `GITHUB_TOKEN` | optional (local PAT fallback only) | Personal access token with `contents:write` + `pull_requests:write`. Do not set this in shared, preview, staging, or production environments. |
 | `GITHUB_STAGING_BRANCH` | optional | Defaults to `develop`. Where CMS PRs land first. |
 | `GITHUB_PRODUCTION_BRANCH` | optional | Defaults to `master`. The promoted branch. |
 | `GITHUB_PR_BASE_BRANCH` | optional | Defaults to `develop`. Target branch for new content PRs. |
@@ -72,7 +71,7 @@ Set the required App-auth variables for both **Production** and **Preview** envi
 
 ### GitHub App setup for CMS pull requests
 
-Use GitHub App authentication for every shared, preview, staging, and production CMS environment. `GITHUB_TOKEN` is only a local-development fallback; using a personal access token in a shared CMS makes every CMS-created pull request appear to come from that person's GitHub account.
+Use GitHub App authentication for every CMS environment, including local development. Personal access tokens are not supported because they make CMS-created GitHub actions appear to come from an individual account.
 
 Create the App under the repository owner organization:
 
@@ -112,7 +111,6 @@ GITHUB_REPO=logos-co
 GITHUB_APP_ID=<App ID from the App settings General page>
 GITHUB_APP_PRIVATE_KEY=<full PEM contents from the downloaded private key>
 GITHUB_INSTALLATION_ID=<numeric ID from the installation settings URL>
-GITHUB_TOKEN=
 ```
 
 The installation ID is the number in the installed App URL. For example, in `https://github.com/organizations/acid-info/settings/installations/12345678`, the installation ID is `12345678`.

@@ -6,17 +6,15 @@
  * surface immediately. Safe to re-run — every iteration uses a unique
  * timestamped branch name, and cleanup runs in `finally`.
  *
- * Authentication: reads `GITHUB_TOKEN` from env first; if absent, falls back
- * to `gh auth token` (the GitHub CLI's stored token). Configure the target
- * repo via `GITHUB_OWNER` / `GITHUB_REPO`; defaults to acid-info/logos-co.
+ * Authentication: uses GitHub App installation credentials only. Configure
+ * the target repo via `GITHUB_OWNER` / `GITHUB_REPO`; defaults to
+ * acid-info/logos-co.
  */
-import { execSync } from 'node:child_process'
-
 import { getOctokit, __resetOctokitForTests } from '../src/github/client'
 import {
   __resetGithubConfigForTests,
+  loadGithubConfigFromEnv,
   setGithubConfig,
-  type GithubConfig,
 } from '../src/github/config'
 import { findOpenPullRequestsTouchingPath } from '../src/github/locks'
 import {
@@ -36,39 +34,8 @@ type Step = {
   run: () => Promise<unknown>
 }
 
-const resolveToken = (): string => {
-  if (process.env.GITHUB_TOKEN && process.env.GITHUB_TOKEN.trim() !== '') {
-    return process.env.GITHUB_TOKEN
-  }
-  try {
-    const token = execSync('gh auth token', { encoding: 'utf-8' }).trim()
-    if (!token) throw new Error('gh auth token returned empty output')
-    return token
-  } catch (err) {
-    throw new Error(
-      `GITHUB_TOKEN not set and \`gh auth token\` failed: ${
-        err instanceof Error ? err.message : String(err)
-      }`,
-      { cause: err }
-    )
-  }
-}
-
-const owner = process.env.GITHUB_OWNER || 'acid-info'
-const repo = process.env.GITHUB_REPO || 'logos-co'
-const baseBranch = process.env.GITHUB_PR_BASE_BRANCH || 'master'
-const stagingBranch = process.env.GITHUB_STAGING_BRANCH || 'master'
-
-const config: GithubConfig = {
-  owner,
-  repo,
-  stagingBranch,
-  productionBranch: 'master',
-  prBaseBranch: baseBranch,
-  contentBranchPrefix: 'content/',
-  token: resolveToken(),
-  directCommitEnabled: false,
-}
+const config = loadGithubConfigFromEnv()
+const { owner, repo, prBaseBranch: baseBranch } = config
 
 const stamp = new Date().toISOString().replace(/[:.]/g, '-').replace(/-Z$/, 'Z')
 const suffix = Math.random().toString(36).slice(2, 8)

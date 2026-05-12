@@ -1063,7 +1063,7 @@ Location: `packages/content/src/github/*`
 
 Responsibilities:
 
-- Authenticate as a GitHub App (preferred) or PAT (local dev only).
+- Authenticate as a GitHub App. Personal access tokens are not supported.
 - Create branches from `develop`.
 - Read, update, create, and delete files (JSON and media binaries).
 - Create commits.
@@ -1083,11 +1083,10 @@ GITHUB_CONTENT_BRANCH_PREFIX=content/
 GITHUB_APP_ID=
 GITHUB_APP_PRIVATE_KEY=
 GITHUB_INSTALLATION_ID=
-GITHUB_TOKEN=                       # local dev fallback only
 CONTENT_DIRECT_COMMIT_ENABLED=false
 ```
 
-GitHub App authentication is the only supported mode for staging and production. Personal access tokens are local-development only.
+GitHub App authentication is the only supported mode for all CMS environments, including local development.
 
 ### File Lock / Concurrent Edit Guard
 

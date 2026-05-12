@@ -22,18 +22,10 @@ export type GithubConfig = {
   prBaseBranch: string
   /** Prefix on every CMS-managed branch (e.g. "content/rfp-foo-2026-04"). */
   contentBranchPrefix: string
-  /**
-   * App-mode auth credentials. When all three are set the client uses the
-   * GitHub App installation flow (preferred for staging / production).
-   */
-  appId?: string
-  appPrivateKey?: string
-  installationId?: number
-  /**
-   * PAT fallback — local dev only. Set `GITHUB_TOKEN` and the client falls
-   * back to PAT auth when App credentials are absent.
-   */
-  token?: string
+  /** GitHub App installation credentials. Personal tokens are not supported. */
+  appId: string
+  appPrivateKey: string
+  installationId: number
   /**
    * When `false` (default) the mutation service refuses to commit straight
    * to staging or production branches; only branches with the content prefix
@@ -67,11 +59,31 @@ const parseInstallationId = (value: string | undefined): number | undefined => {
   return parsed
 }
 
+const requiredInstallationId = (value: string | undefined): number => {
+  const parsed = parseInstallationId(value)
+  if (!parsed) {
+    throw new Error(
+      'GITHUB_INSTALLATION_ID env var is required for GitHub App authentication'
+    )
+  }
+  return parsed
+}
+
+const assertNoPersonalToken = (): void => {
+  if (optional(process.env.GITHUB_TOKEN)) {
+    throw new Error(
+      'GITHUB_TOKEN is not supported. Use GitHub App authentication so CMS GitHub actions are attributed to the app, not a personal account.'
+    )
+  }
+}
+
 /**
  * Read config from env. Throws if `GITHUB_OWNER` / `GITHUB_REPO` are unset
  * — the integration cannot function without a target repo.
  */
 export const loadGithubConfigFromEnv = (): GithubConfig => {
+  assertNoPersonalToken()
+
   return {
     owner: required('GITHUB_OWNER', process.env.GITHUB_OWNER),
     repo: required('GITHUB_REPO', process.env.GITHUB_REPO),
@@ -81,10 +93,12 @@ export const loadGithubConfigFromEnv = (): GithubConfig => {
     prBaseBranch: process.env.GITHUB_PR_BASE_BRANCH || DEFAULT_BASE_BRANCH,
     contentBranchPrefix:
       process.env.GITHUB_CONTENT_BRANCH_PREFIX || DEFAULT_BRANCH_PREFIX,
-    appId: optional(process.env.GITHUB_APP_ID),
-    appPrivateKey: optional(process.env.GITHUB_APP_PRIVATE_KEY),
-    installationId: parseInstallationId(process.env.GITHUB_INSTALLATION_ID),
-    token: optional(process.env.GITHUB_TOKEN),
+    appId: required('GITHUB_APP_ID', process.env.GITHUB_APP_ID),
+    appPrivateKey: required(
+      'GITHUB_APP_PRIVATE_KEY',
+      process.env.GITHUB_APP_PRIVATE_KEY
+    ),
+    installationId: requiredInstallationId(process.env.GITHUB_INSTALLATION_ID),
     directCommitEnabled:
       (process.env.CONTENT_DIRECT_COMMIT_ENABLED || '').toLowerCase() ===
       'true',

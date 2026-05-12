@@ -6,7 +6,7 @@
  * the real `acid-info/logos-co` repository. Verifies the PR exists and points
  * at the expected file path, then cleans up (close PR + delete branch).
  *
- * Authentication: reads `GITHUB_TOKEN` from env, falls back to `gh auth token`.
+ * Authentication: uses GitHub App installation credentials only.
  * The Payload-side `payload.create` for the `content-change-requests` row is
  * stubbed — this is a smoke for the GitHub-mutation half of the service, not
  * the Payload persistence half.
@@ -14,7 +14,6 @@
  * Usage:
  *   pnpm --filter cms tsx scripts/save-as-pr-smoke.ts
  */
-import { execSync } from 'node:child_process'
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 
@@ -23,46 +22,15 @@ import {
   __resetOctokitForTests,
   findPullRequestByBranch,
   getOctokit,
+  loadGithubConfigFromEnv,
   setGithubConfig,
-  type GithubConfig,
 } from '@repo/content/github'
 import type { Payload } from 'payload'
 
 import { saveAsPullRequest } from '../src/services/content-workflow'
 
-const resolveToken = (): string => {
-  if (process.env.GITHUB_TOKEN && process.env.GITHUB_TOKEN.trim() !== '') {
-    return process.env.GITHUB_TOKEN
-  }
-  try {
-    const token = execSync('gh auth token', { encoding: 'utf-8' }).trim()
-    if (!token) throw new Error('gh auth token returned empty output')
-    return token
-  } catch (err) {
-    throw new Error(
-      `GITHUB_TOKEN not set and \`gh auth token\` failed: ${
-        err instanceof Error ? err.message : String(err)
-      }`,
-      { cause: err }
-    )
-  }
-}
-
-const owner = process.env.GITHUB_OWNER || 'acid-info'
-const repo = process.env.GITHUB_REPO || 'logos-co'
-const baseBranch = process.env.GITHUB_PR_BASE_BRANCH || 'master'
-const stagingBranch = process.env.GITHUB_STAGING_BRANCH || 'master'
-
-const config: GithubConfig = {
-  owner,
-  repo,
-  stagingBranch,
-  productionBranch: 'master',
-  prBaseBranch: baseBranch,
-  contentBranchPrefix: 'content/',
-  token: resolveToken(),
-  directCommitEnabled: false,
-}
+const config = loadGithubConfigFromEnv()
+const { owner, repo, prBaseBranch: baseBranch } = config
 
 /**
  * Minimal stub of the Payload instance — only `create` for the
