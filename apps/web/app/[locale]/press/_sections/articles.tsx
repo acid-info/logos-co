@@ -60,7 +60,7 @@ export function ArticleEntry({
     <PressRowLink
       href={article.href}
       index={index}
-      className="h-[158px] md:h-[158px]"
+      className="h-[122px] md:h-[122px]"
     >
       <RowThumbnail
         src={article.image}
