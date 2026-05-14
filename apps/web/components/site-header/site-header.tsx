@@ -10,7 +10,7 @@
  * shell that owns the interactivity.
  */
 import Image from 'next/image'
-import { getNavigation } from '@repo/content/loaders'
+import { getNavigationContent } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
 import type {
   NavOverlayCommunityCard,
@@ -27,7 +27,7 @@ export default async function SiteHeader({ locale }: { locale: string }) {
     throw new Error(`SiteHeader received non-active locale "${locale}"`)
   }
   const [navigation, latestPressArticles] = await Promise.all([
-    getNavigation(locale),
+    getNavigationContent(locale),
     getLatestPressArticles(4),
   ])
 

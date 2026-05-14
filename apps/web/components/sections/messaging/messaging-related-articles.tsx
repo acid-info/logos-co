@@ -1,7 +1,7 @@
-import type { PressArticle } from '@repo/content/loaders'
 import type { RelatedArticlesSection } from '@repo/content/schemas'
 
 import { Button, ButtonArrowIcon } from '@/components/ui'
+import type { PressArticleRow } from '@/lib/press-engine'
 
 import { ArticleCard, articlesToCards } from '../shared/related-articles-card'
 
@@ -10,7 +10,7 @@ const TITLE_CLASSNAME =
 
 type Props = {
   data: RelatedArticlesSection
-  articles: PressArticle[]
+  articles: PressArticleRow[]
 }
 
 export default function MessagingRelatedArticles({ data, articles }: Props) {

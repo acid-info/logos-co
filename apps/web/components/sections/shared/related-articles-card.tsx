@@ -5,15 +5,13 @@
  *
  * The four pages keep their own outer layout to preserve Figma pixel fidelity
  * (each frame has different absolute/flow positioning, heights, and Button
- * variants), but the article-card markup, the date formatter, and the
- * PressArticle → card-prop reshape are byte-identical and live here.
+ * variants), but the article-card markup and Press Engine row → card-prop
+ * reshape are byte-identical and live here.
  */
 import Image from 'next/image'
 
-import type { PressArticle } from '@repo/content/loaders'
-
 import { ExternalLink } from '@/components/ui'
-import { formatDateMdy2 } from '@/lib/dates'
+import type { PressArticleRow } from '@/lib/press-engine'
 
 export type ArticleCardProps = {
   title: string
@@ -33,17 +31,17 @@ export type ArticleCardProps = {
 const DEFAULT_TITLE_CLASSNAME =
   'text-body-sans flex-1 font-medium text-brand-dark-green'
 
-/** Reshape a `PressArticle[]` into props for `<ArticleCard />`. */
+/** Reshape Press Engine article rows into props for `<ArticleCard />`. */
 export function articlesToCards(
-  articles: ReadonlyArray<PressArticle>
+  articles: ReadonlyArray<PressArticleRow>
 ): Omit<ArticleCardProps, 'titleClassName'>[] {
   return articles.map((article) => ({
     title: article.title,
-    imageSrc: article.image.src,
-    imageAlt: article.image.alt || article.title,
-    date: article.displayDate ?? formatDateMdy2(article.publishedAt),
-    author: article.author?.name ?? '',
-    href: article.externalUrl,
+    imageSrc: article.image,
+    imageAlt: article.title,
+    date: article.galleryDate,
+    author: article.author,
+    href: article.href,
   }))
 }
 

@@ -37,8 +37,11 @@ import {
 } from '../src/schemas/custom-sections'
 import { customSectionSchema } from '../src/schemas/pages'
 import { getPageCopy, parseCustomSectionPayload } from '../src/loaders/pages'
-import { getPressArticles } from '../src/loaders/press'
-import { getFooter, getNavigation, getSiteSettings } from '../src/loaders/site'
+import {
+  getFooter,
+  getNavigationContent,
+  getSiteSettings,
+} from '../src/loaders/site'
 import { getActiveLocales } from '../src/locales/registry'
 
 type Check = {
@@ -50,44 +53,8 @@ const buildSiteChecks = (locale: Language): Check[] => [
   { name: `site.settings (${locale})`, run: () => getSiteSettings(locale) },
   { name: `site.footer (${locale})`, run: () => getFooter(locale) },
   {
-    name: `site.navigation (${locale}) → press.articles populated`,
-    run: async () => {
-      const nav = await getNavigation(locale)
-      if (nav.press.articles.length === 0) {
-        throw new Error(
-          'expected at least one resolved press article in nav.press.articles'
-        )
-      }
-      return nav
-    },
-  },
-]
-
-const buildPressChecks = (locale: Language): Check[] => [
-  {
-    name: `press.articles (${locale}) → at least one published article`,
-    run: async () => {
-      const articles = await getPressArticles({ locale, status: 'published' })
-      if (articles.length === 0) {
-        throw new Error('no published press articles found')
-      }
-      return articles
-    },
-  },
-  {
-    name: `press.articles (${locale}) → sorted by publishedAt desc`,
-    run: async () => {
-      const articles = await getPressArticles({ locale, status: 'published' })
-      for (let i = 1; i < articles.length; i++) {
-        if (articles[i - 1].publishedAt < articles[i].publishedAt) {
-          throw new Error(
-            `out-of-order: "${articles[i - 1].slug}" (${articles[i - 1].publishedAt}) ` +
-              `before "${articles[i].slug}" (${articles[i].publishedAt})`
-          )
-        }
-      }
-      return articles
-    },
+    name: `site.navigation (${locale})`,
+    run: () => getNavigationContent(locale),
   },
 ]
 
@@ -694,7 +661,6 @@ const main = async (): Promise<void> => {
   for (const locale of locales) {
     checks.push(
       ...buildSiteChecks(locale),
-      ...buildPressChecks(locale),
       ...buildBuilderHubChecks(locale),
       ...buildCirclesChecks(locale),
       ...buildPagesChecks(locale)

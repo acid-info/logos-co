@@ -1,4 +1,4 @@
-import { getPageCopy, resolvePressList } from '@repo/content/loaders'
+import { getPageCopy } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
 import type {
   CardGridSection,
@@ -16,6 +16,7 @@ import MessagingTechStack from '@/components/sections/messaging/messaging-tech-s
 import { ROUTES } from '@/constants/routes'
 import { createPageMetadata } from '@/lib/page-metadata'
 import { createSectionFinder } from '@/lib/page-sections'
+import { getLatestPressArticles } from '@/lib/press-engine'
 
 const ROUTE = ROUTES.messaging
 
@@ -74,10 +75,9 @@ export default async function MessagingPage({
     'messaging.relatedArticles'
   )
 
-  const articles = await resolvePressList(relatedArticles.pinnedSlugs, {
-    limit: relatedArticles.visibleCount ?? 4,
-    locale,
-  })
+  const articles = await getLatestPressArticles(
+    relatedArticles.visibleCount ?? 4
+  )
 
   return (
     <>

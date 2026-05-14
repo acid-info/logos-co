@@ -276,8 +276,7 @@
       "title": "Press",
       "label": "Logos Press Engine",
       "cta": { "label": "Explore all articles", "href": "/press" },
-      "visibleCount": 4,
-      "pinnedSlugs": ["from-cybernetics-to-blockchain-communities"]
+      "visibleCount": 4
     },
     {
       "componentType": "featuredText",

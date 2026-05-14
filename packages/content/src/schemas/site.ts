@@ -6,7 +6,6 @@ import {
   linkHrefSchema,
   mediaRefSchema,
   schemaVersion,
-  slugSchema,
 } from './common'
 
 export const navLinkSchema = z.object({
@@ -66,12 +65,6 @@ export const navigationSchema = z.object({
     label: z.string().min(1),
     seeAllLabel: z.string().min(1),
     seeAllHref: linkHrefSchema,
-    /**
-     * Optional manual order. The Navigation loader resolves these slugs first,
-     * then fills any remaining slots from the latest published Press articles
-     * to reach `visibleCount`.
-     */
-    pinnedSlugs: z.array(slugSchema).optional(),
     visibleCount: z.number().int().positive().optional(),
   }),
 })

@@ -265,13 +265,12 @@ type Navigation = {
     label: string                  // section title in overlay ("Press")
     seeAllLabel: string             // "SEE ALL"
     seeAllHref: string              // /press
-    pinnedSlugs?: string[]          // optional manual order; loader falls back to latest N
-    visibleCount?: number           // loader applies default of 4 when omitted
+    visibleCount?: number           // Press Engine query limit; UI applies default of 4 when omitted
   }
 }
 ```
 
-The Navigation loader resolves `press` into a list of `PressArticle` view models at build time using `pinnedSlugs` first, then most recent published articles to reach `visibleCount`.
+The Navigation loader reads only chrome labels and links from repo content. Article cards are fetched dynamically from Logos Press Engine at build time by the web app.
 
 #### Footer
 
@@ -382,8 +381,7 @@ type RelatedArticlesSection = {
   eyebrow?: string
   title: string
   cta?: CTA
-  pinnedSlugs?: string[]         // press article slugs; loader falls back to latest N
-  visibleCount?: number          // loader applies default of 4 when omitted
+  visibleCount?: number          // Press Engine query limit; UI applies default of 4 when omitted
 }
 
 // Minimal placeholders for sections used today — full shapes filled in alongside Figma walkthrough.
@@ -487,7 +485,7 @@ Place names like `Circle.city`, `Circle.country`, `CircleEvent.venueName`, and `
 | Circles index event group header | `JANUARY 21 / WEDNESDAY` | `formatEventDateForSurface(event, 'index-group', locale)` |
 | Circles index event card (no date — date is in the group header above) | time row only: `12:00 PM · 6:00 PM GMT+1` (event-local · viewer-local) | `formatEventDateForSurface(event, 'index-card', locale)` |
 | Circle detail event card | calendar row `February 22, 2026`, clock row `12:00 PM` | `formatEventDateForSurface(event, 'detail-card', locale)` |
-| Press article card | `02.14.26` | `formatEventDateForSurface(event, 'press', locale)` (or PressArticle.displayDate override) |
+| Press article card | `02.14.26` | Logos Press Engine response |
 
 The index-card time row pairs the event's local time with the viewer's local time using the browser's `Intl.DateTimeFormat`. The detail-card surface omits viewer-local conversion to keep copy unambiguous when the page is shared.
 
@@ -902,34 +900,9 @@ type CircleResourceLocale = {
 
 ### Press
 
-The Press collection backs the open-overlay Press section in the navbar, the homepage Press strip, the `/press` index, and every tech-stack sub-page's `Related Articles` block.
+Press articles are not stored in repo content or edited through this CMS. The open-overlay Press section in the navbar, the homepage Press strip, the `/press` index, and every tech-stack sub-page's `Related Articles` block fetch article data from Logos Press Engine.
 
-`content/press/articles/<slug>/index.json`:
-
-```ts
-type PressArticleIndex = {
-  schemaVersion: 1
-  slug: string
-  status: PublishState
-  publishedAt: string                  // ISO 8601 — primary sort key
-  displayDate?: string                 // optional override, e.g. '02.14.26'
-  author?: { name: string; handle?: string }
-  source: 'logos-press-engine' | 'external'   // required; defaults to 'logos-press-engine' in editor UI
-  externalUrl: string                  // canonical URL the card links to (required for both sources)
-  image: MediaRef
-  featured?: boolean
-}
-
-type PressArticleLocale = {
-  language: Language
-  title: string
-  excerpt?: string
-}
-```
-
-The CMS does not own article bodies. Long-form text lives in the Logos Press Engine (or the external publication) and is reached via `externalUrl`. Storing only metadata avoids duplication and stale copy. If long-form content needs to live in the repo at some later point, add a `body?: string` field through a Phase 5 schema bump rather than designing for it preemptively.
-
-The loader exposes `getPressArticles({ limit, locale, status })` and `resolvePressList(slugs, fallback)` so any section that takes a list of articles (Navigation, RelatedArticles, homepage Press strip) calls one helper instead of duplicating logic.
+Repo content owns only surrounding chrome copy such as section labels, CTA labels, and `visibleCount`. Article title, author, image, date, and canonical URL come from `https://press.logos.co/api/search`.
 
 ## 5. Figma Coverage Audit
 
@@ -1032,8 +1005,6 @@ getCircleBySlug(slug: string, locale: Language)
 getCircleEvents({ circleSlug, locale })
 getCircleEventsGroupedByDate({ locale })          // returns Array<{ date, weekday, events: CircleEvent[] }> for the index page
 getCircleInitiatives({ circleSlug, locale })
-getPressArticles({ limit, locale, status })
-resolvePressList(slugs: string[], fallback: { limit: number, locale: Language })
 resolveBuilderHubHomeRfps(locale: Language)        // applies pinnedSlugs + displayCount + terminator card from BuilderHubSettings.rfpsSection
 resolveBuilderHubHomeIdeas(locale: Language)       // applies pinnedSlugs + displayCount from BuilderHubSettings.ideasSection
 formatEventDateForSurface(event, surface: 'index-group' | 'index-card' | 'detail-card' | 'press', locale)
@@ -1529,11 +1500,7 @@ content/circles/initiatives/digital-id-replacement/{index.json, en.json}
 content/circles/initiatives/digital-escape-egress/{index.json, en.json}
 content/circles/resources/en.json         # 3 items: Start your own Circle, Forum, Discord
 
-# Press
-content/press/articles/state-of-network-november-2025/{index.json, en.json}
-content/press/articles/from-cybernetics-to-blockchain-communities/{index.json, en.json}
-content/press/articles/state-of-network-october-2025/{index.json, en.json}
-content/press/articles/funding-the-commons-tor/{index.json, en.json}
+# Press articles are fetched from Logos Press Engine, not stored in this repo.
 ```
 
 Total: 3 site files + 5 page files + 1 builder-hub settings + 6 RFP/Idea bundles + 1 builder-hub resources + 1 circles settings + 4 Circle bundles + 3 Event bundles + 3 Initiative bundles + 1 circles resources + 4 Press bundles.

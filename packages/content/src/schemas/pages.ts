@@ -9,7 +9,6 @@ import {
   linkHrefSchema,
   mediaRefSchema,
   schemaVersion,
-  slugSchema,
 } from './common'
 
 /**
@@ -138,9 +137,6 @@ export const relatedArticlesSectionSchema = z.object({
   eyebrow: z.string().min(1).optional(),
   title: z.string().min(1),
   cta: ctaSchema.optional(),
-  /** Press article slugs; loader fills remaining slots from latest published. */
-  pinnedSlugs: z.array(slugSchema).optional(),
-  /** Loader applies a default of 4 when omitted. */
   visibleCount: z.number().int().positive().optional(),
 })
 export type RelatedArticlesSection = z.infer<
