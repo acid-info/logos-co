@@ -6,6 +6,7 @@ const PRESS_SEARCH_API = `${PRESS_ORIGIN}/api/search`
 const ADMIN_ACID_API_ORIGIN =
   env.NEXT_PUBLIC_ADMIN_ACID_API_URL ?? 'https://admin-acid.logos.co/api'
 const CALENDAR_PUBLIC_PATH = '/calendar/public'
+const PRESS_ARTICLE_IMAGE_OVERFETCH_MULTIPLIER = 3
 
 export type PressArticleRow = {
   title: string
@@ -290,8 +291,12 @@ const toBroadcastEventRow = (event: CalendarEvent): BroadcastEventRow => {
 }
 
 export const getLatestPressArticles = async (limit = 4) => {
-  const articlePosts = await getPressSearchItems('article', limit)
-  return articlePosts.map(toArticleRow).filter(hasImage)
+  const searchLimit = Math.max(
+    limit,
+    limit * PRESS_ARTICLE_IMAGE_OVERFETCH_MULTIPLIER
+  )
+  const articlePosts = await getPressSearchItems('article', searchLimit)
+  return articlePosts.map(toArticleRow).filter(hasImage).slice(0, limit)
 }
 
 export const getPressPageData = async () => {

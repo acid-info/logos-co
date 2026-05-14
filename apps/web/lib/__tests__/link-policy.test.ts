@@ -11,6 +11,8 @@ const scannedRoots = ['apps/web', 'content', 'packages/content'].map((root) =>
 const blockedPatterns = [
   /href=["']#["']/,
   /href:\s*["']#["']/,
+  /\?\?\s*["']#["']/,
+  /\|\|\s*["']#["']/,
   /https:\/\/forum\.logos\.co/,
   /https:\/\/forum\.vac\.dev/,
   /https:\/\/docs\.logos\.co/,

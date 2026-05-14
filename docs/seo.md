@@ -57,7 +57,7 @@ Living checklist for all SEO work on logos.co. Status keys: ✅ done · ⏳ in p
 ### Sitemap
 
 - [ ] `sitemap.xml` includes all 15 pages from [pages.md](pages.md)
-- [ ] Dynamic entries: `/circles/[slug]` per city, `/press/[slug]` per article, `/builders-hub/ideas/[id]`, `/builders-hub/rfps/[id]`
+- [ ] Dynamic entries: `/circles/[slug]` per city, `/builders-hub/ideas/[id]`, `/builders-hub/rfps/[id]`; article pages live on `press.logos.co`
 - [ ] Each entry includes `lastModified`, `changeFrequency`, `priority`
 - [ ] One entry per canonical English path
 - [ ] Sitemap submitted to Google Search Console + Bing Webmaster Tools
@@ -67,7 +67,7 @@ Living checklist for all SEO work on logos.co. Status keys: ✅ done · ⏳ in p
 - [ ] `Organization` schema on every page (name, url, logo, sameAs social URLs)
 - [ ] `WebSite` schema with `SearchAction` on the homepage
 - [ ] `BreadcrumbList` on every non-home page
-- [ ] `Article` on `/press/[slug]` pages (headline, datePublished, author, image)
+- [ ] `CollectionPage` on `/press`; individual `Article` JSON-LD is owned by `press.logos.co`
 - [ ] `FAQPage` on `/faq` with all Q/A pairs
 - [ ] `Event` on `/circles/[slug]` upcoming-event cards
 - [ ] All JSON-LD rendered as `<script type="application/ld+json">` in the page `<head>`
@@ -130,7 +130,7 @@ Routing is English-only. There should be no public `/fr/*` or `/ko/*` routes.
 
 - [ ] `og:image` is 1200 × 630 with brand typography (Logos wordmark + headline)
 - [ ] Dynamic OG endpoint (`/og?title=...&description=...`) is wired from each page's metadata — currently all pages share `/og` (generic). Update to pass per-page title/description.
-- [ ] `og:type: website` on listing pages, `article` on `/press/[slug]`, `profile` on `/circles/[slug]`
+- [ ] `og:type: website` on listing pages and `profile` on `/circles/[slug]`; individual article previews are owned by `press.logos.co`
 - [ ] Twitter card: `summary_large_image`, `twitter:site`, `twitter:creator` set
 - [ ] Preview validated via [Twitter card validator](https://cards-dev.twitter.com/validator), [LinkedIn post inspector](https://www.linkedin.com/post-inspector/), [Facebook sharing debugger](https://developers.facebook.com/tools/debug/)
 
@@ -214,7 +214,6 @@ For each page in [pages.md](pages.md), ensure:
 | `/circles`                     | `ItemList` (locations)               | Home → Circles                 | 0.9                 |
 | `/circles/[slug]`              | `LocalBusiness` or `Place` + `Event` | Home → Circles → [City]        | 0.7                 |
 | `/press`                       | `CollectionPage`                     | Home → Press                   | 0.7                 |
-| `/press/[slug]`                | `Article`                            | Home → Press → [Article]       | 0.6                 |
 | `/about`                       | `AboutPage` + `Organization`         | Home → About                   | 0.8                 |
 | `/faq`                         | `FAQPage`                            | Home → FAQ                     | 0.5                 |
 | `/terms-and-conditions`        | —                                    | Home → Terms                   | 0.3                 |
@@ -247,7 +246,7 @@ Before flipping DNS to production:
 - [ ] Staging is on a `noindex` subdomain (e.g. `staging.logos.co` with `X-Robots-Tag: noindex`)
 - [ ] OG images render correctly for 5 representative pages
 - [ ] Social-share previews validated on Twitter / LinkedIn / Facebook
-- [ ] JSON-LD validates for homepage, a tech page, a press article, the FAQ
+- [ ] JSON-LD validates for homepage, a tech page, `/press`, and the FAQ
 - [ ] Lighthouse passes on homepage (Perf 90+, A11y 100, SEO 100)
 - [ ] Redirect rules: `www.logos.co` → `logos.co` (or reverse), trailing-slash enforcement, legacy path redirects
 - [ ] 404 page renders + has correct metadata

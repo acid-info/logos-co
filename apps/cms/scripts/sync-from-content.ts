@@ -16,7 +16,7 @@
  *     pnpm sync-from-content
  *
  * Skipped (out of scope for this script):
- *   - press article metadata: external publication bodies stay outside CMS
+ *   - Press articles: fetched directly from Logos Press Engine
  */
 import { getPayload } from 'payload'
 

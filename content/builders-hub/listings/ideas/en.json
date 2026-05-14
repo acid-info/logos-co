@@ -3,10 +3,10 @@
   "language": "en",
   "page": "ideas",
   "title": "Ideas",
-  "description": "Lorem ipsum dolor sit amet consectetur. Erat commodo consequat enim lectus scelerisque blandit nunc. Porttitor vulputate habitant sit habitant vitae.",
+  "description": "Explore proposed applications and protocol extensions that builders can pick up, adapt, or discuss with the Logos community.",
   "breadcrumbLabel": "Ideas",
   "submitCta": {
-    "label": "lorem ipsum",
+    "label": "Submit an idea",
     "href": "https://discord.gg/logosnetwork",
     "external": true
   },

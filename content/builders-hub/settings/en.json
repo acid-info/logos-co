@@ -236,7 +236,7 @@
   ],
   "rfpsSection": {
     "title": "RFPs",
-    "description": "Lorem ipsum dolor si amet.",
+    "description": "Funded calls for builders to ship Logos-powered applications.",
     "filterCta": {
       "label": "Filter",
       "href": "/builders-hub/rfps?filter=open"

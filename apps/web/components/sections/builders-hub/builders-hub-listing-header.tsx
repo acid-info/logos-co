@@ -6,20 +6,28 @@ import { Link } from '@/i18n/navigation'
 
 type View = 'grid' | 'list'
 
-type Props = {
+type BaseProps = {
   title: string
   description?: string
   submitCta?: CTA
   view: View
-  /** Builds the href for switching to a given view (server-side toggle). */
-  buildViewHref?: (view: View) => string
-  onViewChange?: (view: View) => void
   mobileDescription?: string
   mobileSpacious?: boolean
   eyebrow?: string
   backHref?: string
   backLabel?: string
 }
+
+type Props =
+  | (BaseProps & {
+      /** Builds the href for switching to a given view (server-side toggle). */
+      buildViewHref: (view: View) => string
+      onViewChange?: never
+    })
+  | (BaseProps & {
+      buildViewHref?: never
+      onViewChange: (view: View) => void
+    })
 
 /**
  * Listing-page header used by /builders-hub/{rfps,ideas}. Renders the page
@@ -123,7 +131,7 @@ export function BuildersHubListingHeader({
               { id: 'grid', label: 'Grid' },
               { id: 'list', label: 'List' },
             ]}
-            getHref={(id) => buildViewHref?.(id as View) ?? '#'}
+            getHref={(id) => buildViewHref(id as View)}
             className="md:col-span-2 md:col-start-7"
           />
         )}

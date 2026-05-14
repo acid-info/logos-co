@@ -1,6 +1,10 @@
 import { afterEach, describe, expect, test, vi } from 'vitest'
 
-import { getBroadcastEvents, getLatestPressPodcasts } from '../press-engine'
+import {
+  getBroadcastEvents,
+  getLatestPressArticles,
+  getLatestPressPodcasts,
+} from '../press-engine'
 
 const formatLocalDateKey = (date: Date) => {
   const year = date.getFullYear()
@@ -11,6 +15,79 @@ const formatLocalDateKey = (date: Date) => {
 
 afterEach(() => {
   vi.restoreAllMocks()
+})
+
+describe('getLatestPressArticles', () => {
+  test('overfetches before image filtering so card grids keep the requested size', async () => {
+    const fetchMock = vi.spyOn(globalThis, 'fetch').mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        data: {
+          posts: [
+            {
+              type: 'article',
+              data: {
+                title: 'Missing image',
+                slug: 'missing-image',
+                publishedAt: '2026-05-10',
+              },
+            },
+            {
+              type: 'article',
+              data: {
+                title: 'Article one',
+                slug: 'article-one',
+                publishedAt: '2026-05-09',
+                coverImage: {
+                  url: 'https://cms-press.logos.co/uploads/article-one.jpg',
+                },
+              },
+            },
+            {
+              type: 'podcast',
+              data: {
+                title: 'Wrong type',
+                slug: 'wrong-type',
+                publishedAt: '2026-05-08',
+                coverImage: {
+                  url: 'https://cms-press.logos.co/uploads/wrong-type.jpg',
+                },
+              },
+            },
+            {
+              type: 'article',
+              data: {
+                title: 'Article two',
+                slug: 'article-two',
+                publishedAt: '2026-05-07',
+                coverImage: {
+                  url: 'https://cms-press.logos.co/uploads/article-two.jpg',
+                },
+                authors: [{ name: 'Logos' }],
+              },
+            },
+          ],
+        },
+      }),
+    } as Response)
+
+    const articles = await getLatestPressArticles(2)
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      'https://press.logos.co/api/search?type=article&limit=6',
+      { cache: 'force-cache' }
+    )
+    expect(articles).toMatchObject([
+      {
+        title: 'Article one',
+        href: 'https://press.logos.co/article/article-one',
+      },
+      {
+        title: 'Article two',
+        href: 'https://press.logos.co/article/article-two',
+      },
+    ])
+  })
 })
 
 describe('getLatestPressPodcasts', () => {

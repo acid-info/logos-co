@@ -137,11 +137,6 @@ content/
       terms.json
       privacy.json
       security.json
-  press/
-    articles/
-      <slug>/
-        index.json            # publishedAt, author handle, source URL, image
-        <locale>.json         # title, excerpt
   builders-hub/
     settings/
       <locale>.json
@@ -189,13 +184,11 @@ packages/content/
       pages.ts           # PageCopy with typed `componentType` sections + PageSeo
       builders-hub.ts
       circles.ts
-      press.ts
     loaders/
       site.ts
       pages.ts
       builders-hub.ts
       circles.ts
-      press.ts
     locales/
       registry.ts        # reads routing.ts at build time, drives required-locale check
     github/
@@ -951,7 +944,7 @@ The schemas in this plan were validated directly against the Figma file (file ke
 | `/technology-stack/messaging` | Hero, intro, case studies, builder CTA panel, related articles | Same as above plus a `cardGrid` for case studies |
 | `/technology-stack/blockchain` | Hero, privacy/cryptarchia explainers, builder CTA panel, related articles | Same as above plus a `cardGrid` for `blendNetwork` and `lez` |
 | `/technology-stack/networking` | Hero, intro, three feature cards, builder CTA panel, related articles | Same as above |
-| `/press` | Engine label, list of latest articles | `PageCopy` plus `Press` collection |
+| `/press` | Engine label, list of latest articles | UI copy from translations plus Logos Press Engine data |
 
 ### Home → Content Migration Map
 
@@ -966,7 +959,7 @@ The migration moves keys out of `apps/web/messages/en.json` into `content/pages/
 | `home.useCases.*` | `content/pages/en/home.json` → section `home.useCases` (`cardGrid`) |
 | `home.parallelSociety.*` / `home.mountain.*` | `content/pages/en/home.json` → section `home.parallelSociety` (`gallery`) |
 | `home.builderPortal.*` | `content/pages/en/home.json` → section `home.builderPortal` (`ctaPanel`) |
-| `home.press.*` | Resolved by Press collection through a `relatedArticles` section. If the homepage Press strip diverges visually from the tech-stack `relatedArticles` block, introduce a `pressStrip` `componentType` in a follow-up; both pull from the same Press collection. |
+| `home.press.*` | `content/pages/en/home.json` owns the section label, CTA, and visible count; article rows come from Logos Press Engine. |
 | `home.circlesCta.*` | `content/pages/en/home.json` → section `home.circlesCta` (`ctaPanel`) |
 | `pages.<route>.title/description/heading` | `content/pages/en/<route>.json` → top-level `title`, `description`, `heading` |
 | `pages.<route>.hero.*` / `pages.<route>.intro.*` etc. | `content/pages/en/<route>.json` → matching section |
@@ -1264,12 +1257,6 @@ schema/builders-hub-reward-closes-at
 
 `generateStaticParams` is updated in Phase 1 to enumerate `Math.ceil(publishedItems / pageSize)` pages.
 
-### Press Rules
-
-- Every published article must have `image`, `publishedAt`, and `externalUrl`.
-- `source` is required at write time even though defaulted in the editor UI.
-- `externalUrl` must start with `https://`.
-
 ### Publish State Transitions
 
 Toggling `status` from `published` to `draft` or `archived` removes the item from `generateStaticParams` on the next build. The previously generated static page either 404s on next deploy or is replaced by a redirect, depending on host configuration. The CMS surfaces a warning when an editor demotes a published item, asking whether a redirect entry should be added at the same time.
@@ -1325,8 +1312,8 @@ This phase can run in parallel with Phase 0; only the merge target (and not the 
 
 - Create `packages/content` published as `@repo/content`. Add it as a workspace dependency in `apps/web/package.json` and `apps/cms/package.json`.
 - Add `package.json` scripts: `check-types`, `validate` (runs Zod validation across `content/**`), `validate-locales` (asserts every locale in `routing.locales` has the required files), `rename-slug` (the slug-rename CLI).
-- Implement Zod schemas with `schemaVersion`, including `Press`, the typed `PageSection` discriminator, and the custom-section schema registry.
-- Add `content/**` fixture files for `en` only, covering Builders Hub, Circles, Press, Site (Navigation/Footer/Settings), and one tech-stack sub-page as a smoke test.
+- Implement Zod schemas with `schemaVersion`, including the typed `PageSection` discriminator and the custom-section schema registry.
+- Add `content/**` fixture files for `en` only, covering Builders Hub, Circles, Site (Navigation/Footer/Settings), and one tech-stack sub-page as a smoke test.
 - Add loader unit tests, including invalid-fixture failure cases and the typed-section discriminator.
 - Replace the `'global'` placeholder in `apps/web/app/[locale]/circles/[slug]/page.tsx` with a loader-driven `generateStaticParams` once real circle fixtures exist.
 - Wire a proof of concept in `apps/web` for Builders Hub and Circles list data.
@@ -1340,18 +1327,18 @@ Done when:
 
 ### Phase 2: Navbar, Footer, and Page Copy Migration
 
-- Add Navigation, Footer, Press, and `PageCopy` (typed sections) schemas.
+- Add Navigation, Footer, and `PageCopy` (typed sections) schemas.
 - Rename `site-headaer.tsx` to `site-header.tsx`.
 - Remove constants from `site-header.tsx` and `site-footer.tsx`.
 - Migrate route by route per the Home → Content Migration Map. Land each route in its own PR so failures stay isolated.
-- Tech-stack sub-pages (storage, messaging, blockchain, networking) all migrate in this phase because they share the `relatedArticles` pattern and depend on the Press collection.
+- Tech-stack sub-pages (storage, messaging, blockchain, networking) all migrate in this phase because they share the `relatedArticles` pattern and depend on the Logos Press Engine data layer.
 - Keep `messages/<locale>.json` strictly for UI chrome.
 
 Done when:
 
 - Every migrated route renders pixel-identical to the previous build, verified by screenshot diff against the Figma frame.
 - `messages/*.json` contains only UI strings, validation messages, and locale labels.
-- The Press collection backs the open-overlay press section, the homepage press strip, and every `relatedArticles` block.
+- Logos Press Engine backs the open-overlay press section, the homepage press strip, and every `relatedArticles` block.
 
 ### Phase 3: Payload Admin Editing (Local Drafts, Developer-Only)
 
@@ -1364,7 +1351,7 @@ Phase 3 is a developer-facing milestone, not an editor milestone. It reads conte
 
 Done when:
 
-- Admin can view Navigation, Footer, Page Copy, RFP, Idea, Circle, Event, Initiative, and Press article data from local files.
+- Admin can view Navigation, Footer, Page Copy, RFP, Idea, Circle, Event, and Initiative data from local files.
 - Validation failures surface in the Admin UI before save.
 - Saving a draft does not write to GitHub.
 
@@ -1503,7 +1490,7 @@ content/circles/resources/en.json         # 3 items: Start your own Circle, Foru
 # Press articles are fetched from Logos Press Engine, not stored in this repo.
 ```
 
-Total: 3 site files + 5 page files + 1 builder-hub settings + 6 RFP/Idea bundles + 1 builder-hub resources + 1 circles settings + 4 Circle bundles + 3 Event bundles + 3 Initiative bundles + 1 circles resources + 4 Press bundles.
+Total: 3 site files + 5 page files + 1 builder-hub settings + 6 RFP/Idea bundles + 1 builder-hub resources + 1 circles settings + 4 Circle bundles + 3 Event bundles + 3 Initiative bundles + 1 circles resources.
 
 Real copy comes from `apps/web/messages/en.json` plus the Figma walkthrough; no Lorem Ipsum should ship in committed seed data.
 
@@ -1515,7 +1502,7 @@ A concrete first-week plan to remove the cold-start ambiguity.
 | --- | --- |
 | Day 1 AM | Create `develop` from `master`, configure branch protection on both branches, document promotion process in `docs/branching.md`. Land Phase 0. |
 | Day 1 PM | Scaffold `packages/content` workspace. `package.json` with `check-types`, `validate`, `validate-locales`, `rename-slug` scripts. `tsconfig.json` extending repo base. |
-| Day 2 | Write `schemas/common.ts`, `schemas/site.ts`, `schemas/press.ts` Zod schemas with `schemaVersion`. Add minimal `loaders/site.ts` and `loaders/press.ts`. |
+| Day 2 | Write `schemas/common.ts` and `schemas/site.ts` Zod schemas with `schemaVersion`. Add minimal `loaders/site.ts`. |
 | Day 3 | Write `schemas/builders-hub.ts` and `schemas/circles.ts`. Add `loaders/builders-hub.ts` (incl. `resolveBuilderHubHomeRfps`/`Ideas`) and `loaders/circles.ts` (incl. `getCircleEventsGroupedByDate`). |
 | Day 4 | Write `schemas/pages.ts` with the typed `PageSection` discriminator. Add `loaders/pages.ts` and the custom-section schema registry stub. Build `locales/registry.ts` reading `routing.locales`. |
 | Day 5 | Author seed fixtures for all listed slugs. Wire `apps/web` Builders Hub and Circles list pages to call the loaders as a smoke test. Run `pnpm --filter @repo/content validate` and `pnpm --filter web build` until green. |
@@ -1833,7 +1820,6 @@ Audit log: <link to Payload entry>.
 - [ ] Page copy
 - [ ] Builders Hub (RFP / Idea / Resource)
 - [ ] Circles (Circle / Event / Initiative / Resource)
-- [ ] Press article
 
 ## Verification
 

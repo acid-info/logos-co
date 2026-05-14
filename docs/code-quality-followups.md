@@ -144,9 +144,8 @@ Open. 45 instances of `alt=""` across `apps/web`.
 
 ### Required content-schema change
 
-In `packages/content/src/schemas/press.ts` and `circles.ts`, the `image` field
-currently allows `alt: ''`. Make `alt` required + non-empty for content
-images so `articlesToCards` can drop its `|| article.title` fallback.
+In `packages/content/src/schemas/circles.ts`, the `image` field currently
+allows `alt: ''`. Make `alt` required + non-empty for content images.
 
 ```ts
 // proposed
@@ -160,7 +159,7 @@ image: z.object({
 
 | Image purpose | `alt` value |
 | --- | --- |
-| Article thumbnail / podcast cover | `{title}` (or schema-supplied caption) |
+| Article thumbnail / podcast cover | `{title}` from Logos Press Engine |
 | Decorative blur / pattern background | `alt=""` (intentional, leave a comment) |
 | Hero foreground portrait | descriptive copy from translations |
 
@@ -168,7 +167,7 @@ image: z.object({
 
 1. Tighten the schemas above.
 2. Re-run `getPageCopy` integration to surface any data files that violate.
-3. Switch `articlesToCards` to read `article.image.alt` directly (no fallback).
+3. Keep Press Engine thumbnails mapped with article titles as their alt text.
 4. Audit all 45 sites; add a comment next to each *intentional* `alt=""`.
 5. Enable `eslint-plugin-jsx-a11y/alt-text` at error level.
 
