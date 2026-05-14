@@ -16,7 +16,6 @@
  *     pnpm sync-from-content
  *
  * Skipped (out of scope for this script):
- *   - circle-resources: single multi-item file, no per-row mapping
  *   - pages: collection is a stub (no fields defined)
  *   - press / site / builders-hub settings: globals, not per-row collections
  */
@@ -27,10 +26,12 @@ import {
   getAllRfps,
   getCircleEvents,
   getCircleInitiatives,
+  getCircleResources,
   getCircles,
   type Circle,
   type CircleEvent,
   type CircleInitiative,
+  type CircleResource,
   type Idea,
   type Rfp,
 } from '@repo/content/loaders'
@@ -132,6 +133,17 @@ const mapCircleInitiative = (
   ...flattenImage(i.image),
   featured: i.featured,
   order: i.order ?? null,
+})
+
+const mapCircleResource = (
+  r: CircleResource
+): Record<string, unknown> & { slug: string } => ({
+  slug: r.slug,
+  status: r.status,
+  title: r.title,
+  description: r.description,
+  ctaLabel: r.ctaLabel,
+  href: r.href,
 })
 
 const mapRfp = (r: Rfp): Record<string, unknown> & { slug: string } => ({
@@ -268,6 +280,16 @@ const main = async (): Promise<void> => {
           'circle-initiatives',
           () => getCircleInitiatives({ locale: 'en' }),
           mapCircleInitiative
+        ),
+    },
+    {
+      name: 'circle-resources',
+      run: () =>
+        syncCollection(
+          payload,
+          'circle-resources',
+          () => getCircleResources({ locale: 'en' }),
+          mapCircleResource
         ),
     },
     {
