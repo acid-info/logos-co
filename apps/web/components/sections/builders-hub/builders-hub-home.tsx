@@ -5,7 +5,7 @@ import type {
   BuilderHubHomeRfpResolution,
 } from '@repo/content/loaders'
 import type { BuilderHubSettings } from '@repo/content/schemas'
-import { LogosMark } from '@repo/ui'
+import { LogosMark } from '@acid-info/logos-ui'
 
 import { Button, ButtonArrowIcon } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'

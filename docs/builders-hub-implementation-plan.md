@@ -90,7 +90,7 @@ apps/web/app/[locale]/builders-hub/
 - Header / footer — already loader-driven.
 - Eyebrow + heading patterns — `apps/web/components/sections/shared/*`.
 - Card-grid primitives, button / link styles, container widths from
-  `@repo/ui` tokens.
+  `@acid-info/logos-ui` tokens.
 
 ### 4.2 New, scoped to Builders Hub
 
@@ -135,7 +135,7 @@ For each page we follow the same loop, in this order:
    note next to the implementation file if non-obvious.
 2. **Confirm fixtures cover every visible string and asset.** If a
    field is missing, extend the schema + fixture first. If an asset
-   (icon, illustration) is missing from `/public/**` or `@repo/ui`,
+   (icon, illustration) is missing from `/public/**` or `@acid-info/logos-ui`,
    stop and ask the user for an export.
 3. **Implement desktop layout** with the existing token system. No
    custom font sizes or colors that aren't in the token table.

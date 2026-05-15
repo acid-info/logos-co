@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { twMerge } from 'tailwind-merge'
 
-import { LogosMark } from '@repo/ui'
+import { LogosMark } from '@acid-info/logos-ui'
 import { Link } from '@/i18n/navigation'
 
 type StackCardProps = {

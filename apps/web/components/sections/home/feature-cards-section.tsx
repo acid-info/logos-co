@@ -5,7 +5,7 @@ import { motion, useInView } from 'motion/react'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 
-import { LogosMark } from '@repo/ui'
+import { LogosMark } from '@acid-info/logos-ui'
 import { Button } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'
 

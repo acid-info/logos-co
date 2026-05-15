@@ -1,4 +1,4 @@
-import { LogosMark } from '@repo/ui'
+import { LogosMark } from '@acid-info/logos-ui'
 import type { HeroSection } from '@repo/content/schemas'
 
 import { Button, ButtonArrowIcon } from '@/components/ui'

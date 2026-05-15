@@ -1,7 +1,7 @@
 /**
  * Font loaders for apps/web.
  *
- * The CSS variables below are referenced by @repo/tokens typography utilities
+ * The CSS variables below are referenced by @acid-info/logos-tokens typography utilities
  * (e.g. `--font-display` → `var(--next-font-display)` in typography.css).
  *
  * Public Sans and Fira Code are loaded from Google Fonts via next/font/google.
@@ -15,7 +15,7 @@
  *      `fontVariables`. The typography utilities already reference
  *      `var(--next-font-display)`, so the swap is automatic.
  *
- * Until then the Rhymes Display fallback chain in @repo/tokens/typography.css
+ * Until then the Rhymes Display fallback chain in @acid-info/logos-tokens/typography.css
  * falls back to 'Times New Roman' → ui-serif.
  */
 

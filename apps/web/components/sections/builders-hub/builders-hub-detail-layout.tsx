@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-import { LogosMark } from '@repo/ui'
+import { LogosMark } from '@acid-info/logos-ui'
 
 import { Button, ButtonArrowIcon } from '@/components/ui'
 import { Link } from '@/i18n/navigation'

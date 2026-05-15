@@ -1,4 +1,4 @@
-import { LogosMark, ViewToggle } from '@repo/ui'
+import { LogosMark, ViewToggle } from '@acid-info/logos-ui'
 import type { CTA } from '@repo/content/schemas'
 
 import { Button } from '@/components/ui'

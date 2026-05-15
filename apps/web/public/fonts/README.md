@@ -14,7 +14,7 @@ public/fonts/rhymes-display/
 ```
 
 - **Source**: Figma specifies "Rhymes Display Regular" for Hero, H1, H2, H3/H4 Serif, Subhead Serif, Body Serif.
-- **Usage in code**: referenced as `var(--font-display)` through `@repo/tokens/typography.css` utilities (`text-hero`, `text-h1`, …).
+- **Usage in code**: referenced as `var(--font-display)` through `@acid-info/logos-tokens/typography.css` utilities (`text-hero`, `text-h1`, …).
 - **License**: verify with the brand owner before committing the woff2. The repo expects the file at dev time — `pnpm dev` will fail with a clear "file not found" error until the file is in place.
 
 ### Additional weights (future)

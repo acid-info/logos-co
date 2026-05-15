@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 
-import { LogosMark } from '@repo/ui'
+import { LogosMark } from '@acid-info/logos-ui'
 
 import { Button } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'

@@ -28,21 +28,23 @@ type ClickProps = BaseProps & {
 export type PaginationProps = HrefProps | ClickProps
 
 function Arrow({ direction }: { direction: 'left' | 'right' }) {
-  const src =
-    direction === 'left'
-      ? '/icons/pagination-arrow-left.svg'
-      : '/icons/pagination-arrow-right.svg'
-  const maskStyle = {
-    mask: `url(${src}) center / contain no-repeat`,
-    WebkitMask: `url(${src}) center / contain no-repeat`,
-  }
-
   return (
-    <span
+    <svg
       aria-hidden="true"
-      className="size-[14px] shrink-0 bg-current"
-      style={maskStyle}
-    />
+      className="size-[14px] shrink-0 stroke-current"
+      fill="none"
+      viewBox="0 0 14 14"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {direction === 'left' ? (
+        <path d="M10.5 7H3.5M3.5 7L7 3.5M3.5 7L7 10.5" strokeLinecap="square" />
+      ) : (
+        <path
+          d="M3.5 7H10.5M10.5 7L7 3.5M10.5 7L7 10.5"
+          strokeLinecap="square"
+        />
+      )}
+    </svg>
   )
 }
 

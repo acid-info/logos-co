@@ -3,7 +3,7 @@
  * and the wrapping section that repeats the list to fill the Figma frame.
  */
 import Image from 'next/image'
-import { LogosMark } from '@repo/ui'
+import { LogosMark } from '@acid-info/logos-ui'
 
 import { repeatToLength, type PressPodcastRow } from '@/lib/press-engine'
 

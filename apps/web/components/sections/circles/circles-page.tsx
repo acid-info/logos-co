@@ -8,7 +8,7 @@ import {
   formatEventDateForSurface,
 } from '@repo/content/loaders'
 import type { CirclesSettings, Language } from '@repo/content/schemas'
-import { LogosMark } from '@repo/ui'
+import { LogosMark } from '@acid-info/logos-ui'
 
 import { Button } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'

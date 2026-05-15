@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@import '@repo/tokens/theme.css';
+@import '@acid-info/logos-tokens/theme.css';
 
 /* Scan workspace UI package so its Tailwind classes are emitted. */
 @source "../../../packages/ui/src/**/*.{ts,tsx}";

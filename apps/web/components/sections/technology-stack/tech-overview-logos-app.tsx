@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-import { GiantSwitch, GiantSwitchTag } from '@repo/ui'
+import { GiantSwitch, GiantSwitchTag } from '@acid-info/logos-ui'
 import type { GiantSwitchSection } from '@repo/content/schemas'
 
 import { IconMask } from '@/components/icons/icon-mask'

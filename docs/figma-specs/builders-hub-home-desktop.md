@@ -37,7 +37,7 @@
 | Element | Spec |
 | --- | --- |
 | Container | `bg-[#f5f5ef]`, `h-[687px]`, `w-[1440px]`, `overflow-clip`, position relative |
-| Logomark `λ` (`image 1295`, node `:24005`) | absolute `left-[12px] top-[24px]`, `w-[107px] h-[75px]`, with darken overlay `bg-black/30`. **Replace with `<LogosMark />` from `@repo/ui`** sized to ~75 px tall, color = `currentColor` on `text-brand-dark-green`. The image overlay is a Figma rendering quirk; do not reproduce. |
+| Logomark `λ` (`image 1295`, node `:24005`) | absolute `left-[12px] top-[24px]`, `w-[107px] h-[75px]`, with darken overlay `bg-black/30`. **Replace with `<LogosMark />` from `@acid-info/logos-ui`** sized to ~75 px tall, color = `currentColor` on `text-brand-dark-green`. The image overlay is a Figma rendering quirk; do not reproduce. |
 | Eyebrow paragraph (node `:23950`) | "Ideas, resources, and everything you need to start building with Logos tech today." Font Fira Mono Regular 10/1.3, color `#000`. Position `left-[calc(50%+6px)] top-[24px] w-[226px]`. Map to `text-eyebrow` utility but body sits in mono; safer: `font-mono text-[10px] leading-[1.3]`. |
 | Top-right pill CTA (node `:23951`) | Label "Logos App Install". `text-eyebrow` (Fira Code SemiBold 10 / 1.35 / uppercase). Border-bottom underline `border-b border-[brand-dark-green/50]`, `pb-[2px]`. `backdrop-blur-[5px]`, rounded `var(--grid/borderradiusbutton, 4px)`. Position `left-[calc(83.33%+2px)] top-[11px]`. |
 | Hero title (node `:23952`) | Two lines: **"Logos"** then **"Builders Hub"**. Font Rhymes Display 56 / 1 / `tracking-[-1.68px]` / center. Color `brand-dark-green`. Centered: `-translate-x-1/2 left-1/2 top-[140px] w-[464px]`. Map to `text-h2` utility (which is 56 px @ md). |
@@ -226,10 +226,10 @@ All assets in Figma are bound to MCP URLs (`https://www.figma.com/api/mcp/asset/
 | `imgImage1295` | Hero logomark frame (with overlay) | n/a | Decorative — replace with `<LogosMark />` | **Stub / use SVG component** |
 | `imgVector` + `imgGroup4` | Footer logomark | already in `<LogosMark />` | SVG | Reuse |
 | `imgImage1282` | App Install (`566×566 → 584×644 inner`) | `/cms/builders-hub/settings/app-install.webp` | Custom illustration (Logos app screenshot/mock) | **Needs export from designer** |
-| `imgWalletCards`, `imgMessageSquareCode`, `imgFileInput`, `imgGlobe` | App Install tag chips | `@repo/ui/icons` | Lucide-style icons | **Needs React-SVG components in `@repo/ui/icons`** if missing — flag for export. Per repo memory, no `<img src=".svg">`. |
+| `imgWalletCards`, `imgMessageSquareCode`, `imgFileInput`, `imgGlobe` | App Install tag chips | `@acid-info/logos-ui/icons` | Lucide-style icons | **Needs React-SVG components in `@acid-info/logos-ui/icons`** if missing — flag for export. Per repo memory, no `<img src=".svg">`. |
 | `imgImage104`, `imgImage118`, `imgImage102`, `imgImage1277`, `imgImage1316` | RFP cards + terminator card thumbnails | `/cms/builders-hub/{rfps,ideas}/<slug>/cover.webp` | Custom illustrations (4 distinct images, repeated across cards in placeholder grid) | **Needs export per slug** — fixture already references `cover.webp` per slug |
 | `imgImage1315` | Footer brand mark (existing) | already in `site-footer` | reused | ✅ |
-| `imgVectorStroke`, `imgVectorStroke1` | Right-arrow icon, download icon | should be `<RightArrowIcon />` / `<DownloadIcon />` in `@repo/ui/icons` | Icons | Verify component exists; otherwise flag for export |
+| `imgVectorStroke`, `imgVectorStroke1` | Right-arrow icon, download icon | should be `<RightArrowIcon />` / `<DownloadIcon />` in `@acid-info/logos-ui/icons` | Icons | Verify component exists; otherwise flag for export |
 
 ---
 

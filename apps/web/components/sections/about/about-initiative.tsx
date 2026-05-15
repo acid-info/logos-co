@@ -1,6 +1,6 @@
 import { getTranslations } from 'next-intl/server'
 
-import { LogosMark } from '@repo/ui'
+import { LogosMark } from '@acid-info/logos-ui'
 
 /**
  * About — initiative banner. Full-bleed photo card with centered λ mark and

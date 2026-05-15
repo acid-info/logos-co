@@ -1,8 +1,8 @@
 /*
- * @repo/tokens — Logos design tokens (Tailwind v4)
+ * @acid-info/logos-tokens — Logos design tokens (Tailwind v4)
  *
  * This file is the single aggregator consumed by apps:
- *   @import '@repo/tokens/theme.css';
+ *   @import '@acid-info/logos-tokens/theme.css';
  *
  * See docs/design-system-plan.md §4 for the token spec.
  */

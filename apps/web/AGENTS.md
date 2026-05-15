@@ -27,7 +27,7 @@ pnpm --filter web test
 
 - Routes live under `app/[locale]/<route>/`.
 - Section components live under `components/sections/<section>/`.
-- Shared, reusable UI should move to `@repo/ui` when it belongs outside this app.
+- Shared, reusable UI should move to `@acid-info/logos-ui` when it belongs outside this app.
 - Use `lib/env.ts` for environment access; do not read `process.env` directly from feature code.
 - Keep Vitest tests beside the code in `__tests__/` folders.
 

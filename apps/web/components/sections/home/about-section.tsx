@@ -1,7 +1,7 @@
 import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 
-import { LogosMark } from '@repo/ui'
+import { LogosMark } from '@acid-info/logos-ui'
 
 export default async function AboutSection({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: 'home.about' })

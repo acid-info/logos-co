@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { FileInput, Globe, MessageSquareCode, WalletCards } from 'lucide-react'
 
-import { GiantSwitch, GiantSwitchTag } from '@repo/ui'
+import { GiantSwitch, GiantSwitchTag } from '@acid-info/logos-ui'
 import type {
   BuilderHubSettings,
   BuilderHubTagIcon,
@@ -30,7 +30,7 @@ function TagIcon({ icon }: { icon?: BuilderHubTagIcon }) {
 }
 
 /**
- * Wraps the shared @repo/ui GiantSwitch primitive with the App Install
+ * Wraps the shared @acid-info/logos-ui GiantSwitch primitive with the App Install
  * fixture data. Figma: 40009046:18801 (desktop) / mobile inside 23764.
  */
 export function BuildersHubAppInstall({ data }: Props) {

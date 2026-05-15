@@ -161,7 +161,7 @@ Targets: **LCP ≤ 2.5 s · INP ≤ 200 ms · CLS ≤ 0.1** (75th percentile, mo
 - [ ] Client components marked `'use client'` only where necessary
 - [ ] `motion` / interactive code lazy-loaded via `next/dynamic` where safe
 - [ ] Bundle analyser run; each route chunk < 100 KB gzipped (target)
-- [ ] No unused `@repo/ui` primitives in the final bundle (tree-shaken)
+- [ ] No unused `@acid-info/logos-ui` primitives in the final bundle (tree-shaken)
 
 ### Rendering
 

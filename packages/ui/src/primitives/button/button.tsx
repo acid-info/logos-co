@@ -18,6 +18,7 @@ import type {
   ButtonHTMLAttributes,
   ComponentType,
   ReactNode,
+  SVGAttributes,
 } from 'react'
 import { twMerge } from 'tailwind-merge'
 
@@ -59,18 +60,25 @@ type ButtonElementProps = CommonProps &
 
 export type ButtonProps = AnchorProps | ButtonElementProps
 
-export function ButtonArrowIcon() {
-  const maskStyle = {
-    mask: 'url(/icons/right-arrow.svg) center / contain no-repeat',
-    WebkitMask: 'url(/icons/right-arrow.svg) center / contain no-repeat',
-  }
-
+export function ButtonArrowIcon({
+  className,
+  ...props
+}: SVGAttributes<SVGSVGElement>) {
   return (
-    <span
+    <svg
       aria-hidden="true"
-      className="size-[15px] shrink-0 bg-current"
-      style={maskStyle}
-    />
+      className={`size-[15px] shrink-0 stroke-current ${className ?? ''}`}
+      fill="none"
+      viewBox="0 0 15 15"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d="M3.5 7.5H11.5M11.5 7.5L8 4M11.5 7.5L8 11"
+        strokeLinecap="square"
+        strokeLinejoin="miter"
+      />
+    </svg>
   )
 }
 

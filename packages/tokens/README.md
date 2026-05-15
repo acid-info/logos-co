@@ -1,26 +1,38 @@
-# @repo/tokens
+# @acid-info/logos-tokens
 
-Single source of design tokens for the Logos monorepo. CSS-only. No JS runtime.
+Logos design tokens as CSS imports. CSS-only. No JavaScript runtime.
+
+Use this package with `@acid-info/logos-ui` or in any Tailwind v4 app that needs
+the Logos color, typography, spacing, radius, and motion tokens.
+
+## Install
+
+```bash
+pnpm add @acid-info/logos-tokens
+```
+
+```bash
+npm install @acid-info/logos-tokens
+```
 
 ## Usage
 
-In any app's Tailwind entry stylesheet:
+In your Tailwind entry stylesheet:
 
 ```css
 @import 'tailwindcss';
-@import '@repo/tokens/theme.css';
+@import '@acid-info/logos-tokens/theme.css';
 ```
 
 Individual layers are also exported if you need a subset:
 
-- `@repo/tokens/colors.css`
-- `@repo/tokens/typography.css`
-- `@repo/tokens/spacing.css`
-- `@repo/tokens/radius.css`
-- `@repo/tokens/motion.css`
+- `@acid-info/logos-tokens/colors.css`
+- `@acid-info/logos-tokens/typography.css`
+- `@acid-info/logos-tokens/spacing.css`
+- `@acid-info/logos-tokens/radius.css`
+- `@acid-info/logos-tokens/motion.css`
 
-## Source of truth
+## Notes
 
-Tokens mirror the Figma file — see [`docs/design-system-plan.md`](../../docs/design-system-plan.md) §4 and [`docs/figma-trace.yaml`](../../docs/figma-trace.yaml).
-
-Do not hard-code HEX or px values in apps or in `@repo/ui`. Add a token here instead.
+The default `theme.css` file imports every token layer. Use the individual CSS
+exports only when you need a smaller subset.

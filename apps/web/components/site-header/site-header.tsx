@@ -4,7 +4,7 @@
  *              40009046:23534 (open desktop, 1440)
  *              40009046:23460 (open mobile, 393)
  *
- * Site header = fixed 40px top bar + <NavOverlay> (dialog from @repo/ui).
+ * Site header = fixed 40px top bar + <NavOverlay> (dialog from @acid-info/logos-ui).
  * The overlay is a shared primitive — this server component owns the data
  * pipeline (loader → mapped UI props) and hands everything off to the client
  * shell that owns the interactivity.
@@ -16,7 +16,7 @@ import type {
   NavOverlayCommunityCard,
   NavOverlayLink,
   NavOverlayPressItem,
-} from '@repo/ui'
+} from '@acid-info/logos-ui'
 
 import { getLatestPressArticles } from '@/lib/press-engine'
 

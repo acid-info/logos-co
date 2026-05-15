@@ -361,7 +361,7 @@ type GiantSwitchSection = {
   image: MediaRef
   tags?: Array<{
     label: string
-    icon?: 'wallet' | 'chat' | 'files' | 'explorer' | 'lambda' // names map to React SVG icons in @repo/ui/icons
+    icon?: 'wallet' | 'chat' | 'files' | 'explorer' | 'lambda' // names map to React SVG icons in @acid-info/logos-ui/icons
   }>
   primaryCta?: CTA
   secondaryCta?: CTA

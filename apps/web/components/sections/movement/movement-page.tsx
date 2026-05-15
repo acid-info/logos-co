@@ -3,7 +3,7 @@ import type { CSSProperties, ReactNode } from 'react'
 
 import type { Circle } from '@repo/content/loaders'
 import type { CirclesSettings } from '@repo/content/schemas'
-import { LogosMark } from '@repo/ui'
+import { LogosMark } from '@acid-info/logos-ui'
 
 import { IconMask } from '@/components/icons/icon-mask'
 import CirclesMap from '@/components/sections/circles/circles-map'

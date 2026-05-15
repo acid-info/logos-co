@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import type { ReactNode } from 'react'
 
-import { LogosMark } from '@repo/ui'
+import { LogosMark } from '@acid-info/logos-ui'
 import type { CardGridSection } from '@repo/content/schemas'
 
 import { Button } from '@/components/ui'

@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server'
-import { LogosMark } from '@repo/ui'
+import { LogosMark } from '@acid-info/logos-ui'
 import { ROUTES } from '@/constants/routes'
 import { createTranslatedPageMetadata } from '@/lib/translated-page-metadata'
 

@@ -1,4 +1,4 @@
-import { LogosMark } from '@repo/ui'
+import { LogosMark } from '@acid-info/logos-ui'
 
 export function SectionMarker({
   label,

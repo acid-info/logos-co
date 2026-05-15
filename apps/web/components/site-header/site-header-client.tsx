@@ -5,11 +5,11 @@ import { useEffect, useState } from 'react'
 
 import {
   LogosMark,
-  NavOverlay,
   type NavOverlayCommunityCard,
   type NavOverlayLink,
   type NavOverlayPressItem,
-} from '@repo/ui'
+} from '@acid-info/logos-ui'
+import { NavOverlay } from '@acid-info/logos-ui/client'
 
 import { IconMask } from '@/components/icons/icon-mask'
 import { ROUTES } from '@/constants/routes'
@@ -141,7 +141,7 @@ export default function SiteHeaderClient({
         </div>
       </header>
 
-      {/* Full-screen overlay — shared primitive from @repo/ui */}
+      {/* Full-screen overlay — shared primitive from @acid-info/logos-ui */}
       <NavOverlay
         isOpen={isOpen}
         onClose={close}

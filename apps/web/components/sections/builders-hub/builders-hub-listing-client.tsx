@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import { Pagination } from '@repo/ui'
+import { Pagination } from '@acid-info/logos-ui'
 
 import type { BuilderHubListingPageSettings } from '@repo/content/schemas'
 import type { Idea, Rfp } from '@repo/content/loaders'

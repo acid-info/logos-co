@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-import { LogosMark } from '@repo/ui'
+import { LogosMark } from '@acid-info/logos-ui'
 import type { CtaPanelSection } from '@repo/content/schemas'
 
 import { Button } from '@/components/ui'

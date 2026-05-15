@@ -1,6 +1,6 @@
 import { ExternalLink } from 'lucide-react'
 
-import { LogosMark } from '@repo/ui'
+import { LogosMark } from '@acid-info/logos-ui'
 
 import type {
   ActiveCircleLocation,

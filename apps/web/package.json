@@ -17,8 +17,8 @@
   },
   "dependencies": {
     "@repo/content": "workspace:*",
-    "@repo/tokens": "workspace:*",
-    "@repo/ui": "workspace:*",
+    "@acid-info/logos-tokens": "workspace:*",
+    "@acid-info/logos-ui": "workspace:*",
     "clsx": "^2.1.1",
     "leaflet": "^1.9.4",
     "lucide-react": "^1.11.0",

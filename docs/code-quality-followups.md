@@ -102,7 +102,7 @@ adding a CI bundle-size budget (e.g. `bundlewatch`).
 
 ### Status
 
-Open. Tokens exist in `@repo/tokens`; raw `font-*` + `text-[Npx]` patterns
+Open. Tokens exist in `@acid-info/logos-tokens`; raw `font-*` + `text-[Npx]` patterns
 appear ~171 times across the codebase. Migrating without a concurrent Figma
 spec audit risks visible regressions on typography-heavy frames (press,
 design-systems, blog).

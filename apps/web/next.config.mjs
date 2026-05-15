@@ -13,7 +13,7 @@ const nextConfig = {
   },
   ...(isProduction && { output: 'export' }),
   reactStrictMode: true,
-  transpilePackages: ['@repo/ui'],
+  transpilePackages: ['@acid-info/logos-ui'],
   trailingSlash: false,
   turbopack: {
     root: workspaceRoot,

@@ -16,7 +16,7 @@ import {
   Table,
   TableRow,
   ViewToggle,
-} from '@repo/ui'
+} from '@acid-info/logos-ui'
 import { Button, Card } from '@/components/ui'
 import { EXTERNAL_URLS, ROUTES } from '@/constants/routes'
 

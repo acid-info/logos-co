@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { LogosMark } from '@repo/ui'
+import { LogosMark } from '@acid-info/logos-ui'
 
 import { Button, ButtonArrowIcon } from '@/components/ui'
 import { ROUTES } from '@/constants/routes'

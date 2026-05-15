@@ -6,7 +6,7 @@
  * `@repo/content`.
  */
 import Image from 'next/image'
-import { Footer, LogosMark } from '@repo/ui'
+import { Footer, LogosMark } from '@acid-info/logos-ui'
 import { getFooter } from '@repo/content/loaders'
 import { isActiveLocale } from '@repo/content/locales'
 
