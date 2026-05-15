@@ -83,8 +83,8 @@ export const EXTERNAL_URLS = {
   youtube: 'https://youtube.com/@logos_network',
   github: 'https://github.com/logos-co',
 
-  // Forms
-  forms: 'https://forms.logos.co',
+  // Forum
+  forum: 'https://forum.logos.co/',
 
   // Research
   vacp2p: 'https://vac.dev',

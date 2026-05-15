@@ -1710,7 +1710,7 @@ Paste-ready material for the work the plan calls for. None of this is final — 
     "title": "RFPs",
     "description": "Lorem ipsum dolor si amet.",
     "seeAllCta": { "label": "See all RFPs", "href": "/builders-hub/rfps" },
-    "submitCta": { "label": "Submit an RFP", "href": "https://forms.logos.co/rfp" },
+    "submitCta": { "label": "Submit an RFP", "href": "https://forum.logos.co/" },
     "displayCount": 8,
     "pinnedSlugs": [
       "secure-decentralized-frontends",
@@ -1728,7 +1728,7 @@ Paste-ready material for the work the plan calls for. None of this is final — 
     "title": "Ideas",
     "description": "Ideas from our community driving sovereignty forward.",
     "seeAllCta": { "label": "See all ideas", "href": "/builders-hub/ideas" },
-    "submitCta": { "label": "Submit an idea", "href": "https://forms.logos.co/idea" },
+    "submitCta": { "label": "Submit an idea", "href": "https://forum.logos.co/" },
     "displayCount": 7
   },
   "appInstall": {
