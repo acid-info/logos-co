@@ -67,17 +67,19 @@ const buildHref = ({
 
 const buildDismissKey = ({
   collection,
+  page,
   pullRequests,
   scope,
   slug,
 }: {
   collection: string
+  page?: string
   pullRequests: RecentPullRequest[]
   scope: 'document' | 'list'
   slug?: string
 }): string => {
   const ids = pullRequests.map((pr) => pr.id).join(',')
-  return `recent-pr-banner:${collection}:${scope}:${slug ?? 'list'}:${ids}`
+  return `recent-pr-banner:${collection}:${scope}:${page ?? slug ?? 'list'}:${ids}`
 }
 
 const RecentPrBannerInner = ({
@@ -101,11 +103,12 @@ const RecentPrBannerInner = ({
     if (!collection || !result || result.pullRequests.length === 0) return null
     return buildDismissKey({
       collection,
+      page,
       pullRequests: result.pullRequests,
       scope,
       slug,
     })
-  }, [collection, result, scope, slug])
+  }, [collection, page, result, scope, slug])
 
   useEffect(() => {
     if (!collection || !getContentWorkflowCollectionLabel(collection)) return

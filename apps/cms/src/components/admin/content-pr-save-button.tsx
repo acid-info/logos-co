@@ -313,7 +313,7 @@ export const ContentPrSaveButton = () => {
 
   useEffect(() => {
     setStatusPanelDismissed(false)
-  }, [collection, slug])
+  }, [collection, listingPage, slug])
 
   useHotkey(
     {

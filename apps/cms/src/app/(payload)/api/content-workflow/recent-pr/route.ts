@@ -12,6 +12,7 @@ import {
   getContentWorkflowCollection,
   getContentWorkflowTargetPath,
 } from '@/services/content-workflow/collection-metadata'
+import { matchesRecentPullRequestScope } from '@/services/content-workflow/recent-pr-matching'
 
 type ChangeRequestDoc = {
   id: string | number
@@ -26,12 +27,6 @@ type ChangeRequestDoc = {
 
 const getErrorMessage = (error: unknown): string =>
   error instanceof Error ? error.message : String(error)
-
-const matchesSlug = (doc: ChangeRequestDoc, slug: string): boolean => {
-  const branchName = doc.branchName ?? ''
-  const targetPath = doc.targetPath ?? ''
-  return branchName.includes(slug) || targetPath.includes(`/${slug}/`)
-}
 
 export const GET = async (req: NextRequest): Promise<NextResponse> => {
   const payload = await getPayload({ config })
@@ -53,6 +48,10 @@ export const GET = async (req: NextRequest): Promise<NextResponse> => {
   }
 
   const contentTypes = new Set(metadata.contentTypes)
+  const targetPath = getContentWorkflowTargetPath(collection, {
+    page,
+    slug,
+  })
   const [result, livePullRequests] = await Promise.all([
     payload.find({
       collection: 'content-change-requests',
@@ -66,10 +65,6 @@ export const GET = async (req: NextRequest): Promise<NextResponse> => {
       },
     }),
     (async () => {
-      const targetPath = getContentWorkflowTargetPath(collection, {
-        page,
-        slug,
-      })
       if (!targetPath) return []
 
       try {
@@ -85,7 +80,12 @@ export const GET = async (req: NextRequest): Promise<NextResponse> => {
 
   const cachedPullRequests = (result.docs as unknown as ChangeRequestDoc[])
     .filter((doc) => contentTypes.has(doc.contentType ?? ''))
-    .filter((doc) => !slug || matchesSlug(doc, slug))
+    .filter((doc) =>
+      matchesRecentPullRequestScope(doc, {
+        slug,
+        targetPath,
+      })
+    )
     .filter((doc) => doc.pullRequestUrl)
     .map((doc) => ({
       id: doc.id,
@@ -109,7 +109,7 @@ export const GET = async (req: NextRequest): Promise<NextResponse> => {
         pullRequestNumber: pr.number,
         pullRequestUrl: pr.htmlUrl,
         status: pr.state,
-        targetPath: getContentWorkflowTargetPath(collection, { page, slug }),
+        targetPath,
         updatedAt: null,
       },
     ])
