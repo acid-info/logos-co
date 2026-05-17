@@ -1058,9 +1058,9 @@ Location: `packages/content/src/github/locks.ts`
 
 Two editors editing the same file produce two PRs and a merge conflict. The CMS guards against this at form-load time and at save time.
 
-- On form load: the CMS calls `findOpenPullRequestsTouchingPath(targetPath)`. If at least one open PR touches the file, the editor sees a banner with links to those PRs and a `Continue anyway` action gated behind a confirmation.
-- On save: the same check runs again. If a new PR has appeared since form load, the CMS refuses to create a duplicate branch and surfaces the existing PR.
-- Lock data is cached in Payload DB (`ContentChangeRequest` table) and refreshed by webhook + short-TTL pull on miss.
+- On form load: the CMS resolves the document's target path and shows recent cached PRs plus any live open PR that touches that path.
+- On save: the same target-path check runs again. If an open PR already touches the path, the CMS commits the updated JSON and media to that PR's branch instead of creating a duplicate branch.
+- PR state is cached in Payload DB (`ContentChangeRequest` table) and refreshed by live GitHub lookups where the Admin UI needs current status.
 
 ### CMS Workflow Service
 
@@ -1070,10 +1070,12 @@ Responsibilities:
 
 - Convert Payload form data into typed content schema data.
 - Run schema validation and surface errors in the Admin UI.
-- Replace Payload's default `Save → DB write` with `Save → branch + commit + PR`.
-- Provide three explicit actions: `Create PR`, `Update PR`, `Commit to existing branch`.
+- Extend Payload's default save so repo-backed collections persist the Admin
+  draft and then create or update a content PR.
+- Provide one save-driven PR flow that creates a branch on first save and
+  commits follow-up saves into the existing open PR for the same target path.
 - Cache PR metadata in Payload DB.
-- Cache fetched GitHub file contents short-term (ETag-aware) so the form load is not gated on a fresh GitHub API round trip every time.
+- Use Payload drafts for Admin form state and GitHub lookups for current PR status.
 
 PR metadata model:
 
@@ -1109,12 +1111,12 @@ GitHub branch protection enforces the `develop`→`master` promotion rule indepe
 
 1. The editor selects a route in Payload Admin.
 2. CMS loads the current JSON file from GitHub `develop` (with ETag cache).
-3. Lock check runs; warns if another open PR touches the same file.
+3. The recent PR check runs and shows any open PR touching the same file.
 4. The editor updates values in a structured form.
 5. CMS runs schema validation before saving.
-6. `Create PR` creates a `content/{type}-{slug}-{timestamp}` branch from `develop`.
+6. Saving creates a `content/{type}-{slug}-{timestamp}` branch from `develop`, or reuses the existing open PR that already touches the same target path.
 7. CMS commits the changed JSON file (and any uploaded media) to that branch.
-8. CMS opens a PR with `develop` as the base branch and displays the PR link plus the per-PR preview URL surfaced by the host (Vercel preview in dev/staging; equivalent ephemeral preview in self-hosted production).
+8. CMS opens or refreshes a PR with `develop` as the base branch and displays the PR link plus the per-PR preview URL surfaced by the host (Vercel preview in dev/staging; equivalent ephemeral preview in self-hosted production).
 9. The PR is reviewed and merged into `develop`.
 10. Production receives the change later through a controlled `develop`→`master` promotion PR.
 
@@ -1191,7 +1193,7 @@ Target state:
 
 ### Direct Commit Allowlist
 
-Direct commits to `develop` and `master` are blocked through GitHub branch protection. The CMS exposes a `Commit to existing branch` action that targets a content branch (never `develop` or `master` directly).
+Direct commits to `develop` and `master` are blocked through GitHub branch protection. Follow-up CMS saves target the existing content branch for the open PR, never `develop` or `master` directly.
 
 ### PR Title Rules
 
@@ -1359,20 +1361,20 @@ Done when:
 
 - Implement GitHub App authentication.
 - Implement branch creation, file commit (text and binary), and PR creation.
-- Implement the file-lock query in `packages/content/src/github/locks.ts`.
+- Implement target-path PR lookup in `packages/content/src/github/locks.ts`.
 - Add the media adapter for the repo path.
 - Switch the Admin read path from local-tree to GitHub `develop` (with ETag cache) so editors see a deployed-state view, not their working copy.
 
 Done when:
 
 - Calling the mutation service from a script creates a branch, commits a JSON change and an image binary, and opens a PR against `develop`.
-- The lock query returns open PRs touching a path.
+- The recent PR query returns open PRs touching a path.
 - Admin form pre-fill loads from `develop` rather than the local file.
 
 ### Phase 4b: Payload Save → PR Wiring
 
-- Replace Payload's default save handler for content collections with a workflow service call that creates or updates a PR.
-- Add `Create PR`, `Update PR`, and `Commit to existing branch` actions to the Admin UI.
+- Extend the Payload save handler for content collections with a workflow service call that creates or updates a PR after the Admin save succeeds.
+- Show the current PR status and merge/sync actions in the Admin UI.
 - Persist `ContentChangeRequest` rows.
 
 Done when:

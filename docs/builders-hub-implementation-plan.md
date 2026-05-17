@@ -177,9 +177,8 @@ Once all three pages are in place:
   follow-up plan.
 - The "Submit an idea" / "Submit a proposal" forms — these go through a
   separate flow (likely a Payload form collection or external link).
-- Wiring the Admin "Create PR" button to edit Builders Hub fixtures —
-  blocked on Phase 4b.3 of the CMS plan; not required for the
-  validation goals above.
+- Additional Admin workflow polish beyond the save-to-PR flow — not required
+  for the validation goals above.
 
 ## 8. Verification Gates Before "Done"
 

@@ -166,17 +166,13 @@ const recordContentChangeRequest = async (
 }
 
 /**
- * Single entry point that the Payload `Create PR` action calls.
+ * Single entry point for repo-backed Payload saves.
  *
- *   1. Fork a fresh `content/...` branch off the configured base.
- *   2. Atomic-commit the JSON (and any media) into that branch.
- *   3. Open (or fetch existing) PR targeting the base branch.
- *   4. Upsert the `ContentChangeRequest` row that mirrors the PR state.
- *
- * Idempotent within a single editor save: re-running with the same identifier
- * + commit content produces a new branch (timestamp differs); re-running the
- * Create PR action against an existing CCR row should go through `commitToExistingBranch`
- * instead (4b.3 follow-up).
+ *   1. Reuse an open PR for the target path when one exists.
+ *   2. Otherwise fork a fresh `content/...` branch off the configured base.
+ *   3. Atomic-commit the JSON and any referenced CMS uploads.
+ *   4. Open or refresh the PR targeting the base branch.
+ *   5. Upsert the `ContentChangeRequest` row that mirrors the PR state.
  */
 export const saveAsPullRequest = async (
   input: SaveAsPullRequestInput

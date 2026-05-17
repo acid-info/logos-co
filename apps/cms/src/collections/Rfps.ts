@@ -24,11 +24,10 @@ import {
  * `content/builders-hub/rfps/<slug>/{index,en}.json` and is rendered by the
  * web app's loader.
  *
- * The bridge between the two is the workflow service: clicking
- * "Create PR" on an Rfp row calls `saveAsPullRequest`, which writes the JSON
- * fixtures to a fresh `content/...` branch and opens a pull request. The
- * draft stays in Payload until the PR merges; on merge the loader reflects
- * the change automatically (next deploy / next-revalidate).
+ * The bridge between the two is the workflow service: saving an Rfp row calls
+ * `saveAsPullRequest`, which writes the JSON fixtures to a content branch and
+ * opens or updates a pull request. The draft stays in Payload until the PR
+ * merges; on merge the loader reflects the change automatically.
  *
  * Field shape mirrors the RFPIndex + RFPLocale Zod schemas in
  * `@repo/content/schemas/builders-hub.ts`. The split is preserved by

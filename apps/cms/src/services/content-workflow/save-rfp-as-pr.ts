@@ -110,9 +110,9 @@ export const buildRfpFixtureDeleteChanges = (
   createFixtureDeleteChanges(`content/builders-hub/rfps/${doc.slug}`)
 
 /**
- * High-level entry point invoked by the Admin "Create PR" action. Takes the
- * Payload doc + the request's Payload instance and editor metadata, builds
- * the file-change pair, and delegates to `saveAsPullRequest`.
+ * High-level entry point invoked after a repo-backed Admin save. Takes the
+ * saved Payload doc + editor metadata, builds the file-change pair, and
+ * delegates to `saveAsPullRequest`.
  */
 export const saveRfpAsPullRequest = async ({
   doc,

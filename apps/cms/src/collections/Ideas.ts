@@ -22,9 +22,9 @@ import {
  * table and the `/builders-hub/ideas` listing.
  *
  * Storage and workflow follow the same model as `Rfps`: drafts live in
- * Payload's Postgres database, and clicking "Create PR" pushes the JSON
- * fixtures to a fresh `content/...` branch via the workflow service. The
- * loader picks up the change once the PR merges.
+ * Payload's Postgres database, and saving the Admin form pushes the JSON
+ * fixtures to a content PR via the workflow service. The loader picks up the
+ * change once the PR merges.
  *
  * Field shape mirrors the IdeaIndex + IdeaLocale Zod schemas in
  * `@repo/content/schemas/builders-hub.ts`. Differences from Rfp:
