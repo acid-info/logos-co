@@ -13,7 +13,6 @@ const blockedPatterns = [
   /href:\s*["']#["']/,
   /\?\?\s*["']#["']/,
   /\|\|\s*["']#["']/,
-  /https:\/\/forum\.logos\.co/,
   /https:\/\/forum\.vac\.dev/,
   /https:\/\/docs\.logos\.co/,
   /https:\/\/logos\.co\/app/,
