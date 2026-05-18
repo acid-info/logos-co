@@ -2,6 +2,10 @@ import type { Payload } from 'payload'
 
 import { mergePullRequestToBase } from '@repo/content/github'
 
+export interface MergeContentPullRequestDependencies {
+  mergePullRequestToBase: typeof mergePullRequestToBase
+}
+
 type ChangeRequestDoc = {
   id: string | number
   pullRequestNumber?: number | null
@@ -44,31 +48,37 @@ const findChangeRequest = async ({
   return doc ?? null
 }
 
-export const mergeContentPullRequest = async (
-  input: MergeContentPullRequestInput
-): Promise<MergeContentPullRequestResult> => {
-  const changeRequest = await findChangeRequest(input)
-  const result = await mergePullRequestToBase({
-    pullRequestNumber: input.pullRequestNumber,
-  })
-
-  if (changeRequest) {
-    await input.payload.update({
-      collection: 'content-change-requests',
-      id: changeRequest.id,
-      data: {
-        commitSha: result.sha ?? undefined,
-        status: 'merged',
-      },
+export const createMergeContentPullRequest =
+  ({ mergePullRequestToBase }: MergeContentPullRequestDependencies) =>
+  async (
+    input: MergeContentPullRequestInput
+  ): Promise<MergeContentPullRequestResult> => {
+    const changeRequest = await findChangeRequest(input)
+    const result = await mergePullRequestToBase({
+      pullRequestNumber: input.pullRequestNumber,
     })
+
+    if (changeRequest) {
+      await input.payload.update({
+        collection: 'content-change-requests',
+        id: changeRequest.id,
+        data: {
+          commitSha: result.sha ?? undefined,
+          status: 'merged',
+        },
+      })
+    }
+
+    return {
+      contentChangeRequestId: changeRequest?.id ?? null,
+      merged: result.merged,
+      message: result.message,
+      pullRequestNumber: result.pullRequestNumber,
+      pullRequestUrl: result.pullRequestUrl,
+      sha: result.sha,
+    }
   }
 
-  return {
-    contentChangeRequestId: changeRequest?.id ?? null,
-    merged: result.merged,
-    message: result.message,
-    pullRequestNumber: result.pullRequestNumber,
-    pullRequestUrl: result.pullRequestUrl,
-    sha: result.sha,
-  }
-}
+export const mergeContentPullRequest = createMergeContentPullRequest({
+  mergePullRequestToBase,
+})

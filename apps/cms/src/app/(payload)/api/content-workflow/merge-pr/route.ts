@@ -3,13 +3,27 @@ import { getPayload } from 'payload'
 
 import { loadGithubConfigFromEnv, setGithubConfig } from '@repo/content/github'
 
-import config from '@payload-config'
 import { mergeContentPullRequest } from '@/services/content-workflow'
+
+type PayloadClient = Awaited<ReturnType<typeof getPayload>>
+
+export interface MergePrRouteDependencies {
+  getPayload: () => Promise<PayloadClient>
+  loadGithubConfigFromEnv: typeof loadGithubConfigFromEnv
+  mergeContentPullRequest: typeof mergeContentPullRequest
+  setGithubConfig: typeof setGithubConfig
+}
 
 const getErrorMessage = (error: unknown): string =>
   error instanceof Error ? error.message : String(error)
 
-const loadGithubConfigResponse = (): NextResponse | null => {
+const loadGithubConfigResponse = ({
+  loadGithubConfigFromEnv,
+  setGithubConfig,
+}: Pick<
+  MergePrRouteDependencies,
+  'loadGithubConfigFromEnv' | 'setGithubConfig'
+>): NextResponse | null => {
   try {
     setGithubConfig(loadGithubConfigFromEnv())
     return null
@@ -44,30 +58,53 @@ const parsePullRequestNumber = async (
   return Number(body.pullRequestNumber)
 }
 
-export const POST = async (req: NextRequest): Promise<NextResponse> => {
-  const pullRequestNumberOrResponse = await parsePullRequestNumber(req)
-  if (typeof pullRequestNumberOrResponse !== 'number') {
-    return pullRequestNumberOrResponse
-  }
+export const createMergePrPostHandler =
+  ({
+    getPayload,
+    loadGithubConfigFromEnv,
+    mergeContentPullRequest,
+    setGithubConfig,
+  }: MergePrRouteDependencies) =>
+  async (req: NextRequest): Promise<NextResponse> => {
+    const pullRequestNumberOrResponse = await parsePullRequestNumber(req)
+    if (typeof pullRequestNumberOrResponse !== 'number') {
+      return pullRequestNumberOrResponse
+    }
 
-  const githubConfigResponse = loadGithubConfigResponse()
-  if (githubConfigResponse) {
-    return githubConfigResponse
-  }
-
-  const payload = await getPayload({ config })
-  const { user } = await payload.auth({ headers: req.headers })
-  if (!user) {
-    return NextResponse.json({ error: 'unauthenticated' }, { status: 401 })
-  }
-
-  try {
-    const result = await mergeContentPullRequest({
-      payload,
-      pullRequestNumber: pullRequestNumberOrResponse,
+    const githubConfigResponse = loadGithubConfigResponse({
+      loadGithubConfigFromEnv,
+      setGithubConfig,
     })
-    return NextResponse.json(result)
-  } catch (error) {
-    return NextResponse.json({ error: getErrorMessage(error) }, { status: 422 })
+    if (githubConfigResponse) {
+      return githubConfigResponse
+    }
+
+    const payload = await getPayload()
+    const { user } = await payload.auth({ headers: req.headers })
+    if (!user) {
+      return NextResponse.json({ error: 'unauthenticated' }, { status: 401 })
+    }
+
+    try {
+      const result = await mergeContentPullRequest({
+        payload,
+        pullRequestNumber: pullRequestNumberOrResponse,
+      })
+      return NextResponse.json(result)
+    } catch (error) {
+      return NextResponse.json(
+        { error: getErrorMessage(error) },
+        { status: 422 }
+      )
+    }
   }
-}
+
+export const POST = createMergePrPostHandler({
+  getPayload: async () => {
+    const { default: config } = await import('@payload-config')
+    return getPayload({ config })
+  },
+  loadGithubConfigFromEnv,
+  mergeContentPullRequest,
+  setGithubConfig,
+})
