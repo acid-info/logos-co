@@ -11,6 +11,7 @@
     "./locales": "./src/locales/index.ts"
   },
   "scripts": {
+    "test": "node --import tsx --test \"src/**/*.test.ts\"",
     "lint": "eslint . --config ../../packages/config/eslint/base.mjs --max-warnings 0",
     "lint:fix": "eslint . --config ../../packages/config/eslint/base.mjs --fix",
     "check-types": "tsc --noEmit",
