@@ -13,6 +13,7 @@
     "lint:fix": "eslint . --fix",
     "check-types": "next typegen && tsc --noEmit",
     "test": "vitest run",
+    "test:static": "tsx scripts/static-export-smoke.ts",
     "test:watch": "vitest"
   },
   "dependencies": {

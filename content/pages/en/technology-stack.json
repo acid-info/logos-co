@@ -63,7 +63,7 @@
       "title": "Install the Logos app.",
       "description": "The Logos App is a complete distribution that bundles the kernel, the default modules, and UI packages into a usable product. It provides the primary user interface, hosting Simple Apps that let users interact with the various modules.",
       "image": {
-        "src": "/cms/pages/technology-stack/app-install.webp",
+        "src": "/cms/builders-hub/settings/app-install.webp",
         "alt": "",
         "width": 566,
         "height": 566

@@ -100,7 +100,7 @@
           "title": "Logos Builder Hub",
           "description": "Everything you need to start building privacy-first decentralised applications. Explore RFPs, find ideas, and connect with other builders.",
           "image": {
-            "src": "/images/messaging/builder-hub.jpg",
+            "src": "/images/messaging/builder-hub.webp",
             "alt": "",
             "width": 1280,
             "height": 720
