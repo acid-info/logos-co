@@ -1,8 +1,10 @@
-import { LogosMark } from '@acid-info/logos-ui'
+import { TechDetailHero } from '@acid-info/logos-ui'
 import type { HeroSection } from '@repo/content/schemas'
 
 import { Button, ButtonArrowIcon } from '@/components/ui'
 import { Link } from '@/i18n/navigation'
+
+import { DownloadIcon } from '../shared/builder-cta-card'
 
 type Props = {
   data: HeroSection
@@ -13,46 +15,71 @@ export default function MessagingHero({ data, backHref }: Props) {
   const [primaryCta, secondaryCta] = data.ctas ?? []
 
   return (
-    <section className="relative h-[337px] bg-brand-off-white md:h-[270px]">
-      <div className="relative mx-auto h-full max-w-360 px-3">
+    <TechDetailHero
+      title={data.headline}
+      body={data.body}
+      bodySecondary={data.bodySecondary}
+      items={data.items}
+      backLink={
         <Link
           href={backHref}
-          className="absolute top-[60px] left-3 inline-flex cursor-pointer items-center gap-1 text-brand-dark-green transition-opacity hover:opacity-70"
+          className="inline-flex cursor-pointer items-center gap-1 text-brand-dark-green transition-opacity hover:opacity-70"
         >
           <span className="inline-flex size-3.75 shrink-0 rotate-180 items-center justify-center">
             <ButtonArrowIcon />
           </span>
-          <span className="font-mono text-[10px] leading-[1.3] font-semibold uppercase">
+          <span className="font-mono text-[10px] font-medium leading-[1.3] uppercase">
             {data.eyebrow}
           </span>
         </Link>
-
-        <div className="absolute top-30 left-3 flex items-center gap-3 md:gap-3">
-          <LogosMark size={26} className="shrink-0 text-gray-03" />
-          <h1 className="text-h3-serif leading-none text-brand-dark-green">
-            {data.headline}
-          </h1>
-        </div>
-
-        {data.body ? (
-          <p className="text-mono-s absolute top-[182px] right-3 left-3 text-black md:top-30 md:left-181.5 md:w-85.5">
-            {data.body}
-          </p>
-        ) : null}
-
-        <div className="absolute top-[248px] left-3 flex items-baseline gap-3 md:top-[199px] md:left-181.5">
+      }
+      status={
+        data.status
+          ? {
+              label: data.status.label,
+              body: data.status.body,
+              cta: data.status.cta ? (
+                <Button
+                  href={data.status.cta.href}
+                  variant={data.status.cta.variant ?? 'secondary'}
+                  icon={<DownloadIcon />}
+                  className="w-fit cursor-pointer rounded-none"
+                >
+                  {data.status.cta.label}
+                </Button>
+              ) : null,
+              secondaryCta: data.status.secondaryCta ? (
+                <Button
+                  href={data.status.secondaryCta.href}
+                  variant={data.status.secondaryCta.variant ?? 'tertiary'}
+                  className="w-fit cursor-pointer"
+                >
+                  {data.status.secondaryCta.label}
+                </Button>
+              ) : null,
+            }
+          : undefined
+      }
+      actions={
+        <>
           {primaryCta ? (
-            <Button href={primaryCta.href} variant="secondary">
+            <Button
+              href={primaryCta.href}
+              variant={primaryCta.variant ?? 'primary'}
+            >
               {primaryCta.label}
             </Button>
           ) : null}
           {secondaryCta ? (
-            <Button href={secondaryCta.href} variant="tertiary">
+            <Button
+              href={secondaryCta.href}
+              variant={secondaryCta.variant ?? 'secondary'}
+            >
               {secondaryCta.label}
             </Button>
           ) : null}
-        </div>
-      </div>
-    </section>
+        </>
+      }
+    />
   )
 }

@@ -1,10 +1,9 @@
 import Image from 'next/image'
 
+import { TechCaseStudyCard } from '@acid-info/logos-ui'
 import type { CardGridSection } from '@repo/content/schemas'
 
 import { Button } from '@/components/ui'
-
-import { SectionMarker } from './messaging-shared'
 
 /**
  * Per-card image className is positional — Figma's two case study cards
@@ -23,6 +22,7 @@ type CaseStudyCardProps = {
   imageSrc: string
   imageAlt: string
   imageClassName: string
+  markerLabel: string
   ctaLabel?: string
   ctaHref?: string
 }
@@ -33,34 +33,24 @@ function CaseStudyCard({
   imageSrc,
   imageAlt,
   imageClassName,
+  markerLabel,
   ctaLabel,
   ctaHref,
 }: CaseStudyCardProps) {
   return (
-    <article className="relative h-[299px] overflow-hidden rounded-xl border border-brand-dark-green/50 md:h-[406px] md:flex-1">
-      <div className="absolute top-3 left-3 flex h-[263px] w-[348px] flex-col justify-between md:h-[380px] md:w-[453px]">
-        <SectionMarker
-          label="Case Study"
-          className="scale-[0.98] origin-left"
-        />
-
-        <div className="flex flex-col gap-6 text-brand-dark-green md:gap-6">
-          <h3 className="text-subhead-sans w-[195px] md:w-57">{title}</h3>
-          <p className="text-mono-s w-[344px] md:w-[453px]">{body}</p>
-        </div>
-      </div>
-
-      {ctaLabel && ctaHref ? (
-        <Button
-          href={ctaHref}
-          variant="primary"
-          className="absolute top-3 right-3 hidden md:inline-flex"
-        >
-          {ctaLabel}
-        </Button>
-      ) : null}
-
-      <div className={imageClassName}>
+    <TechCaseStudyCard
+      title={title}
+      body={body}
+      markerLabel={markerLabel}
+      imageClassName={imageClassName}
+      cta={
+        ctaLabel && ctaHref ? (
+          <Button href={ctaHref} variant="primary">
+            {ctaLabel}
+          </Button>
+        ) : null
+      }
+      image={
         <Image
           src={imageSrc}
           alt={imageAlt}
@@ -68,8 +58,8 @@ function CaseStudyCard({
           sizes="96px"
           className="object-cover"
         />
-      </div>
-    </article>
+      }
+    />
   )
 }
 
@@ -106,6 +96,7 @@ export default function MessagingCaseStudies({ data }: Props) {
                 imageClassName={
                   CARD_IMAGE_CLASSNAMES[index] ?? CARD_IMAGE_CLASSNAMES[0]
                 }
+                markerLabel={data.eyebrow ?? data.heading ?? ''}
                 ctaLabel={card.cta?.label}
                 ctaHref={card.cta?.href}
               />

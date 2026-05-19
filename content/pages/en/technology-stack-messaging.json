@@ -14,11 +14,36 @@
       "key": "messaging.hero",
       "eyebrow": "Technology stack",
       "headline": "Messaging",
-      "body": "Private peer-to-peer communication that resists surveillance and censorship.",
+      "body": "Logos Messaging is a decentralised communication protocol built for privacy and resilience. It provides the messaging layer for the Logos stack — enabling applications to send messages, relay data, and coordinate without relying on centralised servers or exposing metadata to surveillance.",
+      "bodySecondary": "Key Repositories:",
+      "items": [
+        {
+          "title": "WAKU-ORG/NWAKU",
+          "description": "Nim reference implementation"
+        },
+        {
+          "title": "WAKU-ORG/JS-WAKU",
+          "description": "JavaScript SDK for browser and Node.js"
+        },
+        {
+          "title": "WAKU-ORG/GO-WAKU",
+          "description": "Go implementation"
+        }
+      ],
+      "status": {
+        "label": "Current Status",
+        "body": "Logos Messaging is the most mature module in the Logos stack, with an active developer community and SDK implementations in multiple languages. It powers messaging in the Status application and is integrated into Testnet v0.1.",
+        "cta": {
+          "label": "Install Testnet v0.1",
+          "href": "/technology-stack/messaging",
+          "variant": "secondary",
+          "iconOverride": "download"
+        }
+      },
       "ctas": [
         {
-          "label": "Logos app",
-          "href": "/builders-hub#app-install",
+          "label": "Use Messaging SDK",
+          "href": "/technology-stack/messaging",
           "variant": "primary"
         },
         {
@@ -31,9 +56,9 @@
     {
       "componentType": "ctaPanel",
       "key": "messaging.privacy",
-      "eyebrow": "Privacy",
-      "title": "Privacy built from the ground up.",
-      "description": "Logos Messaging (formerly Waku) was designed and developed as the replacement for Whisper - the messaging protocol of Ethereum. This protocol is used in a number of production applications and provides strong privacy and security guarantees.",
+      "eyebrow": "Overview",
+      "title": "Overview",
+      "description": "Logos Messaging uses a peer-to-peer relay network where messages are propagated across nodes without a central broker. The protocol supports multiple messaging patterns: private one-to-one messaging, group messaging, and public broadcast channels for applications.\n\nMessages can be encrypted end-to-end, and the relay network is designed to resist traffic analysis — making it difficult for observers to determine who is communicating with whom, even if they can observe the network.",
       "cta": {
         "label": "View the docs",
         "href": "/technology-stack/messaging"
@@ -49,6 +74,7 @@
     {
       "componentType": "cardGrid",
       "key": "messaging.caseStudies",
+      "eyebrow": "Case Study",
       "heading": "Case Studies",
       "subheading": "Real-world deployments built on the Logos Messaging stack — from social networks to identity systems — proving the protocol scales with privacy guarantees intact.",
       "cards": [
