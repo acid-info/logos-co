@@ -13,43 +13,42 @@ export default async function CirclesCtaSection({ data }: Props) {
   const events = await fetchCircleEvents()
 
   return (
-    <section className="h-[1180px] overflow-hidden bg-brand-off-white py-24 md:h-[1225px] md:py-[100px]">
-      <div className="mx-auto max-w-354 px-3">
-        <div className="flex flex-col items-center text-center">
-          <h2 className="text-h2 max-w-[940px] text-brand-dark-green">
-            <span>{data.title.highlight}</span> {data.title.rest}
-          </h2>
+    <section className="relative h-[1180px] overflow-hidden bg-brand-off-white md:h-[1225px]">
+      <h2 className="text-h1 absolute top-[100px] left-0 flex w-full flex-col items-center gap-[6px] text-center text-brand-dark-green md:gap-0">
+        <span>{data.title.highlight}</span>
+        <span className="md:-mt-1">{data.title.rest}</span>
+      </h2>
 
-          {data.body && data.body.length > 0 ? (
-            <div className="text-mono-s text-brand-dark-green/70 mt-10 max-w-114 flex flex-col gap-3">
-              {data.body.map((paragraph, i) => (
-                <p key={i}>{paragraph}</p>
-              ))}
-            </div>
-          ) : null}
-
-          <div className="mt-8 flex items-center gap-3">
-            {data.cta ? (
-              <Button
-                href={data.cta.href}
-                className="cursor-pointer transition-opacity hover:opacity-70"
-              >
-                {data.cta.label}
-              </Button>
-            ) : null}
-            {data.secondaryCta ? (
-              <Button
-                href={data.secondaryCta.href}
-                variant="link"
-                className="cursor-pointer transition-opacity hover:opacity-70"
-              >
-                {data.secondaryCta.label}
-              </Button>
-            ) : null}
-          </div>
+      {data.body && data.body.length > 0 ? (
+        <div className="text-mono-s absolute top-[255px] left-3 flex w-[369px] flex-col gap-3 text-center text-brand-dark-green md:top-[300px] md:left-1/2 md:w-[378px] md:-translate-x-1/2">
+          {data.body.map((paragraph, i) => (
+            <p key={i}>{paragraph}</p>
+          ))}
         </div>
+      ) : null}
 
-        <div className="bg-gray-01 mt-16 aspect-[369/710] overflow-hidden rounded-xl md:aspect-1416/710">
+      <div className="absolute top-[347px] left-[61px] flex items-baseline gap-3 md:top-[392px] md:left-1/2 md:-translate-x-1/2">
+        {data.cta ? (
+          <Button
+            href={data.cta.href}
+            className="cursor-pointer transition-opacity hover:opacity-70"
+          >
+            {data.cta.label}
+          </Button>
+        ) : null}
+        {data.secondaryCta ? (
+          <Button
+            href={data.secondaryCta.href}
+            variant="link"
+            className="cursor-pointer transition-opacity hover:opacity-70"
+          >
+            {data.secondaryCta.label}
+          </Button>
+        ) : null}
+      </div>
+
+      <div className="bg-gray-01 absolute top-[448px] left-3 h-[720px] w-[369px] overflow-hidden rounded-[100px] md:top-[493px] md:h-[720px] md:w-[1416px]">
+        <div className="h-[710px] w-full">
           <CirclesMapLoader events={events} />
         </div>
       </div>

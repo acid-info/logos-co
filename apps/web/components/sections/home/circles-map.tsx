@@ -107,7 +107,7 @@ function ZoomButton({
 function ZoomControls() {
   const map = useMap()
   return (
-    <div className="pointer-events-auto absolute top-[50px] right-[52px] z-[400] flex gap-[9px]">
+    <div className="pointer-events-auto absolute top-[47px] right-[33px] z-[400] flex flex-col gap-3 md:top-[50px] md:right-[52px] md:flex-row md:gap-[9px]">
       <ZoomButton ariaLabel="Zoom out" onClick={() => map.zoomOut()}>
         <span className="block h-[2px] w-[11px] bg-current" />
       </ZoomButton>
