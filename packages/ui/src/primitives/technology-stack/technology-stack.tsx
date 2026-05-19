@@ -74,11 +74,60 @@ export function TechDetailHero({
 }: TechDetailHeroProps) {
   return (
     <section
-      className={twMerge('bg-brand-off-white pt-5 md:pt-7.5', className)}
+      className={twMerge(
+        'mb-15 h-135 bg-brand-off-white md:mb-25 md:h-[414px] md:pt-7.5',
+        className
+      )}
     >
-      <div className="relative z-51 mx-auto max-w-360 px-3">{backLink}</div>
+      <div className="relative mx-auto h-full max-w-360 px-3 pt-10 text-brand-dark-green md:hidden">
+        <div className="absolute top-[21px] left-3 z-51">{backLink}</div>
 
-      <div className="mx-auto grid max-w-360 gap-5 px-3 pt-4 pb-2 text-brand-dark-green md:grid-cols-4 md:gap-3 md:pt-7.5 md:pb-23">
+        <h1 className="text-h3-serif absolute top-[60px] left-3 flex items-center gap-3">
+          {titleIcon ?? (
+            <LogosMark size={22} className="shrink-0 text-gray-03" />
+          )}
+          {title}
+        </h1>
+
+        <div className="absolute top-[122px] left-3 flex w-[calc(100%-24px)] max-w-92.25 flex-col text-black">
+          {actions ? (
+            <div className="flex flex-wrap items-start gap-1.5">{actions}</div>
+          ) : null}
+
+          {body ? <p className="text-mono-s mt-6 max-w-85.5">{body}</p> : null}
+
+          {bodySecondary ? (
+            <div className="text-mono-s mt-5 flex flex-col gap-2">
+              <p>{bodySecondary}</p>
+              {items?.map((item) => (
+                <p key={item.title}>
+                  <span className="font-mono font-semibold">{item.title}</span>
+                  {item.description ? ` — ${item.description}` : null}
+                </p>
+              ))}
+            </div>
+          ) : null}
+
+          {status ? (
+            <div className="border-brand-dark-green/10 mt-6 flex flex-col gap-3 border-t pt-6">
+              <span className="text-eyebrow w-fit rounded bg-brand-yellow px-1 py-0.5 text-brand-dark-green">
+                {status.label}
+              </span>
+              <p className="text-mono-s max-w-86 text-black">{status.body}</p>
+              <div className="flex flex-wrap items-center gap-3">
+                {status.cta}
+                {status.secondaryCta}
+              </div>
+            </div>
+          ) : null}
+        </div>
+      </div>
+
+      <div className="relative z-51 mx-auto hidden max-w-360 px-3 md:block">
+        {backLink}
+      </div>
+
+      <div className="mx-auto hidden max-w-360 gap-5 px-3 pt-4 pb-2 text-brand-dark-green md:grid md:grid-cols-4 md:gap-3 md:pt-7.5 md:pb-23">
         <h1 className="text-h3-serif flex self-start items-center gap-3 md:col-span-2">
           {titleIcon ?? (
             <LogosMark size={42} className="shrink-0 text-gray-03" />
@@ -86,7 +135,7 @@ export function TechDetailHero({
           {title}
         </h1>
 
-        <div className="flex flex-col gap-6 md:col-span-2 md:grid md:grid-cols-2 md:gap-3">
+        <div className="md:col-span-2 md:grid md:grid-cols-2 md:gap-3">
           <div className="flex flex-col gap-6">
             {body ? (
               <p className="text-mono-s max-w-86 text-black">{body}</p>
@@ -107,7 +156,7 @@ export function TechDetailHero({
             ) : null}
 
             {status ? (
-              <div className="border-brand-dark-green/10 flex flex-col gap-3 border-t pt-6 md:gap-6">
+              <div className="border-brand-dark-green/10 flex flex-col gap-6 border-t pt-6">
                 <span className="text-eyebrow w-fit rounded bg-brand-yellow px-1 py-0.5 text-brand-dark-green">
                   {status.label}
                 </span>
@@ -121,7 +170,7 @@ export function TechDetailHero({
           </div>
 
           {actions ? (
-            <div className="order-first flex flex-wrap items-start gap-3 md:order-none md:justify-end">
+            <div className="flex flex-wrap items-start justify-end gap-3">
               {actions}
             </div>
           ) : null}
@@ -154,11 +203,11 @@ export function TechTextSplitSection({
   return (
     <section
       className={twMerge(
-        'border-brand-dark-green/10 bg-brand-off-white border-t',
+        'h-62 bg-brand-off-white md:h-[183px] md:border-t md:border-brand-dark-green/10',
         className
       )}
     >
-      <div className="mx-auto grid max-w-360 gap-10 px-3 py-10 text-brand-dark-green md:grid-cols-4 md:gap-3 md:pt-[22px] md:pb-[118px]">
+      <div className="mx-auto grid max-w-360 gap-4 px-3 py-10 text-brand-dark-green md:grid-cols-4 md:gap-3 md:pt-10 md:pb-0">
         <h2 className="text-h4-sans md:col-span-2">{title}</h2>
 
         <div
@@ -360,5 +409,77 @@ export function TechCaseStudyCard({
 
       <div className={imageClassName}>{image}</div>
     </article>
+  )
+}
+
+export type TechUseCaseCard = {
+  markerLabel: string
+  title: string
+  body?: ReactNode
+  cta?: ReactNode
+  image?: ReactNode
+}
+
+export type TechUseCaseGridProps = {
+  cards: readonly TechUseCaseCard[]
+  className?: string
+  gridClassName?: string
+  cardClassName?: string
+}
+
+export function TechUseCaseGrid({
+  cards,
+  className,
+  gridClassName,
+  cardClassName,
+}: TechUseCaseGridProps) {
+  return (
+    <section
+      className={twMerge(
+        'h-[576px] bg-brand-off-white md:h-[362px]',
+        className
+      )}
+    >
+      <div
+        className={twMerge(
+          'mx-auto flex max-w-360 flex-col gap-3 px-3 md:flex-row md:py-10',
+          gridClassName
+        )}
+      >
+        {cards.map((card) => (
+          <article
+            key={card.title}
+            className={twMerge(
+              'relative h-[282px] w-full overflow-hidden bg-brand-dark-green md:flex-1',
+              cardClassName
+            )}
+          >
+            {card.image ? (
+              <div className="pointer-events-none absolute inset-0 [&>*]:size-full [&>*]:object-cover">
+                {card.image}
+              </div>
+            ) : null}
+            <div className="absolute inset-0 bg-brand-dark-green/25" />
+
+            <div className="relative z-10 flex h-full flex-col justify-between p-3 text-brand-off-white">
+              <SectionMarker
+                label={card.markerLabel}
+                className="text-brand-off-white [&_p]:text-brand-off-white [&_svg]:text-brand-off-white"
+              />
+
+              <h3 className="text-subhead-sans absolute top-1/2 left-1/2 w-full max-w-55 -translate-x-1/2 -translate-y-1/2 text-center">
+                {card.title}
+              </h3>
+
+              <div className="text-mono-s w-55">{card.body}</div>
+            </div>
+
+            {card.cta ? (
+              <div className="absolute top-3 right-3 z-10">{card.cta}</div>
+            ) : null}
+          </article>
+        ))}
+      </div>
+    </section>
   )
 }

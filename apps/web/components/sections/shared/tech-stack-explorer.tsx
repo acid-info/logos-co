@@ -28,7 +28,7 @@ export default async function TechStackExplorer({
 
   return (
     <section className="border-brand-dark-green/10 bg-brand-off-white border-t">
-      <div className="mx-auto max-w-360 px-3 pt-25 pb-[59px] md:pb-[117px]">
+      <div className="mx-auto max-w-360 px-3 pt-25 pb-[118px] md:pb-6">
         <div className="flex flex-col gap-3 text-brand-dark-green md:flex-row md:gap-0">
           <h2 className="text-h4-sans md:w-178.5">
             {t('titleLine1')}

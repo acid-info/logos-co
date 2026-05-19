@@ -79,5 +79,5 @@ export default function MessagingBuilderCta({ data }: Props) {
     (card): card is TechBuilderCtaCard => card !== undefined
   )
 
-  return <TechBuilderCtaDeck cards={cards} className="mt-10" />
+  return <TechBuilderCtaDeck cards={cards} className="mt-15 md:mt-10" />
 }

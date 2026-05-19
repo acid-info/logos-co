@@ -72,6 +72,13 @@
       "description": "Built around the Logos Messaging Nim (LMN) node, it provides publish-subscribe messaging, reliable delivery, and is evolving toward a ChatSDK that simplifies building encrypted communication into applications."
     },
     {
+      "componentType": "ctaPanel",
+      "key": "messaging.censorship",
+      "eyebrow": "Privacy",
+      "title": "Censorship Resistance",
+      "description": "Logos Messaging was designed to route communication across a peer-to-peer relay network, reducing dependence on any single operator and making it harder to block or observe private conversations."
+    },
+    {
       "componentType": "cardGrid",
       "key": "messaging.caseStudies",
       "eyebrow": "Case Study",

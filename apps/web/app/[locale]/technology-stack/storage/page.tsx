@@ -12,6 +12,7 @@ import StorageHero from '@/components/sections/storage/storage-hero'
 import StorageMain from '@/components/sections/storage/storage-main'
 import StorageRelatedArticles from '@/components/sections/storage/storage-related-articles'
 import StorageTechStack from '@/components/sections/storage/storage-tech-stack'
+import StorageUseCases from '@/components/sections/storage/storage-use-cases'
 
 import { ROUTES } from '@/constants/routes'
 import { createPageMetadata } from '@/lib/page-metadata'
@@ -28,6 +29,7 @@ const findSection = createSectionFinder('storage')
  * Four of five sections wired to PageCopy:
  *   - storage.hero            → StorageHero
  *   - storage.main            → StorageMain
+ *   - storage.useCases        → StorageUseCases
  *   - storage.builderCta      → StorageBuilderCta
  *   - storage.relatedArticles → StorageRelatedArticles
  *
@@ -54,6 +56,11 @@ export default async function StoragePage({
     'ctaPanel',
     'storage.main'
   )
+  const useCases = findSection<CardGridSection>(
+    page.sections,
+    'cardGrid',
+    'storage.useCases'
+  )
   const builderCta = findSection<CardGridSection>(
     page.sections,
     'cardGrid',
@@ -73,6 +80,7 @@ export default async function StoragePage({
     <>
       <StorageHero data={hero} backHref={ROUTES.technologyStack} />
       <StorageMain data={main} />
+      <StorageUseCases data={useCases} />
       <StorageBuilderCta data={builderCta} />
       <StorageTechStack locale={locale} />
       <StorageRelatedArticles data={relatedArticles} articles={articles} />

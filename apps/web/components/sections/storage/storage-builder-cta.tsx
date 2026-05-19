@@ -84,7 +84,7 @@ export default function StorageBuilderCta({ data }: Props) {
   return (
     <TechBuilderCtaDeck
       cards={cards}
-      className="mt-15 md:mt-25"
+      className="mt-15 mb-15 md:mt-25 md:mb-25"
       contentWrapperClassName={CARD_WRAPPER_CLASSNAME}
     />
   )

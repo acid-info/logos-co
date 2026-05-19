@@ -6,6 +6,7 @@ export {
   TechCaseStudyCard,
   TechDetailHero,
   TechTextSplitSection,
+  TechUseCaseGrid,
 } from './technology-stack'
 export type {
   SectionMarkerProps,
@@ -16,4 +17,6 @@ export type {
   TechDetailHeroProps,
   TechDetailHeroStatus,
   TechTextSplitSectionProps,
+  TechUseCaseCard,
+  TechUseCaseGridProps,
 } from './technology-stack'

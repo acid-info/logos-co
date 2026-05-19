@@ -70,7 +70,7 @@ type Props = {
 export default function MessagingCaseStudies({ data }: Props) {
   return (
     <section className="mt-15 bg-brand-off-white md:mt-10">
-      <div className="mx-auto max-w-360 px-3 pt-31 md:px-0 md:pt-25">
+      <div className="mx-auto max-w-360 px-3 pt-25 md:px-0 md:pt-25">
         <div className="flex flex-col gap-3 md:grid md:grid-cols-2 md:gap-3 md:px-3">
           {data.heading ? (
             <h2 className="text-h4-sans text-brand-dark-green">
@@ -84,7 +84,7 @@ export default function MessagingCaseStudies({ data }: Props) {
           ) : null}
         </div>
 
-        <div className="mt-15 flex flex-col gap-3 md:mt-10 md:flex-row md:px-3">
+        <div className="mt-[71px] flex flex-col gap-3 md:mt-10 md:flex-row md:px-3">
           {data.cards.map((card, index) =>
             card.image ? (
               <CaseStudyCard

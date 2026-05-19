@@ -27,7 +27,8 @@ const findSection = createSectionFinder('messaging')
 /**
  * Five of six sections wired to PageCopy:
  *   - messaging.hero            → MessagingHero
- *   - messaging.privacy + lmn   → MessagingIntro (one component, two ctaPanel sections)
+ *   - messaging.privacy + lmn + censorship
+ *                              → MessagingIntro
  *   - messaging.caseStudies     → MessagingCaseStudies
  *   - messaging.builderCta      → MessagingBuilderCta
  *   - messaging.relatedArticles → MessagingRelatedArticles
@@ -59,6 +60,11 @@ export default async function MessagingPage({
     'ctaPanel',
     'messaging.lmn'
   )
+  const censorship = findSection<CtaPanelSection>(
+    page.sections,
+    'ctaPanel',
+    'messaging.censorship'
+  )
   const caseStudies = findSection<CardGridSection>(
     page.sections,
     'cardGrid',
@@ -82,7 +88,7 @@ export default async function MessagingPage({
   return (
     <>
       <MessagingHero data={hero} backHref={ROUTES.technologyStack} />
-      <MessagingIntro privacy={privacy} lmn={lmn} />
+      <MessagingIntro privacy={privacy} lmn={lmn} censorship={censorship} />
       <MessagingCaseStudies data={caseStudies} />
       <MessagingBuilderCta data={builderCta} />
       <MessagingTechStack locale={locale} />

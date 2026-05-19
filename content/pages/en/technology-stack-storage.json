@@ -20,11 +20,32 @@
       "key": "storage.hero",
       "eyebrow": "Technology stack",
       "headline": "Storage",
-      "body": "Decentralized file storage and retrieval, using content-addressed (CID-based) data.",
+      "body": "Logos Storage is a decentralised storage protocol that removes the dependency on centralised cloud providers. It enables applications to store and retrieve data — files, application state, archives, media — across a distributed network with cryptographic guarantees of data integrity and availability.",
+      "bodySecondary": "Key Repositories:",
+      "items": [
+        {
+          "title": "codex-storage/nim-codex",
+          "description": "Nim reference implementation"
+        },
+        {
+          "title": "codex-storage/codex-contracts-eth",
+          "description": "On-chain storage contracts"
+        }
+      ],
+      "status": {
+        "label": "Current Status",
+        "body": "Logos Storage is in active development, with the Codex node and storage contracts providing the foundation for durable, content-addressed data availability across the Logos stack.",
+        "cta": {
+          "label": "Install Testnet v0.1",
+          "href": "/technology-stack/storage",
+          "variant": "secondary",
+          "iconOverride": "download"
+        }
+      },
       "ctas": [
         {
-          "label": "Logos app",
-          "href": "/builders-hub#app-install",
+          "label": "Use Storage SDK",
+          "href": "/technology-stack/storage",
           "variant": "primary"
         },
         {
@@ -37,13 +58,48 @@
     {
       "componentType": "ctaPanel",
       "key": "storage.main",
-      "eyebrow": "Storage",
-      "title": "Private, Secure,\nDecentralized Storage",
-      "description": "Built around the Logos Messaging Nim (LMN) node, it provides publish-subscribe messaging, reliable delivery, and is evolving toward a ChatSDK that simplifies building encrypted communication into applications.",
+      "eyebrow": "Overview",
+      "title": "Overview",
+      "description": "Logos Storage lets applications address data by content instead of location, so files and application state can be verified cryptographically after retrieval.\n\nThe protocol is designed for privacy-preserving, decentralised availability: data can be distributed across independent storage providers while applications retain integrity guarantees and avoid dependence on a single centralised cloud service.",
       "cta": {
         "label": "View the docs",
         "href": "/technology-stack/storage"
       }
+    },
+    {
+      "componentType": "cardGrid",
+      "key": "storage.useCases",
+      "eyebrow": "Use Case",
+      "cards": [
+        {
+          "title": "Sample App 1",
+          "description": "A storage-backed application that keeps user data portable, verifiable, and independent from centralised infrastructure.",
+          "image": {
+            "src": "/images/storage/use-case-1.webp",
+            "alt": "",
+            "width": 2880,
+            "height": 3839
+          },
+          "cta": {
+            "label": "Use app",
+            "href": "/technology-stack/storage"
+          }
+        },
+        {
+          "title": "Sample App 2",
+          "description": "A decentralised archive workflow using content-addressed storage for durable publication and retrieval.",
+          "image": {
+            "src": "/images/storage/use-case-2.webp",
+            "alt": "",
+            "width": 2560,
+            "height": 2048
+          },
+          "cta": {
+            "label": "Use app",
+            "href": "/technology-stack/storage"
+          }
+        }
+      ]
     },
     {
       "componentType": "cardGrid",
