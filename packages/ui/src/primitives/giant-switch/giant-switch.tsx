@@ -30,6 +30,8 @@ type GiantSwitchProps = {
   accent?: GiantSwitchAccent
   /** Desktop only — which side the image disc sits on. Mobile always stacks. */
   imagePosition?: GiantSwitchImagePosition
+  /** Desktop only — shifts the image/content when the install trigger is hovered. */
+  installHoverShift?: boolean
   image: ReactNode
   title: ReactNode
   description?: ReactNode
@@ -46,6 +48,7 @@ const accentBg: Record<GiantSwitchAccent, string> = {
 export function GiantSwitch({
   accent = 'grey',
   imagePosition = 'left',
+  installHoverShift = false,
   image,
   title,
   description,
@@ -53,10 +56,34 @@ export function GiantSwitch({
   actions,
   className,
 }: GiantSwitchProps) {
+  const hoverShiftDistance = imagePosition === 'left' ? '702px' : '-702px'
+  const hoverShiftStyles = installHoverShift
+    ? `
+      @media (min-width: 48rem) {
+        .giant-switch--install-hover .giant-switch__image,
+        .giant-switch--install-hover .giant-switch__content {
+          transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .giant-switch--install-hover:has([data-giant-switch-install-trigger]:hover) .giant-switch__image,
+        .giant-switch--install-hover:has([data-giant-switch-install-trigger]:focus-within) .giant-switch__image,
+        .giant-switch--install-hover:has([data-giant-switch-install-trigger]:focus-visible) .giant-switch__image {
+          transform: translateX(${hoverShiftDistance});
+        }
+
+        .giant-switch--install-hover:has([data-giant-switch-install-trigger]:hover) .giant-switch__content,
+        .giant-switch--install-hover:has([data-giant-switch-install-trigger]:focus-within) .giant-switch__content,
+        .giant-switch--install-hover:has([data-giant-switch-install-trigger]:focus-visible) .giant-switch__content {
+          transform: translate(${hoverShiftDistance}, -50%);
+        }
+      }
+    `
+    : undefined
+
   // Mobile: stacked flex-col. Desktop: absolute image disc + content block.
   const imageClass = [
     // Mobile — fills panel width, square, clipped to rounded-88.
-    'aspect-square w-full overflow-hidden rounded-[88px]',
+    'giant-switch__image aspect-square w-full overflow-hidden rounded-[88px]',
     // Desktop — 566×566 disc inset 12 px, rounded-188, positioned by prop.
     'md:absolute md:top-3 md:aspect-auto md:h-[566px] md:w-[566px] md:rounded-[188px]',
     imagePosition === 'left' ? 'md:left-3' : 'md:right-3',
@@ -64,7 +91,7 @@ export function GiantSwitch({
 
   const contentClass = [
     // Mobile — in the flex column below the image, centered.
-    'flex flex-col items-center gap-10 pt-20 md:pt-0',
+    'giant-switch__content flex flex-col items-center gap-10 pt-20 md:pt-0',
     // Desktop — absolutely positioned beside the image.
     'md:absolute md:top-1/2 md:-translate-y-1/2 md:items-start',
     imagePosition === 'left'
@@ -73,7 +100,10 @@ export function GiantSwitch({
   ].join(' ')
 
   return (
-    <div className={`w-full px-3 ${className ?? ''}`}>
+    <div
+      className={`w-full px-3 ${installHoverShift ? 'giant-switch--install-hover' : ''} ${className ?? ''}`}
+    >
+      {hoverShiftStyles ? <style>{hoverShiftStyles}</style> : null}
       <div
         className={`relative flex w-full flex-col overflow-hidden rounded-[100px] p-3 pb-14 md:block md:h-[590px] md:rounded-[200px] md:p-0 ${accentBg[accent]}`}
       >

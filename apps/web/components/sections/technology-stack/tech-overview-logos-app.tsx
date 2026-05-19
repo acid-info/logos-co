@@ -58,6 +58,7 @@ export default function TechOverviewLogosApp({ data }: Props) {
       <GiantSwitch
         accent={data.accent}
         imagePosition={data.imagePosition}
+        installHoverShift
         image={
           <Image
             src={data.image.src}
@@ -104,13 +105,15 @@ export default function TechOverviewLogosApp({ data }: Props) {
         actions={
           <>
             {data.primaryCta ? (
-              <Button
-                href={data.primaryCta.href}
-                variant="secondary"
-                icon={<ExternalLinkIcon />}
-              >
-                {data.primaryCta.label}
-              </Button>
+              <span className="inline-flex" data-giant-switch-install-trigger>
+                <Button
+                  href={data.primaryCta.href}
+                  variant="secondary"
+                  icon={<ExternalLinkIcon />}
+                >
+                  {data.primaryCta.label}
+                </Button>
+              </span>
             ) : null}
             {data.secondaryCta ? (
               <Button href={data.secondaryCta.href} variant="tertiary">

@@ -1,53 +1,31 @@
 import Image from 'next/image'
-import type { ReactNode } from 'react'
 
 import { LogosMark } from '@acid-info/logos-ui'
 import type { TechStackOverviewSection } from '@repo/content/schemas'
 
-import { IconMask } from '@/components/icons/icon-mask'
+import { TechStackDiagram } from '@/components/sections/shared/tech-stack-diagram'
 import { Button } from '@/components/ui'
-import { Link } from '@/i18n/navigation'
 
-function SectionMarker({ label }: { label: string }) {
+function SectionMarker({
+  label,
+  mark = 'diamond',
+  className,
+}: {
+  label: string
+  mark?: 'diamond' | 'logos'
+  className?: string
+}) {
   return (
-    <div className="text-mono-s flex items-center gap-[102px] text-brand-dark-green">
-      <span className="size-[7px] rotate-45 bg-brand-dark-green" />
+    <div
+      className={`text-mono-s flex items-start gap-[102px] text-brand-dark-green ${className ?? ''}`}
+    >
+      {mark === 'logos' ? (
+        <LogosMark size={9} className="shrink-0" />
+      ) : (
+        <span className="mt-px size-[7px] shrink-0 rotate-45 bg-brand-dark-green" />
+      )}
       <span>{label}</span>
     </div>
-  )
-}
-
-function DownloadIcon() {
-  return <IconMask src="/icons/download.svg" className="size-[15px]" />
-}
-
-type StackTileProps = {
-  title: string
-  body?: string
-  href: string
-  className: string
-  children?: ReactNode
-}
-
-function StackTile({ title, body, href, className, children }: StackTileProps) {
-  return (
-    <Link
-      href={href}
-      className={`relative flex cursor-pointer flex-col items-center justify-center overflow-hidden rounded-3xl border border-brand-dark-green text-center text-brand-dark-green ${className}`}
-    >
-      <div className="flex flex-col items-center gap-3 px-3 py-1">
-        <span className="text-subhead-sans flex items-center gap-2.5">
-          <span className="hidden shrink-0 md:block">
-            <LogosMark size={14} />
-          </span>
-          {title}
-        </span>
-        {body ? (
-          <p className="text-mono-s w-[152px] md:hidden">{body}</p>
-        ) : null}
-      </div>
-      {children}
-    </Link>
   )
 }
 
@@ -68,8 +46,6 @@ export default function TechOverviewStack({
   networkingHref,
   foundationHref,
 }: Props) {
-  const [networkLine1, networkLine2] = data.networkingTitle.split('\n')
-
   return (
     <section
       id="stack"
@@ -82,7 +58,10 @@ export default function TechOverviewStack({
               <div className="relative h-[317px] md:h-[357px]">
                 {data.architecture.eyebrow ? (
                   <div className="absolute top-0 left-0">
-                    <SectionMarker label={data.architecture.eyebrow} />
+                    <SectionMarker
+                      label={data.architecture.eyebrow}
+                      mark="logos"
+                    />
                   </div>
                 ) : null}
 
@@ -106,7 +85,10 @@ export default function TechOverviewStack({
                   ) : null}
                 </div>
 
-                <div className="absolute top-[304px] left-0 md:top-[344px]">
+                <div
+                  className="absolute top-[304px] left-0 opacity-0 md:top-[344px]"
+                  aria-hidden="true"
+                >
                   <SectionMarker label={data.pillars[0].title} />
                 </div>
               </div>
@@ -140,85 +122,11 @@ export default function TechOverviewStack({
             ) : null}
           </div>
 
-          <div className="flex flex-col gap-3">
-            {data.basecamp ? (
-              <div className="relative flex h-[111px] flex-col items-start justify-center overflow-hidden rounded-xl border border-brand-dark-green p-3 text-brand-dark-green md:h-[196px] md:items-center md:rounded-3xl">
-                <span className="text-subhead-sans flex items-center gap-2.5">
-                  <span className="hidden shrink-0 md:block">
-                    <LogosMark size={14} />
-                  </span>
-                  {data.basecamp.title}
-                </span>
-                {data.basecamp.body ? (
-                  <p className="text-mono-s mt-3 w-[208px] md:hidden">
-                    {data.basecamp.body}
-                  </p>
-                ) : null}
-                {data.basecamp.cta ? (
-                  <Button
-                    href={data.basecamp.cta.href}
-                    variant="primary"
-                    icon={<DownloadIcon />}
-                    className="absolute top-2.5 right-2.5 cursor-pointer md:hidden"
-                  >
-                    {data.basecamp.cta.label}
-                  </Button>
-                ) : null}
-              </div>
-            ) : null}
-
-            <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-              {data.pillars.map((pillar) => (
-                <StackTile
-                  key={pillar.id}
-                  title={pillar.title}
-                  body={pillar.body}
-                  href={pillar.href}
-                  className="h-[258px] md:h-[366px]"
-                >
-                  {pillar.id === 'blockchain' ? (
-                    <div className="mt-3 flex w-full flex-col gap-1.5 px-1.5 md:hidden">
-                      <div className="text-eyebrow rounded-[18px] border border-brand-dark-green/50 px-3 py-3 uppercase">
-                        Logos Execution Zone (LEZ)
-                      </div>
-                      <div className="text-eyebrow rounded-[18px] border border-brand-dark-green/50 px-3 py-3 uppercase">
-                        Data Availability and Consensus: Cryptarchia
-                      </div>
-                    </div>
-                  ) : null}
-                </StackTile>
-              ))}
-            </div>
-
-            <Link
-              href={networkingHref}
-              className="flex h-[196px] cursor-pointer flex-col items-center justify-center gap-3 rounded-3xl border border-brand-dark-green px-3 text-center text-brand-dark-green"
-            >
-              <span className="text-subhead-sans">
-                <span className="block">{networkLine1}</span>
-                {networkLine2 ? (
-                  <span className="block">{networkLine2}</span>
-                ) : null}
-              </span>
-              {data.networkingDescription ? (
-                <p className="text-mono-s w-[208px] md:hidden">
-                  {data.networkingDescription}
-                </p>
-              ) : null}
-            </Link>
-
-            <Link
-              href={foundationHref}
-              className="flex h-[196px] cursor-pointer flex-col items-center justify-center gap-3 rounded-3xl border border-brand-dark-green px-3 text-center text-brand-dark-green"
-            >
-              <span className="text-subhead-sans">{data.foundationTitle}</span>
-              {data.foundationDescription ? (
-                <p className="text-mono-s w-[208px] md:hidden">
-                  {data.foundationDescription}
-                </p>
-              ) : null}
-            </Link>
-          </div>
+          <TechStackDiagram
+            data={data}
+            networkingHref={networkingHref}
+            foundationHref={foundationHref}
+          />
         </div>
       </div>
     </section>
