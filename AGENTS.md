@@ -10,6 +10,7 @@ pnpm + Turborepo monorepo. Node `>=20.9`, pnpm `10.9`.
 | --- | --- |
 | `apps/web` | Public Next.js 16 site. Tailwind v4, `next-intl`, static export. Port `3000`. |
 | `apps/cms` | Payload CMS 3.x admin app (Next.js 16 + Postgres). Port `3001`, admin at `/admin`. |
+| `apps/civi-crm-cms` | CiviCRM CMS internal tool (Next.js 16). Keycloak-protected. Port `3002`. See [`docs/civi-crm-cms-architecture.md`](docs/civi-crm-cms-architecture.md). |
 | `packages/content` | Content schemas, loaders for `content/**`, GitHub mutation helpers, locale registry. |
 | `packages/ui` | Shared React primitives + SVG icon components. |
 | `packages/tokens` | Design tokens. |
@@ -26,7 +27,7 @@ Run from repo root unless noted.
 
 ```bash
 pnpm install
-pnpm dev              # turbo: web on :3000, cms on :3001
+pnpm dev              # turbo: web on :3000, cms on :3001, civi-crm-cms on :3002
 pnpm build            # web static export + cms next build
 pnpm test             # vitest in apps/web
 pnpm lint             # eslint --max-warnings 0 across workspaces
