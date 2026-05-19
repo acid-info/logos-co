@@ -50,7 +50,7 @@ function StatusCard({
             href={status.cta.href}
             variant={status.cta.variant ?? 'secondary'}
             icon={getButtonIcon(status.cta.iconOverride)}
-            className="cursor-pointer"
+            className="w-[326px] cursor-pointer justify-between"
           >
             {status.cta.label}
           </Button>
