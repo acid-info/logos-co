@@ -321,8 +321,43 @@ function DesktopPanel({
   onClose: () => void
   linkAs: LinkLikeComponent
 }) {
-  const firstTextSection = panel.textSections?.[0]
-  const remainingTextSections = panel.textSections?.slice(1) ?? []
+  const textSections = panel.textSections ?? []
+  const cardSections = panel.cardSections ?? []
+
+  if (cardSections.length > 0 && !panel.actionCards?.length) {
+    const rowCount = Math.max(textSections.length, cardSections.length)
+
+    return (
+      <div className="hidden flex-1 flex-col gap-3 px-3 pt-3 pb-8 md:flex">
+        {Array.from({ length: rowCount }).map((_, index) => (
+          <div key={index} className="flex gap-3 py-3">
+            <div className="flex flex-1">
+              {textSections[index] && (
+                <TextLinkSection
+                  section={textSections[index]}
+                  onClose={onClose}
+                  linkAs={linkAs}
+                />
+              )}
+            </div>
+
+            <div className="flex flex-1">
+              {cardSections[index] && (
+                <CardSection
+                  section={cardSections[index]}
+                  onClose={onClose}
+                  linkAs={linkAs}
+                />
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    )
+  }
+
+  const firstTextSection = textSections[0]
+  const remainingTextSections = textSections.slice(1)
 
   return (
     <div className="hidden flex-1 gap-3 px-3 pt-3 pb-8 md:flex">
@@ -370,7 +405,7 @@ function DesktopPanel({
           </section>
         )}
 
-        {panel.cardSections?.map((section) => (
+        {cardSections.map((section) => (
           <CardSection
             key={section.label}
             section={section}
