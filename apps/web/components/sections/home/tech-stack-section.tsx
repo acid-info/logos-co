@@ -126,7 +126,7 @@ export default function TechStackSection({
         </p>
 
         {data.eyebrow ? (
-          <p className="text-mono-s absolute top-[11px] left-[calc(50%+6px)] w-[226px] whitespace-pre-line text-brand-dark-green">
+          <p className="text-mono-s absolute top-[97px] left-[calc(50%+6px)] w-[226px] whitespace-pre-line text-brand-dark-green">
             {formatEyebrow(data.eyebrow)}
           </p>
         ) : null}
@@ -160,10 +160,15 @@ export default function TechStackSection({
         </div>
 
         {data.title ? (
-          <h2 className="text-h2 absolute top-[127px] left-[calc(33.33%+8px)] w-[464px] text-center text-brand-dark-green">
+          <h2 className="text-h2 absolute top-[184px] left-[calc(33.33%+8px)] w-[464px] text-center text-brand-dark-green">
             {data.title}
           </h2>
         ) : null}
+
+        <p className="text-mono-s absolute top-[333px] left-[calc(50%+6px)] w-[226px] text-brand-dark-green">
+          Private-by-default infrastructure is a requirement to make parallel
+          societies possible.
+        </p>
 
         <div className="absolute top-[517px] left-0 flex w-full flex-col gap-3 px-3">
           <StackRow href={ROUTES.buildersHub} className={desktopRowClassName}>
