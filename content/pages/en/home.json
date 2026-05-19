@@ -100,7 +100,17 @@
           "id": "blockchain",
           "title": "Blockchain",
           "body": "Privacy-preserving consensus designed for sovereign communities.",
-          "href": "/technology-stack/blockchain"
+          "href": "/technology-stack/blockchain",
+          "details": [
+            {
+              "title": "Logos Execution Zone (LEZ)",
+              "body": "Developers can deploy programs, run AMMs, transfer tokens, and build financial primitives with built-in privacy."
+            },
+            {
+              "title": "Data Availability and Consensus: Cryptarchia",
+              "body": "A private proof-of-stake consensus mechanism where validator identities and stake amounts remain hidden."
+            }
+          ]
         },
         {
           "id": "userModules",
@@ -110,7 +120,9 @@
         }
       ],
       "networkingTitle": "The Networking Stack: Discovery, Peering, and Mix-Net",
-      "foundationTitle": "The Foundation: Logos Kernel"
+      "networkingDescription": "This layer handles how Logos nodes find each other, establish connections, and communicate.",
+      "foundationTitle": "The Foundation: Logos Kernel",
+      "foundationDescription": "A microkernel that handles the essential primitives every decentralized application needs."
     },
     {
       "componentType": "cardGrid",

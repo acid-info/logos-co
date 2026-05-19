@@ -222,6 +222,14 @@ const techStackPillarSchema = z.object({
   title: z.string().min(1),
   body: z.string().min(1),
   href: linkHrefSchema,
+  details: z
+    .array(
+      z.object({
+        title: z.string().min(1),
+        body: z.string().min(1),
+      })
+    )
+    .optional(),
 })
 
 const techStackArchitectureSchema = z.object({

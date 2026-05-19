@@ -12,6 +12,7 @@ interface PressCardProps {
   imageAlt: string
   date: string
   author: string
+  readingTime: number
   href: string
   external: boolean
 }
@@ -41,6 +42,7 @@ function PressCard({
   imageAlt,
   date,
   author,
+  readingTime,
   href,
   external,
 }: PressCardProps) {
@@ -60,6 +62,7 @@ function PressCard({
           imageAlt={imageAlt}
           date={date}
           author={author}
+          readingTime={readingTime}
         />
       </a>
     )
@@ -75,6 +78,7 @@ function PressCard({
         imageAlt={imageAlt}
         date={date}
         author={author}
+        readingTime={readingTime}
       />
     </Link>
   )
@@ -86,23 +90,31 @@ function CardBody({
   imageAlt,
   date,
   author,
+  readingTime,
 }: {
   title: string
   imageSrc: string
   imageAlt: string
   date: string
   author: string
+  readingTime: number
 }) {
   return (
     <>
-      <div className="aspect-339/431 w-full overflow-hidden bg-brand-dark-green/10">
+      <div className="relative aspect-339/431 w-full overflow-hidden bg-brand-dark-green/10">
         <Image
           src={imageSrc}
           alt={imageAlt}
           width={339}
           height={431}
-          className="h-full w-full object-cover"
+          className="h-full w-full object-cover transition-[filter,transform] duration-300 ease-out group-hover:scale-[1.02] group-hover:blur-[12px] group-focus-visible:scale-[1.02] group-focus-visible:blur-[12px]"
         />
+        <div className="absolute inset-0 bg-brand-dark-green/0 transition-colors duration-300 ease-out group-hover:bg-brand-dark-green/18 group-focus-visible:bg-brand-dark-green/18" />
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 group-focus-visible:opacity-100">
+          <p className="text-eyebrow border-b border-brand-off-white pb-1 text-brand-off-white">
+            {readingTime} min read
+          </p>
+        </div>
       </div>
       <div className="flex w-[339px] items-baseline gap-10">
         <p className="text-body-sans h-[42px] w-[169.5px] shrink-0 overflow-hidden font-normal text-brand-dark-green">
@@ -131,6 +143,7 @@ export default function PressSection({ data, articles }: Props) {
     imageAlt: FIGMA_PRESS_CARDS[index]?.title ?? article.title,
     date: '02.14.26',
     author: 'Sterlin Lujan',
+    readingTime: article.readingTime,
     href: article.href,
     external: article.href.startsWith('https://'),
   }))

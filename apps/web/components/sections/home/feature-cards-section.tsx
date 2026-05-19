@@ -21,15 +21,17 @@ interface PathCard {
 
 function PathCardView({ card }: { card: PathCard }) {
   return (
-    <article className="relative h-[422px] overflow-hidden rounded-3xl bg-brand-dark-green text-brand-off-white">
+    <article className="group/path-card relative h-[422px] overflow-hidden rounded-3xl bg-brand-dark-green text-brand-off-white">
       <Image
         src={card.image}
         alt=""
         fill
         sizes="(max-width: 768px) 369px, 464px"
-        className={`object-cover ${card.imageClassName ?? ''}`}
+        className={`object-cover transition-transform duration-500 ease-out group-hover/path-card:scale-[1.04] ${card.imageClassName ?? ''}`}
       />
-      <div className={`absolute inset-0 ${card.overlay}`} />
+      <div
+        className={`absolute inset-0 transition-opacity duration-300 ease-out group-hover/path-card:opacity-80 ${card.overlay}`}
+      />
 
       <div className="absolute top-6 left-6 flex items-start gap-2.5">
         <LogosMark size={26} className="mt-0.5 shrink-0" />
@@ -38,7 +40,7 @@ function PathCardView({ card }: { card: PathCard }) {
 
       <Button
         href={card.href}
-        className="absolute top-3 right-3 cursor-pointer bg-brand-off-white text-brand-dark-green transition-opacity hover:opacity-80"
+        className="absolute top-3 right-3 cursor-pointer bg-brand-off-white text-brand-dark-green transition-[background-color,opacity,transform] duration-300 ease-out hover:bg-accent-steel-teal hover:opacity-100 focus-visible:bg-accent-steel-teal group-hover/path-card:bg-accent-steel-teal"
       >
         {card.cta}
       </Button>

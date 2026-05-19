@@ -47,7 +47,7 @@ export default async function CirclesCtaSection({ data }: Props) {
         ) : null}
       </div>
 
-      <div className="bg-gray-01 absolute top-[448px] left-3 h-[720px] w-[369px] overflow-hidden rounded-[100px] md:top-[493px] md:h-[720px] md:w-[1416px]">
+      <div className="bg-gray-01 absolute top-[448px] left-3 h-[720px] w-[369px] overflow-hidden rounded-[100px] md:top-[493px] md:left-1/2 md:h-[720px] md:w-[1416px] md:-translate-x-1/2">
         <div className="h-[710px] w-full">
           <CirclesMapLoader events={events} />
         </div>
